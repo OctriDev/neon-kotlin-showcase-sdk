@@ -5,206 +5,141 @@ package dev.octri.showcase.neon.models
 
 import java.time.OffsetDateTime
 
-/**
- * Typed representation of the `ConsumptionHistoryPerBranchV2` API schema.
- */
+/** Typed representation of the `ConsumptionHistoryPerBranchV2` API schema. */
 data class ConsumptionHistoryPerBranchV2(
-    /**
-     * The ID of the project that owns this branch.
-     */
+    /** The ID of the project that owns this branch. */
     @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String,
-    /**
-     * The Neon branch ID. Returned as `id` from `GET /projects/{project_id}/branches`.
-     */
+    /** The Neon branch ID. Returned as `id` from `GET /projects/{project_id}/branches`. */
     @com.fasterxml.jackson.annotation.JsonProperty("branch_id") val branchId: String,
-    /**
-     * Consumption history records for the branch, grouped by billing period.
-     */
-    val periods: List<ConsumptionHistoryPerPeriodV2>
+    /** Consumption history records for the branch, grouped by billing period. */
+    val periods: List<ConsumptionHistoryPerPeriodV2>,
 )
 
-/**
- * Typed representation of the `ConsumptionHistoryPerBranchV2Response` API schema.
- */
+/** Typed representation of the `ConsumptionHistoryPerBranchV2Response` API schema. */
 data class ConsumptionHistoryPerBranchV2Response(
-    /**
-     * Per-branch consumption history records returned for the requested time range.
-     */
+    /** Per-branch consumption history records returned for the requested time range. */
     val branches: List<ConsumptionHistoryPerBranchV2>
 )
 
-/**
- * Typed representation of the `ConsumptionHistoryPerPeriod` API schema.
- */
+/** Typed representation of the `ConsumptionHistoryPerPeriod` API schema. */
 data class ConsumptionHistoryPerPeriod(
-    /**
-     * The ID assigned to the specified billing period.
-     */
+    /** The ID assigned to the specified billing period. */
     @com.fasterxml.jackson.annotation.JsonProperty("period_id") val periodId: String,
-    /**
-     * The billing plan applicable during the billing period.
-     */
+    /** The billing plan applicable during the billing period. */
     @com.fasterxml.jackson.annotation.JsonProperty("period_plan") val periodPlan: String,
-    /**
-     * The start date-time of the billing period.
-     */
+    /** The start date-time of the billing period. */
     @com.fasterxml.jackson.annotation.JsonProperty("period_start") val periodStart: OffsetDateTime,
-    /**
-     * Consumption metric records for the billing period.
-     */
+    /** Consumption metric records for the billing period. */
     val consumption: List<ConsumptionHistoryPerTimeframe>,
-    /**
-     * The end date-time of the billing period, available for the past periods only.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("period_end") val periodEnd: OffsetDateTime? = null
+    /** The end date-time of the billing period, available for the past periods only. */
+    @com.fasterxml.jackson.annotation.JsonProperty("period_end")
+    val periodEnd: OffsetDateTime? = null,
 )
 
-/**
- * Typed representation of the `ConsumptionHistoryPerPeriodV2` API schema.
- */
+/** Typed representation of the `ConsumptionHistoryPerPeriodV2` API schema. */
 data class ConsumptionHistoryPerPeriodV2(
-    /**
-     * The ID assigned to the specified billing period.
-     */
+    /** The ID assigned to the specified billing period. */
     @com.fasterxml.jackson.annotation.JsonProperty("period_id") val periodId: String,
-    /**
-     * The billing plan applicable during the billing period.
-     */
+    /** The billing plan applicable during the billing period. */
     @com.fasterxml.jackson.annotation.JsonProperty("period_plan") val periodPlan: String,
-    /**
-     * The start date-time of the billing period.
-     */
+    /** The start date-time of the billing period. */
     @com.fasterxml.jackson.annotation.JsonProperty("period_start") val periodStart: OffsetDateTime,
-    /**
-     * Consumption metric records for the billing period.
-     */
+    /** Consumption metric records for the billing period. */
     val consumption: List<ConsumptionHistoryPerTimeframeV2>,
-    /**
-     * The end date-time of the billing period, available for the past periods only.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("period_end") val periodEnd: OffsetDateTime? = null
+    /** The end date-time of the billing period, available for the past periods only. */
+    @com.fasterxml.jackson.annotation.JsonProperty("period_end")
+    val periodEnd: OffsetDateTime? = null,
 )
 
-/**
- * Typed representation of the `ConsumptionHistoryPerProject` API schema.
- */
+/** Typed representation of the `ConsumptionHistoryPerProject` API schema. */
 data class ConsumptionHistoryPerProject(
-    /**
-     * The Neon project ID. Returned as `id` from `GET /projects`.
-     */
+    /** The Neon project ID. Returned as `id` from `GET /projects`. */
     @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String,
-    /**
-     * Consumption periods for the project, each covering a discrete billing interval.
-     */
-    val periods: List<ConsumptionHistoryPerPeriod>
+    /** Consumption periods for the project, each covering a discrete billing interval. */
+    val periods: List<ConsumptionHistoryPerPeriod>,
 )
 
-/**
- * Typed representation of the `ConsumptionHistoryPerProjectResponse` API schema.
- */
+/** Typed representation of the `ConsumptionHistoryPerProjectResponse` API schema. */
 data class ConsumptionHistoryPerProjectResponse(
-    /**
-     * Per-project consumption history records included in the response.
-     */
+    /** Per-project consumption history records included in the response. */
     val projects: List<ConsumptionHistoryPerProject>
 )
 
-/**
- * Typed representation of the `ConsumptionHistoryPerProjectV2` API schema.
- */
+/** Typed representation of the `ConsumptionHistoryPerProjectV2` API schema. */
 data class ConsumptionHistoryPerProjectV2(
-    /**
-     * The Neon project ID. Returned as `id` from `GET /projects`.
-     */
+    /** The Neon project ID. Returned as `id` from `GET /projects`. */
     @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String,
-    /**
-     * Consumption periods recorded for this project.
-     */
-    val periods: List<ConsumptionHistoryPerPeriodV2>
+    /** Consumption periods recorded for this project. */
+    val periods: List<ConsumptionHistoryPerPeriodV2>,
 )
 
-/**
- * Typed representation of the `ConsumptionHistoryPerProjectV2Response` API schema.
- */
+/** Typed representation of the `ConsumptionHistoryPerProjectV2Response` API schema. */
 data class ConsumptionHistoryPerProjectV2Response(
-    /**
-     * Per-project consumption history entries for the requested time range.
-     */
+    /** Per-project consumption history entries for the requested time range. */
     val projects: List<ConsumptionHistoryPerProjectV2>
 )
 
-/**
- * Typed representation of the `ConsumptionHistoryPerTimeframe` API schema.
- */
+/** Typed representation of the `ConsumptionHistoryPerTimeframe` API schema. */
 data class ConsumptionHistoryPerTimeframe(
+    /** The specified start date-time for the reported consumption. */
+    @com.fasterxml.jackson.annotation.JsonProperty("timeframe_start")
+    val timeframeStart: OffsetDateTime,
+    /** The specified end date-time for the reported consumption. */
+    @com.fasterxml.jackson.annotation.JsonProperty("timeframe_end")
+    val timeframeEnd: OffsetDateTime,
+    /** Seconds. The amount of time the compute endpoints have been active. */
+    @com.fasterxml.jackson.annotation.JsonProperty("active_time_seconds")
+    val activeTimeSeconds: java.math.BigInteger,
     /**
-     * The specified start date-time for the reported consumption.
+     * Seconds. The number of CPU seconds used by compute endpoints, including compute endpoints
+     * that have been deleted.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("timeframe_start") val timeframeStart: OffsetDateTime,
+    @com.fasterxml.jackson.annotation.JsonProperty("compute_time_seconds")
+    val computeTimeSeconds: java.math.BigInteger,
+    /** Bytes. The amount of written data for all branches. */
+    @com.fasterxml.jackson.annotation.JsonProperty("written_data_bytes")
+    val writtenDataBytes: java.math.BigInteger,
     /**
-     * The specified end date-time for the reported consumption.
+     * Deprecated: always returns 0. Use the consumption history v2 endpoints
+     * (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. Bytes. The
+     * space occupied in Postgres storage. Synthetic Postgres storage size combines the logical data
+     * size and Write-Ahead Log (WAL) size for all branches.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("timeframe_end") val timeframeEnd: OffsetDateTime,
+    @com.fasterxml.jackson.annotation.JsonProperty("synthetic_storage_size_bytes")
+    val syntheticStorageSizeBytes: java.math.BigInteger,
     /**
-     * Seconds. The amount of time the compute endpoints have been active.
+     * Deprecated: always returns 0. Use the consumption history v2 endpoints
+     * (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. Bytes-Hour.
+     * The amount of Postgres storage consumed hourly.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("active_time_seconds") val activeTimeSeconds: java.math.BigInteger,
-    /**
-     * Seconds. The number of CPU seconds used by compute endpoints, including compute endpoints that have been deleted.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("compute_time_seconds") val computeTimeSeconds: java.math.BigInteger,
-    /**
-     * Bytes. The amount of written data for all branches.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("written_data_bytes") val writtenDataBytes: java.math.BigInteger,
-    /**
-     * Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. Bytes. The space occupied in Postgres storage. Synthetic Postgres storage size combines the logical data size and Write-Ahead Log (WAL) size for all branches.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("synthetic_storage_size_bytes") val syntheticStorageSizeBytes: java.math.BigInteger,
-    /**
-     * Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. Bytes-Hour. The amount of Postgres storage consumed hourly.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("data_storage_bytes_hour") val dataStorageBytesHour: java.math.BigInteger,
-    /**
-     * Bytes. The amount of logical size consumed.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("logical_size_bytes") val logicalSizeBytes: java.math.BigInteger? = null,
-    /**
-     * Bytes-Hour. The amount of logical size consumed hourly.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("logical_size_bytes_hour") val logicalSizeBytesHour: java.math.BigInteger? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("data_storage_bytes_hour")
+    val dataStorageBytesHour: java.math.BigInteger,
+    /** Bytes. The amount of logical size consumed. */
+    @com.fasterxml.jackson.annotation.JsonProperty("logical_size_bytes")
+    val logicalSizeBytes: java.math.BigInteger? = null,
+    /** Bytes-Hour. The amount of logical size consumed hourly. */
+    @com.fasterxml.jackson.annotation.JsonProperty("logical_size_bytes_hour")
+    val logicalSizeBytesHour: java.math.BigInteger? = null,
 )
 
-/**
- * Typed representation of the `ConsumptionHistoryPerTimeframeV2` API schema.
- */
+/** Typed representation of the `ConsumptionHistoryPerTimeframeV2` API schema. */
 data class ConsumptionHistoryPerTimeframeV2(
-    /**
-     * The specified start date-time for the reported consumption.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("timeframe_start") val timeframeStart: OffsetDateTime? = null,
-    /**
-     * The specified end date-time for the reported consumption.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("timeframe_end") val timeframeEnd: OffsetDateTime? = null,
-    /**
-     * Consumption metric values recorded for the timeframe.
-     */
-    val metrics: List<ConsumptionMetricValue>? = null
+    /** The specified start date-time for the reported consumption. */
+    @com.fasterxml.jackson.annotation.JsonProperty("timeframe_start")
+    val timeframeStart: OffsetDateTime? = null,
+    /** The specified end date-time for the reported consumption. */
+    @com.fasterxml.jackson.annotation.JsonProperty("timeframe_end")
+    val timeframeEnd: OffsetDateTime? = null,
+    /** Consumption metric values recorded for the timeframe. */
+    val metrics: List<ConsumptionMetricValue>? = null,
 )
 
 typealias ConsumptionHistoryQueryMetrics = List<String>
 
-/**
- * Typed representation of the `ConsumptionMetricValue` API schema.
- */
+/** Typed representation of the `ConsumptionMetricValue` API schema. */
 data class ConsumptionMetricValue(
-    /**
-     * Name of the consumption metric, such as compute_time or data_storage_bytes_hour.
-     */
+    /** Name of the consumption metric, such as compute_time or data_storage_bytes_hour. */
     @com.fasterxml.jackson.annotation.JsonProperty("metric_name") val metricName: String,
-    /**
-     * Measured quantity for the metric named by `metric_name`.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("value") val `value`: Long
+    /** Measured quantity for the metric named by `metric_name`. */
+    @com.fasterxml.jackson.annotation.JsonProperty("value") val `value`: Long,
 )

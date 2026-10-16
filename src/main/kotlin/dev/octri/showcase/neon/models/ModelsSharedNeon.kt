@@ -5,258 +5,281 @@ package dev.octri.showcase.neon.models
 
 import java.time.OffsetDateTime
 
-/**
- * Typed representation of the `NeonAuthAddDomainToRedirectURIWhitelistRequest` API schema.
- */
+/** Typed representation of the `NeonAuthAddDomainToRedirectURIWhitelistRequest` API schema. */
 data class NeonAuthAddDomainToRedirectURIWhitelistRequest(
-    /**
-     * URI to add to the redirect URI allowlist for the auth provider.
-     */
+    /** URI to add to the redirect URI allowlist for the auth provider. */
     val domain: String,
     /**
-     * Authentication provider integrated with this Neon Auth configuration. `better_auth` integrates with Better Auth (the current, recommended provider). `stack` integrates with Stack Auth (deprecated). `mock` is a simulated provider for local development and testing only.
+     * Authentication provider integrated with this Neon Auth configuration. `better_auth`
+     * integrates with Better Auth (the current, recommended provider). `stack` integrates with
+     * Stack Auth (deprecated). `mock` is a simulated provider for local development and testing
+     * only.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider") val authProvider: NeonAuthSupportedAuthProvider
+    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider")
+    val authProvider: NeonAuthSupportedAuthProvider,
 )
 
-/**
- * Typed representation of the `NeonAuthAddOAuthProviderRequest` API schema.
- */
+/** Typed representation of the `NeonAuthAddOAuthProviderRequest` API schema. */
 data class NeonAuthAddOAuthProviderRequest(
     /**
-     * OAuth provider to configure for Neon Auth. Known values: `google`, `github`, `microsoft`, `vercel`.
+     * OAuth provider to configure for Neon Auth. Known values: `google`, `github`, `microsoft`,
+     * `vercel`.
      */
     val id: NeonAuthOauthProviderId,
     /**
-     * The client ID issued by the OAuth provider for your application. Used to identify the application during the OAuth flow.
+     * The client ID issued by the OAuth provider for your application. Used to identify the
+     * application during the OAuth flow.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("client_id") val clientId: String? = null,
+    /** OAuth client secret for the provider. */
+    @com.fasterxml.jackson.annotation.JsonProperty("client_secret")
+    val clientSecret: String? = null,
     /**
-     * OAuth client secret for the provider.
+     * Tenant ID for the Microsoft OAuth provider. Only relevant when the OAuth provider is
+     * Microsoft; omit or leave blank for other providers.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("client_secret") val clientSecret: String? = null,
-    /**
-     * Tenant ID for the Microsoft OAuth provider. Only relevant when the OAuth provider is Microsoft; omit or leave blank for other providers.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("microsoft_tenant_id") val microsoftTenantId: String? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("microsoft_tenant_id")
+    val microsoftTenantId: String? = null,
 )
 
-/**
- * Typed representation of the `NeonAuthCreateIntegrationResponse` API schema.
- */
+/** Typed representation of the `NeonAuthCreateIntegrationResponse` API schema. */
 data class NeonAuthCreateIntegrationResponse(
     /**
-     * Authentication provider integrated with this Neon Auth configuration. `better_auth` integrates with Better Auth (the current, recommended provider). `stack` integrates with Stack Auth (deprecated). `mock` is a simulated provider for local development and testing only.
+     * Authentication provider integrated with this Neon Auth configuration. `better_auth`
+     * integrates with Better Auth (the current, recommended provider). `stack` integrates with
+     * Stack Auth (deprecated). `mock` is a simulated provider for local development and testing
+     * only.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider") val authProvider: NeonAuthSupportedAuthProvider,
+    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider")
+    val authProvider: NeonAuthSupportedAuthProvider,
+    /** Project ID assigned by the auth provider for this integration. */
+    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider_project_id")
+    val authProviderProjectId: String,
     /**
-     * Project ID assigned by the auth provider for this integration.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider_project_id") val authProviderProjectId: String,
-    /**
-     * Publishable SDK key from the auth provider. Populated only for Stack Auth (deprecated); empty for Better Auth.
+     * Publishable SDK key from the auth provider. Populated only for Stack Auth (deprecated); empty
+     * for Better Auth.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("pub_client_key") val pubClientKey: String,
     /**
-     * Secret server-side SDK key from the auth provider. Populated only for Stack Auth (deprecated); empty for Better Auth. Treat as a credential.
+     * Secret server-side SDK key from the auth provider. Populated only for Stack Auth
+     * (deprecated); empty for Better Auth. Treat as a credential.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("secret_server_key") val secretServerKey: String,
-    /**
-     * URL of the provider's JWKS endpoint used to verify JWTs.
-     */
+    /** URL of the provider's JWKS endpoint used to verify JWTs. */
     @com.fasterxml.jackson.annotation.JsonProperty("jwks_url") val jwksUrl: String,
-    /**
-     * Postgres schema containing the auth integration tables. Defaults to `neon_auth`.
-     */
+    /** Postgres schema containing the auth integration tables. Defaults to `neon_auth`. */
     @com.fasterxml.jackson.annotation.JsonProperty("schema_name") val schemaName: String,
-    /**
-     * Postgres table in the integration schema where synced user records are stored.
-     */
+    /** Postgres table in the integration schema where synced user records are stored. */
     @com.fasterxml.jackson.annotation.JsonProperty("table_name") val tableName: String,
     /**
-     * Base URL of the Neon Auth service for this integration. Set as the NEON_AUTH_BASE_URL environment variable in your application.
+     * Base URL of the Neon Auth service for this integration. Set as the NEON_AUTH_BASE_URL
+     * environment variable in your application.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("base_url") val baseUrl: String? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("base_url") val baseUrl: String? = null,
 )
 
-/**
- * Typed representation of the `NeonAuthCreateNewUserResponse` API schema.
- */
+/** Typed representation of the `NeonAuthCreateNewUserResponse` API schema. */
 data class NeonAuthCreateNewUserResponse(
-    /**
-     * ID of newly created user
-     */
+    /** ID of newly created user */
     val id: String
 )
 
-/**
- * Typed representation of the `NeonAuthDeleteDomainFromRedirectURIWhitelistItem` API schema.
- */
+/** Typed representation of the `NeonAuthDeleteDomainFromRedirectURIWhitelistItem` API schema. */
 data class NeonAuthDeleteDomainFromRedirectURIWhitelistItem(
-    /**
-     * URI to remove from the redirect URI whitelist.
-     */
+    /** URI to remove from the redirect URI whitelist. */
     val domain: String
 )
 
-/**
- * Typed representation of the `NeonAuthDeleteDomainFromRedirectURIWhitelistRequest` API schema.
- */
+/** Typed representation of the `NeonAuthDeleteDomainFromRedirectURIWhitelistRequest` API schema. */
 data class NeonAuthDeleteDomainFromRedirectURIWhitelistRequest(
     /**
-     * Authentication provider integrated with this Neon Auth configuration. `better_auth` integrates with Better Auth (the current, recommended provider). `stack` integrates with Stack Auth (deprecated). `mock` is a simulated provider for local development and testing only.
+     * Authentication provider integrated with this Neon Auth configuration. `better_auth`
+     * integrates with Better Auth (the current, recommended provider). `stack` integrates with
+     * Stack Auth (deprecated). `mock` is a simulated provider for local development and testing
+     * only.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider") val authProvider: NeonAuthSupportedAuthProvider,
-    /**
-     * Domain names to remove from the redirect URI whitelist for the specified auth provider.
-     */
-    val domains: List<NeonAuthDeleteDomainFromRedirectURIWhitelistItem>
+    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider")
+    val authProvider: NeonAuthSupportedAuthProvider,
+    /** Domain names to remove from the redirect URI whitelist for the specified auth provider. */
+    val domains: List<NeonAuthDeleteDomainFromRedirectURIWhitelistItem>,
 )
 
-/**
- * Typed representation of the `NeonAuthEmailServerConfig` API schema.
- */
-@com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME, property = "type", visible = true, defaultImpl = UnknownNeonAuthEmailServerConfig::class)
+/** Typed representation of the `NeonAuthEmailServerConfig` API schema. */
+@com.fasterxml.jackson.annotation.JsonTypeInfo(
+    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME,
+    property = "type",
+    visible = true,
+    defaultImpl = UnknownNeonAuthEmailServerConfig::class,
+)
 @com.fasterxml.jackson.annotation.JsonSubTypes(
-    com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = StandardEmailServer::class, name = "standard"),
-    com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = SharedEmailServer::class, name = "shared")
+    com.fasterxml.jackson.annotation.JsonSubTypes.Type(
+        value = StandardEmailServer::class,
+        name = "standard",
+    ),
+    com.fasterxml.jackson.annotation.JsonSubTypes.Type(
+        value = SharedEmailServer::class,
+        name = "shared",
+    ),
 )
 sealed interface NeonAuthEmailServerConfig
 
 /** A [NeonAuthEmailServerConfig] whose `type` names no branch this SDK knows, kept as received. */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None::class) @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE)
-data class UnknownNeonAuthEmailServerConfig @com.fasterxml.jackson.annotation.JsonCreator(mode = com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING) constructor(
-    @get:com.fasterxml.jackson.annotation.JsonValue val raw: com.fasterxml.jackson.databind.JsonNode,
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
+    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
+)
+@com.fasterxml.jackson.annotation.JsonTypeInfo(
+    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
+)
+data class UnknownNeonAuthEmailServerConfig
+@com.fasterxml.jackson.annotation.JsonCreator(
+    mode = com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING
+)
+constructor(
+    @get:com.fasterxml.jackson.annotation.JsonValue val raw: com.fasterxml.jackson.databind.JsonNode
 ) : NeonAuthEmailServerConfig {
     /** The tag the server sent. */
-    val tag: String get() = raw.path("type").asText()
+    val tag: String
+        get() = raw.path("type").asText()
 }
 
-/**
- * Typed representation of the `NeonAuthEmailServerConfigResponse` API schema.
- */
-@com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME, property = "type", visible = true, defaultImpl = UnknownNeonAuthEmailServerConfigResponse::class)
+/** Typed representation of the `NeonAuthEmailServerConfigResponse` API schema. */
+@com.fasterxml.jackson.annotation.JsonTypeInfo(
+    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME,
+    property = "type",
+    visible = true,
+    defaultImpl = UnknownNeonAuthEmailServerConfigResponse::class,
+)
 @com.fasterxml.jackson.annotation.JsonSubTypes(
-    com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = StandardEmailServerResponse::class, name = "standard"),
-    com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = SharedEmailServer::class, name = "shared")
+    com.fasterxml.jackson.annotation.JsonSubTypes.Type(
+        value = StandardEmailServerResponse::class,
+        name = "standard",
+    ),
+    com.fasterxml.jackson.annotation.JsonSubTypes.Type(
+        value = SharedEmailServer::class,
+        name = "shared",
+    ),
 )
 sealed interface NeonAuthEmailServerConfigResponse
 
-/** A [NeonAuthEmailServerConfigResponse] whose `type` names no branch this SDK knows, kept as received. */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None::class) @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE)
-data class UnknownNeonAuthEmailServerConfigResponse @com.fasterxml.jackson.annotation.JsonCreator(mode = com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING) constructor(
-    @get:com.fasterxml.jackson.annotation.JsonValue val raw: com.fasterxml.jackson.databind.JsonNode,
+/**
+ * A [NeonAuthEmailServerConfigResponse] whose `type` names no branch this SDK knows, kept as
+ * received.
+ */
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
+    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
+)
+@com.fasterxml.jackson.annotation.JsonTypeInfo(
+    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
+)
+data class UnknownNeonAuthEmailServerConfigResponse
+@com.fasterxml.jackson.annotation.JsonCreator(
+    mode = com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING
+)
+constructor(
+    @get:com.fasterxml.jackson.annotation.JsonValue val raw: com.fasterxml.jackson.databind.JsonNode
 ) : NeonAuthEmailServerConfigResponse {
     /** The tag the server sent. */
-    val tag: String get() = raw.path("type").asText()
+    val tag: String
+        get() = raw.path("type").asText()
 }
 
-/**
- * Typed representation of the `NeonAuthIntegration` API schema.
- */
+/** Typed representation of the `NeonAuthIntegration` API schema. */
 data class NeonAuthIntegration(
     /**
-     * Authentication provider integrated with this Neon Auth configuration. `better_auth` integrates with Better Auth (the current, recommended provider). `stack` integrates with Stack Auth (deprecated). `mock` is a simulated provider for local development and testing only.
+     * Authentication provider integrated with this Neon Auth configuration. `better_auth`
+     * integrates with Better Auth (the current, recommended provider). `stack` integrates with
+     * Stack Auth (deprecated). `mock` is a simulated provider for local development and testing
+     * only.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider") val authProvider: NeonAuthSupportedAuthProvider,
-    /**
-     * Project identifier assigned by the auth provider for this integration.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider_project_id") val authProviderProjectId: String,
-    /**
-     * The Neon branch ID. Returned as `id` from `GET /projects/{project_id}/branches`.
-     */
+    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider")
+    val authProvider: NeonAuthSupportedAuthProvider,
+    /** Project identifier assigned by the auth provider for this integration. */
+    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider_project_id")
+    val authProviderProjectId: String,
+    /** The Neon branch ID. Returned as `id` from `GET /projects/{project_id}/branches`. */
     @com.fasterxml.jackson.annotation.JsonProperty("branch_id") val branchId: String,
-    /**
-     * Name of the database used by the Neon Auth integration.
-     */
+    /** Name of the database used by the Neon Auth integration. */
     @com.fasterxml.jackson.annotation.JsonProperty("db_name") val dbName: String,
-    /**
-     * Timestamp when the Neon Auth integration was created, in RFC 3339 format (UTC).
-     */
+    /** Timestamp when the Neon Auth integration was created, in RFC 3339 format (UTC). */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
     /**
-     * Owner of the auth provider project. `neon` means the project is created and managed by Neon on your behalf. `user` means the project was created in your own auth provider account and is self-managed.
+     * Owner of the auth provider project. `neon` means the project is created and managed by Neon
+     * on your behalf. `user` means the project was created in your own auth provider account and is
+     * self-managed.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("owned_by") val ownedBy: NeonAuthProviderProjectOwnedBy,
-    /**
-     * URL of the provider's JWKS endpoint used to verify JWTs.
-     */
+    @com.fasterxml.jackson.annotation.JsonProperty("owned_by")
+    val ownedBy: NeonAuthProviderProjectOwnedBy,
+    /** URL of the provider's JWKS endpoint used to verify JWTs. */
     @com.fasterxml.jackson.annotation.JsonProperty("jwks_url") val jwksUrl: String,
     /**
-     * Ownership transfer state for the auth provider project. `initiated` means a transfer was requested but not completed. `finished` means it completed successfully.
+     * Ownership transfer state for the auth provider project. `initiated` means a transfer was
+     * requested but not completed. `finished` means it completed successfully.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("transfer_status") val transferStatus: NeonAuthProviderProjectTransferStatus? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("transfer_status")
+    val transferStatus: NeonAuthProviderProjectTransferStatus? = null,
     /**
-     * Base URL of the Neon Auth service endpoint for this integration. Injected into the project environment as `NEON_AUTH_BASE_URL`.
+     * Base URL of the Neon Auth service endpoint for this integration. Injected into the project
+     * environment as `NEON_AUTH_BASE_URL`.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("base_url") val baseUrl: String? = null,
-    /**
-     * Application name shown in auth emails and communications. Defaults to the project name.
-     */
-    val name: String? = null
+    /** Application name shown in auth emails and communications. Defaults to the project name. */
+    val name: String? = null,
 )
 
-/**
- * Typed representation of the `NeonAuthOauthProvider` API schema.
- */
+/** Typed representation of the `NeonAuthOauthProvider` API schema. */
 data class NeonAuthOauthProvider(
-    /**
-     * The OAuth provider's ID.
-     */
+    /** The OAuth provider's ID. */
     val id: NeonAuthOauthProviderId,
     /**
-     * OAuth provider key type. `standard` uses your own OAuth credentials. `shared` uses Neon-managed keys intended for development only; they display Neon branding on the OAuth consent screen and must not be used in production.
+     * OAuth provider key type. `standard` uses your own OAuth credentials. `shared` uses
+     * Neon-managed keys intended for development only; they display Neon branding on the OAuth
+     * consent screen and must not be used in production.
      */
     val type: NeonAuthOauthProviderType,
     /**
-     * Public identifier for the OAuth application, issued by the provider when the application is registered.
+     * Public identifier for the OAuth application, issued by the provider when the application is
+     * registered.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("client_id") val clientId: String? = null,
-    /**
-     * OAuth client secret for the provider.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("client_secret") val clientSecret: String? = null
+    /** OAuth client secret for the provider. */
+    @com.fasterxml.jackson.annotation.JsonProperty("client_secret")
+    val clientSecret: String? = null,
 )
 
-/**
- * Typed representation of the `NeonAuthRedirectURIWhitelistDomain` API schema.
- */
+/** Typed representation of the `NeonAuthRedirectURIWhitelistDomain` API schema. */
 data class NeonAuthRedirectURIWhitelistDomain(
-    /**
-     * Allowed redirect URI domain for the auth provider.
-     */
+    /** Allowed redirect URI domain for the auth provider. */
     val domain: String,
     /**
-     * Authentication provider integrated with this Neon Auth configuration. `better_auth` integrates with Better Auth (the current, recommended provider). `stack` integrates with Stack Auth (deprecated). `mock` is a simulated provider for local development and testing only.
+     * Authentication provider integrated with this Neon Auth configuration. `better_auth`
+     * integrates with Better Auth (the current, recommended provider). `stack` integrates with
+     * Stack Auth (deprecated). `mock` is a simulated provider for local development and testing
+     * only.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider") val authProvider: NeonAuthSupportedAuthProvider
+    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider")
+    val authProvider: NeonAuthSupportedAuthProvider,
 )
 
-/**
- * Typed representation of the `NeonAuthRedirectURIWhitelistResponse` API schema.
- */
+/** Typed representation of the `NeonAuthRedirectURIWhitelistResponse` API schema. */
 data class NeonAuthRedirectURIWhitelistResponse(
-    /**
-     * Domains permitted as redirect URI targets in the whitelist.
-     */
+    /** Domains permitted as redirect URI targets in the whitelist. */
     val domains: List<NeonAuthRedirectURIWhitelistDomain>
 )
 
-/**
- * Typed representation of the `NeonAuthUpdateOAuthProviderRequest` API schema.
- */
+/** Typed representation of the `NeonAuthUpdateOAuthProviderRequest` API schema. */
 data class NeonAuthUpdateOAuthProviderRequest(
     /**
-     * The OAuth client ID registered with the provider. Omit to keep the currently configured value.
+     * The OAuth client ID registered with the provider. Omit to keep the currently configured
+     * value.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("client_id") val clientId: String? = null,
+    /** OAuth client secret for the provider. Omit to leave the existing secret unchanged. */
+    @com.fasterxml.jackson.annotation.JsonProperty("client_secret")
+    val clientSecret: String? = null,
     /**
-     * OAuth client secret for the provider. Omit to leave the existing secret unchanged.
+     * The tenant ID scoping the Microsoft OAuth provider. Supply this field when the provider type
+     * is microsoft; it has no effect for other provider types.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("client_secret") val clientSecret: String? = null,
-    /**
-     * The tenant ID scoping the Microsoft OAuth provider. Supply this field when the provider type is microsoft; it has no effect for other provider types.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("microsoft_tenant_id") val microsoftTenantId: String? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("microsoft_tenant_id")
+    val microsoftTenantId: String? = null,
 )

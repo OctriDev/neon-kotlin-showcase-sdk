@@ -5,334 +5,234 @@ package dev.octri.showcase.neon.models
 
 import java.time.OffsetDateTime
 
-/**
- * Typed representation of the `Invitation` API schema.
- */
+/** Typed representation of the `Invitation` API schema. */
 data class Invitation(
-    /**
-     * The invitation ID.
-     */
+    /** The invitation ID. */
     val id: String,
-    /**
-     * Email of the invited user
-     */
+    /** Email of the invited user */
     val email: String,
-    /**
-     * Organization id as it is stored in Neon
-     */
+    /** Organization id as it is stored in Neon */
     @com.fasterxml.jackson.annotation.JsonProperty("org_id") val orgId: String,
-    /**
-     * UUID for the user_id who extended the invitation
-     */
+    /** UUID for the user_id who extended the invitation */
     @com.fasterxml.jackson.annotation.JsonProperty("invited_by") val invitedBy: String,
-    /**
-     * Timestamp when the invitation was created
-     */
+    /** Timestamp when the invitation was created */
     @com.fasterxml.jackson.annotation.JsonProperty("invited_at") val invitedAt: OffsetDateTime,
     /**
-     * Organization member's role. `admin`: full administrative access. `editor` (and its legacy alias `member`): standard access governed by project permissions. `viewer` and `collaborator`: additional scoped project roles. Some values may not be available for all organizations.
-     */
-    val role: MemberRole
-)
-
-/**
- * Typed representation of the `Member` API schema.
- */
-data class Member(
-    /**
-     * The organization member's ID.
-     */
-    val id: String,
-    /**
-     * The Neon user ID.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("user_id") val userId: String,
-    /**
-     * The Neon organization ID. Returned as `id` from `GET /users/me/organizations`.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("org_id") val orgId: String,
-    /**
-     * Organization member's role. `admin`: full administrative access. `editor` (and its legacy alias `member`): standard access governed by project permissions. `viewer` and `collaborator`: additional scoped project roles. Some values may not be available for all organizations.
+     * Organization member's role. `admin`: full administrative access. `editor` (and its legacy
+     * alias `member`): standard access governed by project permissions. `viewer` and
+     * `collaborator`: additional scoped project roles. Some values may not be available for all
+     * organizations.
      */
     val role: MemberRole,
-    /**
-     * Timestamp when the user joined the organization.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("joined_at") val joinedAt: OffsetDateTime? = null
 )
 
-/**
- * Typed representation of the `MemberUserInfo` API schema.
- */
+/** Typed representation of the `Member` API schema. */
+data class Member(
+    /** The organization member's ID. */
+    val id: String,
+    /** The Neon user ID. */
+    @com.fasterxml.jackson.annotation.JsonProperty("user_id") val userId: String,
+    /** The Neon organization ID. Returned as `id` from `GET /users/me/organizations`. */
+    @com.fasterxml.jackson.annotation.JsonProperty("org_id") val orgId: String,
+    /**
+     * Organization member's role. `admin`: full administrative access. `editor` (and its legacy
+     * alias `member`): standard access governed by project permissions. `viewer` and
+     * `collaborator`: additional scoped project roles. Some values may not be available for all
+     * organizations.
+     */
+    val role: MemberRole,
+    /** Timestamp when the user joined the organization. */
+    @com.fasterxml.jackson.annotation.JsonProperty("joined_at")
+    val joinedAt: OffsetDateTime? = null,
+)
+
+/** Typed representation of the `MemberUserInfo` API schema. */
 data class MemberUserInfo(
-    /**
-     * Email address of the organization member's user account.
-     */
+    /** Email address of the organization member's user account. */
     val email: String,
-    /**
-     * Whether the member has MFA (TOTP) enabled
-     */
+    /** Whether the member has MFA (TOTP) enabled */
     @com.fasterxml.jackson.annotation.JsonProperty("has_mfa") val hasMfa: Boolean? = null,
     /**
-     * Timestamp of when the user account was deactivated. Absent for active users. When present, the UI should render a "Deactivated" badge inline next to the member.
+     * Timestamp of when the user account was deactivated. Absent for active users. When present,
+     * the UI should render a "Deactivated" badge inline next to the member.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("deactivated_at") val deactivatedAt: OffsetDateTime? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("deactivated_at")
+    val deactivatedAt: OffsetDateTime? = null,
 )
 
-/**
- * Typed representation of the `MemberWithUser` API schema.
- */
+/** Typed representation of the `MemberWithUser` API schema. */
 data class MemberWithUser(
-    /**
-     * Membership record for the user in the organization.
-     */
+    /** Membership record for the user in the organization. */
     val member: Member,
-    /**
-     * Profile information for the organization member.
-     */
-    val user: MemberUserInfo
+    /** Profile information for the organization member. */
+    val user: MemberUserInfo,
 )
 
-/**
- * Typed representation of the `OrganizationInvitationsResponse` API schema.
- */
+/** Typed representation of the `OrganizationInvitationsResponse` API schema. */
 data class OrganizationInvitationsResponse(
-    /**
-     * List of pending invitations for the organization.
-     */
+    /** List of pending invitations for the organization. */
     val invitations: List<Invitation>
 )
 
-/**
- * Typed representation of the `OrganizationInviteCreateRequest` API schema.
- */
+/** Typed representation of the `OrganizationInviteCreateRequest` API schema. */
 data class OrganizationInviteCreateRequest(
-    /**
-     * Email address of the person to invite to the organization.
-     */
+    /** Email address of the person to invite to the organization. */
     val email: String,
     /**
-     * Organization member's role. `admin`: full administrative access. `editor` (and its legacy alias `member`): standard access governed by project permissions. `viewer` and `collaborator`: additional scoped project roles. Some values may not be available for all organizations.
+     * Organization member's role. `admin`: full administrative access. `editor` (and its legacy
+     * alias `member`): standard access governed by project permissions. `viewer` and
+     * `collaborator`: additional scoped project roles. Some values may not be available for all
+     * organizations.
      */
-    val role: MemberRole
+    val role: MemberRole,
 )
 
-/**
- * Typed representation of the `OrganizationInvitesCreateRequest` API schema.
- */
+/** Typed representation of the `OrganizationInvitesCreateRequest` API schema. */
 data class OrganizationInvitesCreateRequest(
-    /**
-     * Invitations to create for the organization.
-     */
+    /** Invitations to create for the organization. */
     val invitations: List<OrganizationInviteCreateRequest>
 )
 
-/**
- * Typed representation of the `OrganizationMembersResponse` API schema.
- */
+/** Typed representation of the `OrganizationMembersResponse` API schema. */
 data class OrganizationMembersResponse(
     /**
-     * Members of the organization, each combining membership details (role, status) with the associated user's identity.
+     * Members of the organization, each combining membership details (role, status) with the
+     * associated user's identity.
      */
     val members: List<MemberWithUser>
 )
 
-/**
- * Typed representation of the `OrganizationMemberUpdateRequest` API schema.
- */
+/** Typed representation of the `OrganizationMemberUpdateRequest` API schema. */
 data class OrganizationMemberUpdateRequest(
     /**
-     * Organization member's role. `admin`: full administrative access. `editor` (and its legacy alias `member`): standard access governed by project permissions. `viewer` and `collaborator`: additional scoped project roles. Some values may not be available for all organizations.
+     * Organization member's role. `admin`: full administrative access. `editor` (and its legacy
+     * alias `member`): standard access governed by project permissions. `viewer` and
+     * `collaborator`: additional scoped project roles. Some values may not be available for all
+     * organizations.
      */
     val role: MemberRole
 )
 
-/**
- * Typed representation of the `OrgApiKeyCreateRequest` API schema.
- */
+/** Typed representation of the `OrgApiKeyCreateRequest` API schema. */
 data class OrgApiKeyCreateRequest(
-    /**
-     * A user-specified API key name. This value is required when creating an API key.
-     */
+    /** A user-specified API key name. This value is required when creating an API key. */
     @com.fasterxml.jackson.annotation.JsonProperty("key_name") val keyName: String,
-    /**
-     * If set, the API key can access only this project
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String? = null
+    /** If set, the API key can access only this project */
+    @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String? = null,
 )
 
-/**
- * Typed representation of the `OrgApiKeyCreateResponse` API schema.
- */
+/** Typed representation of the `OrgApiKeyCreateResponse` API schema. */
 data class OrgApiKeyCreateResponse(
-    /**
-     * The API key's unique numeric ID. Distinct from the API key token (`key`).
-     */
+    /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
     val id: Long,
-    /**
-     * The generated 64-bit token required to access the Neon API
-     */
+    /** The generated 64-bit token required to access the Neon API */
     val key: String,
-    /**
-     * The user-specified API key name
-     */
+    /** The user-specified API key name */
     val name: String,
-    /**
-     * A timestamp indicating when the API key was created
-     */
+    /** A timestamp indicating when the API key was created */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /**
-     * ID of the user who created this API key
-     */
+    /** ID of the user who created this API key */
     @com.fasterxml.jackson.annotation.JsonProperty("created_by") val createdBy: String,
-    /**
-     * If set, the API key can access only this project
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String? = null
+    /** If set, the API key can access only this project */
+    @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String? = null,
 )
 
-/**
- * Typed representation of the `OrgApiKeyRevokeResponse` API schema.
- */
+/** Typed representation of the `OrgApiKeyRevokeResponse` API schema. */
 data class OrgApiKeyRevokeResponse(
-    /**
-     * The API key's unique numeric ID. Distinct from the API key token (`key`).
-     */
+    /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
     val id: Long,
-    /**
-     * The user-specified API key name
-     */
+    /** The user-specified API key name */
     val name: String,
-    /**
-     * A timestamp indicating when the API key was created
-     */
+    /** A timestamp indicating when the API key was created */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /**
-     * ID of the user who created this API key
-     */
+    /** ID of the user who created this API key */
     @com.fasterxml.jackson.annotation.JsonProperty("created_by") val createdBy: String,
-    /**
-     * The IP address from which the API key was last used
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("last_used_from_addr") val lastUsedFromAddr: String,
-    /**
-     * A `true` or `false` value indicating whether the API key is revoked
-     */
+    /** The IP address from which the API key was last used */
+    @com.fasterxml.jackson.annotation.JsonProperty("last_used_from_addr")
+    val lastUsedFromAddr: String,
+    /** A `true` or `false` value indicating whether the API key is revoked */
     val revoked: Boolean,
-    /**
-     * A timestamp indicating when the API was last used
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("last_used_at") val lastUsedAt: OffsetDateTime? = null,
-    /**
-     * If set, the API key can access only this project
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String? = null
+    /** A timestamp indicating when the API was last used */
+    @com.fasterxml.jackson.annotation.JsonProperty("last_used_at")
+    val lastUsedAt: OffsetDateTime? = null,
+    /** If set, the API key can access only this project */
+    @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String? = null,
 )
 
-/**
- * Typed representation of the `OrgApiKeysListResponseItem` API schema.
- */
+/** Typed representation of the `OrgApiKeysListResponseItem` API schema. */
 data class OrgApiKeysListResponseItem(
-    /**
-     * The API key's unique numeric ID. Distinct from the API key token (`key`).
-     */
+    /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
     val id: Long,
-    /**
-     * The user-specified API key name
-     */
+    /** The user-specified API key name */
     val name: String,
-    /**
-     * A timestamp indicating when the API key was created
-     */
+    /** A timestamp indicating when the API key was created */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /**
-     * The user data of the user that created this API key.
-     */
+    /** The user data of the user that created this API key. */
     @com.fasterxml.jackson.annotation.JsonProperty("created_by") val createdBy: ApiKeyCreatorData,
-    /**
-     * The IP address from which the API key was last used
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("last_used_from_addr") val lastUsedFromAddr: String,
-    /**
-     * A timestamp indicating when the API was last used
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("last_used_at") val lastUsedAt: OffsetDateTime? = null,
-    /**
-     * If set, the API key can access only this project
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String? = null
+    /** The IP address from which the API key was last used */
+    @com.fasterxml.jackson.annotation.JsonProperty("last_used_from_addr")
+    val lastUsedFromAddr: String,
+    /** A timestamp indicating when the API was last used */
+    @com.fasterxml.jackson.annotation.JsonProperty("last_used_at")
+    val lastUsedAt: OffsetDateTime? = null,
+    /** If set, the API key can access only this project */
+    @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String? = null,
 )
 
-/**
- * Typed representation of the `SpendingLimitResponse` API schema.
- */
+/** Typed representation of the `SpendingLimitResponse` API schema. */
 data class SpendingLimitResponse(
-    /**
-     * Monthly spending cap in cents. `null` indicates that no limit is currently configured.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("spending_limit_cents", required = true) val spendingLimitCents: Long?
+    /** Monthly spending cap in cents. `null` indicates that no limit is currently configured. */
+    @com.fasterxml.jackson.annotation.JsonProperty("spending_limit_cents", required = true)
+    val spendingLimitCents: Long?
 )
 
-/**
- * Typed representation of the `SpendingLimitUpdateRequest` API schema.
- */
+/** Typed representation of the `SpendingLimitUpdateRequest` API schema. */
 data class SpendingLimitUpdateRequest(
     /**
-     * Monthly spending cap in cents. Must be positive. To remove a previously configured limit, send a DELETE request to the spending_limit endpoint — `0` and `null` are rejected here. The cap is alert-only: notifications fire at 80% and 100%, but computes are not suspended. Setting a cap below the period's already-accrued spend is permitted and will trigger the over-limit notification on the next worker run.
+     * Monthly spending cap in cents. Must be positive. To remove a previously configured limit,
+     * send a DELETE request to the spending_limit endpoint — `0` and `null` are rejected here. The
+     * cap is alert-only: notifications fire at 80% and 100%, but computes are not suspended.
+     * Setting a cap below the period's already-accrued spend is permitted and will trigger the
+     * over-limit notification on the next worker run.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("spending_limit_cents") val spendingLimitCents: Long
+    @com.fasterxml.jackson.annotation.JsonProperty("spending_limit_cents")
+    val spendingLimitCents: Long
 )
 
-/**
- * Typed representation of the `VPCEndpointDetails` API schema.
- */
+/** Typed representation of the `VPCEndpointDetails` API schema. */
 data class VPCEndpointDetails(
-    /**
-     * Cloud provider identifier for the VPC endpoint.
-     */
+    /** Cloud provider identifier for the VPC endpoint. */
     @com.fasterxml.jackson.annotation.JsonProperty("vpc_endpoint_id") val vpcEndpointId: String,
-    /**
-     * A descriptive label for the VPC endpoint
-     */
+    /** A descriptive label for the VPC endpoint */
     val label: String,
     /**
-     * The current state of the VPC endpoint. `new` means the endpoint has just been configured and is pending acceptance by Neon. `accepted` means the VPC connection has been accepted by Neon.
+     * The current state of the VPC endpoint. `new` means the endpoint has just been configured and
+     * is pending acceptance by Neon. `accepted` means the VPC connection has been accepted by Neon.
      */
     val state: String,
+    /** The number of projects that are restricted to use this VPC endpoint. */
+    @com.fasterxml.jackson.annotation.JsonProperty("num_restricted_projects")
+    val numRestrictedProjects: Long,
     /**
-     * The number of projects that are restricted to use this VPC endpoint.
+     * A list of example projects that are restricted to use this VPC endpoint. There are at most 3
+     * projects in the list, even if more projects are restricted.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("num_restricted_projects") val numRestrictedProjects: Long,
-    /**
-     * A list of example projects that are restricted to use this VPC endpoint. There are at most 3 projects in the list, even if more projects are restricted.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("example_restricted_projects") val exampleRestrictedProjects: List<String>
+    @com.fasterxml.jackson.annotation.JsonProperty("example_restricted_projects")
+    val exampleRestrictedProjects: List<String>,
 )
 
-/**
- * Typed representation of the `VPCEndpointsWithRegionResponse` API schema.
- */
+/** Typed representation of the `VPCEndpointsWithRegionResponse` API schema. */
 data class VPCEndpointsWithRegionResponse(
-    /**
-     * VPC endpoints associated with the region.
-     */
+    /** VPC endpoints associated with the region. */
     val endpoints: List<VPCEndpointWithRegion>
 )
 
-/**
- * Typed representation of the `VPCEndpointWithRegion` API schema.
- */
+/** Typed representation of the `VPCEndpointWithRegion` API schema. */
 data class VPCEndpointWithRegion(
-    /**
-     * Cloud provider identifier for the VPC endpoint.
-     */
+    /** Cloud provider identifier for the VPC endpoint. */
     @com.fasterxml.jackson.annotation.JsonProperty("vpc_endpoint_id") val vpcEndpointId: String,
-    /**
-     * A descriptive label for the VPC endpoint
-     */
+    /** A descriptive label for the VPC endpoint */
     val label: String,
-    /**
-     * The region where the VPC endpoint is located
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("region_id") val regionId: String
+    /** The region where the VPC endpoint is located */
+    @com.fasterxml.jackson.annotation.JsonProperty("region_id") val regionId: String,
 )

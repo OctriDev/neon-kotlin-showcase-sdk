@@ -6,12 +6,12 @@ package dev.octri.showcase.neon.methods
 import dev.octri.showcase.neon.AnonymizedBranchStatusResponse
 import dev.octri.showcase.neon.BranchAnonymizedCreateRequest
 import dev.octri.showcase.neon.BranchCreateRequest
-import dev.octri.showcase.neon.BranchesCountResponse
-import dev.octri.showcase.neon.BranchesResponse
 import dev.octri.showcase.neon.BranchOperations
 import dev.octri.showcase.neon.BranchResponse
 import dev.octri.showcase.neon.BranchSchemaCompareResponse
 import dev.octri.showcase.neon.BranchSchemaResponse
+import dev.octri.showcase.neon.BranchesCountResponse
+import dev.octri.showcase.neon.BranchesResponse
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.DatabaseOperations
 import dev.octri.showcase.neon.DatabaseResponse
@@ -30,65 +30,55 @@ import dev.octri.showcase.neon.SchemaSchemaEnum
 import java.time.OffsetDateTime
 
 object BranchMethods {
-/**
- * Branch attributes to update. Supply only the fields you want to change, for example `name` or `protected`.
- */
-data class BranchUpdateRequestBranch(
     /**
-     * New display name for the branch.
+     * Branch attributes to update. Supply only the fields you want to change, for example `name` or
+     * `protected`.
      */
-    val name: String? = null,
-    /**
-     * Whether the branch is protected. Protected branches (and their computes) cannot be deleted, archived, or reset, and block deletion of the project. Can be gated by `protected_branches_only` in the IP allowlist. Paid plans only.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("protected") val `protected`: Boolean? = null,
-    /**
-     * The timestamp when the branch is scheduled to expire and be automatically deleted. Must be set by the client following the RFC 3339, section 5.6 format with precision up to seconds (such as 2025-06-09T18:02:16Z). Deletion is performed by a background job and may not occur exactly at the specified time. If this field is set to null, the expiration timestamp is removed. Access to this feature is currently limited to participants in the Early Access Program.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("expires_at") val expiresAt: OffsetDateTime? = null
-)
+    data class BranchUpdateRequestBranch(
+        /** New display name for the branch. */
+        val name: String? = null,
+        /**
+         * Whether the branch is protected. Protected branches (and their computes) cannot be
+         * deleted, archived, or reset, and block deletion of the project. Can be gated by
+         * `protected_branches_only` in the IP allowlist. Paid plans only.
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("protected")
+        val `protected`: Boolean? = null,
+        /**
+         * The timestamp when the branch is scheduled to expire and be automatically deleted. Must
+         * be set by the client following the RFC 3339, section 5.6 format with precision up to
+         * seconds (such as 2025-06-09T18:02:16Z). Deletion is performed by a background job and may
+         * not occur exactly at the specified time. If this field is set to null, the expiration
+         * timestamp is removed. Access to this feature is currently limited to participants in the
+         * Early Access Program.
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("expires_at")
+        val expiresAt: OffsetDateTime? = null,
+    )
 
-/**
- * Configuration for the new Postgres database.
- */
-data class DatabaseCreateRequestDatabase(
-    /**
-     * Name of the database to create.
-     */
-    val name: String,
-    /**
-     * The name of the role that owns the database
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("owner_name") val ownerName: String
-)
+    /** Configuration for the new Postgres database. */
+    data class DatabaseCreateRequestDatabase(
+        /** Name of the database to create. */
+        val name: String,
+        /** The name of the role that owns the database */
+        @com.fasterxml.jackson.annotation.JsonProperty("owner_name") val ownerName: String,
+    )
 
-/**
- * Properties to update on the database.
- */
-data class DatabaseUpdateRequestDatabase(
-    /**
-     * Name of the database to update.
-     */
-    val name: String? = null,
-    /**
-     * The name of the role that owns the database
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("owner_name") val ownerName: String? = null
-)
+    /** Properties to update on the database. */
+    data class DatabaseUpdateRequestDatabase(
+        /** Name of the database to update. */
+        val name: String? = null,
+        /** The name of the role that owns the database */
+        @com.fasterxml.jackson.annotation.JsonProperty("owner_name") val ownerName: String? = null,
+    )
 
-/**
- * Properties of the role to create.
- */
-data class RoleCreateRequestRole(
-    /**
-     * The role name. Cannot exceed 63 bytes in length.
-     */
-    val name: String,
-    /**
-     * Whether to create a role that cannot login.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("no_login") val noLogin: Boolean? = null
-)
+    /** Properties of the role to create. */
+    data class RoleCreateRequestRole(
+        /** The role name. Cannot exceed 63 bytes in length. */
+        val name: String,
+        /** Whether to create a role that cannot login. */
+        @com.fasterxml.jackson.annotation.JsonProperty("no_login") val noLogin: Boolean? = null,
+    )
 
     /** Parameters for [listBranch]. */
     data class ListBranchRequest(
@@ -98,7 +88,7 @@ data class RoleCreateRequestRole(
         val cursor: String? = null,
         val sortOrder: SchemaSchemaEnum? = null,
         val limit: Long? = null,
-        val includeDeleted: Boolean? = null
+        val includeDeleted: Boolean? = null,
     )
 
     /** Parameters for [restoreBranch]. */
@@ -108,7 +98,7 @@ data class RoleCreateRequestRole(
         val sourceBranchId: String,
         val sourceLsn: String? = null,
         val sourceTimestamp: OffsetDateTime? = null,
-        val preserveUnderName: String? = null
+        val preserveUnderName: String? = null,
     )
 
     /** Parameters for [getBranchSchema]. */
@@ -118,7 +108,7 @@ data class RoleCreateRequestRole(
         val dbName: String,
         val lsn: String? = null,
         val timestamp: OffsetDateTime? = null,
-        val format: String? = null
+        val format: String? = null,
     )
 
     /** Parameters for [compareBranchSchema]. */
@@ -130,13 +120,23 @@ data class RoleCreateRequestRole(
         val lsn: String? = null,
         val timestamp: OffsetDateTime? = null,
         val baseLsn: String? = null,
-        val baseTimestamp: OffsetDateTime? = null
+        val baseTimestamp: OffsetDateTime? = null,
     )
 
     /**
-     * Creates a branch in the specified project. No request body is required, but you can specify one to create a compute endpoint or select a non-default parent branch. By default, the branch is created from the project's default branch with no compute endpoint, and the branch name is auto-generated. To access the branch, add a `read_write` endpoint. Each branch supports one read-write endpoint and multiple read-only endpoints. For related information, see [Manage branches](https://neon.com/docs/manage/branches/).
+     * Creates a branch in the specified project. No request body is required, but you can specify
+     * one to create a compute endpoint or select a non-default parent branch. By default, the
+     * branch is created from the project's default branch with no compute endpoint, and the branch
+     * name is auto-generated. To access the branch, add a `read_write` endpoint. Each branch
+     * supports one read-write endpoint and multiple read-only endpoints. For related information,
+     * see [Manage branches](https://neon.com/docs/manage/branches/).
      */
-    fun createBranch(clientConfig: ClientConfig, projectId: String, body: BranchCreateRequest? = null, options: RequestOptions? = null): BranchResponse =
+    fun createBranch(
+        clientConfig: ClientConfig,
+        projectId: String,
+        body: BranchCreateRequest? = null,
+        options: RequestOptions? = null,
+    ): BranchResponse =
         dev.octri.showcase.neon.methods.BranchMethodsCreateBranchOperation.createBranch(
             clientConfig,
             projectId,
@@ -145,9 +145,17 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Retrieves a list of branches for the specified project. Each Neon project has a root branch named `main`. A `branch_id` value has a `br-` prefix. A project may contain child branches that were branched from `main` or from another branch. A parent branch is identified by the `parent_id` value, which is the `id` of the parent branch. For related information, see [Manage branches](https://neon.com/docs/manage/branches/).
+     * Retrieves a list of branches for the specified project. Each Neon project has a root branch
+     * named `main`. A `branch_id` value has a `br-` prefix. A project may contain child branches
+     * that were branched from `main` or from another branch. A parent branch is identified by the
+     * `parent_id` value, which is the `id` of the parent branch. For related information, see
+     * [Manage branches](https://neon.com/docs/manage/branches/).
      */
-    fun listBranch(clientConfig: ClientConfig, request: ListBranchRequest, options: RequestOptions? = null): BranchesResponse =
+    fun listBranch(
+        clientConfig: ClientConfig,
+        request: ListBranchRequest,
+        options: RequestOptions? = null,
+    ): BranchesResponse =
         dev.octri.showcase.neon.methods.BranchMethodsListBranchOperation.listBranch(
             clientConfig,
             request,
@@ -155,20 +163,36 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Creates a branch with anonymized data using PostgreSQL Anonymizer for static masking. Supply `branch_create` to configure the branch and optionally provide `masking_rules` or set `start_anonymization` to true to apply masking rules and start anonymization during creation. This endpoint is in beta; the response includes the created branch, operations, and any endpoints specified in the request.
+     * Creates a branch with anonymized data using PostgreSQL Anonymizer for static masking. Supply
+     * `branch_create` to configure the branch and optionally provide `masking_rules` or set
+     * `start_anonymization` to true to apply masking rules and start anonymization during creation.
+     * This endpoint is in beta; the response includes the created branch, operations, and any
+     * endpoints specified in the request.
      */
-    fun createBranchAnonymized(clientConfig: ClientConfig, projectId: String, body: BranchAnonymizedCreateRequest, options: RequestOptions? = null): BranchResponse =
-        dev.octri.showcase.neon.methods.BranchMethodsCreateBranchAnonymizedOperation.createBranchAnonymized(
-            clientConfig,
-            projectId,
-            body,
-            options,
-        )
+    fun createBranchAnonymized(
+        clientConfig: ClientConfig,
+        projectId: String,
+        body: BranchAnonymizedCreateRequest,
+        options: RequestOptions? = null,
+    ): BranchResponse =
+        dev.octri.showcase.neon.methods.BranchMethodsCreateBranchAnonymizedOperation
+            .createBranchAnonymized(
+                clientConfig,
+                projectId,
+                body,
+                options,
+            )
 
     /**
-     * Retrieves the total number of branches in the specified project. Supports an optional `search` parameter to count branches matching a name filter.
+     * Retrieves the total number of branches in the specified project. Supports an optional
+     * `search` parameter to count branches matching a name filter.
      */
-    fun countBranch(clientConfig: ClientConfig, projectId: String, search: String? = null, options: RequestOptions? = null): BranchesCountResponse =
+    fun countBranch(
+        clientConfig: ClientConfig,
+        projectId: String,
+        search: String? = null,
+        options: RequestOptions? = null,
+    ): BranchesCountResponse =
         dev.octri.showcase.neon.methods.BranchMethodsCountBranchOperation.countBranch(
             clientConfig,
             projectId,
@@ -177,9 +201,18 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Retrieves information about the specified branch. A `branch_id` value has a `br-` prefix. Each Neon project is initially created with a root and default branch named `main`. A project can contain one or more branches. A parent branch is identified by a `parent_id` value, which is the `id` of the parent branch. For related information, see [Manage branches](https://neon.com/docs/manage/branches/).
+     * Retrieves information about the specified branch. A `branch_id` value has a `br-` prefix.
+     * Each Neon project is initially created with a root and default branch named `main`. A project
+     * can contain one or more branches. A parent branch is identified by a `parent_id` value, which
+     * is the `id` of the parent branch. For related information, see
+     * [Manage branches](https://neon.com/docs/manage/branches/).
      */
-    fun getBranch(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): BranchResponse =
+    fun getBranch(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): BranchResponse =
         dev.octri.showcase.neon.methods.BranchMethodsGetBranchOperation.getBranch(
             clientConfig,
             projectId,
@@ -188,9 +221,18 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Deletes the specified branch from a project and places all compute endpoints into an idle state, breaking existing client connections. The deletion completes after all operations finish. You cannot delete a project's root or default branch, or a branch that has a child branch. A project must have at least one branch. For related information, see [Manage branches](https://neon.com/docs/manage/branches/).
+     * Deletes the specified branch from a project and places all compute endpoints into an idle
+     * state, breaking existing client connections. The deletion completes after all operations
+     * finish. You cannot delete a project's root or default branch, or a branch that has a child
+     * branch. A project must have at least one branch. For related information, see
+     * [Manage branches](https://neon.com/docs/manage/branches/).
      */
-    fun deleteBranch(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): BranchOperations =
+    fun deleteBranch(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): BranchOperations =
         dev.octri.showcase.neon.methods.BranchMethodsDeleteBranchOperation.deleteBranch(
             clientConfig,
             projectId,
@@ -199,9 +241,16 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Updates the specified branch. For more information, see [Manage branches](https://neon.com/docs/manage/branches/).
+     * Updates the specified branch. For more information, see
+     * [Manage branches](https://neon.com/docs/manage/branches/).
      */
-    fun updateBranch(clientConfig: ClientConfig, projectId: String, branchId: String, branch: BranchUpdateRequestBranch, options: RequestOptions? = null): BranchOperations =
+    fun updateBranch(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        branch: BranchUpdateRequestBranch,
+        options: RequestOptions? = null,
+    ): BranchOperations =
         dev.octri.showcase.neon.methods.BranchMethodsUpdateBranchOperation.updateBranch(
             clientConfig,
             projectId,
@@ -211,9 +260,14 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Restores a branch to an earlier state in its own or another branch's history by specifying an LSN or timestamp. Creates a new branch from the historical state.
+     * Restores a branch to an earlier state in its own or another branch's history by specifying an
+     * LSN or timestamp. Creates a new branch from the historical state.
      */
-    fun restoreBranch(clientConfig: ClientConfig, request: RestoreBranchRequest, options: RequestOptions? = null): BranchOperations =
+    fun restoreBranch(
+        clientConfig: ClientConfig,
+        request: RestoreBranchRequest,
+        options: RequestOptions? = null,
+    ): BranchOperations =
         dev.octri.showcase.neon.methods.BranchMethodsRestoreBranchOperation.restoreBranch(
             clientConfig,
             request,
@@ -221,29 +275,44 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Retrieves the database schema. Specify `lsn` or `timestamp` (not both) to read at a point in time; omit both to read from the database's head.
+     * Retrieves the database schema. Specify `lsn` or `timestamp` (not both) to read at a point in
+     * time; omit both to read from the database's head.
      */
-    fun getBranchSchema(clientConfig: ClientConfig, request: GetBranchSchemaRequest, options: RequestOptions? = null): BranchSchemaResponse =
+    fun getBranchSchema(
+        clientConfig: ClientConfig,
+        request: GetBranchSchemaRequest,
+        options: RequestOptions? = null,
+    ): BranchSchemaResponse =
         dev.octri.showcase.neon.methods.BranchMethodsGetBranchSchemaOperation.getBranchSchema(
             clientConfig,
             request,
             options,
         )
 
-    /**
-     * Compares the schema from the specified database with another branch's schema.
-     */
-    fun compareBranchSchema(clientConfig: ClientConfig, request: CompareBranchSchemaRequest, options: RequestOptions? = null): BranchSchemaCompareResponse =
-        dev.octri.showcase.neon.methods.BranchMethodsCompareBranchSchemaOperation.compareBranchSchema(
-            clientConfig,
-            request,
-            options,
-        )
+    /** Compares the schema from the specified database with another branch's schema. */
+    fun compareBranchSchema(
+        clientConfig: ClientConfig,
+        request: CompareBranchSchemaRequest,
+        options: RequestOptions? = null,
+    ): BranchSchemaCompareResponse =
+        dev.octri.showcase.neon.methods.BranchMethodsCompareBranchSchemaOperation
+            .compareBranchSchema(
+                clientConfig,
+                request,
+                options,
+            )
 
     /**
-     * Retrieves the masking rules for the specified anonymized branch. Masking rules define how sensitive data should be anonymized using PostgreSQL Anonymizer. **Note**: This endpoint is currently in Beta.
+     * Retrieves the masking rules for the specified anonymized branch. Masking rules define how
+     * sensitive data should be anonymized using PostgreSQL Anonymizer. **Note**: This endpoint is
+     * currently in Beta.
      */
-    fun getMaskingRules(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): MaskingRulesResponse =
+    fun getMaskingRules(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): MaskingRulesResponse =
         dev.octri.showcase.neon.methods.BranchMethodsGetMaskingRulesOperation.getMaskingRules(
             clientConfig,
             projectId,
@@ -252,9 +321,17 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Updates the masking rules for the specified anonymized branch. Masking rules define how sensitive data should be anonymized using PostgreSQL Anonymizer. **Note**: This endpoint is currently in Beta.
+     * Updates the masking rules for the specified anonymized branch. Masking rules define how
+     * sensitive data should be anonymized using PostgreSQL Anonymizer. **Note**: This endpoint is
+     * currently in Beta.
      */
-    fun updateMaskingRules(clientConfig: ClientConfig, projectId: String, branchId: String, maskingRules: List<MaskingRule>, options: RequestOptions? = null): MaskingRulesResponse =
+    fun updateMaskingRules(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        maskingRules: List<MaskingRule>,
+        options: RequestOptions? = null,
+    ): MaskingRulesResponse =
         dev.octri.showcase.neon.methods.BranchMethodsUpdateMaskingRulesOperation.updateMaskingRules(
             clientConfig,
             projectId,
@@ -264,20 +341,37 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Retrieves the current status of an anonymized branch, including its state and progress information. This endpoint allows you to monitor the anonymization process from initialization through completion. Only anonymized branches will have status information available. **Note**: This endpoint is currently in Beta.
+     * Retrieves the current status of an anonymized branch, including its state and progress
+     * information. This endpoint allows you to monitor the anonymization process from
+     * initialization through completion. Only anonymized branches will have status information
+     * available. **Note**: This endpoint is currently in Beta.
      */
-    fun getAnonymizedBranchStatus(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): AnonymizedBranchStatusResponse =
-        dev.octri.showcase.neon.methods.BranchMethodsGetAnonymizedBranchStatusOperation.getAnonymizedBranchStatus(
-            clientConfig,
-            projectId,
-            branchId,
-            options,
-        )
+    fun getAnonymizedBranchStatus(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): AnonymizedBranchStatusResponse =
+        dev.octri.showcase.neon.methods.BranchMethodsGetAnonymizedBranchStatusOperation
+            .getAnonymizedBranchStatus(
+                clientConfig,
+                projectId,
+                branchId,
+                options,
+            )
 
     /**
-     * Starts the anonymization process for an anonymized branch that is in the initialized, error, or anonymized state. This will apply all defined masking rules to anonymize sensitive data in the branch databases. The branch must be an anonymized branch to start anonymization. **Note**: This endpoint is currently in Beta.
+     * Starts the anonymization process for an anonymized branch that is in the initialized, error,
+     * or anonymized state. This will apply all defined masking rules to anonymize sensitive data in
+     * the branch databases. The branch must be an anonymized branch to start anonymization.
+     * **Note**: This endpoint is currently in Beta.
      */
-    fun startAnonymization(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): AnonymizedBranchStatusResponse =
+    fun startAnonymization(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): AnonymizedBranchStatusResponse =
         dev.octri.showcase.neon.methods.BranchMethodsStartAnonymizationOperation.startAnonymization(
             clientConfig,
             projectId,
@@ -286,9 +380,16 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Sets the specified branch as the project's default branch. The default designation is automatically removed from the previous default branch. For more information, see [Manage branches](https://neon.com/docs/manage/branches/).
+     * Sets the specified branch as the project's default branch. The default designation is
+     * automatically removed from the previous default branch. For more information, see
+     * [Manage branches](https://neon.com/docs/manage/branches/).
      */
-    fun setBranchDefault(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): BranchOperations =
+    fun setBranchDefault(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): BranchOperations =
         dev.octri.showcase.neon.methods.BranchMethodsSetBranchDefaultOperation.setBranchDefault(
             clientConfig,
             projectId,
@@ -297,55 +398,96 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Finalizes a branch restore from a snapshot, making the restored branch function as the original branch it replaced. Use this operation only for branches created with `restoreSnapshot` and `finalize_restore` set to `false`; you can optionally provide a replacement name with `name`. The operation reassigns computes to the restored branch, restarting them, and renames both branches.
+     * Finalizes a branch restore from a snapshot, making the restored branch function as the
+     * original branch it replaced. Use this operation only for branches created with
+     * `restoreSnapshot` and `finalize_restore` set to `false`; you can optionally provide a
+     * replacement name with `name`. The operation reassigns computes to the restored branch,
+     * restarting them, and renames both branches.
      */
-    fun finalizeRestoreBranch(clientConfig: ClientConfig, projectId: String, branchId: String, name: String? = null, options: RequestOptions? = null): OperationsResponse =
-        dev.octri.showcase.neon.methods.BranchMethodsFinalizeRestoreBranchOperation.finalizeRestoreBranch(
-            clientConfig,
-            projectId,
-            branchId,
-            name,
-            options,
-        )
+    fun finalizeRestoreBranch(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        name: String? = null,
+        options: RequestOptions? = null,
+    ): OperationsResponse =
+        dev.octri.showcase.neon.methods.BranchMethodsFinalizeRestoreBranchOperation
+            .finalizeRestoreBranch(
+                clientConfig,
+                projectId,
+                branchId,
+                name,
+                options,
+            )
 
     /**
-     * Retrieves a list of compute endpoints for the specified branch. Neon permits only one read-write compute endpoint per branch. A branch can have multiple read-only compute endpoints.
+     * Retrieves a list of compute endpoints for the specified branch. Neon permits only one
+     * read-write compute endpoint per branch. A branch can have multiple read-only compute
+     * endpoints.
      */
-    fun listBranchEndpoints(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): EndpointsResponse =
-        dev.octri.showcase.neon.methods.BranchMethodsListBranchEndpointsOperation.listBranchEndpoints(
-            clientConfig,
-            projectId,
-            branchId,
-            options,
-        )
+    fun listBranchEndpoints(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): EndpointsResponse =
+        dev.octri.showcase.neon.methods.BranchMethodsListBranchEndpointsOperation
+            .listBranchEndpoints(
+                clientConfig,
+                projectId,
+                branchId,
+                options,
+            )
 
     /**
-     * Retrieves a list of databases for the specified branch. A branch can have multiple databases. For related information, see [Manage databases](https://neon.com/docs/manage/databases/).
+     * Retrieves a list of databases for the specified branch. A branch can have multiple databases.
+     * For related information, see [Manage databases](https://neon.com/docs/manage/databases/).
      */
-    fun listBranchDatabases(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): DatabasesResponse =
-        dev.octri.showcase.neon.methods.BranchMethodsListBranchDatabasesOperation.listBranchDatabases(
-            clientConfig,
-            projectId,
-            branchId,
-            options,
-        )
+    fun listBranchDatabases(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): DatabasesResponse =
+        dev.octri.showcase.neon.methods.BranchMethodsListBranchDatabasesOperation
+            .listBranchDatabases(
+                clientConfig,
+                projectId,
+                branchId,
+                options,
+            )
 
     /**
-     * Creates a database in the specified branch. A branch can have multiple databases. For related information, see [Manage databases](https://neon.com/docs/manage/databases/).
+     * Creates a database in the specified branch. A branch can have multiple databases. For related
+     * information, see [Manage databases](https://neon.com/docs/manage/databases/).
      */
-    fun createBranchDatabase(clientConfig: ClientConfig, projectId: String, branchId: String, database: DatabaseCreateRequestDatabase, options: RequestOptions? = null): DatabaseOperations =
-        dev.octri.showcase.neon.methods.BranchMethodsCreateBranchDatabaseOperation.createBranchDatabase(
-            clientConfig,
-            projectId,
-            branchId,
-            database,
-            options,
-        )
+    fun createBranchDatabase(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        database: DatabaseCreateRequestDatabase,
+        options: RequestOptions? = null,
+    ): DatabaseOperations =
+        dev.octri.showcase.neon.methods.BranchMethodsCreateBranchDatabaseOperation
+            .createBranchDatabase(
+                clientConfig,
+                projectId,
+                branchId,
+                database,
+                options,
+            )
 
     /**
-     * Retrieves information about the specified database. For related information, see [Manage databases](https://neon.com/docs/manage/databases/).
+     * Retrieves information about the specified database. For related information, see
+     * [Manage databases](https://neon.com/docs/manage/databases/).
      */
-    fun getBranchDatabase(clientConfig: ClientConfig, projectId: String, branchId: String, databaseName: String, options: RequestOptions? = null): DatabaseResponse =
+    fun getBranchDatabase(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        databaseName: String,
+        options: RequestOptions? = null,
+    ): DatabaseResponse =
         dev.octri.showcase.neon.methods.BranchMethodsGetBranchDatabaseOperation.getBranchDatabase(
             clientConfig,
             projectId,
@@ -355,34 +497,57 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Updates the specified database in the branch. For related information, see [Manage databases](https://neon.com/docs/manage/databases/).
+     * Updates the specified database in the branch. For related information, see
+     * [Manage databases](https://neon.com/docs/manage/databases/).
      */
-    fun updateBranchDatabase(clientConfig: ClientConfig, projectId: String, branchId: String, databaseName: String, database: DatabaseUpdateRequestDatabase, options: RequestOptions? = null): DatabaseOperations =
-        dev.octri.showcase.neon.methods.BranchMethodsUpdateBranchDatabaseOperation.updateBranchDatabase(
-            clientConfig,
-            projectId,
-            branchId,
-            databaseName,
-            database,
-            options,
-        )
+    fun updateBranchDatabase(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        databaseName: String,
+        database: DatabaseUpdateRequestDatabase,
+        options: RequestOptions? = null,
+    ): DatabaseOperations =
+        dev.octri.showcase.neon.methods.BranchMethodsUpdateBranchDatabaseOperation
+            .updateBranchDatabase(
+                clientConfig,
+                projectId,
+                branchId,
+                databaseName,
+                database,
+                options,
+            )
 
     /**
-     * Deletes the specified database from the branch. For related information, see [Manage databases](https://neon.com/docs/manage/databases/).
+     * Deletes the specified database from the branch. For related information, see
+     * [Manage databases](https://neon.com/docs/manage/databases/).
      */
-    fun deleteBranchDatabase(clientConfig: ClientConfig, projectId: String, branchId: String, databaseName: String, options: RequestOptions? = null): DatabaseOperations =
-        dev.octri.showcase.neon.methods.BranchMethodsDeleteBranchDatabaseOperation.deleteBranchDatabase(
-            clientConfig,
-            projectId,
-            branchId,
-            databaseName,
-            options,
-        )
+    fun deleteBranchDatabase(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        databaseName: String,
+        options: RequestOptions? = null,
+    ): DatabaseOperations =
+        dev.octri.showcase.neon.methods.BranchMethodsDeleteBranchDatabaseOperation
+            .deleteBranchDatabase(
+                clientConfig,
+                projectId,
+                branchId,
+                databaseName,
+                options,
+            )
 
     /**
-     * Retrieves a list of Postgres roles from the specified branch. For related information, see [Manage roles](https://neon.com/docs/manage/roles/).
+     * Retrieves a list of Postgres roles from the specified branch. For related information, see
+     * [Manage roles](https://neon.com/docs/manage/roles/).
      */
-    fun listBranchRoles(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): RolesResponse =
+    fun listBranchRoles(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): RolesResponse =
         dev.octri.showcase.neon.methods.BranchMethodsListBranchRolesOperation.listBranchRoles(
             clientConfig,
             projectId,
@@ -391,9 +556,18 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Creates a Postgres role in the specified branch. For related information, see [Manage roles](https://neon.com/docs/manage/roles/). Connections established to the active compute endpoint will be dropped. If the compute endpoint is idle, the endpoint becomes active for a short period of time and is suspended afterward.
+     * Creates a Postgres role in the specified branch. For related information, see
+     * [Manage roles](https://neon.com/docs/manage/roles/). Connections established to the active
+     * compute endpoint will be dropped. If the compute endpoint is idle, the endpoint becomes
+     * active for a short period of time and is suspended afterward.
      */
-    fun createBranchRole(clientConfig: ClientConfig, projectId: String, branchId: String, role: RoleCreateRequestRole, options: RequestOptions? = null): RoleOperations =
+    fun createBranchRole(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        role: RoleCreateRequestRole,
+        options: RequestOptions? = null,
+    ): RoleOperations =
         dev.octri.showcase.neon.methods.BranchMethodsCreateBranchRoleOperation.createBranchRole(
             clientConfig,
             projectId,
@@ -403,9 +577,16 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Retrieves details about the specified role. In Neon, the terms "role" and "user" are synonymous. For related information, see [Manage roles](https://neon.com/docs/manage/roles/).
+     * Retrieves details about the specified role. In Neon, the terms "role" and "user" are
+     * synonymous. For related information, see [Manage roles](https://neon.com/docs/manage/roles/).
      */
-    fun getBranchRole(clientConfig: ClientConfig, projectId: String, branchId: String, roleName: String, options: RequestOptions? = null): RoleResponse =
+    fun getBranchRole(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        roleName: String,
+        options: RequestOptions? = null,
+    ): RoleResponse =
         dev.octri.showcase.neon.methods.BranchMethodsGetBranchRoleOperation.getBranchRole(
             clientConfig,
             projectId,
@@ -415,9 +596,16 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Deletes the specified Postgres role from the branch. For related information, see [Manage roles](https://neon.com/docs/manage/roles/).
+     * Deletes the specified Postgres role from the branch. For related information, see
+     * [Manage roles](https://neon.com/docs/manage/roles/).
      */
-    fun deleteBranchRole(clientConfig: ClientConfig, projectId: String, branchId: String, roleName: String, options: RequestOptions? = null): RoleOperations =
+    fun deleteBranchRole(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        roleName: String,
+        options: RequestOptions? = null,
+    ): RoleOperations =
         dev.octri.showcase.neon.methods.BranchMethodsDeleteBranchRoleOperation.deleteBranchRole(
             clientConfig,
             projectId,
@@ -427,26 +615,45 @@ data class RoleCreateRequestRole(
         )
 
     /**
-     * Retrieves the password for the specified Postgres role, if possible. For related information, see [Manage roles](https://neon.com/docs/manage/roles/).
+     * Retrieves the password for the specified Postgres role, if possible. For related information,
+     * see [Manage roles](https://neon.com/docs/manage/roles/).
      */
-    fun getBranchRolePassword(clientConfig: ClientConfig, projectId: String, branchId: String, roleName: String, options: RequestOptions? = null): RolePasswordResponse =
-        dev.octri.showcase.neon.methods.BranchMethodsGetBranchRolePasswordOperation.getBranchRolePassword(
-            clientConfig,
-            projectId,
-            branchId,
-            roleName,
-            options,
-        )
+    fun getBranchRolePassword(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        roleName: String,
+        options: RequestOptions? = null,
+    ): RolePasswordResponse =
+        dev.octri.showcase.neon.methods.BranchMethodsGetBranchRolePasswordOperation
+            .getBranchRolePassword(
+                clientConfig,
+                projectId,
+                branchId,
+                roleName,
+                options,
+            )
 
     /**
-     * Resets the password for the specified Postgres role. Returns a new password and operations. The new password is ready to use when the last operation finishes. The old password remains valid until last operation finishes. Connections to the compute endpoint are dropped. If idle, the compute endpoint becomes active for a short period of time. For related information, see [Manage roles](https://neon.com/docs/manage/roles/).
+     * Resets the password for the specified Postgres role. Returns a new password and operations.
+     * The new password is ready to use when the last operation finishes. The old password remains
+     * valid until last operation finishes. Connections to the compute endpoint are dropped. If
+     * idle, the compute endpoint becomes active for a short period of time. For related
+     * information, see [Manage roles](https://neon.com/docs/manage/roles/).
      */
-    fun resetBranchRolePassword(clientConfig: ClientConfig, projectId: String, branchId: String, roleName: String, options: RequestOptions? = null): RoleOperations =
-        dev.octri.showcase.neon.methods.BranchMethodsResetBranchRolePasswordOperation.resetBranchRolePassword(
-            clientConfig,
-            projectId,
-            branchId,
-            roleName,
-            options,
-        )
+    fun resetBranchRolePassword(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        roleName: String,
+        options: RequestOptions? = null,
+    ): RoleOperations =
+        dev.octri.showcase.neon.methods.BranchMethodsResetBranchRolePasswordOperation
+            .resetBranchRolePassword(
+                clientConfig,
+                projectId,
+                branchId,
+                roleName,
+                options,
+            )
 }

@@ -7,9 +7,11 @@ typealias NeonFunction = dev.octri.showcase.neon.models.NeonFunction
 
 typealias NeonFunctionDeployment = dev.octri.showcase.neon.models.NeonFunctionDeployment
 
-typealias NeonFunctionDeploymentResponse = dev.octri.showcase.neon.models.NeonFunctionDeploymentResponse
+typealias NeonFunctionDeploymentResponse =
+    dev.octri.showcase.neon.models.NeonFunctionDeploymentResponse
 
-typealias NeonFunctionDeploymentStatusEnum = dev.octri.showcase.neon.models.NeonFunctionDeploymentStatusEnum
+typealias NeonFunctionDeploymentStatusEnum =
+    dev.octri.showcase.neon.models.NeonFunctionDeploymentStatusEnum
 
 typealias NeonFunctionResponse = dev.octri.showcase.neon.models.NeonFunctionResponse
 
@@ -29,15 +31,19 @@ typealias OperationStatus = dev.octri.showcase.neon.models.OperationStatus
 
 typealias Organization = dev.octri.showcase.neon.models.Organization
 
-typealias OrganizationInvitationsResponse = dev.octri.showcase.neon.models.OrganizationInvitationsResponse
+typealias OrganizationInvitationsResponse =
+    dev.octri.showcase.neon.models.OrganizationInvitationsResponse
 
-typealias OrganizationInviteCreateRequest = dev.octri.showcase.neon.models.OrganizationInviteCreateRequest
+typealias OrganizationInviteCreateRequest =
+    dev.octri.showcase.neon.models.OrganizationInviteCreateRequest
 
-typealias OrganizationInvitesCreateRequest = dev.octri.showcase.neon.models.OrganizationInvitesCreateRequest
+typealias OrganizationInvitesCreateRequest =
+    dev.octri.showcase.neon.models.OrganizationInvitesCreateRequest
 
 typealias OrganizationMembersResponse = dev.octri.showcase.neon.models.OrganizationMembersResponse
 
-typealias OrganizationMemberUpdateRequest = dev.octri.showcase.neon.models.OrganizationMemberUpdateRequest
+typealias OrganizationMemberUpdateRequest =
+    dev.octri.showcase.neon.models.OrganizationMemberUpdateRequest
 
 typealias OrganizationsResponse = dev.octri.showcase.neon.models.OrganizationsResponse
 
@@ -57,7 +63,8 @@ typealias PaymentSource = dev.octri.showcase.neon.models.PaymentSource
 
 typealias PaymentSourceBankCard = dev.octri.showcase.neon.models.PaymentSourceBankCard
 
-typealias PaymentSourceBankCardBrandEnum = dev.octri.showcase.neon.models.PaymentSourceBankCardBrandEnum
+typealias PaymentSourceBankCardBrandEnum =
+    dev.octri.showcase.neon.models.PaymentSourceBankCardBrandEnum
 
 typealias PgbouncerSettingsData = dev.octri.showcase.neon.models.PgbouncerSettingsData
 
@@ -83,35 +90,45 @@ typealias ProjectAuditLogLevel = dev.octri.showcase.neon.models.ProjectAuditLogL
 
 typealias ProjectBranchLogDuration = dev.octri.showcase.neon.models.ProjectBranchLogDuration
 
-typealias ProjectBranchLogFieldsResponse = dev.octri.showcase.neon.models.ProjectBranchLogFieldsResponse
+typealias ProjectBranchLogFieldsResponse =
+    dev.octri.showcase.neon.models.ProjectBranchLogFieldsResponse
 
-typealias ProjectBranchLogFieldValuesResponse = dev.octri.showcase.neon.models.ProjectBranchLogFieldValuesResponse
+typealias ProjectBranchLogFieldValuesResponse =
+    dev.octri.showcase.neon.models.ProjectBranchLogFieldValuesResponse
 
 typealias ProjectBranchLogRecord = dev.octri.showcase.neon.models.ProjectBranchLogRecord
 
 typealias ProjectBranchLogSeverity = dev.octri.showcase.neon.models.ProjectBranchLogSeverity
 
-typealias ProjectBranchLogsInvalidQuery = dev.octri.showcase.neon.models.ProjectBranchLogsInvalidQuery
+typealias ProjectBranchLogsInvalidQuery =
+    dev.octri.showcase.neon.models.ProjectBranchLogsInvalidQuery
 
-typealias ProjectBranchLogsInvalidQueryReasonEnum = dev.octri.showcase.neon.models.ProjectBranchLogsInvalidQueryReasonEnum
+typealias ProjectBranchLogsInvalidQueryReasonEnum =
+    dev.octri.showcase.neon.models.ProjectBranchLogsInvalidQueryReasonEnum
 
-typealias ProjectBranchLogsNotAvailable = dev.octri.showcase.neon.models.ProjectBranchLogsNotAvailable
+typealias ProjectBranchLogsNotAvailable =
+    dev.octri.showcase.neon.models.ProjectBranchLogsNotAvailable
 
-typealias ProjectBranchLogsNotAvailableReasonEnum = dev.octri.showcase.neon.models.ProjectBranchLogsNotAvailableReasonEnum
+typealias ProjectBranchLogsNotAvailableReasonEnum =
+    dev.octri.showcase.neon.models.ProjectBranchLogsNotAvailableReasonEnum
 
 typealias ProjectBranchLogSource = dev.octri.showcase.neon.models.ProjectBranchLogSource
 
-typealias ProjectBranchLogsQueryRequest = dev.octri.showcase.neon.models.ProjectBranchLogsQueryRequest
+typealias ProjectBranchLogsQueryRequest =
+    dev.octri.showcase.neon.models.ProjectBranchLogsQueryRequest
 
-typealias ProjectBranchLogsQueryRequestSortOrderEnum = dev.octri.showcase.neon.models.ProjectBranchLogsQueryRequestSortOrderEnum
+typealias ProjectBranchLogsQueryRequestSortOrderEnum =
+    dev.octri.showcase.neon.models.ProjectBranchLogsQueryRequestSortOrderEnum
 
-typealias ProjectBranchLogsQueryResponse = dev.octri.showcase.neon.models.ProjectBranchLogsQueryResponse
+typealias ProjectBranchLogsQueryResponse =
+    dev.octri.showcase.neon.models.ProjectBranchLogsQueryResponse
 
 typealias ProjectCreateRequest = dev.octri.showcase.neon.models.ProjectCreateRequest
 
 typealias ProjectCreateRequestProject = dev.octri.showcase.neon.models.ProjectCreateRequestProject
 
-typealias ProjectCreateRequestProjectBranch = dev.octri.showcase.neon.models.ProjectCreateRequestProjectBranch
+typealias ProjectCreateRequestProjectBranch =
+    dev.octri.showcase.neon.models.ProjectCreateRequestProjectBranch
 
 typealias ProjectJWKSResponse = dev.octri.showcase.neon.models.ProjectJWKSResponse
 
@@ -143,19 +160,24 @@ typealias ProjectResponse = dev.octri.showcase.neon.models.ProjectResponse
 
 typealias ProjectRole = dev.octri.showcase.neon.models.ProjectRole
 
-typealias ProjectsApplicationsMapResponse = dev.octri.showcase.neon.models.project.ProjectsApplicationsMapResponse
+typealias ProjectsApplicationsMapResponse =
+    dev.octri.showcase.neon.models.project.ProjectsApplicationsMapResponse
 
 typealias ProjectSettingsData = dev.octri.showcase.neon.models.ProjectSettingsData
 
-typealias ProjectsIntegrationsMapResponse = dev.octri.showcase.neon.models.project.ProjectsIntegrationsMapResponse
+typealias ProjectsIntegrationsMapResponse =
+    dev.octri.showcase.neon.models.project.ProjectsIntegrationsMapResponse
 
 typealias ProjectsResponse = dev.octri.showcase.neon.models.ProjectsResponse
 
-typealias ProjectsWithIntegrationResponse = dev.octri.showcase.neon.models.ProjectsWithIntegrationResponse
+typealias ProjectsWithIntegrationResponse =
+    dev.octri.showcase.neon.models.ProjectsWithIntegrationResponse
 
-typealias ProjectsWithIntegrationResponseProjectsItem = dev.octri.showcase.neon.models.ProjectsWithIntegrationResponseProjectsItem
+typealias ProjectsWithIntegrationResponseProjectsItem =
+    dev.octri.showcase.neon.models.ProjectsWithIntegrationResponseProjectsItem
 
-typealias ProjectTransferRequestResponse = dev.octri.showcase.neon.models.ProjectTransferRequestResponse
+typealias ProjectTransferRequestResponse =
+    dev.octri.showcase.neon.models.ProjectTransferRequestResponse
 
 typealias ProjectUpdateRequest = dev.octri.showcase.neon.models.ProjectUpdateRequest
 
@@ -187,27 +209,32 @@ typealias RolesResponse = dev.octri.showcase.neon.models.RolesResponse
 
 typealias RotateCredentialResponse = dev.octri.showcase.neon.models.RotateCredentialResponse
 
-typealias RotateCredentialResponsePrincipalTypeEnum = dev.octri.showcase.neon.models.RotateCredentialResponsePrincipalTypeEnum
+typealias RotateCredentialResponsePrincipalTypeEnum =
+    dev.octri.showcase.neon.models.RotateCredentialResponsePrincipalTypeEnum
 
 typealias ScheduleTrigger = dev.octri.showcase.neon.models.ScheduleTrigger
 
 typealias ScheduleTriggerCreateRequest = dev.octri.showcase.neon.models.ScheduleTriggerCreateRequest
 
-typealias ScheduleTriggerCreateRequestTypeEnum = dev.octri.showcase.neon.models.ScheduleTriggerCreateRequestTypeEnum
+typealias ScheduleTriggerCreateRequestTypeEnum =
+    dev.octri.showcase.neon.models.ScheduleTriggerCreateRequestTypeEnum
 
 typealias ScheduleTriggerTypeEnum = dev.octri.showcase.neon.models.ScheduleTriggerTypeEnum
 
 typealias ScheduleTriggerUpdateRequest = dev.octri.showcase.neon.models.ScheduleTriggerUpdateRequest
 
-typealias ScheduleTriggerUpdateRequestTypeEnum = dev.octri.showcase.neon.models.ScheduleTriggerUpdateRequestTypeEnum
+typealias ScheduleTriggerUpdateRequestTypeEnum =
+    dev.octri.showcase.neon.models.ScheduleTriggerUpdateRequestTypeEnum
 
 typealias SchemaSchemaEnum = dev.octri.showcase.neon.models.SchemaSchemaEnum
 
-typealias SendNeonAuthEmailProviderTestRequest = dev.octri.showcase.neon.models.SendNeonAuthEmailProviderTestRequest
+typealias SendNeonAuthEmailProviderTestRequest =
+    dev.octri.showcase.neon.models.SendNeonAuthEmailProviderTestRequest
 
 typealias SendNeonAuthTestEmailRequest = dev.octri.showcase.neon.models.SendNeonAuthTestEmailRequest
 
-typealias SendNeonAuthTestEmailResponse = dev.octri.showcase.neon.models.SendNeonAuthTestEmailResponse
+typealias SendNeonAuthTestEmailResponse =
+    dev.octri.showcase.neon.models.SendNeonAuthTestEmailResponse
 
 typealias SetProjectMemberRoleRequest = dev.octri.showcase.neon.models.SetProjectMemberRoleRequest
 
@@ -217,7 +244,8 @@ typealias Snapshot = dev.octri.showcase.neon.models.Snapshot
 
 typealias SnapshotUpdateRequest = dev.octri.showcase.neon.models.SnapshotUpdateRequest
 
-typealias SnapshotUpdateRequestSnapshot = dev.octri.showcase.neon.models.SnapshotUpdateRequestSnapshot
+typealias SnapshotUpdateRequestSnapshot =
+    dev.octri.showcase.neon.models.SnapshotUpdateRequestSnapshot
 
 typealias SpendingLimitResponse = dev.octri.showcase.neon.models.SpendingLimitResponse
 
@@ -229,19 +257,25 @@ typealias StandardEmailServerResponse = dev.octri.showcase.neon.models.StandardE
 
 typealias StorageObjectCreatedTrigger = dev.octri.showcase.neon.models.StorageObjectCreatedTrigger
 
-typealias StorageObjectCreatedTriggerCreateRequest = dev.octri.showcase.neon.models.StorageObjectCreatedTriggerCreateRequest
+typealias StorageObjectCreatedTriggerCreateRequest =
+    dev.octri.showcase.neon.models.StorageObjectCreatedTriggerCreateRequest
 
-typealias StorageObjectCreatedTriggerCreateRequestTypeEnum = dev.octri.showcase.neon.models.StorageObjectCreatedTriggerCreateRequestTypeEnum
+typealias StorageObjectCreatedTriggerCreateRequestTypeEnum =
+    dev.octri.showcase.neon.models.StorageObjectCreatedTriggerCreateRequestTypeEnum
 
-typealias StorageObjectCreatedTriggerTypeEnum = dev.octri.showcase.neon.models.StorageObjectCreatedTriggerTypeEnum
+typealias StorageObjectCreatedTriggerTypeEnum =
+    dev.octri.showcase.neon.models.StorageObjectCreatedTriggerTypeEnum
 
-typealias StorageObjectCreatedTriggerUpdateRequest = dev.octri.showcase.neon.models.StorageObjectCreatedTriggerUpdateRequest
+typealias StorageObjectCreatedTriggerUpdateRequest =
+    dev.octri.showcase.neon.models.StorageObjectCreatedTriggerUpdateRequest
 
-typealias StorageObjectCreatedTriggerUpdateRequestTypeEnum = dev.octri.showcase.neon.models.StorageObjectCreatedTriggerUpdateRequestTypeEnum
+typealias StorageObjectCreatedTriggerUpdateRequestTypeEnum =
+    dev.octri.showcase.neon.models.StorageObjectCreatedTriggerUpdateRequestTypeEnum
 
 typealias SuspendTimeoutSeconds = dev.octri.showcase.neon.models.SuspendTimeoutSeconds
 
-typealias TransferProjectsToOrganizationRequest = dev.octri.showcase.neon.models.TransferProjectsToOrganizationRequest
+typealias TransferProjectsToOrganizationRequest =
+    dev.octri.showcase.neon.models.TransferProjectsToOrganizationRequest
 
 typealias Trigger = dev.octri.showcase.neon.models.Trigger
 
@@ -255,9 +289,11 @@ typealias TriggersListResponse = dev.octri.showcase.neon.models.TriggersListResp
 
 typealias TriggerUpdateRequest = dev.octri.showcase.neon.models.TriggerUpdateRequest
 
-typealias UnknownNeonAuthEmailServerConfig = dev.octri.showcase.neon.models.UnknownNeonAuthEmailServerConfig
+typealias UnknownNeonAuthEmailServerConfig =
+    dev.octri.showcase.neon.models.UnknownNeonAuthEmailServerConfig
 
-typealias UnknownNeonAuthEmailServerConfigResponse = dev.octri.showcase.neon.models.UnknownNeonAuthEmailServerConfigResponse
+typealias UnknownNeonAuthEmailServerConfigResponse =
+    dev.octri.showcase.neon.models.UnknownNeonAuthEmailServerConfigResponse
 
 typealias UnknownTrigger = dev.octri.showcase.neon.models.UnknownTrigger
 
@@ -265,11 +301,14 @@ typealias UnknownTriggerCreateRequest = dev.octri.showcase.neon.models.UnknownTr
 
 typealias UnknownTriggerUpdateRequest = dev.octri.showcase.neon.models.UnknownTriggerUpdateRequest
 
-typealias UpdateNeonAuthAllowLocalhostRequest = dev.octri.showcase.neon.models.UpdateNeonAuthAllowLocalhostRequest
+typealias UpdateNeonAuthAllowLocalhostRequest =
+    dev.octri.showcase.neon.models.UpdateNeonAuthAllowLocalhostRequest
 
-typealias UpdateNeonAuthUserRoleRequest = dev.octri.showcase.neon.models.UpdateNeonAuthUserRoleRequest
+typealias UpdateNeonAuthUserRoleRequest =
+    dev.octri.showcase.neon.models.UpdateNeonAuthUserRoleRequest
 
-typealias UpdateNeonAuthUserRoleResponse = dev.octri.showcase.neon.models.UpdateNeonAuthUserRoleResponse
+typealias UpdateNeonAuthUserRoleResponse =
+    dev.octri.showcase.neon.models.UpdateNeonAuthUserRoleResponse
 
 typealias VPCEndpoint = dev.octri.showcase.neon.models.VPCEndpoint
 
@@ -279,6 +318,7 @@ typealias VPCEndpointDetails = dev.octri.showcase.neon.models.VPCEndpointDetails
 
 typealias VPCEndpointsResponse = dev.octri.showcase.neon.models.VPCEndpointsResponse
 
-typealias VPCEndpointsWithRegionResponse = dev.octri.showcase.neon.models.VPCEndpointsWithRegionResponse
+typealias VPCEndpointsWithRegionResponse =
+    dev.octri.showcase.neon.models.VPCEndpointsWithRegionResponse
 
 typealias VPCEndpointWithRegion = dev.octri.showcase.neon.models.VPCEndpointWithRegion

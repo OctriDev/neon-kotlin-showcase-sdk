@@ -3,41 +3,83 @@
 
 package dev.octri.showcase.neon
 
-
 class RealtimeNamespace(private val clientConfig: ClientConfig) {
     /**
-     * Retrieves whether Realtime is enabled for the branch, whether a change is still being applied, and, once provisioned, its invocation URL and allowed origins. The shared secret is returned by `GET /projects/{project_id}/branches/{branch_id}/realtime/secret`.
+     * Retrieves whether Realtime is enabled for the branch, whether a change is still being
+     * applied, and, once provisioned, its invocation URL and allowed origins. The shared secret is
+     * returned by `GET /projects/{project_id}/branches/{branch_id}/realtime/secret`.
      */
     fun get(projectId: String, branchId: String, options: RequestOptions? = null): Realtime {
-        return dev.octri.showcase.neon.methods.RealtimeMethods.getRealtime(clientConfig, projectId, branchId, options)
+        return dev.octri.showcase.neon.methods.RealtimeMethods.getRealtime(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Enables Realtime for the branch, or applies new options to an enabled branch. Provisioning is asynchronous; poll the Realtime state until it is no longer pending.
+     * Enables Realtime for the branch, or applies new options to an enabled branch. Provisioning is
+     * asynchronous; poll the Realtime state until it is no longer pending.
      */
-    fun enable(projectId: String, branchId: String, allowedOrigins: List<String>? = null, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.RealtimeMethods.enableRealtime(clientConfig, projectId, branchId, allowedOrigins, options)
+    fun enable(
+        projectId: String,
+        branchId: String,
+        allowedOrigins: List<String>? = null,
+        options: RequestOptions? = null,
+    ): Unit {
+        return dev.octri.showcase.neon.methods.RealtimeMethods.enableRealtime(
+            clientConfig,
+            projectId,
+            branchId,
+            allowedOrigins,
+            options,
+        )
     }
 
     /**
-     * Disables Realtime for the branch and discards its shared secret. Deprovisioning is asynchronous.
+     * Disables Realtime for the branch and discards its shared secret. Deprovisioning is
+     * asynchronous.
      */
     fun disable(projectId: String, branchId: String, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.RealtimeMethods.disableRealtime(clientConfig, projectId, branchId, options)
+        return dev.octri.showcase.neon.methods.RealtimeMethods.disableRealtime(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Retrieves the secret the application backend issues Realtime tokens with. Requires permission to read the project's credentials. Returns 404 while Realtime is disabled or before the secret is provisioned. After a rotation, this returns the previous secret until `pending` is false.
+     * Retrieves the secret the application backend issues Realtime tokens with. Requires permission
+     * to read the project's credentials. Returns 404 while Realtime is disabled or before the
+     * secret is provisioned. After a rotation, this returns the previous secret until `pending` is
+     * false.
      */
-    fun getSecret(projectId: String, branchId: String, options: RequestOptions? = null): RealtimeSecret {
-        return dev.octri.showcase.neon.methods.RealtimeMethods.getRealtimeSecret(clientConfig, projectId, branchId, options)
+    fun getSecret(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): RealtimeSecret {
+        return dev.octri.showcase.neon.methods.RealtimeMethods.getRealtimeSecret(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Replaces the branch's Realtime shared secret. Rotation is asynchronous: once the Realtime state is no longer pending, the previous secret stops working and `GET /projects/{project_id}/branches/{branch_id}/realtime/secret` returns the new one.
+     * Replaces the branch's Realtime shared secret. Rotation is asynchronous: once the Realtime
+     * state is no longer pending, the previous secret stops working and `GET
+     * /projects/{project_id}/branches/{branch_id}/realtime/secret` returns the new one.
      */
     fun rotateSecret(projectId: String, branchId: String, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.RealtimeMethods.rotateRealtimeSecret(clientConfig, projectId, branchId, options)
+        return dev.octri.showcase.neon.methods.RealtimeMethods.rotateRealtimeSecret(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
-
 }

@@ -3,9 +3,11 @@
 
 package dev.octri.showcase.neon
 
-typealias AcceptProjectTransferRequestSatisfiesPlanError = dev.octri.showcase.neon.models.AcceptProjectTransferRequestSatisfiesPlanError
+typealias AcceptProjectTransferRequestSatisfiesPlanError =
+    dev.octri.showcase.neon.models.AcceptProjectTransferRequestSatisfiesPlanError
 
-typealias AcceptProjectTransferRequestSatisfiesPlanErrorReasonsItem = dev.octri.showcase.neon.models.AcceptProjectTransferRequestSatisfiesPlanErrorReasonsItem
+typealias AcceptProjectTransferRequestSatisfiesPlanErrorReasonsItem =
+    dev.octri.showcase.neon.models.AcceptProjectTransferRequestSatisfiesPlanErrorReasonsItem
 
 typealias ActiveRegionsResponse = dev.octri.showcase.neon.models.ActiveRegionsResponse
 
@@ -19,7 +21,8 @@ typealias AdvisorIssueFacingEnum = dev.octri.showcase.neon.models.AdvisorIssueFa
 
 typealias AllowedIps = dev.octri.showcase.neon.models.AllowedIps
 
-typealias AnnotationCreateValueRequest = dev.octri.showcase.neon.models.branch.AnnotationCreateValueRequest
+typealias AnnotationCreateValueRequest =
+    dev.octri.showcase.neon.models.branch.AnnotationCreateValueRequest
 
 typealias AnnotationData = dev.octri.showcase.neon.models.branch.AnnotationData
 
@@ -33,7 +36,8 @@ typealias AnnotationValueData = dev.octri.showcase.neon.models.branch.Annotation
 
 typealias AnonymizationRunMetadata = dev.octri.showcase.neon.models.AnonymizationRunMetadata
 
-typealias AnonymizedBranchStatusResponse = dev.octri.showcase.neon.models.AnonymizedBranchStatusResponse
+typealias AnonymizedBranchStatusResponse =
+    dev.octri.showcase.neon.models.AnonymizedBranchStatusResponse
 
 typealias ApiKeyCreateRequest = dev.octri.showcase.neon.models.ApiKeyCreateRequest
 
@@ -49,7 +53,8 @@ typealias ApplicationType = dev.octri.showcase.neon.models.ApplicationType
 
 typealias AuthDetailsResponse = dev.octri.showcase.neon.models.AuthDetailsResponse
 
-typealias AuthDetailsResponseAuthMethodEnum = dev.octri.showcase.neon.models.AuthDetailsResponseAuthMethodEnum
+typealias AuthDetailsResponseAuthMethodEnum =
+    dev.octri.showcase.neon.models.AuthDetailsResponseAuthMethodEnum
 
 typealias AvailablePreloadLibraries = dev.octri.showcase.neon.models.AvailablePreloadLibraries
 
@@ -73,9 +78,11 @@ typealias BranchAiGateway = dev.octri.showcase.neon.models.BranchAiGateway
 
 typealias BranchAiGatewayNotEnabled = dev.octri.showcase.neon.models.BranchAiGatewayNotEnabled
 
-typealias BranchAiGatewayNotEnabledReasonEnum = dev.octri.showcase.neon.models.BranchAiGatewayNotEnabledReasonEnum
+typealias BranchAiGatewayNotEnabledReasonEnum =
+    dev.octri.showcase.neon.models.BranchAiGatewayNotEnabledReasonEnum
 
-typealias BranchAnonymizedCreateRequest = dev.octri.showcase.neon.models.BranchAnonymizedCreateRequest
+typealias BranchAnonymizedCreateRequest =
+    dev.octri.showcase.neon.models.BranchAnonymizedCreateRequest
 
 typealias BranchCreatedBy = dev.octri.showcase.neon.models.BranchCreatedBy
 
@@ -83,7 +90,8 @@ typealias BranchCreateRequest = dev.octri.showcase.neon.models.BranchCreateReque
 
 typealias BranchCreateRequestBranch = dev.octri.showcase.neon.models.BranchCreateRequestBranch
 
-typealias BranchCreateRequestEndpointOptions = dev.octri.showcase.neon.models.BranchCreateRequestEndpointOptions
+typealias BranchCreateRequestEndpointOptions =
+    dev.octri.showcase.neon.models.BranchCreateRequestEndpointOptions
 
 typealias BranchesCountResponse = dev.octri.showcase.neon.models.BranchesCountResponse
 
@@ -95,7 +103,8 @@ typealias BranchRecoverResponse = dev.octri.showcase.neon.models.BranchRecoverRe
 
 typealias BranchRecoveryInfo = dev.octri.showcase.neon.models.BranchRecoveryInfo
 
-typealias BranchRecoveryInfoDeletionMethodEnum = dev.octri.showcase.neon.models.BranchRecoveryInfoDeletionMethodEnum
+typealias BranchRecoveryInfoDeletionMethodEnum =
+    dev.octri.showcase.neon.models.BranchRecoveryInfoDeletionMethodEnum
 
 typealias BranchResponse = dev.octri.showcase.neon.models.BranchResponse
 
@@ -111,11 +120,14 @@ typealias BranchSchemaJSON = dev.octri.showcase.neon.models.BranchSchemaJSON
 
 typealias BranchSchemaJSONTablesItem = dev.octri.showcase.neon.models.BranchSchemaJSONTablesItem
 
-typealias BranchSchemaJSONTablesItemColumnsItem = dev.octri.showcase.neon.models.BranchSchemaJSONTablesItemColumnsItem
+typealias BranchSchemaJSONTablesItemColumnsItem =
+    dev.octri.showcase.neon.models.BranchSchemaJSONTablesItemColumnsItem
 
-typealias BranchSchemaJSONTablesItemConstraintsItem = dev.octri.showcase.neon.models.BranchSchemaJSONTablesItemConstraintsItem
+typealias BranchSchemaJSONTablesItemConstraintsItem =
+    dev.octri.showcase.neon.models.BranchSchemaJSONTablesItemConstraintsItem
 
-typealias BranchSchemaJSONTablesItemConstraintsItemReferencedTable = dev.octri.showcase.neon.models.BranchSchemaJSONTablesItemConstraintsItemReferencedTable
+typealias BranchSchemaJSONTablesItemConstraintsItemReferencedTable =
+    dev.octri.showcase.neon.models.BranchSchemaJSONTablesItemConstraintsItemReferencedTable
 
 typealias BranchSchemaResponse = dev.octri.showcase.neon.models.BranchSchemaResponse
 
@@ -125,7 +137,8 @@ typealias BranchStorage = dev.octri.showcase.neon.models.BranchStorage
 
 typealias BranchStorageNotEnabled = dev.octri.showcase.neon.models.BranchStorageNotEnabled
 
-typealias BranchStorageNotEnabledReasonEnum = dev.octri.showcase.neon.models.BranchStorageNotEnabledReasonEnum
+typealias BranchStorageNotEnabledReasonEnum =
+    dev.octri.showcase.neon.models.BranchStorageNotEnabledReasonEnum
 
 typealias BranchUpdateRequest = dev.octri.showcase.neon.models.BranchUpdateRequest
 
@@ -137,11 +150,13 @@ typealias BucketAccessLevel = dev.octri.showcase.neon.models.BucketAccessLevel
 
 typealias BucketCreateRequest = dev.octri.showcase.neon.models.BucketCreateRequest
 
-typealias BucketCreateRequestAccessLevelEnum = dev.octri.showcase.neon.models.BucketCreateRequestAccessLevelEnum
+typealias BucketCreateRequestAccessLevelEnum =
+    dev.octri.showcase.neon.models.BucketCreateRequestAccessLevelEnum
 
 typealias BucketObject = dev.octri.showcase.neon.models.BucketObject
 
-typealias BucketObjectsDeletePrefixResponse = dev.octri.showcase.neon.models.BucketObjectsDeletePrefixResponse
+typealias BucketObjectsDeletePrefixResponse =
+    dev.octri.showcase.neon.models.BucketObjectsDeletePrefixResponse
 
 typealias BucketObjectsListResponse = dev.octri.showcase.neon.models.BucketObjectsListResponse
 
@@ -157,41 +172,54 @@ typealias ConnectionParameters = dev.octri.showcase.neon.models.ConnectionParame
 
 typealias ConnectionURIResponse = dev.octri.showcase.neon.models.ConnectionURIResponse
 
-typealias ConnectionURIsOptionalResponse = dev.octri.showcase.neon.models.ConnectionURIsOptionalResponse
+typealias ConnectionURIsOptionalResponse =
+    dev.octri.showcase.neon.models.ConnectionURIsOptionalResponse
 
 typealias ConnectionURIsResponse = dev.octri.showcase.neon.models.ConnectionURIsResponse
 
-typealias ConsumptionHistoryGranularity = dev.octri.showcase.neon.models.ConsumptionHistoryGranularity
+typealias ConsumptionHistoryGranularity =
+    dev.octri.showcase.neon.models.ConsumptionHistoryGranularity
 
-typealias ConsumptionHistoryPerBranchV2 = dev.octri.showcase.neon.models.ConsumptionHistoryPerBranchV2
+typealias ConsumptionHistoryPerBranchV2 =
+    dev.octri.showcase.neon.models.ConsumptionHistoryPerBranchV2
 
-typealias ConsumptionHistoryPerBranchV2Response = dev.octri.showcase.neon.models.ConsumptionHistoryPerBranchV2Response
+typealias ConsumptionHistoryPerBranchV2Response =
+    dev.octri.showcase.neon.models.ConsumptionHistoryPerBranchV2Response
 
 typealias ConsumptionHistoryPerPeriod = dev.octri.showcase.neon.models.ConsumptionHistoryPerPeriod
 
-typealias ConsumptionHistoryPerPeriodV2 = dev.octri.showcase.neon.models.ConsumptionHistoryPerPeriodV2
+typealias ConsumptionHistoryPerPeriodV2 =
+    dev.octri.showcase.neon.models.ConsumptionHistoryPerPeriodV2
 
 typealias ConsumptionHistoryPerProject = dev.octri.showcase.neon.models.ConsumptionHistoryPerProject
 
-typealias ConsumptionHistoryPerProjectResponse = dev.octri.showcase.neon.models.ConsumptionHistoryPerProjectResponse
+typealias ConsumptionHistoryPerProjectResponse =
+    dev.octri.showcase.neon.models.ConsumptionHistoryPerProjectResponse
 
-typealias ConsumptionHistoryPerProjectV2 = dev.octri.showcase.neon.models.ConsumptionHistoryPerProjectV2
+typealias ConsumptionHistoryPerProjectV2 =
+    dev.octri.showcase.neon.models.ConsumptionHistoryPerProjectV2
 
-typealias ConsumptionHistoryPerProjectV2Response = dev.octri.showcase.neon.models.ConsumptionHistoryPerProjectV2Response
+typealias ConsumptionHistoryPerProjectV2Response =
+    dev.octri.showcase.neon.models.ConsumptionHistoryPerProjectV2Response
 
-typealias ConsumptionHistoryPerTimeframe = dev.octri.showcase.neon.models.ConsumptionHistoryPerTimeframe
+typealias ConsumptionHistoryPerTimeframe =
+    dev.octri.showcase.neon.models.ConsumptionHistoryPerTimeframe
 
-typealias ConsumptionHistoryPerTimeframeV2 = dev.octri.showcase.neon.models.ConsumptionHistoryPerTimeframeV2
+typealias ConsumptionHistoryPerTimeframeV2 =
+    dev.octri.showcase.neon.models.ConsumptionHistoryPerTimeframeV2
 
-typealias ConsumptionHistoryQueryMetrics = dev.octri.showcase.neon.models.ConsumptionHistoryQueryMetrics
+typealias ConsumptionHistoryQueryMetrics =
+    dev.octri.showcase.neon.models.ConsumptionHistoryQueryMetrics
 
 typealias ConsumptionMetricValue = dev.octri.showcase.neon.models.ConsumptionMetricValue
 
-typealias CreateBranchNeonAuthNewUserRequest = dev.octri.showcase.neon.models.CreateBranchNeonAuthNewUserRequest
+typealias CreateBranchNeonAuthNewUserRequest =
+    dev.octri.showcase.neon.models.CreateBranchNeonAuthNewUserRequest
 
 typealias CreateCredentialRequest = dev.octri.showcase.neon.models.CreateCredentialRequest
 
-typealias CreateCredentialRequestPrincipalTypeEnum = dev.octri.showcase.neon.models.CreateCredentialRequestPrincipalTypeEnum
+typealias CreateCredentialRequestPrincipalTypeEnum =
+    dev.octri.showcase.neon.models.CreateCredentialRequestPrincipalTypeEnum
 
 typealias CreateCredentialResponse = dev.octri.showcase.neon.models.CreateCredentialResponse
 
@@ -217,7 +245,8 @@ typealias CustomDomainsListResponse = dev.octri.showcase.neon.models.CustomDomai
 
 typealias DataAPICreateRequest = dev.octri.showcase.neon.models.data_api.DataAPICreateRequest
 
-typealias DataAPICreateRequestAuthProviderEnum = dev.octri.showcase.neon.models.DataAPICreateRequestAuthProviderEnum
+typealias DataAPICreateRequestAuthProviderEnum =
+    dev.octri.showcase.neon.models.DataAPICreateRequestAuthProviderEnum
 
 typealias DataAPICreateResponse = dev.octri.showcase.neon.models.data_api.DataAPICreateResponse
 
@@ -231,7 +260,8 @@ typealias Database = dev.octri.showcase.neon.models.Database
 
 typealias DatabaseCreateRequest = dev.octri.showcase.neon.models.DatabaseCreateRequest
 
-typealias DatabaseCreateRequestDatabase = dev.octri.showcase.neon.models.DatabaseCreateRequestDatabase
+typealias DatabaseCreateRequestDatabase =
+    dev.octri.showcase.neon.models.DatabaseCreateRequestDatabase
 
 typealias DatabaseOperations = dev.octri.showcase.neon.models.DatabaseOperations
 
@@ -241,19 +271,22 @@ typealias DatabasesResponse = dev.octri.showcase.neon.models.DatabasesResponse
 
 typealias DatabaseUpdateRequest = dev.octri.showcase.neon.models.DatabaseUpdateRequest
 
-typealias DatabaseUpdateRequestDatabase = dev.octri.showcase.neon.models.DatabaseUpdateRequestDatabase
+typealias DatabaseUpdateRequestDatabase =
+    dev.octri.showcase.neon.models.DatabaseUpdateRequestDatabase
 
 typealias DefaultEndpointSettings = dev.octri.showcase.neon.models.DefaultEndpointSettings
 
 typealias EmptyResponse = dev.octri.showcase.neon.models.EmptyResponse
 
-typealias EnableNeonAuthIntegrationRequest = dev.octri.showcase.neon.models.EnableNeonAuthIntegrationRequest
+typealias EnableNeonAuthIntegrationRequest =
+    dev.octri.showcase.neon.models.EnableNeonAuthIntegrationRequest
 
 typealias Endpoint = dev.octri.showcase.neon.models.Endpoint
 
 typealias EndpointCreateRequest = dev.octri.showcase.neon.models.EndpointCreateRequest
 
-typealias EndpointCreateRequestEndpoint = dev.octri.showcase.neon.models.EndpointCreateRequestEndpoint
+typealias EndpointCreateRequestEndpoint =
+    dev.octri.showcase.neon.models.EndpointCreateRequestEndpoint
 
 typealias EndpointOperations = dev.octri.showcase.neon.models.EndpointOperations
 
@@ -273,25 +306,30 @@ typealias EndpointType = dev.octri.showcase.neon.models.EndpointType
 
 typealias EndpointUpdateRequest = dev.octri.showcase.neon.models.EndpointUpdateRequest
 
-typealias EndpointUpdateRequestEndpoint = dev.octri.showcase.neon.models.EndpointUpdateRequestEndpoint
+typealias EndpointUpdateRequestEndpoint =
+    dev.octri.showcase.neon.models.EndpointUpdateRequestEndpoint
 
 typealias ErrorCode = dev.octri.showcase.neon.models.ErrorCode
 
 typealias FunctionDeployRequest = dev.octri.showcase.neon.models.FunctionDeployRequest
 
-typealias FunctionDeployRequestRuntimeEnum = dev.octri.showcase.neon.models.FunctionDeployRequestRuntimeEnum
+typealias FunctionDeployRequestRuntimeEnum =
+    dev.octri.showcase.neon.models.FunctionDeployRequestRuntimeEnum
 
 typealias FunctionTriggerSchedule = dev.octri.showcase.neon.models.FunctionTriggerSchedule
 
-typealias FunctionTriggerStorageObjectCreated = dev.octri.showcase.neon.models.FunctionTriggerStorageObjectCreated
+typealias FunctionTriggerStorageObjectCreated =
+    dev.octri.showcase.neon.models.FunctionTriggerStorageObjectCreated
 
 typealias GeneralError = dev.octri.showcase.neon.models.GeneralError
 
-typealias GetProjectAdvisorSecurityIssuesParameterEnum = dev.octri.showcase.neon.models.GetProjectAdvisorSecurityIssuesParameterEnum
+typealias GetProjectAdvisorSecurityIssuesParameterEnum =
+    dev.octri.showcase.neon.models.GetProjectAdvisorSecurityIssuesParameterEnum
 
 typealias GrantedCredentialScope = dev.octri.showcase.neon.models.GrantedCredentialScope
 
-typealias GrantPermissionToProjectRequest = dev.octri.showcase.neon.models.GrantPermissionToProjectRequest
+typealias GrantPermissionToProjectRequest =
+    dev.octri.showcase.neon.models.GrantPermissionToProjectRequest
 
 typealias IdentityProviderId = dev.octri.showcase.neon.models.IdentityProviderId
 
@@ -305,19 +343,24 @@ typealias JWKSResponse = dev.octri.showcase.neon.models.JWKSResponse
 
 typealias LimitsUnsatisfiedResponse = dev.octri.showcase.neon.models.LimitsUnsatisfiedResponse
 
-typealias LimitsUnsatisfiedResponseLimitsItem = dev.octri.showcase.neon.models.LimitsUnsatisfiedResponseLimitsItem
+typealias LimitsUnsatisfiedResponseLimitsItem =
+    dev.octri.showcase.neon.models.LimitsUnsatisfiedResponseLimitsItem
 
 typealias ListBranchParameterEnum = dev.octri.showcase.neon.models.ListBranchParameterEnum
 
 typealias ListCredentialsResponse = dev.octri.showcase.neon.models.ListCredentialsResponse
 
-typealias ListNeonAuthIntegrationsResponse = dev.octri.showcase.neon.models.ListNeonAuthIntegrationsResponse
+typealias ListNeonAuthIntegrationsResponse =
+    dev.octri.showcase.neon.models.ListNeonAuthIntegrationsResponse
 
-typealias ListNeonAuthOAuthClientsResponse = dev.octri.showcase.neon.models.ListNeonAuthOAuthClientsResponse
+typealias ListNeonAuthOAuthClientsResponse =
+    dev.octri.showcase.neon.models.ListNeonAuthOAuthClientsResponse
 
-typealias ListNeonAuthOauthProvidersResponse = dev.octri.showcase.neon.models.ListNeonAuthOauthProvidersResponse
+typealias ListNeonAuthOauthProvidersResponse =
+    dev.octri.showcase.neon.models.ListNeonAuthOauthProvidersResponse
 
-typealias ListOrganizationsMembersParameterEnum = dev.octri.showcase.neon.models.ListOrganizationsMembersParameterEnum
+typealias ListOrganizationsMembersParameterEnum =
+    dev.octri.showcase.neon.models.ListOrganizationsMembersParameterEnum
 
 typealias MaintenanceWindow = dev.octri.showcase.neon.models.MaintenanceWindow
 
@@ -335,104 +378,136 @@ typealias MemberUserInfo = dev.octri.showcase.neon.models.MemberUserInfo
 
 typealias MemberWithUser = dev.octri.showcase.neon.models.MemberWithUser
 
-typealias NeonAuthAddDomainToRedirectURIWhitelistRequest = dev.octri.showcase.neon.models.NeonAuthAddDomainToRedirectURIWhitelistRequest
+typealias NeonAuthAddDomainToRedirectURIWhitelistRequest =
+    dev.octri.showcase.neon.models.NeonAuthAddDomainToRedirectURIWhitelistRequest
 
-typealias NeonAuthAddOAuthProviderRequest = dev.octri.showcase.neon.models.NeonAuthAddOAuthProviderRequest
+typealias NeonAuthAddOAuthProviderRequest =
+    dev.octri.showcase.neon.models.NeonAuthAddOAuthProviderRequest
 
-typealias NeonAuthAllowLocalhostResponse = dev.octri.showcase.neon.models.NeonAuthAllowLocalhostResponse
+typealias NeonAuthAllowLocalhostResponse =
+    dev.octri.showcase.neon.models.NeonAuthAllowLocalhostResponse
 
 typealias NeonAuthConfigResponse = dev.octri.showcase.neon.models.NeonAuthConfigResponse
 
 typealias NeonAuthConfigUpdate = dev.octri.showcase.neon.models.NeonAuthConfigUpdate
 
-typealias NeonAuthCreateAuthProviderSDKKeysRequest = dev.octri.showcase.neon.models.NeonAuthCreateAuthProviderSDKKeysRequest
+typealias NeonAuthCreateAuthProviderSDKKeysRequest =
+    dev.octri.showcase.neon.models.NeonAuthCreateAuthProviderSDKKeysRequest
 
-typealias NeonAuthCreateIntegrationRequest = dev.octri.showcase.neon.models.NeonAuthCreateIntegrationRequest
+typealias NeonAuthCreateIntegrationRequest =
+    dev.octri.showcase.neon.models.NeonAuthCreateIntegrationRequest
 
-typealias NeonAuthCreateIntegrationResponse = dev.octri.showcase.neon.models.NeonAuthCreateIntegrationResponse
+typealias NeonAuthCreateIntegrationResponse =
+    dev.octri.showcase.neon.models.NeonAuthCreateIntegrationResponse
 
 typealias NeonAuthCreateNewUserRequest = dev.octri.showcase.neon.models.NeonAuthCreateNewUserRequest
 
-typealias NeonAuthCreateNewUserResponse = dev.octri.showcase.neon.models.NeonAuthCreateNewUserResponse
+typealias NeonAuthCreateNewUserResponse =
+    dev.octri.showcase.neon.models.NeonAuthCreateNewUserResponse
 
-typealias NeonAuthDeleteDomainFromRedirectURIWhitelistItem = dev.octri.showcase.neon.models.NeonAuthDeleteDomainFromRedirectURIWhitelistItem
+typealias NeonAuthDeleteDomainFromRedirectURIWhitelistItem =
+    dev.octri.showcase.neon.models.NeonAuthDeleteDomainFromRedirectURIWhitelistItem
 
-typealias NeonAuthDeleteDomainFromRedirectURIWhitelistRequest = dev.octri.showcase.neon.models.NeonAuthDeleteDomainFromRedirectURIWhitelistRequest
+typealias NeonAuthDeleteDomainFromRedirectURIWhitelistRequest =
+    dev.octri.showcase.neon.models.NeonAuthDeleteDomainFromRedirectURIWhitelistRequest
 
-typealias NeonAuthEmailAndPasswordConfig = dev.octri.showcase.neon.models.NeonAuthEmailAndPasswordConfig
+typealias NeonAuthEmailAndPasswordConfig =
+    dev.octri.showcase.neon.models.NeonAuthEmailAndPasswordConfig
 
-typealias NeonAuthEmailAndPasswordConfigUpdate = dev.octri.showcase.neon.models.NeonAuthEmailAndPasswordConfigUpdate
+typealias NeonAuthEmailAndPasswordConfigUpdate =
+    dev.octri.showcase.neon.models.NeonAuthEmailAndPasswordConfigUpdate
 
 typealias NeonAuthEmailServerConfig = dev.octri.showcase.neon.models.NeonAuthEmailServerConfig
 
-typealias NeonAuthEmailServerConfigResponse = dev.octri.showcase.neon.models.NeonAuthEmailServerConfigResponse
+typealias NeonAuthEmailServerConfigResponse =
+    dev.octri.showcase.neon.models.NeonAuthEmailServerConfigResponse
 
-typealias NeonAuthEmailVerificationMethod = dev.octri.showcase.neon.models.NeonAuthEmailVerificationMethod
+typealias NeonAuthEmailVerificationMethod =
+    dev.octri.showcase.neon.models.NeonAuthEmailVerificationMethod
 
 typealias NeonAuthIntegration = dev.octri.showcase.neon.models.NeonAuthIntegration
 
 typealias NeonAuthMagicLinkConfig = dev.octri.showcase.neon.models.NeonAuthMagicLinkConfig
 
-typealias NeonAuthMagicLinkConfigUpdate = dev.octri.showcase.neon.models.NeonAuthMagicLinkConfigUpdate
+typealias NeonAuthMagicLinkConfigUpdate =
+    dev.octri.showcase.neon.models.NeonAuthMagicLinkConfigUpdate
 
 typealias NeonAuthOAuthClient = dev.octri.showcase.neon.models.NeonAuthOAuthClient
 
 typealias NeonAuthOAuthClientCreated = dev.octri.showcase.neon.models.NeonAuthOAuthClientCreated
 
-typealias NeonAuthOAuthClientCreateRequest = dev.octri.showcase.neon.models.NeonAuthOAuthClientCreateRequest
+typealias NeonAuthOAuthClientCreateRequest =
+    dev.octri.showcase.neon.models.NeonAuthOAuthClientCreateRequest
 
 typealias NeonAuthOAuthClientSecret = dev.octri.showcase.neon.models.NeonAuthOAuthClientSecret
 
 typealias NeonAuthOAuthClientType = dev.octri.showcase.neon.models.NeonAuthOAuthClientType
 
-typealias NeonAuthOAuthClientUpdateRequest = dev.octri.showcase.neon.models.NeonAuthOAuthClientUpdateRequest
+typealias NeonAuthOAuthClientUpdateRequest =
+    dev.octri.showcase.neon.models.NeonAuthOAuthClientUpdateRequest
 
 typealias NeonAuthOauthProvider = dev.octri.showcase.neon.models.NeonAuthOauthProvider
 
 typealias NeonAuthOAuthProviderConfig = dev.octri.showcase.neon.models.NeonAuthOAuthProviderConfig
 
-typealias NeonAuthOAuthProviderConfigUpdate = dev.octri.showcase.neon.models.NeonAuthOAuthProviderConfigUpdate
+typealias NeonAuthOAuthProviderConfigUpdate =
+    dev.octri.showcase.neon.models.NeonAuthOAuthProviderConfigUpdate
 
 typealias NeonAuthOauthProviderId = dev.octri.showcase.neon.models.NeonAuthOauthProviderId
 
 typealias NeonAuthOAuthProviderMcp = dev.octri.showcase.neon.models.NeonAuthOAuthProviderMcp
 
-typealias NeonAuthOAuthProviderMcpUpdate = dev.octri.showcase.neon.models.NeonAuthOAuthProviderMcpUpdate
+typealias NeonAuthOAuthProviderMcpUpdate =
+    dev.octri.showcase.neon.models.NeonAuthOAuthProviderMcpUpdate
 
-typealias NeonAuthOAuthProviderResource = dev.octri.showcase.neon.models.NeonAuthOAuthProviderResource
+typealias NeonAuthOAuthProviderResource =
+    dev.octri.showcase.neon.models.NeonAuthOAuthProviderResource
 
 typealias NeonAuthOauthProviderType = dev.octri.showcase.neon.models.NeonAuthOauthProviderType
 
 typealias NeonAuthOrganizationConfig = dev.octri.showcase.neon.models.NeonAuthOrganizationConfig
 
-typealias NeonAuthOrganizationConfigCreatorRoleEnum = dev.octri.showcase.neon.models.NeonAuthOrganizationConfigCreatorRoleEnum
+typealias NeonAuthOrganizationConfigCreatorRoleEnum =
+    dev.octri.showcase.neon.models.NeonAuthOrganizationConfigCreatorRoleEnum
 
-typealias NeonAuthOrganizationConfigUpdate = dev.octri.showcase.neon.models.NeonAuthOrganizationConfigUpdate
+typealias NeonAuthOrganizationConfigUpdate =
+    dev.octri.showcase.neon.models.NeonAuthOrganizationConfigUpdate
 
-typealias NeonAuthOrganizationConfigUpdateCreatorRoleEnum = dev.octri.showcase.neon.models.NeonAuthOrganizationConfigUpdateCreatorRoleEnum
+typealias NeonAuthOrganizationConfigUpdateCreatorRoleEnum =
+    dev.octri.showcase.neon.models.NeonAuthOrganizationConfigUpdateCreatorRoleEnum
 
 typealias NeonAuthPhoneNumberConfig = dev.octri.showcase.neon.models.NeonAuthPhoneNumberConfig
 
-typealias NeonAuthPhoneNumberConfigUpdate = dev.octri.showcase.neon.models.NeonAuthPhoneNumberConfigUpdate
+typealias NeonAuthPhoneNumberConfigUpdate =
+    dev.octri.showcase.neon.models.NeonAuthPhoneNumberConfigUpdate
 
 typealias NeonAuthPluginConfigs = dev.octri.showcase.neon.models.NeonAuthPluginConfigs
 
-typealias NeonAuthProviderProjectOwnedBy = dev.octri.showcase.neon.models.NeonAuthProviderProjectOwnedBy
+typealias NeonAuthProviderProjectOwnedBy =
+    dev.octri.showcase.neon.models.NeonAuthProviderProjectOwnedBy
 
-typealias NeonAuthProviderProjectTransferStatus = dev.octri.showcase.neon.models.NeonAuthProviderProjectTransferStatus
+typealias NeonAuthProviderProjectTransferStatus =
+    dev.octri.showcase.neon.models.NeonAuthProviderProjectTransferStatus
 
-typealias NeonAuthRedirectURIWhitelistDomain = dev.octri.showcase.neon.models.NeonAuthRedirectURIWhitelistDomain
+typealias NeonAuthRedirectURIWhitelistDomain =
+    dev.octri.showcase.neon.models.NeonAuthRedirectURIWhitelistDomain
 
-typealias NeonAuthRedirectURIWhitelistResponse = dev.octri.showcase.neon.models.NeonAuthRedirectURIWhitelistResponse
+typealias NeonAuthRedirectURIWhitelistResponse =
+    dev.octri.showcase.neon.models.NeonAuthRedirectURIWhitelistResponse
 
-typealias NeonAuthSupportedAuthProvider = dev.octri.showcase.neon.models.NeonAuthSupportedAuthProvider
+typealias NeonAuthSupportedAuthProvider =
+    dev.octri.showcase.neon.models.NeonAuthSupportedAuthProvider
 
-typealias NeonAuthTransferAuthProviderProjectRequest = dev.octri.showcase.neon.models.NeonAuthTransferAuthProviderProjectRequest
+typealias NeonAuthTransferAuthProviderProjectRequest =
+    dev.octri.showcase.neon.models.NeonAuthTransferAuthProviderProjectRequest
 
-typealias NeonAuthTransferAuthProviderProjectResponse = dev.octri.showcase.neon.models.NeonAuthTransferAuthProviderProjectResponse
+typealias NeonAuthTransferAuthProviderProjectResponse =
+    dev.octri.showcase.neon.models.NeonAuthTransferAuthProviderProjectResponse
 
-typealias NeonAuthUpdateOAuthProviderRequest = dev.octri.showcase.neon.models.NeonAuthUpdateOAuthProviderRequest
+typealias NeonAuthUpdateOAuthProviderRequest =
+    dev.octri.showcase.neon.models.NeonAuthUpdateOAuthProviderRequest
 
 typealias NeonAuthWebhookConfig = dev.octri.showcase.neon.models.NeonAuthWebhookConfig
 
-typealias NeonAuthWebhookConfigEnabledEventsItemEnum = dev.octri.showcase.neon.models.NeonAuthWebhookConfigEnabledEventsItemEnum
+typealias NeonAuthWebhookConfigEnabledEventsItemEnum =
+    dev.octri.showcase.neon.models.NeonAuthWebhookConfigEnabledEventsItemEnum

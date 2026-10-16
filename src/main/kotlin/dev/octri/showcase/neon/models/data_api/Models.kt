@@ -6,128 +6,106 @@ package dev.octri.showcase.neon.models.data_api
 import dev.octri.showcase.neon.models.DataAPICreateRequestAuthProviderEnum
 import java.time.OffsetDateTime
 
-/**
- * Create Neon Data API
- */
+/** Create Neon Data API */
 data class DataAPICreateRequest(
     /**
-     * Authentication provider for the Neon Data API. `neon_auth`: use Neon's built-in managed authentication (no JWKS configuration required). `external`: use an external JWT provider, which requires `jwks_url`. When omitted, no auth provider is configured (existing setup is kept).
+     * Authentication provider for the Neon Data API. `neon_auth`: use Neon's built-in managed
+     * authentication (no JWKS configuration required). `external`: use an external JWT provider,
+     * which requires `jwks_url`. When omitted, no auth provider is configured (existing setup is
+     * kept).
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider") val authProvider: DataAPICreateRequestAuthProviderEnum? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider")
+    val authProvider: DataAPICreateRequestAuthProviderEnum? = null,
     /**
-     * URL of the JWKS endpoint used to verify JWTs for this Data API. Required when configuring JWT-based authentication; omit when using a non-JWT auth provider.
+     * URL of the JWKS endpoint used to verify JWTs for this Data API. Required when configuring
+     * JWT-based authentication; omit when using a non-JWT auth provider.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("jwks_url") val jwksUrl: String? = null,
     /**
-     * Display name for the authentication provider. Accepted values include "Clerk", "Stytch", and "Auth0", but any non-empty string is valid. Optional field.
+     * Display name for the authentication provider. Accepted values include "Clerk", "Stytch", and
+     * "Auth0", but any non-empty string is valid. Optional field.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("provider_name") val providerName: String? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("provider_name")
+    val providerName: String? = null,
     /**
-     * Expected `aud` claim in incoming JWTs. When set, tokens with a different audience are rejected; tokens with no audience are still accepted. Omit to skip audience validation.
+     * Expected `aud` claim in incoming JWTs. When set, tokens with a different audience are
+     * rejected; tokens with no audience are still accepted. Omit to skip audience validation.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("jwt_audience") val jwtAudience: String? = null,
-    /**
-     * Grant all permissions to the tables in the public schema to authenticated users
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("add_default_grants") val addDefaultGrants: Boolean? = null,
-    /**
-     * Skip creating the auth schema and RLS functions
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("skip_auth_schema") val skipAuthSchema: Boolean? = null,
-    /**
-     * Auth and schema configuration for the Data API.
-     */
-    val settings: DataAPISettings? = null
+    /** Grant all permissions to the tables in the public schema to authenticated users */
+    @com.fasterxml.jackson.annotation.JsonProperty("add_default_grants")
+    val addDefaultGrants: Boolean? = null,
+    /** Skip creating the auth schema and RLS functions */
+    @com.fasterxml.jackson.annotation.JsonProperty("skip_auth_schema")
+    val skipAuthSchema: Boolean? = null,
+    /** Auth and schema configuration for the Data API. */
+    val settings: DataAPISettings? = null,
 )
 
-/**
- * Neon Data API created successfully
- */
+/** Neon Data API created successfully */
 data class DataAPICreateResponse(
-    /**
-     * URL of the created Data API endpoint.
-     */
+    /** URL of the created Data API endpoint. */
     val url: String
 )
 
-/**
- * Neon Data API response
- */
+/** Neon Data API response */
 data class DataAPIReponse(
-    /**
-     * The URL of the Neon Data API
-     */
+    /** The URL of the Neon Data API */
     val url: String,
-    /**
-     * The status of the Neon Data API deployment
-     */
+    /** The status of the Neon Data API deployment */
     val status: String,
-    /**
-     * Configuration settings for the Data API (SubZero only)
-     */
+    /** Configuration settings for the Data API (SubZero only) */
     val settings: DataAPISettings? = null,
+    /** List of available database schemas (SubZero only) */
+    @com.fasterxml.jackson.annotation.JsonProperty("available_schemas")
+    val availableSchemas: List<String>? = null,
     /**
-     * List of available database schemas (SubZero only)
+     * When `settings` and `available_schemas` were read from the database. While the compute is
+     * suspended they are served from that read, so a change made directly in the database since
+     * then shows up in the first response served while the compute is active.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("available_schemas") val availableSchemas: List<String>? = null,
-    /**
-     * When `settings` and `available_schemas` were read from the database. While the compute is suspended they are served from that read, so a change made directly in the database since then shows up in the first response served while the compute is active.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("observed_at") val observedAt: OffsetDateTime? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("observed_at")
+    val observedAt: OffsetDateTime? = null,
 )
 
-/**
- * Configuration settings for the Neon Data API
- */
+/** Configuration settings for the Neon Data API */
 data class DataAPISettings(
-    /**
-     * Enable aggregates feature
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("db_aggregates_enabled") val dbAggregatesEnabled: Boolean? = null,
-    /**
-     * Database role to use for anonymous requests
-     */
+    /** Enable aggregates feature */
+    @com.fasterxml.jackson.annotation.JsonProperty("db_aggregates_enabled")
+    val dbAggregatesEnabled: Boolean? = null,
+    /** Database role to use for anonymous requests */
     @com.fasterxml.jackson.annotation.JsonProperty("db_anon_role") val dbAnonRole: String? = null,
-    /**
-     * Extra schemas to add to the search path
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("db_extra_search_path") val dbExtraSearchPath: String? = null,
+    /** Extra schemas to add to the search path */
+    @com.fasterxml.jackson.annotation.JsonProperty("db_extra_search_path")
+    val dbExtraSearchPath: String? = null,
     /**
      * Hard limit on the number of rows returned in a single Data API response. No limit when unset.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("db_max_rows") val dbMaxRows: Long? = null,
-    /**
-     * List of schemas to expose via the API. Default: \["public"\]
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("db_schemas") val dbSchemas: List<String>? = null,
-    /**
-     * JWT claim key to use for role extraction
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("jwt_role_claim_key") val jwtRoleClaimKey: String? = null,
-    /**
-     * Maximum lifetime of the Data API's JWT cache, in seconds.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("jwt_cache_max_lifetime") val jwtCacheMaxLifetime: Long? = null,
-    /**
-     * OpenAPI specification mode (ignore-privileges, disabled)
-     */
+    /** List of schemas to expose via the API. Default: \["public"\] */
+    @com.fasterxml.jackson.annotation.JsonProperty("db_schemas")
+    val dbSchemas: List<String>? = null,
+    /** JWT claim key to use for role extraction */
+    @com.fasterxml.jackson.annotation.JsonProperty("jwt_role_claim_key")
+    val jwtRoleClaimKey: String? = null,
+    /** Maximum lifetime of the Data API's JWT cache, in seconds. */
+    @com.fasterxml.jackson.annotation.JsonProperty("jwt_cache_max_lifetime")
+    val jwtCacheMaxLifetime: Long? = null,
+    /** OpenAPI specification mode (ignore-privileges, disabled) */
     @com.fasterxml.jackson.annotation.JsonProperty("openapi_mode") val openapiMode: String? = null,
+    /** CORS allowed origins */
+    @com.fasterxml.jackson.annotation.JsonProperty("server_cors_allowed_origins")
+    val serverCorsAllowedOrigins: String? = null,
     /**
-     * CORS allowed origins
+     * When enabled, the Data API adds `Server-Timing` headers to each response showing database
+     * execution and internal processing time. Default: disabled.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("server_cors_allowed_origins") val serverCorsAllowedOrigins: String? = null,
-    /**
-     * When enabled, the Data API adds `Server-Timing` headers to each response showing database execution and internal processing time. Default: disabled.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("server_timing_enabled") val serverTimingEnabled: Boolean? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("server_timing_enabled")
+    val serverTimingEnabled: Boolean? = null,
 )
 
-/**
- * Update Neon Data API
- */
+/** Update Neon Data API */
 data class DataAPIUpdateRequest(
-    /**
-     * Configuration settings for the Neon Data API.
-     */
+    /** Configuration settings for the Neon Data API. */
     val settings: DataAPISettings? = null
 )

@@ -5,152 +5,128 @@ package dev.octri.showcase.neon.models
 
 import java.time.OffsetDateTime
 
-/**
- * Typed representation of the `Bucket` API schema.
- */
+/** Typed representation of the `Bucket` API schema. */
 data class Bucket(
-    /**
-     * The bucket name (unique within a branch).
-     */
+    /** The bucket name (unique within a branch). */
     val name: String,
     /**
-     * Controls anonymous access to objects in the bucket. - `private`: all reads and writes require authenticated requests (default). - `public_read`: anonymous `GetObject`/`HeadObject` requests succeed; listing, writes, and deletes still require authenticated requests.
+     * Controls anonymous access to objects in the bucket. - `private`: all reads and writes require
+     * authenticated requests (default). - `public_read`: anonymous `GetObject`/`HeadObject`
+     * requests succeed; listing, writes, and deletes still require authenticated requests.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("access_level") val accessLevel: BucketAccessLevel,
+    @com.fasterxml.jackson.annotation.JsonProperty("access_level")
+    val accessLevel: BucketAccessLevel,
     /**
-     * When the bucket was created. For a bucket inherited from an ancestor branch this is the ancestor's creation time (the branch fork never re-creates the bucket).
+     * When the bucket was created. For a bucket inherited from an ancestor branch this is the
+     * ancestor's creation time (the branch fork never re-creates the bucket).
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime
+    @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
 )
 
-/**
- * Typed representation of the `BucketCreateRequest` API schema.
- */
+/** Typed representation of the `BucketCreateRequest` API schema. */
 data class BucketCreateRequest(
-    /**
-     * The bucket name.
-     */
+    /** The bucket name. */
     val name: String,
     /**
-     * Access level for the bucket. Defaults to `private`. Set to `public_read` to allow anonymous `GetObject`/`HeadObject` on objects in this bucket.
+     * Access level for the bucket. Defaults to `private`. Set to `public_read` to allow anonymous
+     * `GetObject`/`HeadObject` on objects in this bucket.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("access_level") val accessLevel: BucketCreateRequestAccessLevelEnum? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("access_level")
+    val accessLevel: BucketCreateRequestAccessLevelEnum? = null,
 )
 
-/**
- * Typed representation of the `BucketObject` API schema.
- */
+/** Typed representation of the `BucketObject` API schema. */
 data class BucketObject(
-    /**
-     * The full object key.
-     */
+    /** The full object key. */
     val key: String,
-    /**
-     * The object size in bytes.
-     */
+    /** The object size in bytes. */
     val size: Long,
-    /**
-     * The time the object was last modified.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("last_modified") val lastModified: OffsetDateTime,
-    /**
-     * The object's entity tag (content hash).
-     */
-    val etag: String
+    /** The time the object was last modified. */
+    @com.fasterxml.jackson.annotation.JsonProperty("last_modified")
+    val lastModified: OffsetDateTime,
+    /** The object's entity tag (content hash). */
+    val etag: String,
 )
 
-/**
- * Typed representation of the `BucketObjectsDeletePrefixResponse` API schema.
- */
+/** Typed representation of the `BucketObjectsDeletePrefixResponse` API schema. */
 data class BucketObjectsDeletePrefixResponse(
     /**
-     * The number of objects soft-deleted under the prefix. 0 when no live object matched the prefix on this branch.
+     * The number of objects soft-deleted under the prefix. 0 when no live object matched the prefix
+     * on this branch.
      */
     val deleted: Long
 )
 
-/**
- * Typed representation of the `BucketObjectsListResponse` API schema.
- */
+/** Typed representation of the `BucketObjectsListResponse` API schema. */
 data class BucketObjectsListResponse(
     /**
-     * Common prefixes (folder names) collapsed under the requested `delimiter`. Empty when no `delimiter` was supplied.
+     * Common prefixes (folder names) collapsed under the requested `delimiter`. Empty when no
+     * `delimiter` was supplied.
      */
     val folders: List<String>,
-    /**
-     * Objects whose keys did not collapse into a folder.
-     */
+    /** Objects whose keys did not collapse into a folder. */
     val objects: List<BucketObject>,
-    /**
-     * The prefix that was applied to this listing (echoed back).
-     */
+    /** The prefix that was applied to this listing (echoed back). */
     val prefix: String,
-    /**
-     * True when more results exist beyond this page.
-     */
+    /** True when more results exist beyond this page. */
     @com.fasterxml.jackson.annotation.JsonProperty("is_truncated") val isTruncated: Boolean,
     /**
-     * Pagination cursor to pass as `cursor` on the next request. Empty when the listing is not truncated.
+     * Pagination cursor to pass as `cursor` on the next request. Empty when the listing is not
+     * truncated.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("next_cursor") val nextCursor: String? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("next_cursor") val nextCursor: String? = null,
 )
 
-/**
- * Typed representation of the `BucketResponse` API schema.
- */
+/** Typed representation of the `BucketResponse` API schema. */
 data class BucketResponse(
-    /**
-     * Required object value serialized in the `bucket` wire field.
-     */
+    /** Required object value serialized in the `bucket` wire field. */
     val bucket: Bucket
 )
 
-/**
- * Typed representation of the `BucketsListResponse` API schema.
- */
+/** Typed representation of the `BucketsListResponse` API schema. */
 data class BucketsListResponse(
-    /**
-     * Required array value serialized in the `buckets` wire field.
-     */
+    /** Required array value serialized in the `buckets` wire field. */
     val buckets: List<Bucket>
 )
 
 /**
- * Options for the presigned URL. The `operation` selects upload (`PUT`) or download (`GET`); the remaining fields are optional.
+ * Options for the presigned URL. The `operation` selects upload (`PUT`) or download (`GET`); the
+ * remaining fields are optional.
  */
 data class PresignRequest(
     /**
-     * The transfer direction. `upload` returns a presigned `PUT` URL; `download` returns a presigned `GET` URL.
+     * The transfer direction. `upload` returns a presigned `PUT` URL; `download` returns a
+     * presigned `GET` URL.
      */
     val operation: PresignRequestOperationEnum,
     /**
-     * The `Content-Type` to bind into the signed request. Only meaningful for `upload`: when set, the caller MUST send the same `Content-Type` header on the `PUT`, and the value is echoed back in the response `headers`. Ignored for `download`.
+     * The `Content-Type` to bind into the signed request. Only meaningful for `upload`: when set,
+     * the caller MUST send the same `Content-Type` header on the `PUT`, and the value is echoed
+     * back in the response `headers`. Ignored for `download`.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("content_type") val contentType: String? = null,
     /**
-     * How long the presigned URL stays valid, in seconds. Defaults to 900 (15 minutes); capped at 604800 (7 days).
+     * How long the presigned URL stays valid, in seconds. Defaults to 900 (15 minutes); capped at
+     * 604800 (7 days).
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("expires_in_seconds") val expiresInSeconds: Long? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("expires_in_seconds")
+    val expiresInSeconds: Long? = null,
 )
 
-/**
- * Typed representation of the `PresignResponse` API schema.
- */
+/** Typed representation of the `PresignResponse` API schema. */
 data class PresignResponse(
     /**
-     * The presigned URL. Transfer the object bytes by issuing `method url` with the returned `headers`.
+     * The presigned URL. Transfer the object bytes by issuing `method url` with the returned
+     * `headers`.
      */
     val url: String,
-    /**
-     * The HTTP method to use against `url`: `PUT` for an upload, `GET` for a download.
-     */
+    /** The HTTP method to use against `url`: `PUT` for an upload, `GET` for a download. */
     val method: String,
     /**
-     * Headers the caller MUST send verbatim on the request (e.g. `Content-Type` when it was signed on an upload). May be empty.
+     * Headers the caller MUST send verbatim on the request (e.g. `Content-Type` when it was signed
+     * on an upload). May be empty.
      */
     val headers: Map<String, String>,
-    /**
-     * When the presigned URL stops being valid.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("expires_at") val expiresAt: OffsetDateTime
+    /** When the presigned URL stops being valid. */
+    @com.fasterxml.jackson.annotation.JsonProperty("expires_at") val expiresAt: OffsetDateTime,
 )

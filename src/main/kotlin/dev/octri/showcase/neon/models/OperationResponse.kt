@@ -3,12 +3,12 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `OperationResponse` API schema.
- */
+/** Typed representation of the `OperationResponse` API schema. */
 data class OperationResponse(
     /**
-     * An asynchronous action Neon performs on your resources (for example, starting a compute or creating a branch). Fields such as `action`, `status`, and `total_duration_ms` describe the operation and its progress.
+     * An asynchronous action Neon performs on your resources (for example, starting a compute or
+     * creating a branch). Fields such as `action`, `status`, and `total_duration_ms` describe the
+     * operation and its progress.
      */
     val operation: Operation
 )

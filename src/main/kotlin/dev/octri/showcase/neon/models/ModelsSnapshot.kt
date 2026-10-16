@@ -5,118 +5,92 @@ package dev.octri.showcase.neon.models
 
 import java.time.OffsetDateTime
 
-/**
- * Typed representation of the `BackupSchedule` API schema.
- */
+/** Typed representation of the `BackupSchedule` API schema. */
 data class BackupSchedule(
-    /**
-     * List of schedule entries defining the backup frequency. At least one entry is required.
-     */
+    /** List of schedule entries defining the backup frequency. At least one entry is required. */
     val schedule: List<BackupScheduleItem>
 )
 
-/**
- * Typed representation of the `BackupScheduleItem` API schema.
- */
+/** Typed representation of the `BackupScheduleItem` API schema. */
 data class BackupScheduleItem(
-    /**
-     * How often to take snapshots. Known values: `daily`, `weekly`, `monthly`.
-     */
+    /** How often to take snapshots. Known values: `daily`, `weekly`, `monthly`. */
     val frequency: String,
-    /**
-     * The hour of the day to take the snapshot (if applicable).
-     */
+    /** The hour of the day to take the snapshot (if applicable). */
     val hour: Long? = null,
-    /**
-     * The day of the week or month to take the snapshot (if applicable).
-     */
+    /** The day of the week or month to take the snapshot (if applicable). */
     val day: Long? = null,
-    /**
-     * The month of the year to take the snapshot (if applicable).
-     */
+    /** The month of the year to take the snapshot (if applicable). */
     val month: Long? = null,
     /**
-     * How long to keep a scheduled snapshot (in seconds) before it's automatically deleted. The default is 3024000 seconds (35 days), which is also the maximum. Manually created snapshots have no maximum retention: set their `expires_at` instead.
+     * How long to keep a scheduled snapshot (in seconds) before it's automatically deleted. The
+     * default is 3024000 seconds (35 days), which is also the maximum. Manually created snapshots
+     * have no maximum retention: set their `expires_at` instead.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("retention_seconds") val retentionSeconds: Long? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("retention_seconds")
+    val retentionSeconds: Long? = null,
 )
 
-/**
- * Typed representation of the `EndpointsOptionalResponse` API schema.
- */
+/** Typed representation of the `EndpointsOptionalResponse` API schema. */
 data class EndpointsOptionalResponse(
-    /**
-     * Compute endpoints associated with the project.
-     */
+    /** Compute endpoints associated with the project. */
     val endpoints: List<Endpoint>? = null
 )
 
-/**
- * Typed representation of the `Snapshot` API schema.
- */
+/** Typed representation of the `Snapshot` API schema. */
 data class Snapshot(
-    /**
-     * The snapshot ID.
-     */
+    /** The snapshot ID. */
     val id: String,
-    /**
-     * Human-readable label for the snapshot.
-     */
+    /** Human-readable label for the snapshot. */
     val name: String,
-    /**
-     * Timestamp when the snapshot was created, in RFC 3339 format (UTC).
-     */
+    /** Timestamp when the snapshot was created, in RFC 3339 format (UTC). */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: String,
     /**
-     * WAL position (Log Sequence Number) at which the snapshot was captured, in Postgres LSN format (for example, `0/3000000`).
+     * WAL position (Log Sequence Number) at which the snapshot was captured, in Postgres LSN format
+     * (for example, `0/3000000`).
      */
     val lsn: String? = null,
-    /**
-     * Point in time captured by the snapshot, in RFC 3339 format (UTC).
-     */
+    /** Point in time captured by the snapshot, in RFC 3339 format (UTC). */
     val timestamp: String? = null,
+    /** Branch from which this snapshot was created. */
+    @com.fasterxml.jackson.annotation.JsonProperty("source_branch_id")
+    val sourceBranchId: String? = null,
     /**
-     * Branch from which this snapshot was created.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("source_branch_id") val sourceBranchId: String? = null,
-    /**
-     * RFC 3339 timestamp when the snapshot expires and is eligible for deletion. Null if the snapshot does not have an expiry.
+     * RFC 3339 timestamp when the snapshot expires and is eligible for deletion. Null if the
+     * snapshot does not have an expiry.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("expires_at") val expiresAt: String? = null,
-    /**
-     * True if the snapshot was created manually rather than by a schedule.
-     */
+    /** True if the snapshot was created manually rather than by a schedule. */
     val manual: Boolean? = null,
     /**
-     * Full logical size of the snapshot in bytes at the time it was taken. When absent, the logical size has not been calculated yet and the snapshot is not being charged. When present, a value of 0 means the snapshot is not being charged.
+     * Full logical size of the snapshot in bytes at the time it was taken. When absent, the logical
+     * size has not been calculated yet and the snapshot is not being charged. When present, a value
+     * of 0 means the snapshot is not being charged.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("full_size") val fullSize: Long? = null,
     /**
-     * Incremental Postgres storage size in bytes since the previous scheduled snapshot, when the snapshot is billed on incremental (diff) usage. When absent, either the incremental size has not been calculated yet and the snapshot is not being charged, or the snapshot is charged at full logical size (in that case `full_size` is set).
+     * Incremental Postgres storage size in bytes since the previous scheduled snapshot, when the
+     * snapshot is billed on incremental (diff) usage. When absent, either the incremental size has
+     * not been calculated yet and the snapshot is not being charged, or the snapshot is charged at
+     * full logical size (in that case `full_size` is set).
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("diff_size") val diffSize: Long? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("diff_size") val diffSize: Long? = null,
 )
 
-/**
- * Fields to update on the snapshot. Updatable fields include `name` and `expires_at`.
- */
+/** Fields to update on the snapshot. Updatable fields include `name` and `expires_at`. */
 data class SnapshotUpdateRequestSnapshot(
-    /**
-     * Human-readable label for the snapshot.
-     */
+    /** Human-readable label for the snapshot. */
     val name: String? = null,
     /**
-     * The date and time when the snapshot will expire. Omit to leave the current expiration unchanged. Send `null` to clear the expiration so the snapshot never expires. A future timestamp sets the absolute expiration.
+     * The date and time when the snapshot will expire. Omit to leave the current expiration
+     * unchanged. Send `null` to clear the expiration so the snapshot never expires. A future
+     * timestamp sets the absolute expiration.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("expires_at") val expiresAt: OffsetDateTime? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("expires_at")
+    val expiresAt: OffsetDateTime? = null,
 )
 
-/**
- * Typed representation of the `SnapshotUpdateRequest` API schema.
- */
+/** Typed representation of the `SnapshotUpdateRequest` API schema. */
 data class SnapshotUpdateRequest(
-    /**
-     * Fields to update on the snapshot. Updatable fields include `name` and `expires_at`.
-     */
+    /** Fields to update on the snapshot. Updatable fields include `name` and `expires_at`. */
     val snapshot: SnapshotUpdateRequestSnapshot
 )

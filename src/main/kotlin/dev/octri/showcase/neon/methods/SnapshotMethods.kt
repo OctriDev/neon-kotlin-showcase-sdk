@@ -19,33 +19,27 @@ import java.time.OffsetDateTime
 
 object SnapshotMethods {
 
-data class CreateSnapshotResponse(
-    val snapshot: Snapshot,
-    val operations: List<Operation>
-)
+    data class CreateSnapshotResponse(
+        val snapshot: Snapshot,
+        val operations: List<Operation>,
+    )
 
-data class ListSnapshotsResponse(
-    val snapshots: List<Snapshot>
-)
+    data class ListSnapshotsResponse(val snapshots: List<Snapshot>)
 
-/**
- * Fields to update on the snapshot. Updatable fields include `name` and `expires_at`.
- */
-data class SnapshotUpdateRequestSnapshot(
-    /**
-     * Human-readable label for the snapshot.
-     */
-    val name: String? = null,
-    /**
-     * The date and time when the snapshot will expire. Omit to leave the current expiration unchanged. Send `null` to clear the expiration so the snapshot never expires. A future timestamp sets the absolute expiration.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("expires_at") val expiresAt: OffsetDateTime? = null
-)
+    /** Fields to update on the snapshot. Updatable fields include `name` and `expires_at`. */
+    data class SnapshotUpdateRequestSnapshot(
+        /** Human-readable label for the snapshot. */
+        val name: String? = null,
+        /**
+         * The date and time when the snapshot will expire. Omit to leave the current expiration
+         * unchanged. Send `null` to clear the expiration so the snapshot never expires. A future
+         * timestamp sets the absolute expiration.
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("expires_at")
+        val expiresAt: OffsetDateTime? = null,
+    )
 
-data class UpdateSnapshotResponse(
-    val snapshot: Snapshot
-)
-
+    data class UpdateSnapshotResponse(val snapshot: Snapshot)
 
     /** Parameters for [createSnapshot]. */
     data class CreateSnapshotRequest(
@@ -54,30 +48,50 @@ data class UpdateSnapshotResponse(
         val lsn: String? = null,
         val timestamp: String? = null,
         val name: String? = null,
-        val expiresAt: String? = null
+        val expiresAt: String? = null,
     )
 
     /**
-     * Creates a snapshot from the specified branch. This operation may initiate an asynchronous process.
+     * Creates a snapshot from the specified branch. This operation may initiate an asynchronous
+     * process.
      *
      * @param projectId The Neon project ID
      * @param branchId The branch ID
-     * @param lsn The target Log Sequence Number (LSN) to take the snapshot from.
-     *   Must fall within the restore window. Cannot be used with `timestamp`
-     * @param timestamp The target timestamp for the snapshot. Must fall within the
-     *   restore window. RFC 3339 format. Cannot be used with `lsn`.
+     * @param lsn The target Log Sequence Number (LSN) to take the snapshot from. Must fall within
+     *   the restore window. Cannot be used with `timestamp`
+     * @param timestamp The target timestamp for the snapshot. Must fall within the restore window.
+     *   RFC 3339 format. Cannot be used with `lsn`.
      * @param name A name for the snapshot.
-     * @param expiresAt The time at which the snapshot will be automatically deleted.
-     *   RFC 3339 format.
+     * @param expiresAt The time at which the snapshot will be automatically deleted. RFC 3339
+     *   format.
      */
-    fun createSnapshot(clientConfig: ClientConfig, request: CreateSnapshotRequest, options: RequestOptions? = null): CreateSnapshotResponse {
+    fun createSnapshot(
+        clientConfig: ClientConfig,
+        request: CreateSnapshotRequest,
+        options: RequestOptions? = null,
+    ): CreateSnapshotResponse {
         validateCreateSnapshotRequest(request)
 
-        return SdkClient.request<CreateSnapshotResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/snapshot", config = clientConfig, query = mapOf("lsn" to SdkClient.queryValue(request.lsn, "form", true), "timestamp" to
-    SdkClient.queryValue(request.timestamp, "form", true), "name" to SdkClient.queryValue(request.name, "form", true), "expires_at" to
-    SdkClient.queryValue(request.expiresAt, "form", true)), operationId = "createSnapshot", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<CreateSnapshotResponse>(
+                SdkClient.RequestSpec(
+                    "POST",
+                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/snapshot",
+                    config = clientConfig,
+                    query =
+                        mapOf(
+                            "lsn" to SdkClient.queryValue(request.lsn, "form", true),
+                            "timestamp" to SdkClient.queryValue(request.timestamp, "form", true),
+                            "name" to SdkClient.queryValue(request.name, "form", true),
+                            "expires_at" to SdkClient.queryValue(request.expiresAt, "form", true),
+                        ),
+                    operationId = "createSnapshot",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
-
 
     private fun validateCreateSnapshotRequest(request: CreateSnapshotRequest) {
         Validation.validatePattern("project_id", request.projectId, "^[a-z0-9-]{1,60}$")
@@ -85,73 +99,104 @@ data class UpdateSnapshotResponse(
         Validation.validatePattern("branch_id", request.branchId, "^[a-z0-9-]{1,60}$")
     }
 
-
-
-
-
-
     /**
-     * Lists the snapshots for the specified project. Each snapshot represents a point-in-time backup of the project data.
+     * Lists the snapshots for the specified project. Each snapshot represents a point-in-time
+     * backup of the project data.
      *
      * @param projectId The Neon project ID
      */
-    fun listSnapshots(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ListSnapshotsResponse {
+    fun listSnapshots(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): ListSnapshotsResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ListSnapshotsResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/snapshots", config = clientConfig, operationId = "listSnapshots", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ListSnapshotsResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/snapshots",
+                    config = clientConfig,
+                    operationId = "listSnapshots",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 
-
-
-
-
-
-
     /**
-     * Deletes a specified snapshot from a project. Use `project_id` and `snapshot_id` to identify the project and snapshot. Deletion is asynchronous; the response includes operation details for tracking progress.
+     * Deletes a specified snapshot from a project. Use `project_id` and `snapshot_id` to identify
+     * the project and snapshot. Deletion is asynchronous; the response includes operation details
+     * for tracking progress.
      *
      * Deletes the specified snapshot.
      *
      * @param projectId The Neon project ID
      * @param snapshotId The snapshot ID
      */
-    fun deleteSnapshot(clientConfig: ClientConfig, projectId: String, snapshotId: String, options: RequestOptions? = null): OperationsResponse {
+    fun deleteSnapshot(
+        clientConfig: ClientConfig,
+        projectId: String,
+        snapshotId: String,
+        options: RequestOptions? = null,
+    ): OperationsResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("snapshot_id", snapshotId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<OperationsResponse>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/snapshots/${SdkClient.encodePathSegment(snapshotId)}", config = clientConfig, operationId = "deleteSnapshot", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<OperationsResponse>(
+                SdkClient.RequestSpec(
+                    "DELETE",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/snapshots/${SdkClient.encodePathSegment(snapshotId)}",
+                    config = clientConfig,
+                    operationId = "deleteSnapshot",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 
-
-
-
-
-
-
     /**
-     * Updates the name or expiration time of a project snapshot. Supply the `snapshot` object with the fields to change; omitting `expires_at` leaves the current expiration unchanged, while sending `null` clears it. A 200 response returns the updated snapshot.
+     * Updates the name or expiration time of a project snapshot. Supply the `snapshot` object with
+     * the fields to change; omitting `expires_at` leaves the current expiration unchanged, while
+     * sending `null` clears it. A 200 response returns the updated snapshot.
      *
      * Updates the specified snapshot.
      *
      * @param projectId The Neon project ID
      * @param snapshotId The snapshot ID
-     * @param snapshot Fields to update on the snapshot. Updatable fields include
-     *   `name` and `expires_at`.
+     * @param snapshot Fields to update on the snapshot. Updatable fields include `name` and
+     *   `expires_at`.
      */
-    fun updateSnapshot(clientConfig: ClientConfig, projectId: String, snapshotId: String, snapshot: SnapshotUpdateRequestSnapshot, options: RequestOptions? = null): UpdateSnapshotResponse {
+    fun updateSnapshot(
+        clientConfig: ClientConfig,
+        projectId: String,
+        snapshotId: String,
+        snapshot: SnapshotUpdateRequestSnapshot,
+        options: RequestOptions? = null,
+    ): UpdateSnapshotResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("snapshot_id", snapshotId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<UpdateSnapshotResponse>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}/snapshots/${SdkClient.encodePathSegment(snapshotId)}", config = clientConfig, body = SdkClient.bodyMap("snapshot" to (snapshot)), operationId = "updateSnapshot", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<UpdateSnapshotResponse>(
+                SdkClient.RequestSpec(
+                    "PATCH",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/snapshots/${SdkClient.encodePathSegment(snapshotId)}",
+                    config = clientConfig,
+                    body = SdkClient.bodyMap("snapshot" to (snapshot)),
+                    operationId = "updateSnapshot",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
-
-
-
-
-
-
 
     /** Parameters for [restoreSnapshot]. */
     data class RestoreSnapshotRequest(
@@ -160,35 +205,54 @@ data class UpdateSnapshotResponse(
         val name: String? = null,
         val name2: String? = null,
         val targetBranchId: String? = null,
-        val finalizeRestore: Boolean? = null
+        val finalizeRestore: Boolean? = null,
     )
 
     /**
-     * Restores the specified snapshot to a new branch, and optionally finalizes the restore operation to replace the original branch.
+     * Restores the specified snapshot to a new branch, and optionally finalizes the restore
+     * operation to replace the original branch.
      *
      * @param projectId The Neon project ID
      * @param snapshotId The snapshot ID
-     * @param name Deprecated. Use the `name` field in the request body instead.
-     *   Removal scheduled for November 29, 2025. A name for the newly restored branch.
-     *   If omitted, a default name will be generated.
-     * @param name2 A name for the newly restored branch. If not provided, the server
-     *   generates a unique name for the branch automatically.
-     * @param targetBranchId ID of the branch to restore the snapshot into. Defaults
-     *   to the snapshot's source branch (`snapshot.source_branch_id`); fails if that
-     *   cannot be determined.
-     * @param finalizeRestore Set to `true` to finalize the restore operation
-     *   immediately. This will complete the restore and move any associated computes
-     *   to the new branch, similar to the `finalizeRestoreBranch` operation. Defaults
-     *   to `false` to allow previewing the restored snapshot data first.
+     * @param name Deprecated. Use the `name` field in the request body instead. Removal scheduled
+     *   for November 29, 2025. A name for the newly restored branch. If omitted, a default name
+     *   will be generated.
+     * @param name2 A name for the newly restored branch. If not provided, the server generates a
+     *   unique name for the branch automatically.
+     * @param targetBranchId ID of the branch to restore the snapshot into. Defaults to the
+     *   snapshot's source branch (`snapshot.source_branch_id`); fails if that cannot be determined.
+     * @param finalizeRestore Set to `true` to finalize the restore operation immediately. This will
+     *   complete the restore and move any associated computes to the new branch, similar to the
+     *   `finalizeRestoreBranch` operation. Defaults to `false` to allow previewing the restored
+     *   snapshot data first.
      */
-    fun restoreSnapshot(clientConfig: ClientConfig, request: RestoreSnapshotRequest, options: RequestOptions? = null): BranchResponse {
+    fun restoreSnapshot(
+        clientConfig: ClientConfig,
+        request: RestoreSnapshotRequest,
+        options: RequestOptions? = null,
+    ): BranchResponse {
         validateRestoreSnapshotRequest(request)
 
-        return SdkClient.request<BranchResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(request.projectId)}/snapshots/${SdkClient.encodePathSegment(request.snapshotId)}/restore", config = clientConfig, query = mapOf("name" to SdkClient.queryValue(request.name, "form", true)), body = SdkClient.bodyMap("name" to (SdkClient.omitIfNull(request.name2)), "target_branch_id" to
-    (SdkClient.omitIfNull(request.targetBranchId)), "finalize_restore" to
-    (SdkClient.omitIfNull(request.finalizeRestore))), operationId = "restoreSnapshot", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<BranchResponse>(
+                SdkClient.RequestSpec(
+                    "POST",
+                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/snapshots/${SdkClient.encodePathSegment(request.snapshotId)}/restore",
+                    config = clientConfig,
+                    query = mapOf("name" to SdkClient.queryValue(request.name, "form", true)),
+                    body =
+                        SdkClient.bodyMap(
+                            "name" to (SdkClient.omitIfNull(request.name2)),
+                            "target_branch_id" to (SdkClient.omitIfNull(request.targetBranchId)),
+                            "finalize_restore" to (SdkClient.omitIfNull(request.finalizeRestore)),
+                        ),
+                    operationId = "restoreSnapshot",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
-
 
     private fun validateRestoreSnapshotRequest(request: RestoreSnapshotRequest) {
         Validation.validatePattern("project_id", request.projectId, "^[a-z0-9-]{1,60}$")
@@ -196,51 +260,69 @@ data class UpdateSnapshotResponse(
         Validation.validatePattern("snapshot_id", request.snapshotId, "^[a-z0-9-]{1,60}$")
     }
 
-
-
-
-
-
     /**
-     * Returns the backup schedule for the specified branch, including the configured snapshot frequencies.
+     * Returns the backup schedule for the specified branch, including the configured snapshot
+     * frequencies.
      *
      * @param projectId The Neon project ID
      * @param branchId The branch ID
      */
-    fun getSnapshotSchedule(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): BackupSchedule {
+    fun getSnapshotSchedule(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): BackupSchedule {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<BackupSchedule>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/backup_schedule", config = clientConfig, operationId = "getSnapshotSchedule", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<BackupSchedule>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/backup_schedule",
+                    config = clientConfig,
+                    operationId = "getSnapshotSchedule",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 
-
-
-
-
-
-
     /**
-     * Updates the backup schedule for the specified branch. The schedule defines how often automatic snapshots are created (for example, `daily` or `weekly`). Requires a paid plan.
+     * Updates the backup schedule for the specified branch. The schedule defines how often
+     * automatic snapshots are created (for example, `daily` or `weekly`). Requires a paid plan.
      *
      * @param projectId The Neon project ID
      * @param branchId The branch ID
-     * @param schedule List of schedule entries defining the backup frequency. At
-     *   least one entry is required.
+     * @param schedule List of schedule entries defining the backup frequency. At least one entry is
+     *   required.
      */
-    fun setSnapshotSchedule(clientConfig: ClientConfig, projectId: String, branchId: String, schedule: List<BackupScheduleItem>, options: RequestOptions? = null): EmptyResponse {
+    fun setSnapshotSchedule(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        schedule: List<BackupScheduleItem>,
+        options: RequestOptions? = null,
+    ): EmptyResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<EmptyResponse>(SdkClient.RequestSpec("PUT", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/backup_schedule", config = clientConfig, body = SdkClient.bodyMap("schedule" to (schedule)), operationId = "setSnapshotSchedule", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<EmptyResponse>(
+                SdkClient.RequestSpec(
+                    "PUT",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/backup_schedule",
+                    config = clientConfig,
+                    body = SdkClient.bodyMap("schedule" to (schedule)),
+                    operationId = "setSnapshotSchedule",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
-
-
-
-
-
-
-
 }

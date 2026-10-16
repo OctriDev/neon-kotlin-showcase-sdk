@@ -24,119 +24,126 @@ import dev.octri.showcase.neon.ProjectRecoverResponse
 import dev.octri.showcase.neon.ProjectResponse
 import dev.octri.showcase.neon.ProjectRole
 import dev.octri.showcase.neon.ProjectSettingsData
-import dev.octri.showcase.neon.ProjectsResponse
 import dev.octri.showcase.neon.ProjectTransferRequestResponse
+import dev.octri.showcase.neon.ProjectsResponse
 import dev.octri.showcase.neon.Provisioner
 import dev.octri.showcase.neon.RealtimeOptions
 import dev.octri.showcase.neon.RequestOptions
 import dev.octri.showcase.neon.VPCEndpointsResponse
 
 object ProjectMethods {
-data class GetProjectAdvisorSecurityIssuesResponse(
-    val issues: List<AdvisorIssue>
-)
+    data class GetProjectAdvisorSecurityIssuesResponse(val issues: List<AdvisorIssue>)
 
-/**
- * Configuration for the initial branch created with the project.
- */
-data class ProjectCreateRequestProjectBranch(
-    /**
-     * The default branch name. If not specified, the default branch name, `main`, will be used.
-     */
-    val name: String? = null,
-    /**
-     * The role name. If not specified, the default role name, `{database_name}_owner`, will be used.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("role_name") val roleName: String? = null,
-    /**
-     * The database name. If not specified, the default database name, `neondb`, will be used.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("database_name") val databaseName: String? = null,
-    /**
-     * Arbitrary key-value metadata to attach to the branch.
-     */
-    val annotations: AnnotationValueData? = null
-)
+    /** Configuration for the initial branch created with the project. */
+    data class ProjectCreateRequestProjectBranch(
+        /**
+         * The default branch name. If not specified, the default branch name, `main`, will be used.
+         */
+        val name: String? = null,
+        /**
+         * The role name. If not specified, the default role name, `{database_name}_owner`, will be
+         * used.
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("role_name") val roleName: String? = null,
+        /**
+         * The database name. If not specified, the default database name, `neondb`, will be used.
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("database_name")
+        val databaseName: String? = null,
+        /** Arbitrary key-value metadata to attach to the branch. */
+        val annotations: AnnotationValueData? = null,
+    )
 
-/**
- * Configuration for the new project, including name, region, and Postgres compute and storage settings.
- */
-data class ProjectCreateRequestProject(
     /**
-     * Project-level settings applied at creation.
+     * Configuration for the new project, including name, region, and Postgres compute and storage
+     * settings.
      */
-    val settings: ProjectSettingsData? = null,
-    /**
-     * The project name. If not specified, the name will be identical to the generated project ID
-     */
-    val name: String? = null,
-    /**
-     * Enable Realtime for the default branch with these options.
-     */
-    val realtime: RealtimeOptions? = null,
-    /**
-     * Configuration for the initial branch created with the project.
-     */
-    val branch: ProjectCreateRequestProjectBranch? = null,
-    /**
-     * Deprecated. Use `default_endpoint_settings.autoscaling_limit_min_cu` instead. The minimum number of Compute Units. The minimum value is `0.25`. See Compute size and Autoscaling configuration for more information.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_min_cu") val autoscalingLimitMinCu: ComputeUnit? = null,
-    /**
-     * Deprecated. Use `default_endpoint_settings.autoscaling_limit_max_cu` instead. The maximum number of Compute Units. See Compute size and Autoscaling configuration for more information.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_max_cu") val autoscalingLimitMaxCu: ComputeUnit? = null,
-    /**
-     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size compute. Also `docker` and `serverless-platform`.
-     */
-    val provisioner: Provisioner? = null,
-    /**
-     * The region identifier. Refer to our Regions documentation for supported regions. Values are specified in this format: `aws-us-east-1`
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("region_id") val regionId: String? = null,
-    /**
-     * A collection of settings for a Neon endpoint
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("default_endpoint_settings") val defaultEndpointSettings: DefaultEndpointSettings? = null,
-    /**
-     * The major Postgres version number. Supported versions are `14`, `15`, `16`, `17`, and `18`. `19` is rolling out and is accepted only in regions where it is enabled; requesting it elsewhere returns an error.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("pg_version") val pgVersion: PgVersion? = null,
-    /**
-     * Whether or not passwords are stored for roles in the Neon project. Storing passwords facilitates access to Neon features that require authorization.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("store_passwords") val storePasswords: Boolean? = null,
-    /**
-     * History window (point-in-time restore range) for all branches, in seconds. `0` disables it. Default 1 day (Free: 6 hours). Maximum depends on plan: Free 6 hours (21600), Launch 7 days (604800), Scale 30 days (2592000).
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("history_retention_seconds") val historyRetentionSeconds: Int? = null,
-    /**
-     * ID of the organization that will own the project. If omitted when using an organization API key, it is inferred from the key.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("org_id") val orgId: String? = null
-)
+    data class ProjectCreateRequestProject(
+        /** Project-level settings applied at creation. */
+        val settings: ProjectSettingsData? = null,
+        /**
+         * The project name. If not specified, the name will be identical to the generated project
+         * ID
+         */
+        val name: String? = null,
+        /** Enable Realtime for the default branch with these options. */
+        val realtime: RealtimeOptions? = null,
+        /** Configuration for the initial branch created with the project. */
+        val branch: ProjectCreateRequestProjectBranch? = null,
+        /**
+         * Deprecated. Use `default_endpoint_settings.autoscaling_limit_min_cu` instead. The minimum
+         * number of Compute Units. The minimum value is `0.25`. See Compute size and Autoscaling
+         * configuration for more information.
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_min_cu")
+        val autoscalingLimitMinCu: ComputeUnit? = null,
+        /**
+         * Deprecated. Use `default_endpoint_settings.autoscaling_limit_max_cu` instead. The maximum
+         * number of Compute Units. See Compute size and Autoscaling configuration for more
+         * information.
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_max_cu")
+        val autoscalingLimitMaxCu: ComputeUnit? = null,
+        /**
+         * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size
+         * compute. Also `docker` and `serverless-platform`.
+         */
+        val provisioner: Provisioner? = null,
+        /**
+         * The region identifier. Refer to our Regions documentation for supported regions. Values
+         * are specified in this format: `aws-us-east-1`
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("region_id") val regionId: String? = null,
+        /** A collection of settings for a Neon endpoint */
+        @com.fasterxml.jackson.annotation.JsonProperty("default_endpoint_settings")
+        val defaultEndpointSettings: DefaultEndpointSettings? = null,
+        /**
+         * The major Postgres version number. Supported versions are `14`, `15`, `16`, `17`, and
+         * `18`. `19` is rolling out and is accepted only in regions where it is enabled; requesting
+         * it elsewhere returns an error.
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("pg_version")
+        val pgVersion: PgVersion? = null,
+        /**
+         * Whether or not passwords are stored for roles in the Neon project. Storing passwords
+         * facilitates access to Neon features that require authorization.
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("store_passwords")
+        val storePasswords: Boolean? = null,
+        /**
+         * History window (point-in-time restore range) for all branches, in seconds. `0` disables
+         * it. Default 1 day (Free: 6 hours). Maximum depends on plan: Free 6 hours (21600), Launch
+         * 7 days (604800), Scale 30 days (2592000).
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("history_retention_seconds")
+        val historyRetentionSeconds: Int? = null,
+        /**
+         * ID of the organization that will own the project. If omitted when using an organization
+         * API key, it is inferred from the key.
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("org_id") val orgId: String? = null,
+    )
 
-/**
- * Required object value serialized in the `project` wire field.
- */
-data class ProjectUpdateRequestProject(
-    /**
-     * Project-level settings, for example `quota`, `allowed_ips`, `enable_logical_replication`, and `maintenance_window`.
-     */
-    val settings: ProjectSettingsData? = null,
-    /**
-     * The project name
-     */
-    val name: String? = null,
-    /**
-     * A collection of settings for a Neon endpoint
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("default_endpoint_settings") val defaultEndpointSettings: DefaultEndpointSettings? = null,
-    /**
-     * History window (point-in-time restore range) for all branches, in seconds. `0` disables it. Default 1 day (Free: 6 hours). Maximum depends on plan: Free 6 hours (21600), Launch 7 days (604800), Scale 30 days (2592000).
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("history_retention_seconds") val historyRetentionSeconds: Int? = null
-)
+    /** Required object value serialized in the `project` wire field. */
+    data class ProjectUpdateRequestProject(
+        /**
+         * Project-level settings, for example `quota`, `allowed_ips`, `enable_logical_replication`,
+         * and `maintenance_window`.
+         */
+        val settings: ProjectSettingsData? = null,
+        /** The project name */
+        val name: String? = null,
+        /** A collection of settings for a Neon endpoint */
+        @com.fasterxml.jackson.annotation.JsonProperty("default_endpoint_settings")
+        val defaultEndpointSettings: DefaultEndpointSettings? = null,
+        /**
+         * History window (point-in-time restore range) for all branches, in seconds. `0` disables
+         * it. Default 1 day (Free: 6 hours). Maximum depends on plan: Free 6 hours (21600), Launch
+         * 7 days (604800), Scale 30 days (2592000).
+         */
+        @com.fasterxml.jackson.annotation.JsonProperty("history_retention_seconds")
+        val historyRetentionSeconds: Int? = null,
+    )
 
     /** Parameters for [listProjects]. */
     data class ListProjectsRequest(
@@ -145,7 +152,7 @@ data class ProjectUpdateRequestProject(
         val search: String? = null,
         val orgId: String? = null,
         val timeout: Long? = null,
-        val recoverable: Boolean? = null
+        val recoverable: Boolean? = null,
     )
 
     /** Parameters for [addProjectJwks]. */
@@ -156,7 +163,7 @@ data class ProjectUpdateRequestProject(
         val branchId: String? = null,
         val jwtAudience: String? = null,
         val roleNames: List<String>? = null,
-        val skipRoleCreation: Boolean? = null
+        val skipRoleCreation: Boolean? = null,
     )
 
     /** Parameters for [getConnectionUri]. */
@@ -166,27 +173,46 @@ data class ProjectUpdateRequestProject(
         val roleName: String,
         val branchId: String? = null,
         val endpointId: String? = null,
-        val pooled: Boolean? = null
+        val pooled: Boolean? = null,
     )
 
     /**
-     * Analyzes the database for security and performance issues. Returns a list of issues categorized by severity (ERROR, WARN, INFO). Requires read access to the project and Data API enabled.
+     * Analyzes the database for security and performance issues. Returns a list of issues
+     * categorized by severity (ERROR, WARN, INFO). Requires read access to the project and Data API
+     * enabled.
      */
-    fun getProjectAdvisorSecurityIssues(clientConfig: ClientConfig, projectId: String, branchId: String? = null, databaseName: String? = null, category: AdvisorCategory? = null, minSeverity: GetProjectAdvisorSecurityIssuesParameterEnum? = null, options: RequestOptions? = null): GetProjectAdvisorSecurityIssuesResponse =
-        dev.octri.showcase.neon.methods.ProjectMethodsGetProjectAdvisorSecurityIssuesOperation.getProjectAdvisorSecurityIssues(
-            clientConfig,
-            projectId,
-            branchId,
-            databaseName,
-            category,
-            minSeverity,
-            options,
-        )
+    fun getProjectAdvisorSecurityIssues(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String? = null,
+        databaseName: String? = null,
+        category: AdvisorCategory? = null,
+        minSeverity: GetProjectAdvisorSecurityIssuesParameterEnum? = null,
+        options: RequestOptions? = null,
+    ): GetProjectAdvisorSecurityIssuesResponse =
+        dev.octri.showcase.neon.methods.ProjectMethodsGetProjectAdvisorSecurityIssuesOperation
+            .getProjectAdvisorSecurityIssues(
+                clientConfig,
+                projectId,
+                branchId,
+                databaseName,
+                category,
+                minSeverity,
+                options,
+            )
 
     /**
-     * Retrieves a list of projects for the specified organization. If using a personal API key, include the `org_id` parameter to specify which organization to work with. If using an org API key, `org_id` is automatically inferred from the key. For more information, see [Manage organizations using the Neon API](https://neon.com/docs/manage/orgs-api) and [Manage projects](https://neon.com/docs/manage/projects/).
+     * Retrieves a list of projects for the specified organization. If using a personal API key,
+     * include the `org_id` parameter to specify which organization to work with. If using an org
+     * API key, `org_id` is automatically inferred from the key. For more information, see
+     * [Manage organizations using the Neon API](https://neon.com/docs/manage/orgs-api) and
+     * [Manage projects](https://neon.com/docs/manage/projects/).
      */
-    fun listProjects(clientConfig: ClientConfig, request: ListProjectsRequest, options: RequestOptions? = null): ProjectsResponse =
+    fun listProjects(
+        clientConfig: ClientConfig,
+        request: ListProjectsRequest,
+        options: RequestOptions? = null,
+    ): ProjectsResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsListProjectsOperation.listProjects(
             clientConfig,
             request,
@@ -194,9 +220,20 @@ data class ProjectUpdateRequestProject(
         )
 
     /**
-     * Creates a Neon project within an organization. If using a personal API key, include the `org_id` parameter to specify which organization to create the project in. If using an org API key, `org_id` is automatically inferred from the key. Plan limits define how many projects you can create. For more information, see [Manage projects](https://neon.com/docs/manage/projects/). You can specify a region and Postgres version in the request body. Neon supports Postgres 14 through 18, with 19 rolling out to enabled regions. For supported regions and `region_id` values, see [Regions](https://neon.com/docs/introduction/regions/).
+     * Creates a Neon project within an organization. If using a personal API key, include the
+     * `org_id` parameter to specify which organization to create the project in. If using an org
+     * API key, `org_id` is automatically inferred from the key. Plan limits define how many
+     * projects you can create. For more information, see
+     * [Manage projects](https://neon.com/docs/manage/projects/). You can specify a region and
+     * Postgres version in the request body. Neon supports Postgres 14 through 18, with 19 rolling
+     * out to enabled regions. For supported regions and `region_id` values, see
+     * [Regions](https://neon.com/docs/introduction/regions/).
      */
-    fun createProject(clientConfig: ClientConfig, project: ProjectCreateRequestProject, options: RequestOptions? = null): ProjectResponse =
+    fun createProject(
+        clientConfig: ClientConfig,
+        project: ProjectCreateRequestProject,
+        options: RequestOptions? = null,
+    ): ProjectResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsCreateProjectOperation.createProject(
             clientConfig,
             project,
@@ -204,22 +241,37 @@ data class ProjectUpdateRequestProject(
         )
 
     /**
-     * Retrieves a list of projects shared with your Neon account. For more information, see [Manage projects](https://neon.com/docs/manage/projects/).
+     * Retrieves a list of projects shared with your Neon account. For more information, see
+     * [Manage projects](https://neon.com/docs/manage/projects/).
      */
-    fun listSharedProjects(clientConfig: ClientConfig, cursor: String? = null, limit: Long? = null, search: String? = null, timeout: Long? = null, options: RequestOptions? = null): ProjectsResponse =
-        dev.octri.showcase.neon.methods.ProjectMethodsListSharedProjectsOperation.listSharedProjects(
-            clientConfig,
-            cursor,
-            limit,
-            search,
-            timeout,
-            options,
-        )
+    fun listSharedProjects(
+        clientConfig: ClientConfig,
+        cursor: String? = null,
+        limit: Long? = null,
+        search: String? = null,
+        timeout: Long? = null,
+        options: RequestOptions? = null,
+    ): ProjectsResponse =
+        dev.octri.showcase.neon.methods.ProjectMethodsListSharedProjectsOperation
+            .listSharedProjects(
+                clientConfig,
+                cursor,
+                limit,
+                search,
+                timeout,
+                options,
+            )
 
     /**
-     * Retrieves information about the specified project. Returned details include the project settings, compute configuration, history retention, owner information, and current usage metrics.
+     * Retrieves information about the specified project. Returned details include the project
+     * settings, compute configuration, history retention, owner information, and current usage
+     * metrics.
      */
-    fun getProject(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ProjectResponse =
+    fun getProject(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): ProjectResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsGetProjectOperation.getProject(
             clientConfig,
             projectId,
@@ -227,9 +279,17 @@ data class ProjectUpdateRequestProject(
         )
 
     /**
-     * Updates configurable properties of a Neon project, including its name, project settings, default endpoint settings, and history retention period. Supply the required `project` object and include only the properties you want to change. The response includes the updated project and any operations associated with the update.
+     * Updates configurable properties of a Neon project, including its name, project settings,
+     * default endpoint settings, and history retention period. Supply the required `project` object
+     * and include only the properties you want to change. The response includes the updated project
+     * and any operations associated with the update.
      */
-    fun updateProject(clientConfig: ClientConfig, projectId: String, project: ProjectUpdateRequestProject, options: RequestOptions? = null): ProjectResponse =
+    fun updateProject(
+        clientConfig: ClientConfig,
+        projectId: String,
+        project: ProjectUpdateRequestProject,
+        options: RequestOptions? = null,
+    ): ProjectResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsUpdateProjectOperation.updateProject(
             clientConfig,
             projectId,
@@ -238,9 +298,15 @@ data class ProjectUpdateRequestProject(
         )
 
     /**
-     * Deletes the specified project and all its endpoints, branches, databases, and users. Deleted projects can be recovered within 7 days using `POST /projects/{project_id}/recover`. To list recoverable projects, use `GET /projects?recoverable=true`.
+     * Deletes the specified project and all its endpoints, branches, databases, and users. Deleted
+     * projects can be recovered within 7 days using `POST /projects/{project_id}/recover`. To list
+     * recoverable projects, use `GET /projects?recoverable=true`.
      */
-    fun deleteProject(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ProjectResponse =
+    fun deleteProject(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): ProjectResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsDeleteProjectOperation.deleteProject(
             clientConfig,
             projectId,
@@ -248,9 +314,15 @@ data class ProjectUpdateRequestProject(
         )
 
     /**
-     * Recovers a deleted project within the 7-day deletion recovery period. Restores branches, endpoints, settings, and connection strings. Some integrations require manual reconfiguration after recovery. To list recoverable projects, use `GET /projects?recoverable=true`.
+     * Recovers a deleted project within the 7-day deletion recovery period. Restores branches,
+     * endpoints, settings, and connection strings. Some integrations require manual reconfiguration
+     * after recovery. To list recoverable projects, use `GET /projects?recoverable=true`.
      */
-    fun recoverProject(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ProjectRecoverResponse =
+    fun recoverProject(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): ProjectRecoverResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsRecoverProjectOperation.recoverProject(
             clientConfig,
             projectId,
@@ -258,111 +330,194 @@ data class ProjectUpdateRequestProject(
         )
 
     /**
-     * Lists users who have access to a project, including each permission ID, the granted-to email address, and the grant date. Use the permission ID to identify a specific project access grant when you need to revoke it.
+     * Lists users who have access to a project, including each permission ID, the granted-to email
+     * address, and the grant date. Use the permission ID to identify a specific project access
+     * grant when you need to revoke it.
      */
-    fun listProjectPermissions(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ProjectPermissions =
-        dev.octri.showcase.neon.methods.ProjectMethodsListProjectPermissionsOperation.listProjectPermissions(
-            clientConfig,
-            projectId,
-            options,
-        )
+    fun listProjectPermissions(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): ProjectPermissions =
+        dev.octri.showcase.neon.methods.ProjectMethodsListProjectPermissionsOperation
+            .listProjectPermissions(
+                clientConfig,
+                projectId,
+                options,
+            )
 
     /**
-     * Grants project access to the account associated with an email address. Supply the recipient's `email` in the request body to create a project permission. The response includes the new permission's identifier and grant details.
+     * Grants project access to the account associated with an email address. Supply the recipient's
+     * `email` in the request body to create a project permission. The response includes the new
+     * permission's identifier and grant details.
      */
-    fun grantProjectPermission(clientConfig: ClientConfig, projectId: String, email: String, options: RequestOptions? = null): ProjectPermission =
-        dev.octri.showcase.neon.methods.ProjectMethodsGrantProjectPermissionOperation.grantProjectPermission(
-            clientConfig,
-            projectId,
-            email,
-            options,
-        )
+    fun grantProjectPermission(
+        clientConfig: ClientConfig,
+        projectId: String,
+        email: String,
+        options: RequestOptions? = null,
+    ): ProjectPermission =
+        dev.octri.showcase.neon.methods.ProjectMethodsGrantProjectPermissionOperation
+            .grantProjectPermission(
+                clientConfig,
+                projectId,
+                email,
+                options,
+            )
 
     /**
-     * Lists organization members and their project roles for an organization-owned project. The members shown depend on the authenticated user's access: VIEWER and EDITOR see members with effective project access, while ADMIN also sees unassigned organization members. Use `limit` and the response's `pagination.next` cursor to retrieve subsequent pages.
+     * Lists organization members and their project roles for an organization-owned project. The
+     * members shown depend on the authenticated user's access: VIEWER and EDITOR see members with
+     * effective project access, while ADMIN also sees unassigned organization members. Use `limit`
+     * and the response's `pagination.next` cursor to retrieve subsequent pages.
      */
-    fun listProjectMembers(clientConfig: ClientConfig, projectId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): ProjectMembers =
-        dev.octri.showcase.neon.methods.ProjectMethodsListProjectMembersOperation.listProjectMembers(
-            clientConfig,
-            projectId,
-            cursor,
-            limit,
-            options,
-        )
+    fun listProjectMembers(
+        clientConfig: ClientConfig,
+        projectId: String,
+        cursor: String? = null,
+        limit: Long? = null,
+        options: RequestOptions? = null,
+    ): ProjectMembers =
+        dev.octri.showcase.neon.methods.ProjectMethodsListProjectMembersOperation
+            .listProjectMembers(
+                clientConfig,
+                projectId,
+                cursor,
+                limit,
+                options,
+            )
 
     /**
-     * Sets or updates an organization's member's explicit role on a project. Provide `role` as `viewer`, `editor`, or `admin` to set the corresponding project permission. If the authenticated user is demoting themself, set `confirm_self_demotion` to true.
+     * Sets or updates an organization's member's explicit role on a project. Provide `role` as
+     * `viewer`, `editor`, or `admin` to set the corresponding project permission. If the
+     * authenticated user is demoting themself, set `confirm_self_demotion` to true.
      */
-    fun setProjectMemberRole(clientConfig: ClientConfig, projectId: String, memberId: String, role: ProjectRole, confirmSelfDemotion: Boolean? = null, options: RequestOptions? = null): ProjectMemberRoleResponse =
-        dev.octri.showcase.neon.methods.ProjectMethodsSetProjectMemberRoleOperation.setProjectMemberRole(
-            clientConfig,
-            projectId,
-            memberId,
-            role,
-            confirmSelfDemotion,
-            options,
-        )
+    fun setProjectMemberRole(
+        clientConfig: ClientConfig,
+        projectId: String,
+        memberId: String,
+        role: ProjectRole,
+        confirmSelfDemotion: Boolean? = null,
+        options: RequestOptions? = null,
+    ): ProjectMemberRoleResponse =
+        dev.octri.showcase.neon.methods.ProjectMethodsSetProjectMemberRoleOperation
+            .setProjectMemberRole(
+                clientConfig,
+                projectId,
+                memberId,
+                role,
+                confirmSelfDemotion,
+                options,
+            )
 
     /**
-     * Removes an organization's member's explicit role on a project. The member's organization-role default project permission continues to apply, and the operation is a no-op if no explicit role exists. If removing your own role would remove your effective management access, confirm the change with `confirm_self_lockout`.
+     * Removes an organization's member's explicit role on a project. The member's organization-role
+     * default project permission continues to apply, and the operation is a no-op if no explicit
+     * role exists. If removing your own role would remove your effective management access, confirm
+     * the change with `confirm_self_lockout`.
      */
-    fun removeProjectMemberRole(clientConfig: ClientConfig, projectId: String, memberId: String, confirmSelfLockout: Boolean? = null, options: RequestOptions? = null): ProjectMemberRoleResponse =
-        dev.octri.showcase.neon.methods.ProjectMethodsRemoveProjectMemberRoleOperation.removeProjectMemberRole(
-            clientConfig,
-            projectId,
-            memberId,
-            confirmSelfLockout,
-            options,
-        )
+    fun removeProjectMemberRole(
+        clientConfig: ClientConfig,
+        projectId: String,
+        memberId: String,
+        confirmSelfLockout: Boolean? = null,
+        options: RequestOptions? = null,
+    ): ProjectMemberRoleResponse =
+        dev.octri.showcase.neon.methods.ProjectMethodsRemoveProjectMemberRoleOperation
+            .removeProjectMemberRole(
+                clientConfig,
+                projectId,
+                memberId,
+                confirmSelfLockout,
+                options,
+            )
 
     /**
-     * Revokes a user's access to a project using the ID of the access permission. Retrieve the permission ID by listing project access, then provide it with the project identifier. The response includes the permission's grant and revocation details.
+     * Revokes a user's access to a project using the ID of the access permission. Retrieve the
+     * permission ID by listing project access, then provide it with the project identifier. The
+     * response includes the permission's grant and revocation details.
      */
-    fun revokeProjectPermission(clientConfig: ClientConfig, projectId: String, permissionId: String, options: RequestOptions? = null): ProjectPermission =
-        dev.octri.showcase.neon.methods.ProjectMethodsRevokeProjectPermissionOperation.revokeProjectPermission(
-            clientConfig,
-            projectId,
-            permissionId,
-            options,
-        )
+    fun revokeProjectPermission(
+        clientConfig: ClientConfig,
+        projectId: String,
+        permissionId: String,
+        options: RequestOptions? = null,
+    ): ProjectPermission =
+        dev.octri.showcase.neon.methods.ProjectMethodsRevokeProjectPermissionOperation
+            .revokeProjectPermission(
+                clientConfig,
+                projectId,
+                permissionId,
+                options,
+            )
 
     /**
-     * Lists the shared preload libraries available for the specified project's Postgres version. Use the list to choose libraries for the project's `settings.preload_libraries` configuration; activating these libraries requires a compute restart.
+     * Lists the shared preload libraries available for the specified project's Postgres version.
+     * Use the list to choose libraries for the project's `settings.preload_libraries`
+     * configuration; activating these libraries requires a compute restart.
      */
-    fun getAvailablePreloadLibraries(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): AvailablePreloadLibraries =
-        dev.octri.showcase.neon.methods.ProjectMethodsGetAvailablePreloadLibrariesOperation.getAvailablePreloadLibraries(
-            clientConfig,
-            projectId,
-            options,
-        )
+    fun getAvailablePreloadLibraries(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): AvailablePreloadLibraries =
+        dev.octri.showcase.neon.methods.ProjectMethodsGetAvailablePreloadLibrariesOperation
+            .getAvailablePreloadLibraries(
+                clientConfig,
+                projectId,
+                options,
+            )
 
     /**
-     * Creates a transfer request for the specified project. The request expires after a set period. To accept the request, the recipient calls `PUT /projects/{project_id}/transfer_requests/{request_id}` or uses the Neon Console claim link. The optional `ru` parameter redirects the recipient after acceptance.
+     * Creates a transfer request for the specified project. The request expires after a set period.
+     * To accept the request, the recipient calls `PUT
+     * /projects/{project_id}/transfer_requests/{request_id}` or uses the Neon Console claim link.
+     * The optional `ru` parameter redirects the recipient after acceptance.
      */
-    fun createProjectTransferRequest(clientConfig: ClientConfig, projectId: String, ttlSeconds: Long? = null, options: RequestOptions? = null): ProjectTransferRequestResponse =
-        dev.octri.showcase.neon.methods.ProjectMethodsCreateProjectTransferRequestOperation.createProjectTransferRequest(
-            clientConfig,
-            projectId,
-            ttlSeconds,
-            options,
-        )
+    fun createProjectTransferRequest(
+        clientConfig: ClientConfig,
+        projectId: String,
+        ttlSeconds: Long? = null,
+        options: RequestOptions? = null,
+    ): ProjectTransferRequestResponse =
+        dev.octri.showcase.neon.methods.ProjectMethodsCreateProjectTransferRequestOperation
+            .createProjectTransferRequest(
+                clientConfig,
+                projectId,
+                ttlSeconds,
+                options,
+            )
 
     /**
-     * Accepts a transfer request for the specified project, transferring it to the specified organization or user. If org_id is not passed, the project will be transferred to the current user or organization account.
+     * Accepts a transfer request for the specified project, transferring it to the specified
+     * organization or user. If org_id is not passed, the project will be transferred to the current
+     * user or organization account.
      */
-    fun acceptProjectTransferRequest(clientConfig: ClientConfig, projectId: String, requestId: String, orgId: String? = null, options: RequestOptions? = null): Unit =
-        dev.octri.showcase.neon.methods.ProjectMethodsAcceptProjectTransferRequestOperation.acceptProjectTransferRequest(
-            clientConfig,
-            projectId,
-            requestId,
-            orgId,
-            options,
-        )
+    fun acceptProjectTransferRequest(
+        clientConfig: ClientConfig,
+        projectId: String,
+        requestId: String,
+        orgId: String? = null,
+        options: RequestOptions? = null,
+    ): Unit =
+        dev.octri.showcase.neon.methods.ProjectMethodsAcceptProjectTransferRequestOperation
+            .acceptProjectTransferRequest(
+                clientConfig,
+                projectId,
+                requestId,
+                orgId,
+                options,
+            )
 
     /**
-     * Returns the JWKS URLs available for verifying JWTs used as the authentication mechanism for the specified project.
+     * Returns the JWKS URLs available for verifying JWTs used as the authentication mechanism for
+     * the specified project.
      */
-    fun getProjectJwks(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ProjectJWKSResponse =
+    fun getProjectJwks(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): ProjectJWKSResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsGetProjectJWKSOperation.getProjectJwks(
             clientConfig,
             projectId,
@@ -370,9 +525,19 @@ data class ProjectUpdateRequestProject(
         )
 
     /**
-     * Adds a JWKS URL to the specified project for verifying JWTs used as the authentication mechanism. The URL must be a valid HTTPS URL that returns a JSON Web Key Set. The `provider_name` field allows you to specify which authentication provider you're using (e.g., Clerk, Auth0, AWS Cognito). The `branch_id` scopes the JWKS URL to specific branches; if not specified, it applies to all branches. The `role_names` scopes the URL to specific roles; if not specified, default roles are used (`authenticator`, `authenticated`, `anonymous`). The `jwt_audience` specifies which `aud` values are accepted in JWTs.
+     * Adds a JWKS URL to the specified project for verifying JWTs used as the authentication
+     * mechanism. The URL must be a valid HTTPS URL that returns a JSON Web Key Set. The
+     * `provider_name` field allows you to specify which authentication provider you're using (e.g.,
+     * Clerk, Auth0, AWS Cognito). The `branch_id` scopes the JWKS URL to specific branches; if not
+     * specified, it applies to all branches. The `role_names` scopes the URL to specific roles; if
+     * not specified, default roles are used (`authenticator`, `authenticated`, `anonymous`). The
+     * `jwt_audience` specifies which `aud` values are accepted in JWTs.
      */
-    fun addProjectJwks(clientConfig: ClientConfig, request: AddProjectJwksRequest, options: RequestOptions? = null): JWKSCreationOperation =
+    fun addProjectJwks(
+        clientConfig: ClientConfig,
+        request: AddProjectJwksRequest,
+        options: RequestOptions? = null,
+    ): JWKSCreationOperation =
         dev.octri.showcase.neon.methods.ProjectMethodsAddProjectJWKSOperation.addProjectJwks(
             clientConfig,
             request,
@@ -380,9 +545,15 @@ data class ProjectUpdateRequestProject(
         )
 
     /**
-     * Removes the specified JWKS URL from the project. JWTs signed by keys from the removed URL can no longer authenticate to the project's endpoints.
+     * Removes the specified JWKS URL from the project. JWTs signed by keys from the removed URL can
+     * no longer authenticate to the project's endpoints.
      */
-    fun deleteProjectJwks(clientConfig: ClientConfig, projectId: String, jwksId: String, options: RequestOptions? = null): JWKS =
+    fun deleteProjectJwks(
+        clientConfig: ClientConfig,
+        projectId: String,
+        jwksId: String,
+        options: RequestOptions? = null,
+    ): JWKS =
         dev.octri.showcase.neon.methods.ProjectMethodsDeleteProjectJWKSOperation.deleteProjectJwks(
             clientConfig,
             projectId,
@@ -391,45 +562,68 @@ data class ProjectUpdateRequestProject(
         )
 
     /**
-     * Retrieves a connection URI for the specified database. The URI uses the standard PostgreSQL connection string format. Set `pooled=true` to include the `-pooler` suffix for a connection pooler URI.
+     * Retrieves a connection URI for the specified database. The URI uses the standard PostgreSQL
+     * connection string format. Set `pooled=true` to include the `-pooler` suffix for a connection
+     * pooler URI.
      */
-    fun getConnectionUri(clientConfig: ClientConfig, request: GetConnectionUriRequest, options: RequestOptions? = null): ConnectionURIResponse =
+    fun getConnectionUri(
+        clientConfig: ClientConfig,
+        request: GetConnectionUriRequest,
+        options: RequestOptions? = null,
+    ): ConnectionURIResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsGetConnectionURIOperation.getConnectionUri(
             clientConfig,
             request,
             options,
         )
 
-    /**
-     * Lists VPC endpoint restrictions for the specified Neon project.
-     */
-    fun listProjectVpcEndpoints(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): VPCEndpointsResponse =
-        dev.octri.showcase.neon.methods.ProjectMethodsListProjectVPCEndpointsOperation.listProjectVpcEndpoints(
-            clientConfig,
-            projectId,
-            options,
-        )
+    /** Lists VPC endpoint restrictions for the specified Neon project. */
+    fun listProjectVpcEndpoints(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): VPCEndpointsResponse =
+        dev.octri.showcase.neon.methods.ProjectMethodsListProjectVPCEndpointsOperation
+            .listProjectVpcEndpoints(
+                clientConfig,
+                projectId,
+                options,
+            )
 
     /**
-     * Sets or updates a VPC endpoint restriction for a Neon project. When a VPC endpoint restriction is set, the project only accepts connections from the specified VPC. A VPC endpoint can be set as a restriction only after it is assigned to the parent organization of the Neon project.
+     * Sets or updates a VPC endpoint restriction for a Neon project. When a VPC endpoint
+     * restriction is set, the project only accepts connections from the specified VPC. A VPC
+     * endpoint can be set as a restriction only after it is assigned to the parent organization of
+     * the Neon project.
      */
-    fun assignProjectVpcEndpoint(clientConfig: ClientConfig, projectId: String, vpcEndpointId: String, label: String, options: RequestOptions? = null): Unit =
-        dev.octri.showcase.neon.methods.ProjectMethodsAssignProjectVPCEndpointOperation.assignProjectVpcEndpoint(
-            clientConfig,
-            projectId,
-            vpcEndpointId,
-            label,
-            options,
-        )
+    fun assignProjectVpcEndpoint(
+        clientConfig: ClientConfig,
+        projectId: String,
+        vpcEndpointId: String,
+        label: String,
+        options: RequestOptions? = null,
+    ): Unit =
+        dev.octri.showcase.neon.methods.ProjectMethodsAssignProjectVPCEndpointOperation
+            .assignProjectVpcEndpoint(
+                clientConfig,
+                projectId,
+                vpcEndpointId,
+                label,
+                options,
+            )
 
-    /**
-     * Removes the specified VPC endpoint restriction from a Neon project.
-     */
-    fun deleteProjectVpcEndpoint(clientConfig: ClientConfig, projectId: String, vpcEndpointId: String, options: RequestOptions? = null): Unit =
-        dev.octri.showcase.neon.methods.ProjectMethodsDeleteProjectVPCEndpointOperation.deleteProjectVpcEndpoint(
-            clientConfig,
-            projectId,
-            vpcEndpointId,
-            options,
-        )
+    /** Removes the specified VPC endpoint restriction from a Neon project. */
+    fun deleteProjectVpcEndpoint(
+        clientConfig: ClientConfig,
+        projectId: String,
+        vpcEndpointId: String,
+        options: RequestOptions? = null,
+    ): Unit =
+        dev.octri.showcase.neon.methods.ProjectMethodsDeleteProjectVPCEndpointOperation
+            .deleteProjectVpcEndpoint(
+                clientConfig,
+                projectId,
+                vpcEndpointId,
+                options,
+            )
 }

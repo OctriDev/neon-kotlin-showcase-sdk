@@ -3,20 +3,43 @@
 
 package dev.octri.showcase.neon
 
-
 class OperationNamespace(private val clientConfig: ClientConfig) {
     /**
-     * Retrieves details for the specified operation. An operation is an action performed on a Neon project resource.
+     * Retrieves details for the specified operation. An operation is an action performed on a Neon
+     * project resource.
      */
-    fun get(projectId: String, operationId: String, options: RequestOptions? = null): OperationResponse {
-        return dev.octri.showcase.neon.methods.OperationMethods.getOperation(clientConfig, projectId, operationId, options)
+    fun get(
+        projectId: String,
+        operationId: String,
+        options: RequestOptions? = null,
+    ): OperationResponse {
+        return dev.octri.showcase.neon.methods.OperationMethods.getOperation(
+            clientConfig,
+            projectId,
+            operationId,
+            options,
+        )
     }
 
     /**
-     * Retrieves a list of operations for the specified Neon project. The number of operations returned can be large. To paginate the response, issue an initial request with a `limit` value. Then, add the `cursor` value that was returned in the response to the next request. Operations older than 6 months may be deleted from our systems. If you need more history than that, you should store your own history.
+     * Retrieves a list of operations for the specified Neon project. The number of operations
+     * returned can be large. To paginate the response, issue an initial request with a `limit`
+     * value. Then, add the `cursor` value that was returned in the response to the next request.
+     * Operations older than 6 months may be deleted from our systems. If you need more history than
+     * that, you should store your own history.
      */
-    fun list(projectId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): OperationsResponse {
-        return dev.octri.showcase.neon.methods.OperationMethods.listOperation(clientConfig, projectId, cursor, limit, options)
+    fun list(
+        projectId: String,
+        cursor: String? = null,
+        limit: Long? = null,
+        options: RequestOptions? = null,
+    ): OperationsResponse {
+        return dev.octri.showcase.neon.methods.OperationMethods.listOperation(
+            clientConfig,
+            projectId,
+            cursor,
+            limit,
+            options,
+        )
     }
-
 }

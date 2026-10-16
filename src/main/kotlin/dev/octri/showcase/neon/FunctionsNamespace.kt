@@ -3,103 +3,291 @@
 
 package dev.octri.showcase.neon
 
-
 class FunctionsNamespace(private val clientConfig: ClientConfig) {
-    /**
-     * Lists functions on the specified branch. **Note**: This endpoint is currently in Beta.
-     */
-    fun list(projectId: String, branchId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): NeonFunctionsListResponse {
-        return dev.octri.showcase.neon.methods.Functions.listFunctions(clientConfig, projectId, branchId, cursor, limit, options)
+    /** Lists functions on the specified branch. **Note**: This endpoint is currently in Beta. */
+    fun list(
+        projectId: String,
+        branchId: String,
+        cursor: String? = null,
+        limit: Long? = null,
+        options: RequestOptions? = null,
+    ): NeonFunctionsListResponse {
+        return dev.octri.showcase.neon.methods.Functions.listFunctions(
+            clientConfig,
+            projectId,
+            branchId,
+            cursor,
+            limit,
+            options,
+        )
     }
 
     /**
      * Returns the function identified by its slug. **Note**: This endpoint is currently in Beta.
      */
-    fun get(projectId: String, branchId: String, slug: String, options: RequestOptions? = null): NeonFunctionResponse {
-        return dev.octri.showcase.neon.methods.Functions.getFunctions(clientConfig, projectId, branchId, slug, options)
+    fun get(
+        projectId: String,
+        branchId: String,
+        slug: String,
+        options: RequestOptions? = null,
+    ): NeonFunctionResponse {
+        return dev.octri.showcase.neon.methods.Functions.getFunctions(
+            clientConfig,
+            projectId,
+            branchId,
+            slug,
+            options,
+        )
     }
 
     /**
-     * Updates the function's mutable metadata — currently only the display `name`. A string sets the display name; `null` clears it, after which the function's `name` falls back to its slug. Leading and trailing whitespace is trimmed; a whitespace-only name is rejected. Acts only on a function owned by the branch: a slug that is only inherited from an ancestor branch returns 404 — rename it on the branch that owns it. Like every other change on a branch, a rename is isolated per…
+     * Updates the function's mutable metadata — currently only the display `name`. A string sets
+     * the display name; `null` clears it, after which the function's `name` falls back to its slug.
+     * Leading and trailing whitespace is trimmed; a whitespace-only name is rejected. Acts only on
+     * a function owned by the branch: a slug that is only inherited from an ancestor branch returns
+     * 404 — rename it on the branch that owns it. Like every other change on a branch, a rename is
+     * isolated per…
      */
-    fun update(projectId: String, branchId: String, slug: String, name: String?, options: RequestOptions? = null): NeonFunctionResponse {
-        return dev.octri.showcase.neon.methods.Functions.updateFunctions(clientConfig, projectId, branchId, slug, name, options)
+    fun update(
+        projectId: String,
+        branchId: String,
+        slug: String,
+        name: String?,
+        options: RequestOptions? = null,
+    ): NeonFunctionResponse {
+        return dev.octri.showcase.neon.methods.Functions.updateFunctions(
+            clientConfig,
+            projectId,
+            branchId,
+            slug,
+            name,
+            options,
+        )
     }
 
     /**
      * Deletes the function identified by its slug. **Note**: This endpoint is currently in Beta.
      */
-    fun delete(projectId: String, branchId: String, slug: String, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.Functions.deleteFunctions(clientConfig, projectId, branchId, slug, options)
+    fun delete(
+        projectId: String,
+        branchId: String,
+        slug: String,
+        options: RequestOptions? = null,
+    ): Unit {
+        return dev.octri.showcase.neon.methods.Functions.deleteFunctions(
+            clientConfig,
+            projectId,
+            branchId,
+            slug,
+            options,
+        )
     }
 
     /**
-     * Creates a deployment for a function on a branch. Supply at least one of `zip`, `environment`, or `runtime`; omitted fields inherit the function's latest version. The first deployment must include `zip`, and the newest deployment becomes active.
+     * Creates a deployment for a function on a branch. Supply at least one of `zip`, `environment`,
+     * or `runtime`; omitted fields inherit the function's latest version. The first deployment must
+     * include `zip`, and the newest deployment becomes active.
      *
-     * Creates a deployment for the function. Supply any subset of zip, environment, and runtime; omitted fields inherit the function's latest version. At least one field must be supplied. The first deployment of a function must include zip. The newest deployment becomes active. **Note**: This endpoint is currently in Beta.
+     * Creates a deployment for the function. Supply any subset of zip, environment, and runtime;
+     * omitted fields inherit the function's latest version. At least one field must be supplied.
+     * The first deployment of a function must include zip. The newest deployment becomes active.
+     * **Note**: This endpoint is currently in Beta.
      */
-    fun createDeployment(request: dev.octri.showcase.neon.methods.Functions.CreateFunctionsDeploymentRequest, options: RequestOptions? = null): NeonFunctionDeploymentResponse {
-        return dev.octri.showcase.neon.methods.Functions.createFunctionsDeployment(clientConfig, request, options)
+    fun createDeployment(
+        request: dev.octri.showcase.neon.methods.Functions.CreateFunctionsDeploymentRequest,
+        options: RequestOptions? = null,
+    ): NeonFunctionDeploymentResponse {
+        return dev.octri.showcase.neon.methods.Functions.createFunctionsDeployment(
+            clientConfig,
+            request,
+            options,
+        )
     }
 
     /**
-     * Lists the complete project-bounded set of triggers visible on the branch, ordered by `trigger_id`. An inherited trigger keeps its project-wide ID and configuration, and is disabled on the child until explicitly enabled there. The supported trigger types are `schedule` and `storage_object_created`. A storage-object-created trigger watches one exact bucket and fires only after an object upload succeeds. **Note**: This endpoint is currently in Beta.
+     * Lists the complete project-bounded set of triggers visible on the branch, ordered by
+     * `trigger_id`. An inherited trigger keeps its project-wide ID and configuration, and is
+     * disabled on the child until explicitly enabled there. The supported trigger types are
+     * `schedule` and `storage_object_created`. A storage-object-created trigger watches one exact
+     * bucket and fires only after an object upload succeeds. **Note**: This endpoint is currently
+     * in Beta.
      */
-    fun listTriggers(projectId: String, branchId: String, options: RequestOptions? = null): TriggersListResponse {
-        return dev.octri.showcase.neon.methods.Functions.listFunctionsTriggers(clientConfig, projectId, branchId, options)
+    fun listTriggers(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): TriggersListResponse {
+        return dev.octri.showcase.neon.methods.Functions.listFunctionsTriggers(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Creates a trigger for a function visible on a branch. Set `type` to `schedule` or `storage_object_created` and provide the matching configuration; schedule expressions use five numeric cron fields interpreted in UTC. The trigger name must be unique among triggers visible on the branch, including inherited triggers.
+     * Creates a trigger for a function visible on a branch. Set `type` to `schedule` or
+     * `storage_object_created` and provide the matching configuration; schedule expressions use
+     * five numeric cron fields interpreted in UTC. The trigger name must be unique among triggers
+     * visible on the branch, including inherited triggers.
      *
-     * Creates a trigger for a Function visible on the branch. The required `type` discriminator selects the trigger-specific configuration. The supported types are `schedule` and `storage_object_created`. A schedule trigger uses a numeric five-field cron expression interpreted in UTC. A storage-object-created trigger fires only after a successful upload to one exact bucket and may narrow matches to an object-key prefix. The name must be unique among triggers visible on the branch,…
+     * Creates a trigger for a Function visible on the branch. The required `type` discriminator
+     * selects the trigger-specific configuration. The supported types are `schedule` and
+     * `storage_object_created`. A schedule trigger uses a numeric five-field cron expression
+     * interpreted in UTC. A storage-object-created trigger fires only after a successful upload to
+     * one exact bucket and may narrow matches to an object-key prefix. The name must be unique
+     * among triggers visible on the branch,…
      */
-    fun createTrigger(projectId: String, branchId: String, body: TriggerCreateRequest, options: RequestOptions? = null): TriggerResponse {
-        return dev.octri.showcase.neon.methods.Functions.createFunctionsTrigger(clientConfig, projectId, branchId, body, options)
+    fun createTrigger(
+        projectId: String,
+        branchId: String,
+        body: TriggerCreateRequest,
+        options: RequestOptions? = null,
+    ): TriggerResponse {
+        return dev.octri.showcase.neon.methods.Functions.createFunctionsTrigger(
+            clientConfig,
+            projectId,
+            branchId,
+            body,
+            options,
+        )
     }
 
     /**
-     * Returns the trigger visible on the branch. The supported trigger types are `schedule` and `storage_object_created`. **Note**: This endpoint is currently in Beta.
+     * Returns the trigger visible on the branch. The supported trigger types are `schedule` and
+     * `storage_object_created`. **Note**: This endpoint is currently in Beta.
      */
-    fun getTrigger(projectId: String, branchId: String, triggerId: TriggerID, options: RequestOptions? = null): TriggerResponse {
-        return dev.octri.showcase.neon.methods.Functions.getFunctionsTrigger(clientConfig, projectId, branchId, triggerId, options)
+    fun getTrigger(
+        projectId: String,
+        branchId: String,
+        triggerId: TriggerID,
+        options: RequestOptions? = null,
+    ): TriggerResponse {
+        return dev.octri.showcase.neon.methods.Functions.getFunctionsTrigger(
+            clientConfig,
+            projectId,
+            branchId,
+            triggerId,
+            options,
+        )
     }
 
     /**
-     * Updates a branch trigger using a partial configuration. Set `type` to the existing trigger kind and provide at least one other field to change; supported kinds are `schedule` and `storage_object_created`. Editing an inherited trigger creates a child-local shadow that remains disabled unless you explicitly enable it; disabling a trigger does not cancel occurrences already committed for delivery.
+     * Updates a branch trigger using a partial configuration. Set `type` to the existing trigger
+     * kind and provide at least one other field to change; supported kinds are `schedule` and
+     * `storage_object_created`. Editing an inherited trigger creates a child-local shadow that
+     * remains disabled unless you explicitly enable it; disabling a trigger does not cancel
+     * occurrences already committed for delivery.
      *
-     * Applies a partial update. The required `type` discriminator must identify the existing trigger kind. The supported types are `schedule` and `storage_object_created`. Editing an inherited trigger creates a child-local shadow with the same `trigger_id`; it remains disabled unless this request explicitly enables it. For a schedule trigger, updating the schedule or enabled state increments `version` and recomputes `next_run_at`. Disabling stops future scheduling but does not…
+     * Applies a partial update. The required `type` discriminator must identify the existing
+     * trigger kind. The supported types are `schedule` and `storage_object_created`. Editing an
+     * inherited trigger creates a child-local shadow with the same `trigger_id`; it remains
+     * disabled unless this request explicitly enables it. For a schedule trigger, updating the
+     * schedule or enabled state increments `version` and recomputes `next_run_at`. Disabling stops
+     * future scheduling but does not…
      */
-    fun updateTrigger(projectId: String, branchId: String, triggerId: TriggerID, body: TriggerUpdateRequest, options: RequestOptions? = null): TriggerResponse {
-        return dev.octri.showcase.neon.methods.Functions.updateFunctionsTrigger(clientConfig, projectId, branchId, triggerId, body, options)
+    fun updateTrigger(
+        projectId: String,
+        branchId: String,
+        triggerId: TriggerID,
+        body: TriggerUpdateRequest,
+        options: RequestOptions? = null,
+    ): TriggerResponse {
+        return dev.octri.showcase.neon.methods.Functions.updateFunctionsTrigger(
+            clientConfig,
+            projectId,
+            branchId,
+            triggerId,
+            body,
+            options,
+        )
     }
 
     /**
-     * Deletes a branch-local trigger or writes a branch-local tombstone for an inherited trigger so it does not reappear. Deletion stops future scheduling or storage-event matching but does not cancel invocations already committed for delivery. The supported trigger types are `schedule` and `storage_object_created`. **Note**: This endpoint is currently in Beta.
+     * Deletes a branch-local trigger or writes a branch-local tombstone for an inherited trigger so
+     * it does not reappear. Deletion stops future scheduling or storage-event matching but does not
+     * cancel invocations already committed for delivery. The supported trigger types are `schedule`
+     * and `storage_object_created`. **Note**: This endpoint is currently in Beta.
      */
-    fun deleteTrigger(projectId: String, branchId: String, triggerId: TriggerID, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.Functions.deleteFunctionsTrigger(clientConfig, projectId, branchId, triggerId, options)
+    fun deleteTrigger(
+        projectId: String,
+        branchId: String,
+        triggerId: TriggerID,
+        options: RequestOptions? = null,
+    ): Unit {
+        return dev.octri.showcase.neon.methods.Functions.deleteFunctionsTrigger(
+            clientConfig,
+            projectId,
+            branchId,
+            triggerId,
+            options,
+        )
     }
 
     /**
-     * Registers a customer-owned domain (for example `dashboard.acme.com`) on the branch and points it at a target entity, chosen by `entity_type` + `entity_id`. In v1 only `entity_type: function` is supported (an unsupported type is rejected with `400`), where `entity_id` is the function slug and the function must already exist on the branch (else `404`). The response includes the `cname_target` the customer must point their domain at with a CNAME record; the domain goes live…
+     * Registers a customer-owned domain (for example `dashboard.acme.com`) on the branch and points
+     * it at a target entity, chosen by `entity_type` + `entity_id`. In v1 only `entity_type:
+     * function` is supported (an unsupported type is rejected with `400`), where `entity_id` is the
+     * function slug and the function must already exist on the branch (else `404`). The response
+     * includes the `cname_target` the customer must point their domain at with a CNAME record; the
+     * domain goes live…
      */
-    fun registerCustomDomain(projectId: String, branchId: String, domain: String, entityType: String, entityId: String, options: RequestOptions? = null): CustomDomain {
-        return dev.octri.showcase.neon.methods.Functions.registerFunctionsCustomDomain(clientConfig, projectId, branchId, domain, entityType, entityId, options)
+    fun registerCustomDomain(
+        projectId: String,
+        branchId: String,
+        domain: String,
+        entityType: String,
+        entityId: String,
+        options: RequestOptions? = null,
+    ): CustomDomain {
+        return dev.octri.showcase.neon.methods.Functions.registerFunctionsCustomDomain(
+            clientConfig,
+            projectId,
+            branchId,
+            domain,
+            entityType,
+            entityId,
+            options,
+        )
     }
 
     /**
-     * Lists all custom domains registered on the branch, across every target entity. **Note**: This endpoint is currently in Beta.
+     * Lists all custom domains registered on the branch, across every target entity. **Note**: This
+     * endpoint is currently in Beta.
      */
-    fun listCustomDomains(projectId: String, branchId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): CustomDomainsListResponse {
-        return dev.octri.showcase.neon.methods.Functions.listFunctionsCustomDomains(clientConfig, projectId, branchId, cursor, limit, options)
+    fun listCustomDomains(
+        projectId: String,
+        branchId: String,
+        cursor: String? = null,
+        limit: Long? = null,
+        options: RequestOptions? = null,
+    ): CustomDomainsListResponse {
+        return dev.octri.showcase.neon.methods.Functions.listFunctionsCustomDomains(
+            clientConfig,
+            projectId,
+            branchId,
+            cursor,
+            limit,
+            options,
+        )
     }
 
     /**
-     * Removes a custom domain registered on the branch and stops routing it. **Note**: This endpoint is currently in Beta.
+     * Removes a custom domain registered on the branch and stops routing it. **Note**: This
+     * endpoint is currently in Beta.
      */
-    fun deleteCustomDomain(projectId: String, branchId: String, domain: String, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.Functions.deleteFunctionsCustomDomain(clientConfig, projectId, branchId, domain, options)
+    fun deleteCustomDomain(
+        projectId: String,
+        branchId: String,
+        domain: String,
+        options: RequestOptions? = null,
+    ): Unit {
+        return dev.octri.showcase.neon.methods.Functions.deleteFunctionsCustomDomain(
+            clientConfig,
+            projectId,
+            branchId,
+            domain,
+            options,
+        )
     }
-
 }
