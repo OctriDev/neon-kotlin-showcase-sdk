@@ -5,120 +5,70 @@ package dev.octri.showcase.neon.models
 
 import java.time.OffsetDateTime
 
-/**
- * Typed representation of the `ApiKeyCreateRequest` API schema.
- */
+/** Typed representation of the `ApiKeyCreateRequest` API schema. */
 data class ApiKeyCreateRequest(
-    /**
-     * A user-specified API key name. This value is required when creating an API key.
-     */
+    /** A user-specified API key name. This value is required when creating an API key. */
     @com.fasterxml.jackson.annotation.JsonProperty("key_name") val keyName: String
 )
 
-/**
- * Typed representation of the `ApiKeyCreateResponse` API schema.
- */
+/** Typed representation of the `ApiKeyCreateResponse` API schema. */
 data class ApiKeyCreateResponse(
-    /**
-     * The API key's unique numeric ID. Distinct from the API key token (`key`).
-     */
+    /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
     val id: Long,
-    /**
-     * The generated 64-bit token required to access the Neon API
-     */
+    /** The generated 64-bit token required to access the Neon API */
     val key: String,
-    /**
-     * The user-specified API key name
-     */
+    /** The user-specified API key name */
     val name: String,
-    /**
-     * A timestamp indicating when the API key was created
-     */
+    /** A timestamp indicating when the API key was created */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /**
-     * ID of the user who created this API key
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("created_by") val createdBy: String
-)
-
-/**
- * The user data of the user that created this API key.
- */
-data class ApiKeyCreatorData(
-    /**
-     * ID of the user who created this API key
-     */
-    val id: String,
-    /**
-     * Display name of the user who created the API key.
-     */
-    val name: String,
-    /**
-     * The URL to the user's avatar image.
-     */
-    val image: String
-)
-
-/**
- * Typed representation of the `ApiKeyRevokeResponse` API schema.
- */
-data class ApiKeyRevokeResponse(
-    /**
-     * The API key's unique numeric ID. Distinct from the API key token (`key`).
-     */
-    val id: Long,
-    /**
-     * The user-specified API key name
-     */
-    val name: String,
-    /**
-     * A timestamp indicating when the API key was created
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /**
-     * ID of the user who created this API key
-     */
+    /** ID of the user who created this API key */
     @com.fasterxml.jackson.annotation.JsonProperty("created_by") val createdBy: String,
-    /**
-     * The IP address from which the API key was last used
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("last_used_from_addr") val lastUsedFromAddr: String,
-    /**
-     * A `true` or `false` value indicating whether the API key is revoked
-     */
-    val revoked: Boolean,
-    /**
-     * A timestamp indicating when the API was last used
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("last_used_at") val lastUsedAt: OffsetDateTime? = null
 )
 
-/**
- * Typed representation of the `ApiKeysListResponseItem` API schema.
- */
-data class ApiKeysListResponseItem(
-    /**
-     * The API key's unique numeric ID. Distinct from the API key token (`key`).
-     */
-    val id: Long,
-    /**
-     * The user-specified API key name
-     */
+/** The user data of the user that created this API key. */
+data class ApiKeyCreatorData(
+    /** ID of the user who created this API key */
+    val id: String,
+    /** Display name of the user who created the API key. */
     val name: String,
-    /**
-     * A timestamp indicating when the API key was created
-     */
+    /** The URL to the user's avatar image. */
+    val image: String,
+)
+
+/** Typed representation of the `ApiKeyRevokeResponse` API schema. */
+data class ApiKeyRevokeResponse(
+    /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
+    val id: Long,
+    /** The user-specified API key name */
+    val name: String,
+    /** A timestamp indicating when the API key was created */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /**
-     * The user data of the user that created this API key.
-     */
+    /** ID of the user who created this API key */
+    @com.fasterxml.jackson.annotation.JsonProperty("created_by") val createdBy: String,
+    /** The IP address from which the API key was last used */
+    @com.fasterxml.jackson.annotation.JsonProperty("last_used_from_addr")
+    val lastUsedFromAddr: String,
+    /** A `true` or `false` value indicating whether the API key is revoked */
+    val revoked: Boolean,
+    /** A timestamp indicating when the API was last used */
+    @com.fasterxml.jackson.annotation.JsonProperty("last_used_at")
+    val lastUsedAt: OffsetDateTime? = null,
+)
+
+/** Typed representation of the `ApiKeysListResponseItem` API schema. */
+data class ApiKeysListResponseItem(
+    /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
+    val id: Long,
+    /** The user-specified API key name */
+    val name: String,
+    /** A timestamp indicating when the API key was created */
+    @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
+    /** The user data of the user that created this API key. */
     @com.fasterxml.jackson.annotation.JsonProperty("created_by") val createdBy: ApiKeyCreatorData,
-    /**
-     * The IP address from which the API key was last used
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("last_used_from_addr") val lastUsedFromAddr: String,
-    /**
-     * A timestamp indicating when the API was last used
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("last_used_at") val lastUsedAt: OffsetDateTime? = null
+    /** The IP address from which the API key was last used */
+    @com.fasterxml.jackson.annotation.JsonProperty("last_used_from_addr")
+    val lastUsedFromAddr: String,
+    /** A timestamp indicating when the API was last used */
+    @com.fasterxml.jackson.annotation.JsonProperty("last_used_at")
+    val lastUsedAt: OffsetDateTime? = null,
 )

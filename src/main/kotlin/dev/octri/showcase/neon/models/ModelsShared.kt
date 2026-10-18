@@ -5,307 +5,219 @@ package dev.octri.showcase.neon.models
 
 import java.time.OffsetDateTime
 
-/**
- * Typed representation of the `BranchesResponse` API schema.
- */
+/** Typed representation of the `BranchesResponse` API schema. */
 data class BranchesResponse(
-    /**
-     * Branches in the project. Each includes `id`, `name`, `current_state`, and `created_at`.
-     */
+    /** Branches in the project. Each includes `id`, `name`, `current_state`, and `created_at`. */
     val branches: List<Branch>
 )
 
 typealias ComputeUnit = Double
 
-/**
- * Typed representation of the `Database` API schema.
- */
+/** Typed representation of the `Database` API schema. */
 data class Database(
-    /**
-     * The database ID
-     */
+    /** The database ID */
     val id: Long,
-    /**
-     * The ID of the branch this database belongs to.
-     */
+    /** The ID of the branch this database belongs to. */
     @com.fasterxml.jackson.annotation.JsonProperty("branch_id") val branchId: String,
-    /**
-     * The database name
-     */
+    /** The database name */
     val name: String,
-    /**
-     * The name of role that owns the database
-     */
+    /** The name of role that owns the database */
     @com.fasterxml.jackson.annotation.JsonProperty("owner_name") val ownerName: String,
-    /**
-     * A timestamp indicating when the database was created
-     */
+    /** A timestamp indicating when the database was created */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /**
-     * A timestamp indicating when the database was last updated
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("updated_at") val updatedAt: OffsetDateTime
+    /** A timestamp indicating when the database was last updated */
+    @com.fasterxml.jackson.annotation.JsonProperty("updated_at") val updatedAt: OffsetDateTime,
 )
 
-/**
- * Typed representation of the `DatabasesResponse` API schema.
- */
+/** Typed representation of the `DatabasesResponse` API schema. */
 data class DatabasesResponse(
-    /**
-     * Databases on the branch. Each includes `id`, `name`, `owner_name`, and `created_at`.
-     */
+    /** Databases on the branch. Each includes `id`, `name`, `owner_name`, and `created_at`. */
     val databases: List<Database>
 )
 
-/**
- * Empty response.
- */
+/** Empty response. */
 class EmptyResponse {
     @field:com.fasterxml.jackson.annotation.JsonAnySetter
     @get:com.fasterxml.jackson.annotation.JsonAnyGetter
     val additionalProperties: MutableMap<String, Any?> = linkedMapOf()
 }
 
-/**
- * Typed representation of the `EndpointsResponse` API schema.
- */
+/** Typed representation of the `EndpointsResponse` API schema. */
 data class EndpointsResponse(
-    /**
-     * Compute endpoints in the project. Each includes `id`, `branch_id`, `host`, and `type`.
-     */
+    /** Compute endpoints in the project. Each includes `id`, `branch_id`, `host`, and `type`. */
     val endpoints: List<Endpoint>
 )
 
 typealias ErrorCode = String
 
-/**
- * Typed representation of the `GeneralError` API schema.
- */
+/** Typed representation of the `GeneralError` API schema. */
 data class GeneralError(
     /**
-     * Machine-readable code classifying the error type. See `message` for a human-readable explanation.
+     * Machine-readable code classifying the error type. See `message` for a human-readable
+     * explanation.
      */
     val code: ErrorCode,
-    /**
-     * Error message
-     */
+    /** Error message */
     val message: String,
     /**
-     * Unique identifier for the request, useful for debugging. You can set this value manually by including an `X-Request-ID` header in the request. If not provided, the value will be generated automatically.
+     * Unique identifier for the request, useful for debugging. You can set this value manually by
+     * including an `X-Request-ID` header in the request. If not provided, the value will be
+     * generated automatically.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("request_id") val requestId: String? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("request_id") val requestId: String? = null,
 ) : dev.octri.showcase.neon.ErrorBody
 
-/**
- * Required object value serialized in the `limits[]` wire field.
- */
+/** Required object value serialized in the `limits[]` wire field. */
 data class LimitsUnsatisfiedResponseLimitsItem(
     /**
-     * Identifier of the unsatisfied limit. Possible values are: - subscription_type - projects_count - project_region
+     * Identifier of the unsatisfied limit. Possible values are: - subscription_type -
+     * projects_count - project_region
      */
     val name: String,
     /**
-     * Required value for the limit named by `name`. Compare with `actual` to determine the shortfall.
+     * Required value for the limit named by `name`. Compare with `actual` to determine the
+     * shortfall.
      */
     val expected: String,
-    /**
-     * Current value of the named limit, which does not satisfy the required `expected` value.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("actual") val `actual`: String
+    /** Current value of the named limit, which does not satisfy the required `expected` value. */
+    @com.fasterxml.jackson.annotation.JsonProperty("actual") val `actual`: String,
 )
 
-/**
- * Typed representation of the `LimitsUnsatisfiedResponse` API schema.
- */
+/** Typed representation of the `LimitsUnsatisfiedResponse` API schema. */
 data class LimitsUnsatisfiedResponse(
-    /**
-     * Plan limits that were not satisfied by the request.
-     */
+    /** Plan limits that were not satisfied by the request. */
     val limits: List<LimitsUnsatisfiedResponseLimitsItem>
 ) : dev.octri.showcase.neon.ErrorBody
 
-/**
- * Typed representation of the `ListNeonAuthOauthProvidersResponse` API schema.
- */
+/** Typed representation of the `ListNeonAuthOauthProvidersResponse` API schema. */
 data class ListNeonAuthOauthProvidersResponse(
-    /**
-     * OAuth providers configured for Neon Auth on the project.
-     */
+    /** OAuth providers configured for Neon Auth on the project. */
     val providers: List<NeonAuthOauthProvider>
 )
 
-/**
- * Typed representation of the `OperationsResponse` API schema.
- */
+/** Typed representation of the `OperationsResponse` API schema. */
 data class OperationsResponse(
-    /**
-     * Required array value serialized in the `operations` wire field.
-     */
+    /** Required array value serialized in the `operations` wire field. */
     val operations: List<Operation>
 )
 
-/**
- * Typed representation of the `Organization` API schema.
- */
+/** Typed representation of the `Organization` API schema. */
 data class Organization(
-    /**
-     * The Neon organization ID. Use as the `org_id` path parameter in other endpoints.
-     */
+    /** The Neon organization ID. Use as the `org_id` path parameter in other endpoints. */
     val id: String,
-    /**
-     * Human-readable display name of the organization.
-     */
+    /** Human-readable display name of the organization. */
     val name: String,
     /**
      * URL-safe identifier for the organization, used in API paths. Distinct from the display name.
      */
     val handle: String,
-    /**
-     * Billing plan for the organization, for example `free`, `launch`, or `scale`.
-     */
+    /** Billing plan for the organization, for example `free`, `launch`, or `scale`. */
     val plan: String,
-    /**
-     * A timestamp indicting when the organization was created
-     */
+    /** A timestamp indicting when the organization was created */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
     /**
-     * Organizations created via the Console or the API are managed by `console`. Organizations created by other methods can't be deleted via the Console or the API.
+     * Organizations created via the Console or the API are managed by `console`. Organizations
+     * created by other methods can't be deleted via the Console or the API.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("managed_by") val managedBy: String,
-    /**
-     * A timestamp indicating when the organization was updated
-     */
+    /** A timestamp indicating when the organization was updated */
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at") val updatedAt: OffsetDateTime,
-    /**
-     * If true, allow account to mark projects as HIPAA
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("allow_hipaa_projects") val allowHipaaProjects: Boolean? = null,
-    /**
-     * If true, all members must have MFA enabled to access this organization
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("require_mfa") val requireMfa: Boolean? = null
+    /** If true, allow account to mark projects as HIPAA */
+    @com.fasterxml.jackson.annotation.JsonProperty("allow_hipaa_projects")
+    val allowHipaaProjects: Boolean? = null,
+    /** If true, all members must have MFA enabled to access this organization */
+    @com.fasterxml.jackson.annotation.JsonProperty("require_mfa") val requireMfa: Boolean? = null,
 )
 
 typealias PgbouncerSettingsData = Map<String, String>
 
 typealias PgSettingsData = Map<String, String>
 
-/**
- * The shared libraries to preload into the project's compute instances.
- */
+/** The shared libraries to preload into the project's compute instances. */
 data class PreloadLibraries(
     /**
-     * When true, the project's preload libraries include the platform default set in addition to any libraries listed in `enabled_libraries`.
+     * When true, the project's preload libraries include the platform default set in addition to
+     * any libraries listed in `enabled_libraries`.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("use_defaults") val useDefaults: Boolean? = null,
-    /**
-     * Names of shared preload libraries to enable for the project.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("enabled_libraries") val enabledLibraries: List<String>? = null
+    /** Names of shared preload libraries to enable for the project. */
+    @com.fasterxml.jackson.annotation.JsonProperty("enabled_libraries")
+    val enabledLibraries: List<String>? = null,
 )
 
-/**
- * Required object value serialized in the `projects[]` wire field.
- */
+/** Required object value serialized in the `projects[]` wire field. */
 data class ProjectsWithIntegrationResponseProjectsItem(
-    /**
-     * The Neon project ID. Use as the `project_id` path parameter in other endpoints.
-     */
+    /** The Neon project ID. Use as the `project_id` path parameter in other endpoints. */
     val id: String,
-    /**
-     * Name of the external integration associated with the project.
-     */
-    val integration: String
+    /** Name of the external integration associated with the project. */
+    val integration: String,
 )
 
-/**
- * Typed representation of the `ProjectsWithIntegrationResponse` API schema.
- */
+/** Typed representation of the `ProjectsWithIntegrationResponse` API schema. */
 data class ProjectsWithIntegrationResponse(
     /**
-     * Projects that have the requested integration, each including the project details and associated integration metadata.
+     * Projects that have the requested integration, each including the project details and
+     * associated integration metadata.
      */
     val projects: List<ProjectsWithIntegrationResponseProjectsItem>
 ) : dev.octri.showcase.neon.ErrorBody
 
 typealias Provisioner = String
 
-/**
- * Typed representation of the `RealtimeOptions` API schema.
- */
+/** Typed representation of the `RealtimeOptions` API schema. */
 data class RealtimeOptions(
     /**
-     * The browser origins allowed to connect, each `http` or `https` with a host and optional port and no path. An empty list, or `*` alone, allows any origin. Omitted keeps the current or inherited value.
+     * The browser origins allowed to connect, each `http` or `https` with a host and optional port
+     * and no path. An empty list, or `*` alone, allows any origin. Omitted keeps the current or
+     * inherited value.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("allowed_origins") val allowedOrigins: List<String>? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("allowed_origins")
+    val allowedOrigins: List<String>? = null
 )
 
-/**
- * Typed representation of the `Role` API schema.
- */
+/** Typed representation of the `Role` API schema. */
 data class Role(
-    /**
-     * The ID of the branch this role belongs to.
-     */
+    /** The ID of the branch this role belongs to. */
     @com.fasterxml.jackson.annotation.JsonProperty("branch_id") val branchId: String,
-    /**
-     * Postgres role name within the branch.
-     */
+    /** Postgres role name within the branch. */
     val name: String,
-    /**
-     * A timestamp indicating when the role was created
-     */
+    /** A timestamp indicating when the role was created */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /**
-     * A timestamp indicating when the role was last updated
-     */
+    /** A timestamp indicating when the role was last updated */
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at") val updatedAt: OffsetDateTime,
-    /**
-     * The role password
-     */
+    /** The role password */
     val password: String? = null,
-    /**
-     * Whether or not the role is system-protected
-     */
+    /** Whether or not the role is system-protected */
     @com.fasterxml.jackson.annotation.JsonProperty("protected") val `protected`: Boolean? = null,
     /**
      * Authentication method configured for this role: `password`, `oauth`, `oidc`, or `no_login`.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("authentication_method") val authenticationMethod: String? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("authentication_method")
+    val authenticationMethod: String? = null,
 )
 
-/**
- * Typed representation of the `RolesResponse` API schema.
- */
+/** Typed representation of the `RolesResponse` API schema. */
 data class RolesResponse(
     /**
-     * Roles belonging to the branch. Each role includes fields such as `branch_id`, `name`, `protected`, `created_at`, and `updated_at`.
+     * Roles belonging to the branch. Each role includes fields such as `branch_id`, `name`,
+     * `protected`, `created_at`, and `updated_at`.
      */
     val roles: List<Role>
 )
 
 typealias SuspendTimeoutSeconds = Long
 
-/**
- * Typed representation of the `TransferProjectsToOrganizationRequest` API schema.
- */
+/** Typed representation of the `TransferProjectsToOrganizationRequest` API schema. */
 data class TransferProjectsToOrganizationRequest(
-    /**
-     * The destination organization identifier
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("destination_org_id") val destinationOrgId: String,
-    /**
-     * The list of projects ids to transfer. Maximum of 400 project ids
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("project_ids") val projectIds: List<String>
+    /** The destination organization identifier */
+    @com.fasterxml.jackson.annotation.JsonProperty("destination_org_id")
+    val destinationOrgId: String,
+    /** The list of projects ids to transfer. Maximum of 400 project ids */
+    @com.fasterxml.jackson.annotation.JsonProperty("project_ids") val projectIds: List<String>,
 )
 
-/**
- * Typed representation of the `VPCEndpointsResponse` API schema.
- */
+/** Typed representation of the `VPCEndpointsResponse` API schema. */
 data class VPCEndpointsResponse(
-    /**
-     * List of VPC endpoints returned by the request.
-     */
+    /** List of VPC endpoints returned by the request. */
     val endpoints: List<VPCEndpoint>
 )
