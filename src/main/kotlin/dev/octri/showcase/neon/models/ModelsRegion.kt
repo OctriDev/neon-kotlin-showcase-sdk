@@ -3,28 +3,38 @@
 
 package dev.octri.showcase.neon.models
 
-/** Typed representation of the `ActiveRegionsResponse` API schema. */
+/**
+ * Typed representation of the `ActiveRegionsResponse` API schema.
+ */
 data class ActiveRegionsResponse(
-    /** The list of active regions */
+    /**
+     * The list of active regions
+     */
     val regions: List<RegionResponse>
 )
 
-/** Typed representation of the `RegionResponse` API schema. */
+/**
+ * Typed representation of the `RegionResponse` API schema.
+ */
 data class RegionResponse(
     /**
-     * Cloud region where the resource's Postgres compute and storage reside (for example,
-     * `aws-us-east-1`). Valid values are returned by `GET /regions`.
+     * Cloud region where the resource's Postgres compute and storage reside (for example, `aws-us-east-1`). Valid values are returned by `GET /regions`.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("region_id") val regionId: String,
-    /** A short description of the region. */
+    /**
+     * A short description of the region.
+     */
     val name: String,
     /**
-     * True if this region is selected by default when no region is specified during project
-     * creation.
+     * True if this region is selected by default when no region is specified during project creation.
      */
     val default: Boolean,
-    /** The geographical latitude (approximate) for the region. Empty if unknown. */
+    /**
+     * The geographical latitude (approximate) for the region. Empty if unknown.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("geo_lat") val geoLat: String,
-    /** The geographical longitude (approximate) for the region. Empty if unknown. */
-    @com.fasterxml.jackson.annotation.JsonProperty("geo_long") val geoLong: String,
+    /**
+     * The geographical longitude (approximate) for the region. Empty if unknown.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("geo_long") val geoLong: String
 )

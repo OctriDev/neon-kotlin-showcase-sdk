@@ -3,51 +3,37 @@
 
 package dev.octri.showcase.neon
 
+
 class UsersNamespace(private val clientConfig: ClientConfig) {
     /**
-     * Retrieves information about the currently authenticated Neon user, including account
-     * identifiers, plan details, and linked auth accounts.
+     * Retrieves information about the currently authenticated Neon user, including account identifiers, plan details, and linked auth accounts.
      */
     fun getCurrentInfo(options: RequestOptions? = null): CurrentUserInfoResponse {
         return dev.octri.showcase.neon.methods.Users.getCurrentUserInfo(clientConfig, options)
     }
 
     /**
-     * Retrieves the organizations that the currently authenticated user belongs to. When called
-     * with an organization- or project-scoped API key (which is not tied to a user), this returns
-     * the single organization that owns the key.
+     * Retrieves the organizations that the currently authenticated user belongs to. When called with an organization- or project-scoped API key (which is not tied to a user), this returns the single organization that owns the key.
      */
     fun getCurrentOrganizations(options: RequestOptions? = null): OrganizationsResponse {
-        return dev.octri.showcase.neon.methods.Users.getCurrentUserOrganizations(
-            clientConfig,
-            options,
-        )
+        return dev.octri.showcase.neon.methods.Users.getCurrentUserOrganizations(clientConfig, options)
     }
 
     /**
-     * Deprecated. Personal accounts have been migrated to organizations, so this operation no
-     * longer applies. Removal scheduled for July 1, 2026.
+     * Deprecated. Personal accounts have been migrated to organizations, so this operation no longer applies. Removal scheduled for July 1, 2026.
      *
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun transferProjects(
-        destinationOrgId: String,
-        projectIds: List<String>,
-        options: RequestOptions? = null,
-    ): EmptyResponse {
-        return dev.octri.showcase.neon.methods.Users.transferUsersProjects(
-            clientConfig,
-            destinationOrgId,
-            projectIds,
-            options,
-        )
+    fun transferProjects(destinationOrgId: String, projectIds: List<String>, options: RequestOptions? = null): EmptyResponse {
+        return dev.octri.showcase.neon.methods.Users.transferUsersProjects(clientConfig, destinationOrgId, projectIds, options)
     }
 
     /**
-     * Returns authentication details for the credentials used in the request, including the
-     * credential type (API key, Bearer token, or OAuth session) and the associated identity.
+     * Returns authentication details for the credentials used in the request, including the credential type (API key, Bearer token, or OAuth session) and the associated identity.
      */
     fun getAuthDetails(options: RequestOptions? = null): AuthDetailsResponse {
         return dev.octri.showcase.neon.methods.Users.getAuthDetails(clientConfig, options)
     }
+
 }

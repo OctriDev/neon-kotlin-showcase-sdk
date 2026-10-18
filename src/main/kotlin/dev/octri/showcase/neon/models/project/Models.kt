@@ -5,17 +5,22 @@ package dev.octri.showcase.neon.models.project
 
 import dev.octri.showcase.neon.models.ApplicationType
 
-/** A map where key is a project ID and a value is a list of installed applications. */
+/**
+ * A map where key is a project ID and a value is a list of installed applications.
+ */
 data class ProjectsApplicationsMapResponse(
     /**
-     * Map of project IDs to their installed applications. Each key is a project ID; each value is
-     * an array of application types (for example, `vercel`, `github`).
+     * Map of project IDs to their installed applications. Each key is a project ID; each value is an array of application types (for example, `vercel`, `github`).
      */
     val applications: Map<String, List<ApplicationType>>
 )
 
-/** A map where key is a project ID and a value is a list of installed integrations. */
+/**
+ * A map where key is a project ID and a value is a list of installed integrations.
+ */
 data class ProjectsIntegrationsMapResponse(
-    /** Map of project IDs to their associated integration details. */
+    /**
+     * Map of project IDs to their associated integration details.
+     */
     val integrations: Map<String, List<ApplicationType>>
 )

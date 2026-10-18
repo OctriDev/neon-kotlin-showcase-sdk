@@ -3,18 +3,22 @@
 
 package dev.octri.showcase.neon.models
 
-/** Typed representation of the `ConnectionURIResponse` API schema. */
+/**
+ * Typed representation of the `ConnectionURIResponse` API schema.
+ */
 data class ConnectionURIResponse(
-    /** The connection URI. */
+    /**
+     * The connection URI.
+     */
     val uri: String
 )
 
-/** Typed representation of the `ConnectionURIsResponse` API schema. */
+/**
+ * Typed representation of the `ConnectionURIsResponse` API schema.
+ */
 data class ConnectionURIsResponse(
     /**
-     * Connection URIs for the project. Each entry contains credentials and should be treated as
-     * sensitive.
+     * Connection URIs for the project. Each entry contains credentials and should be treated as sensitive.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("connection_uris")
-    val connectionUris: List<ConnectionDetails>
+    @com.fasterxml.jackson.annotation.JsonProperty("connection_uris") val connectionUris: List<ConnectionDetails>
 )

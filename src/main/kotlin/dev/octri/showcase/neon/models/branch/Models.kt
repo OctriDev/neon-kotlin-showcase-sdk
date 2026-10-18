@@ -5,52 +5,68 @@ package dev.octri.showcase.neon.models.branch
 
 import java.time.OffsetDateTime
 
-/** Typed representation of the `AnnotationCreateValueRequest` API schema. */
+/**
+ * Typed representation of the `AnnotationCreateValueRequest` API schema.
+ */
 data class AnnotationCreateValueRequest(
     /**
-     * A free-form map of string key-value pairs for attaching metadata to a resource (for example,
-     * a git commit reference). Maximum 50 entries.
+     * A free-form map of string key-value pairs for attaching metadata to a resource (for example, a git commit reference). Maximum 50 entries.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("annotation_value")
-    val annotationValue: AnnotationValueData? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("annotation_value") val annotationValue: AnnotationValueData? = null
 )
 
-/** Typed representation of the `AnnotationData` API schema. */
+/**
+ * Typed representation of the `AnnotationData` API schema.
+ */
 data class AnnotationData(
-    /** Resource that this annotation is attached to. */
+    /**
+     * Resource that this annotation is attached to.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("object") val `object`: AnnotationObjectData,
     /**
-     * A free-form map of string key-value pairs for attaching metadata to a resource (for example,
-     * a git commit reference). Maximum 50 entries.
+     * A free-form map of string key-value pairs for attaching metadata to a resource (for example, a git commit reference). Maximum 50 entries.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("value") val `value`: AnnotationValueData,
-    /** Timestamp when the annotation was created, in RFC 3339 format (UTC). */
-    @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    val createdAt: OffsetDateTime? = null,
-    /** Timestamp of the most recent update to the annotation, in RFC 3339 format (UTC). */
-    @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
-    val updatedAt: OffsetDateTime? = null,
+    /**
+     * Timestamp when the annotation was created, in RFC 3339 format (UTC).
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime? = null,
+    /**
+     * Timestamp of the most recent update to the annotation, in RFC 3339 format (UTC).
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("updated_at") val updatedAt: OffsetDateTime? = null
 )
 
-/** Typed representation of the `AnnotationObjectData` API schema. */
+/**
+ * Typed representation of the `AnnotationObjectData` API schema.
+ */
 data class AnnotationObjectData(
-    /** Kind of resource the annotation is attached to, for example "branch" or "endpoint". */
+    /**
+     * Kind of resource the annotation is attached to, for example "branch" or "endpoint".
+     */
     val type: String,
-    /** The annotated object's ID. */
-    val id: String,
+    /**
+     * The annotated object's ID.
+     */
+    val id: String
 )
 
-/** Typed representation of the `AnnotationResponse` API schema. */
+/**
+ * Typed representation of the `AnnotationResponse` API schema.
+ */
 data class AnnotationResponse(
-    /** Annotation data associated with the annotated object. */
+    /**
+     * Annotation data associated with the annotated object.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("annotation") val `annotation`: AnnotationData
 )
 
-/** Typed representation of the `AnnotationsMapResponse` API schema. */
+/**
+ * Typed representation of the `AnnotationsMapResponse` API schema.
+ */
 data class AnnotationsMapResponse(
     /**
-     * Map of annotations keyed by resource identifier, where each value contains the annotation
-     * data for that resource.
+     * Map of annotations keyed by resource identifier, where each value contains the annotation data for that resource.
      */
     val annotations: Map<String, AnnotationData>
 )

@@ -6,36 +6,55 @@ package dev.octri.showcase.neon.models
 import java.time.OffsetDateTime
 
 /**
- * An asynchronous action Neon performs on your resources (for example, starting a compute or
- * creating a branch). Fields such as `action`, `status`, and `total_duration_ms` describe the
- * operation and its progress.
+ * An asynchronous action Neon performs on your resources (for example, starting a compute or creating a branch). Fields such as `action`, `status`, and `total_duration_ms` describe the operation and its progress.
  */
 data class Operation(
-    /** The operation ID */
+    /**
+     * The operation ID
+     */
     val id: String,
-    /** The ID of the project this operation ran on. */
+    /**
+     * The ID of the project this operation ran on.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String,
-    /** The action performed by the operation */
+    /**
+     * The action performed by the operation
+     */
     val action: OperationAction,
     /**
-     * Current lifecycle state of the operation. On `failed`, see `failures_count` and `retry_at`
-     * for retry detail.
+     * Current lifecycle state of the operation. On `failed`, see `failures_count` and `retry_at` for retry detail.
      */
     val status: OperationStatus,
-    /** The number of times the operation failed */
+    /**
+     * The number of times the operation failed
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("failures_count") val failuresCount: Int,
-    /** A timestamp indicating when the operation was created */
+    /**
+     * A timestamp indicating when the operation was created
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /** A timestamp indicating when the operation status was last updated */
+    /**
+     * A timestamp indicating when the operation status was last updated
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at") val updatedAt: OffsetDateTime,
-    /** The total duration of the operation in milliseconds */
+    /**
+     * The total duration of the operation in milliseconds
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("total_duration_ms") val totalDurationMs: Int,
-    /** The ID of the branch this operation ran on. */
+    /**
+     * The ID of the branch this operation ran on.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("branch_id") val branchId: String? = null,
-    /** The ID of the compute endpoint this operation ran on. */
+    /**
+     * The ID of the compute endpoint this operation ran on.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("endpoint_id") val endpointId: String? = null,
-    /** Human-readable message describing why the operation failed. */
+    /**
+     * Human-readable message describing why the operation failed.
+     */
     val error: String? = null,
-    /** A timestamp indicating when the operation was last retried */
-    @com.fasterxml.jackson.annotation.JsonProperty("retry_at") val retryAt: OffsetDateTime? = null,
+    /**
+     * A timestamp indicating when the operation was last retried
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("retry_at") val retryAt: OffsetDateTime? = null
 )

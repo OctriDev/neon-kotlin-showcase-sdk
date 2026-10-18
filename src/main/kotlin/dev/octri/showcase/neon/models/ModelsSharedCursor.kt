@@ -4,35 +4,29 @@
 package dev.octri.showcase.neon.models
 
 /**
- * To paginate the response, issue an initial request with `limit` value. Then, add the value
- * returned in the response `.pagination.next` attribute into the request under the `cursor` query
- * parameter to the subsequent request to retrieve next page in pagination. The contents on cursor
- * `next` are opaque, clients are not expected to make any assumptions on the format of the data
- * inside the cursor.
+ * To paginate the response, issue an initial request with `limit` value. Then, add the value returned in the response `.pagination.next` attribute into the request under the `cursor` query parameter to the subsequent request to retrieve next page in pagination. The contents on cursor `next` are opaque, clients are not expected to make any assumptions on the format of the data inside the cursor.
  */
 data class CursorPagination(
     /**
-     * Cursor for the next page of results. Pass it as the `cursor` query parameter on the next
-     * request. Absent on the last page.
+     * Cursor for the next page of results. Pass it as the `cursor` query parameter on the next request. Absent on the last page.
      */
     val next: String? = null,
-    /** Field by which the results were sorted, echoing the request's sort_by parameter. */
+    /**
+     * Field by which the results were sorted, echoing the request's sort_by parameter.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("sort_by") val sortBy: String? = null,
     /**
-     * Sort order active for this page. Pass back as `sort_order` in the next request to maintain
-     * consistent ordering. Valid values are `asc` and `desc`.
+     * Sort order active for this page. Pass back as `sort_order` in the next request to maintain consistent ordering. Valid values are `asc` and `desc`.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("sort_order") val sortOrder: String? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("sort_order") val sortOrder: String? = null
 )
 
-/** Typed representation of the `CursorPaginationResponse` API schema. */
+/**
+ * Typed representation of the `CursorPaginationResponse` API schema.
+ */
 data class CursorPaginationResponse(
     /**
-     * To paginate the response, issue an initial request with `limit` value. Then, add the value
-     * returned in the response `.pagination.next` attribute into the request under the `cursor`
-     * query parameter to the subsequent request to retrieve next page in pagination. The contents
-     * on cursor `next` are opaque, clients are not expected to make any assumptions on the format
-     * of the data inside the cursor.
+     * To paginate the response, issue an initial request with `limit` value. Then, add the value returned in the response `.pagination.next` attribute into the request under the `cursor` query parameter to the subsequent request to retrieve next page in pagination. The contents on cursor `next` are opaque, clients are not expected to make any assumptions on the format of the data inside the cursor.
      */
     val pagination: CursorPagination? = null
 )

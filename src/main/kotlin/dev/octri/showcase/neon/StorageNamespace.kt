@@ -3,19 +3,13 @@
 
 package dev.octri.showcase.neon
 
+
 class StorageNamespace(private val clientConfig: ClientConfig) {
     /**
-     * Returns whether branchable object storage is usable for the specified branch. A 200 response
-     * means the branch is registered in the object storage service and the S3 data plane will
-     * accept requests for it. A 404 response includes a `reason` field indicating why object
-     * storage is unavailable. **Note**: This endpoint is currently in Beta.
+     * Returns whether branchable object storage is usable for the specified branch. A 200 response means the branch is registered in the object storage service and the S3 data plane will accept requests for it. A 404 response includes a `reason` field indicating why object storage is unavailable. **Note**: This endpoint is currently in Beta.
      */
     fun get(projectId: String, branchId: String, options: RequestOptions? = null): BranchStorage {
-        return dev.octri.showcase.neon.methods.Storage.getStorage(
-            clientConfig,
-            projectId,
-            branchId,
-            options,
-        )
+        return dev.octri.showcase.neon.methods.Storage.getStorage(clientConfig, projectId, branchId, options)
     }
+
 }
