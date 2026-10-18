@@ -3,6 +3,32 @@
 
 package dev.octri.showcase.neon
 
+typealias NeonAuthPhoneNumberConfig = dev.octri.showcase.neon.models.NeonAuthPhoneNumberConfig
+
+typealias NeonAuthPhoneNumberConfigUpdate = dev.octri.showcase.neon.models.NeonAuthPhoneNumberConfigUpdate
+
+typealias NeonAuthPluginConfigs = dev.octri.showcase.neon.models.NeonAuthPluginConfigs
+
+typealias NeonAuthProviderProjectOwnedBy = dev.octri.showcase.neon.models.NeonAuthProviderProjectOwnedBy
+
+typealias NeonAuthProviderProjectTransferStatus = dev.octri.showcase.neon.models.NeonAuthProviderProjectTransferStatus
+
+typealias NeonAuthRedirectURIWhitelistDomain = dev.octri.showcase.neon.models.NeonAuthRedirectURIWhitelistDomain
+
+typealias NeonAuthRedirectURIWhitelistResponse = dev.octri.showcase.neon.models.NeonAuthRedirectURIWhitelistResponse
+
+typealias NeonAuthSupportedAuthProvider = dev.octri.showcase.neon.models.NeonAuthSupportedAuthProvider
+
+typealias NeonAuthTransferAuthProviderProjectRequest = dev.octri.showcase.neon.models.NeonAuthTransferAuthProviderProjectRequest
+
+typealias NeonAuthTransferAuthProviderProjectResponse = dev.octri.showcase.neon.models.NeonAuthTransferAuthProviderProjectResponse
+
+typealias NeonAuthUpdateOAuthProviderRequest = dev.octri.showcase.neon.models.NeonAuthUpdateOAuthProviderRequest
+
+typealias NeonAuthWebhookConfig = dev.octri.showcase.neon.models.NeonAuthWebhookConfig
+
+typealias NeonAuthWebhookConfigEnabledEventsItemEnum = dev.octri.showcase.neon.models.NeonAuthWebhookConfigEnabledEventsItemEnum
+
 typealias NeonFunction = dev.octri.showcase.neon.models.NeonFunction
 
 typealias NeonFunctionDeployment = dev.octri.showcase.neon.models.NeonFunctionDeployment
@@ -171,6 +197,8 @@ typealias RealtimeSecret = dev.octri.showcase.neon.models.RealtimeSecret
 
 typealias RegionResponse = dev.octri.showcase.neon.models.RegionResponse
 
+typealias RestoreSnapshotResponse = dev.octri.showcase.neon.models.RestoreSnapshotResponse
+
 typealias Role = dev.octri.showcase.neon.models.Role
 
 typealias RoleCreateRequest = dev.octri.showcase.neon.models.RoleCreateRequest
@@ -213,6 +241,8 @@ typealias SetProjectMemberRoleRequest = dev.octri.showcase.neon.models.SetProjec
 
 typealias SharedEmailServer = dev.octri.showcase.neon.models.SharedEmailServer
 
+typealias SharedEmailServerTypeEnum = dev.octri.showcase.neon.models.SharedEmailServerTypeEnum
+
 typealias Snapshot = dev.octri.showcase.neon.models.Snapshot
 
 typealias SnapshotUpdateRequest = dev.octri.showcase.neon.models.SnapshotUpdateRequest
@@ -226,6 +256,10 @@ typealias SpendingLimitUpdateRequest = dev.octri.showcase.neon.models.SpendingLi
 typealias StandardEmailServer = dev.octri.showcase.neon.models.StandardEmailServer
 
 typealias StandardEmailServerResponse = dev.octri.showcase.neon.models.StandardEmailServerResponse
+
+typealias StandardEmailServerResponseTypeEnum = dev.octri.showcase.neon.models.StandardEmailServerResponseTypeEnum
+
+typealias StandardEmailServerTypeEnum = dev.octri.showcase.neon.models.StandardEmailServerTypeEnum
 
 typealias StorageObjectCreatedTrigger = dev.octri.showcase.neon.models.StorageObjectCreatedTrigger
 
@@ -270,6 +304,8 @@ typealias UpdateNeonAuthAllowLocalhostRequest = dev.octri.showcase.neon.models.U
 typealias UpdateNeonAuthUserRoleRequest = dev.octri.showcase.neon.models.UpdateNeonAuthUserRoleRequest
 
 typealias UpdateNeonAuthUserRoleResponse = dev.octri.showcase.neon.models.UpdateNeonAuthUserRoleResponse
+
+typealias UpdateProjectResponse = dev.octri.showcase.neon.models.UpdateProjectResponse
 
 typealias VPCEndpoint = dev.octri.showcase.neon.models.VPCEndpoint
 

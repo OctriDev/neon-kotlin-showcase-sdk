@@ -8,12 +8,12 @@ import dev.octri.showcase.neon.EmptyResponse
 import dev.octri.showcase.neon.GeneralError
 import dev.octri.showcase.neon.LimitsUnsatisfiedResponse
 import dev.octri.showcase.neon.ListOrganizationsMembersParameterEnum
+import dev.octri.showcase.neon.ListOrganizationsMembersResponse
 import dev.octri.showcase.neon.Member
 import dev.octri.showcase.neon.MemberRole
 import dev.octri.showcase.neon.Organization
 import dev.octri.showcase.neon.OrganizationInvitationsResponse
 import dev.octri.showcase.neon.OrganizationInviteCreateRequest
-import dev.octri.showcase.neon.OrganizationMembersResponse
 import dev.octri.showcase.neon.OrgApiKeyCreateRequest
 import dev.octri.showcase.neon.OrgApiKeyCreateResponse
 import dev.octri.showcase.neon.OrgApiKeyRevokeResponse
@@ -171,14 +171,14 @@ object Organizations {
      * @param sortOrder Defines the sorting order of entities.
      * @param limit The maximum number of members to return in the response
      */
-    fun listOrganizationsMembers(clientConfig: ClientConfig, orgId: String, sortBy: ListOrganizationsMembersParameterEnum? = null, cursor: String? = null, sortOrder: SchemaSchemaEnum? = null, limit: Long? = null, options: RequestOptions? = null): OrganizationMembersResponse {
+    fun listOrganizationsMembers(clientConfig: ClientConfig, orgId: String, sortBy: ListOrganizationsMembersParameterEnum? = null, cursor: String? = null, sortOrder: SchemaSchemaEnum? = null, limit: Long? = null, options: RequestOptions? = null): ListOrganizationsMembersResponse {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
         if (limit != null) {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 500.0))
 }
 
-        return SdkClient.request<OrganizationMembersResponse>(SdkClient.RequestSpec("GET", "/organizations/${SdkClient.encodePathSegment(orgId)}/members", config = clientConfig, query = mapOf("sort_by" to SdkClient.queryValue(sortBy, "form", true), "cursor" to SdkClient.queryValue(cursor, "form", true), "sort_order" to
+        return SdkClient.request<ListOrganizationsMembersResponse>(SdkClient.RequestSpec("GET", "/organizations/${SdkClient.encodePathSegment(orgId)}/members", config = clientConfig, query = mapOf("sort_by" to SdkClient.queryValue(sortBy, "form", true), "cursor" to SdkClient.queryValue(cursor, "form", true), "sort_order" to
     SdkClient.queryValue(sortOrder, "form", true), "limit" to SdkClient.queryValue(limit, "form", true)), operationId = "listOrganizationsMembers", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 

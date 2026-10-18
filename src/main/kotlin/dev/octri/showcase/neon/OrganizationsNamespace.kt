@@ -57,7 +57,7 @@ class OrganizationsNamespace(private val clientConfig: ClientConfig) {
     /**
      * Retrieves a paginated list of members for the specified organization.
      */
-    fun listMembers(orgId: String, sortBy: ListOrganizationsMembersParameterEnum? = null, cursor: String? = null, sortOrder: SchemaSchemaEnum? = null, limit: Long? = null, options: RequestOptions? = null): OrganizationMembersResponse {
+    fun listMembers(orgId: String, sortBy: ListOrganizationsMembersParameterEnum? = null, cursor: String? = null, sortOrder: SchemaSchemaEnum? = null, limit: Long? = null, options: RequestOptions? = null): ListOrganizationsMembersResponse {
         return dev.octri.showcase.neon.methods.Organizations.listOrganizationsMembers(clientConfig, orgId, sortBy, cursor, sortOrder, limit, options)
     }
 

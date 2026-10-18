@@ -208,3 +208,45 @@ data class ConsumptionMetricValue(
      */
     @com.fasterxml.jackson.annotation.JsonProperty("value") val `value`: Long
 )
+
+/**
+ * Typed representation of the `GetConsumptionHistoryPerBranchV2Response` API schema.
+ */
+data class GetConsumptionHistoryPerBranchV2Response(
+    /**
+     * Per-branch consumption history records returned for the requested time range.
+     */
+    val branches: List<ConsumptionHistoryPerBranchV2>,
+    /**
+     * Cursor-based pagination. The `cursor` value reflects the endpoint's sort field (for example, an ID or timestamp), so pass it back unchanged.
+     */
+    val pagination: Pagination? = null
+)
+
+/**
+ * Typed representation of the `GetConsumptionHistoryPerProjectResponse` API schema.
+ */
+data class GetConsumptionHistoryPerProjectResponse(
+    /**
+     * Per-project consumption history records included in the response.
+     */
+    val projects: List<ConsumptionHistoryPerProject>,
+    /**
+     * Cursor-based pagination. The `cursor` value reflects the endpoint's sort field (for example, an ID or timestamp), so pass it back unchanged.
+     */
+    val pagination: Pagination? = null
+)
+
+/**
+ * Typed representation of the `GetConsumptionHistoryPerProjectV2Response` API schema.
+ */
+data class GetConsumptionHistoryPerProjectV2Response(
+    /**
+     * Per-project consumption history entries for the requested time range.
+     */
+    val projects: List<ConsumptionHistoryPerProjectV2>,
+    /**
+     * Cursor-based pagination. The `cursor` value reflects the endpoint's sort field (for example, an ID or timestamp), so pass it back unchanged.
+     */
+    val pagination: Pagination? = null
+)

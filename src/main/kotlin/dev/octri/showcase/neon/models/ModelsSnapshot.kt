@@ -52,6 +52,24 @@ data class EndpointsOptionalResponse(
 )
 
 /**
+ * Typed representation of the `RestoreSnapshotResponse` API schema.
+ */
+data class RestoreSnapshotResponse(
+    /**
+     * Branch returned by the request.
+     */
+    val branch: Branch,
+    /**
+     * Required array value serialized in the `operations` wire field.
+     */
+    val operations: List<Operation>,
+    /**
+     * Compute endpoints associated with the project.
+     */
+    val endpoints: List<Endpoint>? = null
+)
+
+/**
  * Typed representation of the `Snapshot` API schema.
  */
 data class Snapshot(

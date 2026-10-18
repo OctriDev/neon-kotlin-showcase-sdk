@@ -7,17 +7,18 @@ import dev.octri.showcase.neon.AnonymizedBranchStatusResponse
 import dev.octri.showcase.neon.BranchAnonymizedCreateRequest
 import dev.octri.showcase.neon.BranchCreateRequest
 import dev.octri.showcase.neon.BranchesCountResponse
-import dev.octri.showcase.neon.BranchesResponse
 import dev.octri.showcase.neon.BranchOperations
-import dev.octri.showcase.neon.BranchResponse
 import dev.octri.showcase.neon.BranchSchemaCompareResponse
 import dev.octri.showcase.neon.BranchSchemaResponse
 import dev.octri.showcase.neon.ClientConfig
+import dev.octri.showcase.neon.CreateBranchResponse
 import dev.octri.showcase.neon.DatabaseOperations
 import dev.octri.showcase.neon.DatabaseResponse
 import dev.octri.showcase.neon.DatabasesResponse
 import dev.octri.showcase.neon.EndpointsResponse
+import dev.octri.showcase.neon.GetBranchResponse
 import dev.octri.showcase.neon.ListBranchParameterEnum
+import dev.octri.showcase.neon.ListBranchResponse
 import dev.octri.showcase.neon.MaskingRule
 import dev.octri.showcase.neon.MaskingRulesResponse
 import dev.octri.showcase.neon.OperationsResponse
@@ -136,7 +137,7 @@ data class RoleCreateRequestRole(
     /**
      * Creates a branch in the specified project. No request body is required, but you can specify one to create a compute endpoint or select a non-default parent branch. By default, the branch is created from the project's default branch with no compute endpoint, and the branch name is auto-generated. To access the branch, add a `read_write` endpoint. Each branch supports one read-write endpoint and multiple read-only endpoints. For related information, see [Manage branches](https://neon.com/docs/manage/branches/).
      */
-    fun createBranch(clientConfig: ClientConfig, projectId: String, body: BranchCreateRequest? = null, options: RequestOptions? = null): BranchResponse =
+    fun createBranch(clientConfig: ClientConfig, projectId: String, body: BranchCreateRequest? = null, options: RequestOptions? = null): CreateBranchResponse =
         dev.octri.showcase.neon.methods.BranchMethodsCreateBranchOperation.createBranch(
             clientConfig,
             projectId,
@@ -147,7 +148,7 @@ data class RoleCreateRequestRole(
     /**
      * Retrieves a list of branches for the specified project. Each Neon project has a root branch named `main`. A `branch_id` value has a `br-` prefix. A project may contain child branches that were branched from `main` or from another branch. A parent branch is identified by the `parent_id` value, which is the `id` of the parent branch. For related information, see [Manage branches](https://neon.com/docs/manage/branches/).
      */
-    fun listBranch(clientConfig: ClientConfig, request: ListBranchRequest, options: RequestOptions? = null): BranchesResponse =
+    fun listBranch(clientConfig: ClientConfig, request: ListBranchRequest, options: RequestOptions? = null): ListBranchResponse =
         dev.octri.showcase.neon.methods.BranchMethodsListBranchOperation.listBranch(
             clientConfig,
             request,
@@ -157,7 +158,7 @@ data class RoleCreateRequestRole(
     /**
      * Creates a branch with anonymized data using PostgreSQL Anonymizer for static masking. Supply `branch_create` to configure the branch and optionally provide `masking_rules` or set `start_anonymization` to true to apply masking rules and start anonymization during creation. This endpoint is in beta; the response includes the created branch, operations, and any endpoints specified in the request.
      */
-    fun createBranchAnonymized(clientConfig: ClientConfig, projectId: String, body: BranchAnonymizedCreateRequest, options: RequestOptions? = null): BranchResponse =
+    fun createBranchAnonymized(clientConfig: ClientConfig, projectId: String, body: BranchAnonymizedCreateRequest, options: RequestOptions? = null): CreateBranchResponse =
         dev.octri.showcase.neon.methods.BranchMethodsCreateBranchAnonymizedOperation.createBranchAnonymized(
             clientConfig,
             projectId,
@@ -179,7 +180,7 @@ data class RoleCreateRequestRole(
     /**
      * Retrieves information about the specified branch. A `branch_id` value has a `br-` prefix. Each Neon project is initially created with a root and default branch named `main`. A project can contain one or more branches. A parent branch is identified by a `parent_id` value, which is the `id` of the parent branch. For related information, see [Manage branches](https://neon.com/docs/manage/branches/).
      */
-    fun getBranch(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): BranchResponse =
+    fun getBranch(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): GetBranchResponse =
         dev.octri.showcase.neon.methods.BranchMethodsGetBranchOperation.getBranch(
             clientConfig,
             projectId,

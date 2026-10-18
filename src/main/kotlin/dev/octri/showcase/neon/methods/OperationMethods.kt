@@ -5,8 +5,8 @@ package dev.octri.showcase.neon.methods
 
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.GeneralError
+import dev.octri.showcase.neon.ListOperationResponse
 import dev.octri.showcase.neon.OperationResponse
-import dev.octri.showcase.neon.OperationsResponse
 import dev.octri.showcase.neon.RequestOptions
 import dev.octri.showcase.neon.SdkClient
 import dev.octri.showcase.neon.Validation
@@ -43,14 +43,14 @@ object OperationMethods {
      * @param limit Specify a value from 1 to 1000 to limit number of operations in
      *   the response
      */
-    fun listOperation(clientConfig: ClientConfig, projectId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): OperationsResponse {
+    fun listOperation(clientConfig: ClientConfig, projectId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): ListOperationResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         if (limit != null) {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 1000.0))
 }
 
-        return SdkClient.request<OperationsResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/operations", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true)), operationId = "listOperation", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ListOperationResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/operations", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true)), operationId = "listOperation", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
 

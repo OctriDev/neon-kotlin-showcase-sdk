@@ -10,10 +10,13 @@ import dev.octri.showcase.neon.AvailablePreloadLibraries
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.ComputeUnit
 import dev.octri.showcase.neon.ConnectionURIResponse
+import dev.octri.showcase.neon.CreateProjectResponse
 import dev.octri.showcase.neon.DefaultEndpointSettings
 import dev.octri.showcase.neon.GetProjectAdvisorSecurityIssuesParameterEnum
 import dev.octri.showcase.neon.JWKS
 import dev.octri.showcase.neon.JWKSCreationOperation
+import dev.octri.showcase.neon.ListProjectsResponse
+import dev.octri.showcase.neon.ListSharedProjectsResponse
 import dev.octri.showcase.neon.PgVersion
 import dev.octri.showcase.neon.ProjectJWKSResponse
 import dev.octri.showcase.neon.ProjectMemberRoleResponse
@@ -24,11 +27,11 @@ import dev.octri.showcase.neon.ProjectRecoverResponse
 import dev.octri.showcase.neon.ProjectResponse
 import dev.octri.showcase.neon.ProjectRole
 import dev.octri.showcase.neon.ProjectSettingsData
-import dev.octri.showcase.neon.ProjectsResponse
 import dev.octri.showcase.neon.ProjectTransferRequestResponse
 import dev.octri.showcase.neon.Provisioner
 import dev.octri.showcase.neon.RealtimeOptions
 import dev.octri.showcase.neon.RequestOptions
+import dev.octri.showcase.neon.UpdateProjectResponse
 import dev.octri.showcase.neon.VPCEndpointsResponse
 
 object ProjectMethods {
@@ -186,7 +189,7 @@ data class ProjectUpdateRequestProject(
     /**
      * Retrieves a list of projects for the specified organization. If using a personal API key, include the `org_id` parameter to specify which organization to work with. If using an org API key, `org_id` is automatically inferred from the key. For more information, see [Manage organizations using the Neon API](https://neon.com/docs/manage/orgs-api) and [Manage projects](https://neon.com/docs/manage/projects/).
      */
-    fun listProjects(clientConfig: ClientConfig, request: ListProjectsRequest, options: RequestOptions? = null): ProjectsResponse =
+    fun listProjects(clientConfig: ClientConfig, request: ListProjectsRequest, options: RequestOptions? = null): ListProjectsResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsListProjectsOperation.listProjects(
             clientConfig,
             request,
@@ -196,7 +199,7 @@ data class ProjectUpdateRequestProject(
     /**
      * Creates a Neon project within an organization. If using a personal API key, include the `org_id` parameter to specify which organization to create the project in. If using an org API key, `org_id` is automatically inferred from the key. Plan limits define how many projects you can create. For more information, see [Manage projects](https://neon.com/docs/manage/projects/). You can specify a region and Postgres version in the request body. Neon supports Postgres 14 through 18, with 19 rolling out to enabled regions. For supported regions and `region_id` values, see [Regions](https://neon.com/docs/introduction/regions/).
      */
-    fun createProject(clientConfig: ClientConfig, project: ProjectCreateRequestProject, options: RequestOptions? = null): ProjectResponse =
+    fun createProject(clientConfig: ClientConfig, project: ProjectCreateRequestProject, options: RequestOptions? = null): CreateProjectResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsCreateProjectOperation.createProject(
             clientConfig,
             project,
@@ -206,7 +209,7 @@ data class ProjectUpdateRequestProject(
     /**
      * Retrieves a list of projects shared with your Neon account. For more information, see [Manage projects](https://neon.com/docs/manage/projects/).
      */
-    fun listSharedProjects(clientConfig: ClientConfig, cursor: String? = null, limit: Long? = null, search: String? = null, timeout: Long? = null, options: RequestOptions? = null): ProjectsResponse =
+    fun listSharedProjects(clientConfig: ClientConfig, cursor: String? = null, limit: Long? = null, search: String? = null, timeout: Long? = null, options: RequestOptions? = null): ListSharedProjectsResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsListSharedProjectsOperation.listSharedProjects(
             clientConfig,
             cursor,
@@ -229,7 +232,7 @@ data class ProjectUpdateRequestProject(
     /**
      * Updates configurable properties of a Neon project, including its name, project settings, default endpoint settings, and history retention period. Supply the required `project` object and include only the properties you want to change. The response includes the updated project and any operations associated with the update.
      */
-    fun updateProject(clientConfig: ClientConfig, projectId: String, project: ProjectUpdateRequestProject, options: RequestOptions? = null): ProjectResponse =
+    fun updateProject(clientConfig: ClientConfig, projectId: String, project: ProjectUpdateRequestProject, options: RequestOptions? = null): UpdateProjectResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsUpdateProjectOperation.updateProject(
             clientConfig,
             projectId,

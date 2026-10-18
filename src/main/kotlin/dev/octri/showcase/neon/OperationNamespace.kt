@@ -15,7 +15,7 @@ class OperationNamespace(private val clientConfig: ClientConfig) {
     /**
      * Retrieves a list of operations for the specified Neon project. The number of operations returned can be large. To paginate the response, issue an initial request with a `limit` value. Then, add the `cursor` value that was returned in the response to the next request. Operations older than 6 months may be deleted from our systems. If you need more history than that, you should store your own history.
      */
-    fun list(projectId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): OperationsResponse {
+    fun list(projectId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): ListOperationResponse {
         return dev.octri.showcase.neon.methods.OperationMethods.listOperation(clientConfig, projectId, cursor, limit, options)
     }
 

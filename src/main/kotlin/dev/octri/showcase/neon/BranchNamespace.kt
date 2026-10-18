@@ -8,14 +8,14 @@ class BranchNamespace(private val clientConfig: ClientConfig) {
     /**
      * Creates a branch in the specified project. No request body is required, but you can specify one to create a compute endpoint or select a non-default parent branch. By default, the branch is created from the project's default branch with no compute endpoint, and the branch name is auto-generated. To access the branch, add a `read_write` endpoint. Each branch supports one read-write endpoint and multiple read-only endpoints. For related information, see Manage branches.
      */
-    fun create(projectId: String, body: BranchCreateRequest? = null, options: RequestOptions? = null): BranchResponse {
+    fun create(projectId: String, body: BranchCreateRequest? = null, options: RequestOptions? = null): CreateBranchResponse {
         return dev.octri.showcase.neon.methods.BranchMethods.createBranch(clientConfig, projectId, body, options)
     }
 
     /**
      * Retrieves a list of branches for the specified project. Each Neon project has a root branch named `main`. A `branch_id` value has a `br-` prefix. A project may contain child branches that were branched from `main` or from another branch. A parent branch is identified by the `parent_id` value, which is the `id` of the parent branch. For related information, see Manage branches.
      */
-    fun list(request: dev.octri.showcase.neon.methods.BranchMethods.ListBranchRequest, options: RequestOptions? = null): BranchesResponse {
+    fun list(request: dev.octri.showcase.neon.methods.BranchMethods.ListBranchRequest, options: RequestOptions? = null): ListBranchResponse {
         return dev.octri.showcase.neon.methods.BranchMethods.listBranch(clientConfig, request, options)
     }
 
@@ -24,7 +24,7 @@ class BranchNamespace(private val clientConfig: ClientConfig) {
      *
      * Creates a new branch with anonymized data using PostgreSQL Anonymizer for static masking. This allows developers to work with masked production data. Optionally, provide `masking_rules` to set initial masking rules for the branch and `start_anonymization` to automatically start anonymization after creation. This combines functionality of updating masking rules and starting anonymization into the branch creation request. **Note**: This endpoint is currently in Beta.
      */
-    fun createAnonymized(projectId: String, body: BranchAnonymizedCreateRequest, options: RequestOptions? = null): BranchResponse {
+    fun createAnonymized(projectId: String, body: BranchAnonymizedCreateRequest, options: RequestOptions? = null): CreateBranchResponse {
         return dev.octri.showcase.neon.methods.BranchMethods.createBranchAnonymized(clientConfig, projectId, body, options)
     }
 
@@ -38,7 +38,7 @@ class BranchNamespace(private val clientConfig: ClientConfig) {
     /**
      * Retrieves information about the specified branch. A `branch_id` value has a `br-` prefix. Each Neon project is initially created with a root and default branch named `main`. A project can contain one or more branches. A parent branch is identified by a `parent_id` value, which is the `id` of the parent branch. For related information, see Manage branches.
      */
-    fun get(projectId: String, branchId: String, options: RequestOptions? = null): BranchResponse {
+    fun get(projectId: String, branchId: String, options: RequestOptions? = null): GetBranchResponse {
         return dev.octri.showcase.neon.methods.BranchMethods.getBranch(clientConfig, projectId, branchId, options)
     }
 

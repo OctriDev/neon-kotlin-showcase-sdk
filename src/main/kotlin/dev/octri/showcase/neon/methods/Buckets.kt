@@ -161,6 +161,7 @@ object Buckets {
             for (item in items) {
                 if (!yieldFn(item)) return
             }
+            if (page.isTruncated != true) return
             val nextCursor = page.nextCursor ?: return
             cursor = nextCursor
         }
@@ -179,7 +180,7 @@ object Buckets {
             val items = page.objects.orEmpty()
             if (items.isEmpty()) return
             val nextCursor = page.nextCursor
-            val hasMore = nextCursor != null
+            val hasMore = page.isTruncated == true && nextCursor != null
             if (!yieldPage(ListBucketsObjectsPage(page, items, hasMore))) return
             if (!hasMore) return
             cursor = nextCursor

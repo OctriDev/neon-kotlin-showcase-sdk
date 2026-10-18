@@ -5,13 +5,13 @@ package dev.octri.showcase.neon.methods
 
 import dev.octri.showcase.neon.BackupSchedule
 import dev.octri.showcase.neon.BackupScheduleItem
-import dev.octri.showcase.neon.BranchResponse
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.EmptyResponse
 import dev.octri.showcase.neon.GeneralError
 import dev.octri.showcase.neon.Operation
 import dev.octri.showcase.neon.OperationsResponse
 import dev.octri.showcase.neon.RequestOptions
+import dev.octri.showcase.neon.RestoreSnapshotResponse
 import dev.octri.showcase.neon.SdkClient
 import dev.octri.showcase.neon.Snapshot
 import dev.octri.showcase.neon.Validation
@@ -181,10 +181,10 @@ data class UpdateSnapshotResponse(
      *   to the new branch, similar to the `finalizeRestoreBranch` operation. Defaults
      *   to `false` to allow previewing the restored snapshot data first.
      */
-    fun restoreSnapshot(clientConfig: ClientConfig, request: RestoreSnapshotRequest, options: RequestOptions? = null): BranchResponse {
+    fun restoreSnapshot(clientConfig: ClientConfig, request: RestoreSnapshotRequest, options: RequestOptions? = null): RestoreSnapshotResponse {
         validateRestoreSnapshotRequest(request)
 
-        return SdkClient.request<BranchResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(request.projectId)}/snapshots/${SdkClient.encodePathSegment(request.snapshotId)}/restore", config = clientConfig, query = mapOf("name" to SdkClient.queryValue(request.name, "form", true)), body = SdkClient.bodyMap("name" to (SdkClient.omitIfNull(request.name2)), "target_branch_id" to
+        return SdkClient.request<RestoreSnapshotResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(request.projectId)}/snapshots/${SdkClient.encodePathSegment(request.snapshotId)}/restore", config = clientConfig, query = mapOf("name" to SdkClient.queryValue(request.name, "form", true)), body = SdkClient.bodyMap("name" to (SdkClient.omitIfNull(request.name2)), "target_branch_id" to
     (SdkClient.omitIfNull(request.targetBranchId)), "finalize_restore" to
     (SdkClient.omitIfNull(request.finalizeRestore))), operationId = "restoreSnapshot", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }

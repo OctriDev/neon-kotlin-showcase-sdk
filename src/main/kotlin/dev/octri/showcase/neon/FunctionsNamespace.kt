@@ -8,7 +8,7 @@ class FunctionsNamespace(private val clientConfig: ClientConfig) {
     /**
      * Lists functions on the specified branch. **Note**: This endpoint is currently in Beta.
      */
-    fun list(projectId: String, branchId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): NeonFunctionsListResponse {
+    fun list(projectId: String, branchId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): ListFunctionsResponse {
         return dev.octri.showcase.neon.methods.Functions.listFunctions(clientConfig, projectId, branchId, cursor, limit, options)
     }
 
@@ -91,7 +91,7 @@ class FunctionsNamespace(private val clientConfig: ClientConfig) {
     /**
      * Lists all custom domains registered on the branch, across every target entity. **Note**: This endpoint is currently in Beta.
      */
-    fun listCustomDomains(projectId: String, branchId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): CustomDomainsListResponse {
+    fun listCustomDomains(projectId: String, branchId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): ListFunctionsCustomDomainsResponse {
         return dev.octri.showcase.neon.methods.Functions.listFunctionsCustomDomains(clientConfig, projectId, branchId, cursor, limit, options)
     }
 

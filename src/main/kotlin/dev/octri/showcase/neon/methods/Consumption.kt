@@ -5,11 +5,11 @@ package dev.octri.showcase.neon.methods
 
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.ConsumptionHistoryGranularity
-import dev.octri.showcase.neon.ConsumptionHistoryPerBranchV2Response
-import dev.octri.showcase.neon.ConsumptionHistoryPerProjectResponse
-import dev.octri.showcase.neon.ConsumptionHistoryPerProjectV2Response
 import dev.octri.showcase.neon.ConsumptionHistoryQueryMetrics
 import dev.octri.showcase.neon.GeneralError
+import dev.octri.showcase.neon.GetConsumptionHistoryPerBranchV2Response
+import dev.octri.showcase.neon.GetConsumptionHistoryPerProjectResponse
+import dev.octri.showcase.neon.GetConsumptionHistoryPerProjectV2Response
 import dev.octri.showcase.neon.RequestOptions
 import dev.octri.showcase.neon.SdkClient
 import dev.octri.showcase.neon.Validation
@@ -77,10 +77,10 @@ object Consumption {
      *   `data_storage_bytes_hour` (deprecated: always returns 0; use the consumption
      *   history v2 endpoints instead) - `logical_size_bytes` -…
      */
-    fun getConsumptionHistoryPerProject(clientConfig: ClientConfig, request: GetConsumptionHistoryPerProjectRequest, options: RequestOptions? = null): ConsumptionHistoryPerProjectResponse {
+    fun getConsumptionHistoryPerProject(clientConfig: ClientConfig, request: GetConsumptionHistoryPerProjectRequest, options: RequestOptions? = null): GetConsumptionHistoryPerProjectResponse {
         validateGetConsumptionHistoryPerProjectRequest(request)
 
-        return SdkClient.request<ConsumptionHistoryPerProjectResponse>(SdkClient.RequestSpec("GET", "/consumption_history/projects", config = clientConfig, query = mapOf("from" to
+        return SdkClient.request<GetConsumptionHistoryPerProjectResponse>(SdkClient.RequestSpec("GET", "/consumption_history/projects", config = clientConfig, query = mapOf("from" to
     SdkClient.queryValue(request.from, "form", true, "date-time"), "to" to
     SdkClient.queryValue(request.to, "form", true, "date-time"), "granularity" to
     SdkClient.queryValue(request.granularity, "form", true), "cursor" to
@@ -168,10 +168,10 @@ object Consumption {
      *   `project_ids=cold-poetry-09157238&project_ids=quiet-snow-71788278` -
      *   `project_ids=cold-poetry-09157238,quiet-snow-71788278`
      */
-    fun getConsumptionHistoryPerProjectV2(clientConfig: ClientConfig, request: GetConsumptionHistoryPerProjectV2Request, options: RequestOptions? = null): ConsumptionHistoryPerProjectV2Response {
+    fun getConsumptionHistoryPerProjectV2(clientConfig: ClientConfig, request: GetConsumptionHistoryPerProjectV2Request, options: RequestOptions? = null): GetConsumptionHistoryPerProjectV2Response {
         validateGetConsumptionHistoryPerProjectV2Request(request)
 
-        return SdkClient.request<ConsumptionHistoryPerProjectV2Response>(SdkClient.RequestSpec("GET", "/consumption_history/v2/projects", config = clientConfig, query = mapOf("from" to
+        return SdkClient.request<GetConsumptionHistoryPerProjectV2Response>(SdkClient.RequestSpec("GET", "/consumption_history/v2/projects", config = clientConfig, query = mapOf("from" to
     SdkClient.queryValue(request.from, "form", true, "date-time"), "to" to
     SdkClient.queryValue(request.to, "form", true, "date-time"), "granularity" to
     SdkClient.queryValue(request.granularity, "form", true), "org_id" to
@@ -262,10 +262,10 @@ object Consumption {
      *   `branch_ids=br-aged-salad-637688&branch_ids=br-sweet-breeze-497520` -
      *   `branch_ids=br-aged-salad-637688,br-sweet-breeze-497520`
      */
-    fun getConsumptionHistoryPerBranchV2(clientConfig: ClientConfig, request: GetConsumptionHistoryPerBranchV2Request, options: RequestOptions? = null): ConsumptionHistoryPerBranchV2Response {
+    fun getConsumptionHistoryPerBranchV2(clientConfig: ClientConfig, request: GetConsumptionHistoryPerBranchV2Request, options: RequestOptions? = null): GetConsumptionHistoryPerBranchV2Response {
         validateGetConsumptionHistoryPerBranchV2Request(request)
 
-        return SdkClient.request<ConsumptionHistoryPerBranchV2Response>(SdkClient.RequestSpec("GET", "/consumption_history/v2/branches", config = clientConfig, query = mapOf("project_ids" to
+        return SdkClient.request<GetConsumptionHistoryPerBranchV2Response>(SdkClient.RequestSpec("GET", "/consumption_history/v2/branches", config = clientConfig, query = mapOf("project_ids" to
     SdkClient.queryValue(request.projectIds, "form", true), "from" to
     SdkClient.queryValue(request.from, "form", true, "date-time"), "to" to
     SdkClient.queryValue(request.to, "form", true, "date-time"), "granularity" to

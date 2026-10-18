@@ -40,7 +40,7 @@ class SnapshotNamespace(private val clientConfig: ClientConfig) {
     /**
      * Restores the specified snapshot to a new branch, and optionally finalizes the restore operation to replace the original branch.
      */
-    fun restore(request: dev.octri.showcase.neon.methods.SnapshotMethods.RestoreSnapshotRequest, options: RequestOptions? = null): BranchResponse {
+    fun restore(request: dev.octri.showcase.neon.methods.SnapshotMethods.RestoreSnapshotRequest, options: RequestOptions? = null): RestoreSnapshotResponse {
         return dev.octri.showcase.neon.methods.SnapshotMethods.restoreSnapshot(clientConfig, request, options)
     }
 

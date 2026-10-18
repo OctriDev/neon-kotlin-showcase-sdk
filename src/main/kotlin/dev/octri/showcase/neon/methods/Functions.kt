@@ -5,12 +5,12 @@ package dev.octri.showcase.neon.methods
 
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.CustomDomain
-import dev.octri.showcase.neon.CustomDomainsListResponse
 import dev.octri.showcase.neon.FunctionDeployRequestRuntimeEnum
 import dev.octri.showcase.neon.GeneralError
+import dev.octri.showcase.neon.ListFunctionsCustomDomainsResponse
+import dev.octri.showcase.neon.ListFunctionsResponse
 import dev.octri.showcase.neon.NeonFunctionDeploymentResponse
 import dev.octri.showcase.neon.NeonFunctionResponse
-import dev.octri.showcase.neon.NeonFunctionsListResponse
 import dev.octri.showcase.neon.RequestOptions
 import dev.octri.showcase.neon.SdkClient
 import dev.octri.showcase.neon.TriggerCreateRequest
@@ -34,7 +34,7 @@ object Functions {
      * @param limit Specify a value from 1 to 1000 to limit number of functions in
      *   the response
      */
-    fun listFunctions(clientConfig: ClientConfig, projectId: String, branchId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): NeonFunctionsListResponse {
+    fun listFunctions(clientConfig: ClientConfig, projectId: String, branchId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): ListFunctionsResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
@@ -43,7 +43,7 @@ object Functions {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 1000.0))
 }
 
-        return SdkClient.request<NeonFunctionsListResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/functions", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true)), operationId = "listFunctions", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ListFunctionsResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/functions", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true)), operationId = "listFunctions", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
 
@@ -344,7 +344,7 @@ object Functions {
      * @param limit Specify a value from 1 to 1000 to limit number of domains in the
      *   response
      */
-    fun listFunctionsCustomDomains(clientConfig: ClientConfig, projectId: String, branchId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): CustomDomainsListResponse {
+    fun listFunctionsCustomDomains(clientConfig: ClientConfig, projectId: String, branchId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): ListFunctionsCustomDomainsResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
@@ -353,7 +353,7 @@ object Functions {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 1000.0))
 }
 
-        return SdkClient.request<CustomDomainsListResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/custom-domains", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true)), operationId = "listFunctionsCustomDomains", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ListFunctionsCustomDomainsResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/custom-domains", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true)), operationId = "listFunctionsCustomDomains", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
 

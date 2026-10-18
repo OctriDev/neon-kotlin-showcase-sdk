@@ -583,10 +583,10 @@ enum class ScheduleTriggerUpdateRequestTypeEnum(@com.fasterxml.jackson.annotatio
 }
 
 /**
- * Trigger type discriminator.
+ * Optional enumerated value serialized in the `type` wire field.
  */
-enum class StorageObjectCreatedTriggerTypeEnum(@com.fasterxml.jackson.annotation.JsonValue val value: String) {
-    STORAGE_OBJECT_CREATED("storage_object_created");
+enum class SharedEmailServerTypeEnum(@com.fasterxml.jackson.annotation.JsonValue val value: String) {
+    SHARED("shared");
 
     override fun toString() = value
 

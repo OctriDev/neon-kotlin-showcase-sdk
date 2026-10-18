@@ -15,21 +15,21 @@ class ProjectNamespace(private val clientConfig: ClientConfig) {
     /**
      * Retrieves a list of projects for the specified organization. If using a personal API key, include the `org_id` parameter to specify which organization to work with. If using an org API key, `org_id` is automatically inferred from the key. For more information, see Manage organizations using the Neon API and Manage projects.
      */
-    fun list(request: dev.octri.showcase.neon.methods.ProjectMethods.ListProjectsRequest, options: RequestOptions? = null): ProjectsResponse {
+    fun list(request: dev.octri.showcase.neon.methods.ProjectMethods.ListProjectsRequest, options: RequestOptions? = null): ListProjectsResponse {
         return dev.octri.showcase.neon.methods.ProjectMethods.listProjects(clientConfig, request, options)
     }
 
     /**
      * Creates a Neon project within an organization. If using a personal API key, include the `org_id` parameter to specify which organization to create the project in. If using an org API key, `org_id` is automatically inferred from the key. Plan limits define how many projects you can create. For more information, see Manage projects. You can specify a region and Postgres version in the request body. Neon supports Postgres 14 through 18, with 19 rolling out to enabled regions.…
      */
-    fun create(project: dev.octri.showcase.neon.methods.ProjectMethods.ProjectCreateRequestProject, options: RequestOptions? = null): ProjectResponse {
+    fun create(project: dev.octri.showcase.neon.methods.ProjectMethods.ProjectCreateRequestProject, options: RequestOptions? = null): CreateProjectResponse {
         return dev.octri.showcase.neon.methods.ProjectMethods.createProject(clientConfig, project, options)
     }
 
     /**
      * Retrieves a list of projects shared with your Neon account. For more information, see Manage projects.
      */
-    fun listShared(cursor: String? = null, limit: Long? = null, search: String? = null, timeout: Long? = null, options: RequestOptions? = null): ProjectsResponse {
+    fun listShared(cursor: String? = null, limit: Long? = null, search: String? = null, timeout: Long? = null, options: RequestOptions? = null): ListSharedProjectsResponse {
         return dev.octri.showcase.neon.methods.ProjectMethods.listSharedProjects(clientConfig, cursor, limit, search, timeout, options)
     }
 
@@ -45,7 +45,7 @@ class ProjectNamespace(private val clientConfig: ClientConfig) {
      *
      * Updates the specified project. Configurable properties include the project name, default compute settings, history retention period, and IP allowlist.
      */
-    fun update(projectId: String, project: dev.octri.showcase.neon.methods.ProjectMethods.ProjectUpdateRequestProject, options: RequestOptions? = null): ProjectResponse {
+    fun update(projectId: String, project: dev.octri.showcase.neon.methods.ProjectMethods.ProjectUpdateRequestProject, options: RequestOptions? = null): UpdateProjectResponse {
         return dev.octri.showcase.neon.methods.ProjectMethods.updateProject(clientConfig, projectId, project, options)
     }
 

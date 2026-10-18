@@ -7,13 +7,12 @@ import dev.octri.showcase.neon.AnonymizedBranchStatusResponse
 import dev.octri.showcase.neon.BranchAnonymizedCreateRequest
 import dev.octri.showcase.neon.BranchCreateRequest
 import dev.octri.showcase.neon.BranchesCountResponse
-import dev.octri.showcase.neon.BranchesResponse
 import dev.octri.showcase.neon.BranchOperations
-import dev.octri.showcase.neon.BranchResponse
 import dev.octri.showcase.neon.BranchSchemaCompareResponse
 import dev.octri.showcase.neon.BranchSchemaResponse
 import dev.octri.showcase.neon.BranchUpdateRequestBranch
 import dev.octri.showcase.neon.ClientConfig
+import dev.octri.showcase.neon.CreateBranchResponse
 import dev.octri.showcase.neon.DatabaseCreateRequestDatabase
 import dev.octri.showcase.neon.DatabaseOperations
 import dev.octri.showcase.neon.DatabaseResponse
@@ -21,6 +20,8 @@ import dev.octri.showcase.neon.DatabasesResponse
 import dev.octri.showcase.neon.DatabaseUpdateRequestDatabase
 import dev.octri.showcase.neon.EndpointsResponse
 import dev.octri.showcase.neon.GeneralError
+import dev.octri.showcase.neon.GetBranchResponse
+import dev.octri.showcase.neon.ListBranchResponse
 import dev.octri.showcase.neon.MaskingRule
 import dev.octri.showcase.neon.MaskingRulesResponse
 import dev.octri.showcase.neon.OperationsResponse
@@ -38,10 +39,10 @@ internal object BranchMethodsCreateBranchOperation {
      *
      * @param projectId The Neon project ID
      */
-    fun createBranch(clientConfig: ClientConfig, projectId: String, body: BranchCreateRequest? = null, options: RequestOptions? = null): BranchResponse {
+    fun createBranch(clientConfig: ClientConfig, projectId: String, body: BranchCreateRequest? = null, options: RequestOptions? = null): CreateBranchResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<BranchResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branches", config = clientConfig, body = body, operationId = "createBranch", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<CreateBranchResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branches", config = clientConfig, body = body, operationId = "createBranch", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 
@@ -64,10 +65,10 @@ internal object BranchMethodsListBranchOperation {
      *   only active (non-deleted) branches. This parameter is part of the Branch
      *   Recovery feature, which is in preview and not available to all users.
      */
-    fun listBranch(clientConfig: ClientConfig, request: BranchMethods.ListBranchRequest, options: RequestOptions? = null): BranchesResponse {
+    fun listBranch(clientConfig: ClientConfig, request: BranchMethods.ListBranchRequest, options: RequestOptions? = null): ListBranchResponse {
         validateListBranchRequest(request)
 
-        return SdkClient.request<BranchesResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches", config = clientConfig, query = mapOf("search" to
+        return SdkClient.request<ListBranchResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches", config = clientConfig, query = mapOf("search" to
     SdkClient.queryValue(request.search, "form", true), "sort_by" to
     SdkClient.queryValue(request.sortBy, "form", true), "cursor" to
     SdkClient.queryValue(request.cursor, "form", true), "sort_order" to
@@ -93,10 +94,10 @@ internal object BranchMethodsCreateBranchAnonymizedOperation {
      *
      * @param projectId The Neon project ID
      */
-    fun createBranchAnonymized(clientConfig: ClientConfig, projectId: String, body: BranchAnonymizedCreateRequest, options: RequestOptions? = null): BranchResponse {
+    fun createBranchAnonymized(clientConfig: ClientConfig, projectId: String, body: BranchAnonymizedCreateRequest, options: RequestOptions? = null): CreateBranchResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<BranchResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branch_anonymized", config = clientConfig, body = body, operationId = "createBranchAnonymized", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<CreateBranchResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branch_anonymized", config = clientConfig, body = body, operationId = "createBranchAnonymized", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 
@@ -121,12 +122,12 @@ internal object BranchMethodsGetBranchOperation {
      * @param projectId The Neon project ID
      * @param branchId The branch ID
      */
-    fun getBranch(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): BranchResponse {
+    fun getBranch(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): GetBranchResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<BranchResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}", config = clientConfig, operationId = "getBranch", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<GetBranchResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}", config = clientConfig, operationId = "getBranch", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 

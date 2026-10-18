@@ -8,10 +8,13 @@ import dev.octri.showcase.neon.AdvisorCategory
 import dev.octri.showcase.neon.AvailablePreloadLibraries
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.ConnectionURIResponse
+import dev.octri.showcase.neon.CreateProjectResponse
 import dev.octri.showcase.neon.GeneralError
 import dev.octri.showcase.neon.GetProjectAdvisorSecurityIssuesParameterEnum
 import dev.octri.showcase.neon.JWKS
 import dev.octri.showcase.neon.JWKSCreationOperation
+import dev.octri.showcase.neon.ListProjectsResponse
+import dev.octri.showcase.neon.ListSharedProjectsResponse
 import dev.octri.showcase.neon.ProjectCreateRequestProject
 import dev.octri.showcase.neon.ProjectJWKSResponse
 import dev.octri.showcase.neon.ProjectMemberRoleResponse
@@ -21,11 +24,11 @@ import dev.octri.showcase.neon.ProjectPermissions
 import dev.octri.showcase.neon.ProjectRecoverResponse
 import dev.octri.showcase.neon.ProjectResponse
 import dev.octri.showcase.neon.ProjectRole
-import dev.octri.showcase.neon.ProjectsResponse
 import dev.octri.showcase.neon.ProjectTransferRequestResponse
 import dev.octri.showcase.neon.ProjectUpdateRequestProject
 import dev.octri.showcase.neon.RequestOptions
 import dev.octri.showcase.neon.SdkClient
+import dev.octri.showcase.neon.UpdateProjectResponse
 import dev.octri.showcase.neon.Validation
 import dev.octri.showcase.neon.VPCEndpointsResponse
 
@@ -74,10 +77,10 @@ internal object ProjectMethodsListProjectsOperation {
      *   above
      * @param recoverable Show only deleted projects within the recovery window.
      */
-    fun listProjects(clientConfig: ClientConfig, request: ProjectMethods.ListProjectsRequest, options: RequestOptions? = null): ProjectsResponse {
+    fun listProjects(clientConfig: ClientConfig, request: ProjectMethods.ListProjectsRequest, options: RequestOptions? = null): ListProjectsResponse {
         validateListProjectsRequest(request)
 
-        return SdkClient.request<ProjectsResponse>(SdkClient.RequestSpec("GET", "/projects", config = clientConfig, query = mapOf("cursor" to
+        return SdkClient.request<ListProjectsResponse>(SdkClient.RequestSpec("GET", "/projects", config = clientConfig, query = mapOf("cursor" to
     SdkClient.queryValue(request.cursor, "form", true), "limit" to SdkClient.queryValue(request.limit, "form", true), "search" to
     SdkClient.queryValue(request.search, "form", true), "org_id" to
     SdkClient.queryValue(request.orgId, "form", true), "timeout" to
@@ -108,8 +111,8 @@ internal object ProjectMethodsCreateProjectOperation {
      * @param project Configuration for the new project, including name, region, and
      *   Postgres compute and storage settings.
      */
-    fun createProject(clientConfig: ClientConfig, project: ProjectMethods.ProjectCreateRequestProject, options: RequestOptions? = null): ProjectResponse {
-        return SdkClient.request<ProjectResponse>(SdkClient.RequestSpec("POST", "/projects", config = clientConfig, body = SdkClient.bodyMap("project" to (project)), operationId = "createProject", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+    fun createProject(clientConfig: ClientConfig, project: ProjectMethods.ProjectCreateRequestProject, options: RequestOptions? = null): CreateProjectResponse {
+        return SdkClient.request<CreateProjectResponse>(SdkClient.RequestSpec("POST", "/projects", config = clientConfig, body = SdkClient.bodyMap("project" to (project)), operationId = "createProject", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 
@@ -129,7 +132,7 @@ internal object ProjectMethodsListSharedProjectsOperation {
      *   implicit implementation defined timeout is chosen with the same behaviour as
      *   above
      */
-    fun listSharedProjects(clientConfig: ClientConfig, cursor: String? = null, limit: Long? = null, search: String? = null, timeout: Long? = null, options: RequestOptions? = null): ProjectsResponse {
+    fun listSharedProjects(clientConfig: ClientConfig, cursor: String? = null, limit: Long? = null, search: String? = null, timeout: Long? = null, options: RequestOptions? = null): ListSharedProjectsResponse {
         if (limit != null) {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 400.0))
 }
@@ -138,7 +141,7 @@ internal object ProjectMethodsListSharedProjectsOperation {
             Validation.validateRange("timeout", timeout, Validation.RangeOpts(min = 100.0, max = 30000.0))
 }
 
-        return SdkClient.request<ProjectsResponse>(SdkClient.RequestSpec("GET", "/projects/shared", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true), "search" to SdkClient.queryValue(search, "form", true), "timeout" to SdkClient.queryValue(timeout, "form", true)), operationId = "listSharedProjects", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ListSharedProjectsResponse>(SdkClient.RequestSpec("GET", "/projects/shared", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true), "search" to SdkClient.queryValue(search, "form", true), "timeout" to SdkClient.queryValue(timeout, "form", true)), operationId = "listSharedProjects", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 
@@ -164,10 +167,10 @@ internal object ProjectMethodsUpdateProjectOperation {
      * @param projectId The Neon project ID
      * @param project Required object value serialized in the `project` wire field.
      */
-    fun updateProject(clientConfig: ClientConfig, projectId: String, project: ProjectMethods.ProjectUpdateRequestProject, options: RequestOptions? = null): ProjectResponse {
+    fun updateProject(clientConfig: ClientConfig, projectId: String, project: ProjectMethods.ProjectUpdateRequestProject, options: RequestOptions? = null): UpdateProjectResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ProjectResponse>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}", config = clientConfig, body = SdkClient.bodyMap("project" to (project)), operationId = "updateProject", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<UpdateProjectResponse>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}", config = clientConfig, body = SdkClient.bodyMap("project" to (project)), operationId = "updateProject", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 
