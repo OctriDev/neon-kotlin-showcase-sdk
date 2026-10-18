@@ -33,7 +33,7 @@ class OperationNamespace(private val clientConfig: ClientConfig) {
         cursor: String? = null,
         limit: Long? = null,
         options: RequestOptions? = null,
-    ): OperationsResponse {
+    ): ListOperationResponse {
         return dev.octri.showcase.neon.methods.OperationMethods.listOperation(
             clientConfig,
             projectId,

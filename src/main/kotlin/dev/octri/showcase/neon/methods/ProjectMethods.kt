@@ -10,10 +10,13 @@ import dev.octri.showcase.neon.AvailablePreloadLibraries
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.ComputeUnit
 import dev.octri.showcase.neon.ConnectionURIResponse
+import dev.octri.showcase.neon.CreateProjectResponse
 import dev.octri.showcase.neon.DefaultEndpointSettings
 import dev.octri.showcase.neon.GetProjectAdvisorSecurityIssuesParameterEnum
 import dev.octri.showcase.neon.JWKS
 import dev.octri.showcase.neon.JWKSCreationOperation
+import dev.octri.showcase.neon.ListProjectsResponse
+import dev.octri.showcase.neon.ListSharedProjectsResponse
 import dev.octri.showcase.neon.PgVersion
 import dev.octri.showcase.neon.ProjectJWKSResponse
 import dev.octri.showcase.neon.ProjectMemberRoleResponse
@@ -25,10 +28,10 @@ import dev.octri.showcase.neon.ProjectResponse
 import dev.octri.showcase.neon.ProjectRole
 import dev.octri.showcase.neon.ProjectSettingsData
 import dev.octri.showcase.neon.ProjectTransferRequestResponse
-import dev.octri.showcase.neon.ProjectsResponse
 import dev.octri.showcase.neon.Provisioner
 import dev.octri.showcase.neon.RealtimeOptions
 import dev.octri.showcase.neon.RequestOptions
+import dev.octri.showcase.neon.UpdateProjectResponse
 import dev.octri.showcase.neon.VPCEndpointsResponse
 
 object ProjectMethods {
@@ -212,7 +215,7 @@ object ProjectMethods {
         clientConfig: ClientConfig,
         request: ListProjectsRequest,
         options: RequestOptions? = null,
-    ): ProjectsResponse =
+    ): ListProjectsResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsListProjectsOperation.listProjects(
             clientConfig,
             request,
@@ -233,7 +236,7 @@ object ProjectMethods {
         clientConfig: ClientConfig,
         project: ProjectCreateRequestProject,
         options: RequestOptions? = null,
-    ): ProjectResponse =
+    ): CreateProjectResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsCreateProjectOperation.createProject(
             clientConfig,
             project,
@@ -251,7 +254,7 @@ object ProjectMethods {
         search: String? = null,
         timeout: Long? = null,
         options: RequestOptions? = null,
-    ): ProjectsResponse =
+    ): ListSharedProjectsResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsListSharedProjectsOperation
             .listSharedProjects(
                 clientConfig,
@@ -289,7 +292,7 @@ object ProjectMethods {
         projectId: String,
         project: ProjectUpdateRequestProject,
         options: RequestOptions? = null,
-    ): ProjectResponse =
+    ): UpdateProjectResponse =
         dev.octri.showcase.neon.methods.ProjectMethodsUpdateProjectOperation.updateProject(
             clientConfig,
             projectId,

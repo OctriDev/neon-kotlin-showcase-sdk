@@ -7,13 +7,12 @@ import dev.octri.showcase.neon.AnonymizedBranchStatusResponse
 import dev.octri.showcase.neon.BranchAnonymizedCreateRequest
 import dev.octri.showcase.neon.BranchCreateRequest
 import dev.octri.showcase.neon.BranchOperations
-import dev.octri.showcase.neon.BranchResponse
 import dev.octri.showcase.neon.BranchSchemaCompareResponse
 import dev.octri.showcase.neon.BranchSchemaResponse
 import dev.octri.showcase.neon.BranchUpdateRequestBranch
 import dev.octri.showcase.neon.BranchesCountResponse
-import dev.octri.showcase.neon.BranchesResponse
 import dev.octri.showcase.neon.ClientConfig
+import dev.octri.showcase.neon.CreateBranchResponse
 import dev.octri.showcase.neon.DatabaseCreateRequestDatabase
 import dev.octri.showcase.neon.DatabaseOperations
 import dev.octri.showcase.neon.DatabaseResponse
@@ -21,6 +20,8 @@ import dev.octri.showcase.neon.DatabaseUpdateRequestDatabase
 import dev.octri.showcase.neon.DatabasesResponse
 import dev.octri.showcase.neon.EndpointsResponse
 import dev.octri.showcase.neon.GeneralError
+import dev.octri.showcase.neon.GetBranchResponse
+import dev.octri.showcase.neon.ListBranchResponse
 import dev.octri.showcase.neon.MaskingRule
 import dev.octri.showcase.neon.MaskingRulesResponse
 import dev.octri.showcase.neon.OperationsResponse
@@ -48,10 +49,10 @@ internal object BranchMethodsCreateBranchOperation {
         projectId: String,
         body: BranchCreateRequest? = null,
         options: RequestOptions? = null,
-    ): BranchResponse {
+    ): CreateBranchResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<BranchResponse>(
+        return SdkClient.request<CreateBranchResponse>(
                 SdkClient.RequestSpec(
                     "POST",
                     "/projects/${SdkClient.encodePathSegment(projectId)}/branches",
@@ -93,10 +94,10 @@ internal object BranchMethodsListBranchOperation {
         clientConfig: ClientConfig,
         request: BranchMethods.ListBranchRequest,
         options: RequestOptions? = null,
-    ): BranchesResponse {
+    ): ListBranchResponse {
         validateListBranchRequest(request)
 
-        return SdkClient.request<BranchesResponse>(
+        return SdkClient.request<ListBranchResponse>(
                 SdkClient.RequestSpec(
                     "GET",
                     "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches",
@@ -155,10 +156,10 @@ internal object BranchMethodsCreateBranchAnonymizedOperation {
         projectId: String,
         body: BranchAnonymizedCreateRequest,
         options: RequestOptions? = null,
-    ): BranchResponse {
+    ): CreateBranchResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<BranchResponse>(
+        return SdkClient.request<CreateBranchResponse>(
                 SdkClient.RequestSpec(
                     "POST",
                     "/projects/${SdkClient.encodePathSegment(projectId)}/branch_anonymized",
@@ -221,12 +222,12 @@ internal object BranchMethodsGetBranchOperation {
         projectId: String,
         branchId: String,
         options: RequestOptions? = null,
-    ): BranchResponse {
+    ): GetBranchResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<BranchResponse>(
+        return SdkClient.request<GetBranchResponse>(
                 SdkClient.RequestSpec(
                     "GET",
                     "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}",

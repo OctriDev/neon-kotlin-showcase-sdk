@@ -5,13 +5,13 @@ package dev.octri.showcase.neon.methods
 
 import dev.octri.showcase.neon.BackupSchedule
 import dev.octri.showcase.neon.BackupScheduleItem
-import dev.octri.showcase.neon.BranchResponse
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.EmptyResponse
 import dev.octri.showcase.neon.GeneralError
 import dev.octri.showcase.neon.Operation
 import dev.octri.showcase.neon.OperationsResponse
 import dev.octri.showcase.neon.RequestOptions
+import dev.octri.showcase.neon.RestoreSnapshotResponse
 import dev.octri.showcase.neon.SdkClient
 import dev.octri.showcase.neon.Snapshot
 import dev.octri.showcase.neon.Validation
@@ -230,10 +230,10 @@ object SnapshotMethods {
         clientConfig: ClientConfig,
         request: RestoreSnapshotRequest,
         options: RequestOptions? = null,
-    ): BranchResponse {
+    ): RestoreSnapshotResponse {
         validateRestoreSnapshotRequest(request)
 
-        return SdkClient.request<BranchResponse>(
+        return SdkClient.request<RestoreSnapshotResponse>(
                 SdkClient.RequestSpec(
                     "POST",
                     "/projects/${SdkClient.encodePathSegment(request.projectId)}/snapshots/${SdkClient.encodePathSegment(request.snapshotId)}/restore",

@@ -5,11 +5,11 @@ package dev.octri.showcase.neon.methods
 
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.ConsumptionHistoryGranularity
-import dev.octri.showcase.neon.ConsumptionHistoryPerBranchV2Response
-import dev.octri.showcase.neon.ConsumptionHistoryPerProjectResponse
-import dev.octri.showcase.neon.ConsumptionHistoryPerProjectV2Response
 import dev.octri.showcase.neon.ConsumptionHistoryQueryMetrics
 import dev.octri.showcase.neon.GeneralError
+import dev.octri.showcase.neon.GetConsumptionHistoryPerBranchV2Response
+import dev.octri.showcase.neon.GetConsumptionHistoryPerProjectResponse
+import dev.octri.showcase.neon.GetConsumptionHistoryPerProjectV2Response
 import dev.octri.showcase.neon.RequestOptions
 import dev.octri.showcase.neon.SdkClient
 import dev.octri.showcase.neon.Validation
@@ -75,10 +75,10 @@ object Consumption {
         clientConfig: ClientConfig,
         request: GetConsumptionHistoryPerProjectRequest,
         options: RequestOptions? = null,
-    ): ConsumptionHistoryPerProjectResponse {
+    ): GetConsumptionHistoryPerProjectResponse {
         validateGetConsumptionHistoryPerProjectRequest(request)
 
-        return SdkClient.request<ConsumptionHistoryPerProjectResponse>(
+        return SdkClient.request<GetConsumptionHistoryPerProjectResponse>(
                 SdkClient.RequestSpec(
                     "GET",
                     "/consumption_history/projects",
@@ -195,10 +195,10 @@ object Consumption {
         clientConfig: ClientConfig,
         request: GetConsumptionHistoryPerProjectV2Request,
         options: RequestOptions? = null,
-    ): ConsumptionHistoryPerProjectV2Response {
+    ): GetConsumptionHistoryPerProjectV2Response {
         validateGetConsumptionHistoryPerProjectV2Request(request)
 
-        return SdkClient.request<ConsumptionHistoryPerProjectV2Response>(
+        return SdkClient.request<GetConsumptionHistoryPerProjectV2Response>(
                 SdkClient.RequestSpec(
                     "GET",
                     "/consumption_history/v2/projects",
@@ -316,10 +316,10 @@ object Consumption {
         clientConfig: ClientConfig,
         request: GetConsumptionHistoryPerBranchV2Request,
         options: RequestOptions? = null,
-    ): ConsumptionHistoryPerBranchV2Response {
+    ): GetConsumptionHistoryPerBranchV2Response {
         validateGetConsumptionHistoryPerBranchV2Request(request)
 
-        return SdkClient.request<ConsumptionHistoryPerBranchV2Response>(
+        return SdkClient.request<GetConsumptionHistoryPerBranchV2Response>(
                 SdkClient.RequestSpec(
                     "GET",
                     "/consumption_history/v2/branches",

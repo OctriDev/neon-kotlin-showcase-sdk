@@ -8,10 +8,13 @@ import dev.octri.showcase.neon.AdvisorCategory
 import dev.octri.showcase.neon.AvailablePreloadLibraries
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.ConnectionURIResponse
+import dev.octri.showcase.neon.CreateProjectResponse
 import dev.octri.showcase.neon.GeneralError
 import dev.octri.showcase.neon.GetProjectAdvisorSecurityIssuesParameterEnum
 import dev.octri.showcase.neon.JWKS
 import dev.octri.showcase.neon.JWKSCreationOperation
+import dev.octri.showcase.neon.ListProjectsResponse
+import dev.octri.showcase.neon.ListSharedProjectsResponse
 import dev.octri.showcase.neon.ProjectCreateRequestProject
 import dev.octri.showcase.neon.ProjectJWKSResponse
 import dev.octri.showcase.neon.ProjectMemberRoleResponse
@@ -23,9 +26,9 @@ import dev.octri.showcase.neon.ProjectResponse
 import dev.octri.showcase.neon.ProjectRole
 import dev.octri.showcase.neon.ProjectTransferRequestResponse
 import dev.octri.showcase.neon.ProjectUpdateRequestProject
-import dev.octri.showcase.neon.ProjectsResponse
 import dev.octri.showcase.neon.RequestOptions
 import dev.octri.showcase.neon.SdkClient
+import dev.octri.showcase.neon.UpdateProjectResponse
 import dev.octri.showcase.neon.VPCEndpointsResponse
 import dev.octri.showcase.neon.Validation
 
@@ -103,10 +106,10 @@ internal object ProjectMethodsListProjectsOperation {
         clientConfig: ClientConfig,
         request: ProjectMethods.ListProjectsRequest,
         options: RequestOptions? = null,
-    ): ProjectsResponse {
+    ): ListProjectsResponse {
         validateListProjectsRequest(request)
 
-        return SdkClient.request<ProjectsResponse>(
+        return SdkClient.request<ListProjectsResponse>(
                 SdkClient.RequestSpec(
                     "GET",
                     "/projects",
@@ -169,8 +172,8 @@ internal object ProjectMethodsCreateProjectOperation {
         clientConfig: ClientConfig,
         project: ProjectMethods.ProjectCreateRequestProject,
         options: RequestOptions? = null,
-    ): ProjectResponse {
-        return SdkClient.request<ProjectResponse>(
+    ): CreateProjectResponse {
+        return SdkClient.request<CreateProjectResponse>(
                 SdkClient.RequestSpec(
                     "POST",
                     "/projects",
@@ -208,7 +211,7 @@ internal object ProjectMethodsListSharedProjectsOperation {
         search: String? = null,
         timeout: Long? = null,
         options: RequestOptions? = null,
-    ): ProjectsResponse {
+    ): ListSharedProjectsResponse {
         if (limit != null) {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 400.0))
         }
@@ -221,7 +224,7 @@ internal object ProjectMethodsListSharedProjectsOperation {
             )
         }
 
-        return SdkClient.request<ProjectsResponse>(
+        return SdkClient.request<ListSharedProjectsResponse>(
                 SdkClient.RequestSpec(
                     "GET",
                     "/projects/shared",
@@ -291,10 +294,10 @@ internal object ProjectMethodsUpdateProjectOperation {
         projectId: String,
         project: ProjectMethods.ProjectUpdateRequestProject,
         options: RequestOptions? = null,
-    ): ProjectResponse {
+    ): UpdateProjectResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ProjectResponse>(
+        return SdkClient.request<UpdateProjectResponse>(
                 SdkClient.RequestSpec(
                     "PATCH",
                     "/projects/${SdkClient.encodePathSegment(projectId)}",

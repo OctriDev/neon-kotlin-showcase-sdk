@@ -7,17 +7,18 @@ import dev.octri.showcase.neon.AnonymizedBranchStatusResponse
 import dev.octri.showcase.neon.BranchAnonymizedCreateRequest
 import dev.octri.showcase.neon.BranchCreateRequest
 import dev.octri.showcase.neon.BranchOperations
-import dev.octri.showcase.neon.BranchResponse
 import dev.octri.showcase.neon.BranchSchemaCompareResponse
 import dev.octri.showcase.neon.BranchSchemaResponse
 import dev.octri.showcase.neon.BranchesCountResponse
-import dev.octri.showcase.neon.BranchesResponse
 import dev.octri.showcase.neon.ClientConfig
+import dev.octri.showcase.neon.CreateBranchResponse
 import dev.octri.showcase.neon.DatabaseOperations
 import dev.octri.showcase.neon.DatabaseResponse
 import dev.octri.showcase.neon.DatabasesResponse
 import dev.octri.showcase.neon.EndpointsResponse
+import dev.octri.showcase.neon.GetBranchResponse
 import dev.octri.showcase.neon.ListBranchParameterEnum
+import dev.octri.showcase.neon.ListBranchResponse
 import dev.octri.showcase.neon.MaskingRule
 import dev.octri.showcase.neon.MaskingRulesResponse
 import dev.octri.showcase.neon.OperationsResponse
@@ -136,7 +137,7 @@ object BranchMethods {
         projectId: String,
         body: BranchCreateRequest? = null,
         options: RequestOptions? = null,
-    ): BranchResponse =
+    ): CreateBranchResponse =
         dev.octri.showcase.neon.methods.BranchMethodsCreateBranchOperation.createBranch(
             clientConfig,
             projectId,
@@ -155,7 +156,7 @@ object BranchMethods {
         clientConfig: ClientConfig,
         request: ListBranchRequest,
         options: RequestOptions? = null,
-    ): BranchesResponse =
+    ): ListBranchResponse =
         dev.octri.showcase.neon.methods.BranchMethodsListBranchOperation.listBranch(
             clientConfig,
             request,
@@ -174,7 +175,7 @@ object BranchMethods {
         projectId: String,
         body: BranchAnonymizedCreateRequest,
         options: RequestOptions? = null,
-    ): BranchResponse =
+    ): CreateBranchResponse =
         dev.octri.showcase.neon.methods.BranchMethodsCreateBranchAnonymizedOperation
             .createBranchAnonymized(
                 clientConfig,
@@ -212,7 +213,7 @@ object BranchMethods {
         projectId: String,
         branchId: String,
         options: RequestOptions? = null,
-    ): BranchResponse =
+    ): GetBranchResponse =
         dev.octri.showcase.neon.methods.BranchMethodsGetBranchOperation.getBranch(
             clientConfig,
             projectId,

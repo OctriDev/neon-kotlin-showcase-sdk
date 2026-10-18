@@ -11,7 +11,7 @@ class FunctionsNamespace(private val clientConfig: ClientConfig) {
         cursor: String? = null,
         limit: Long? = null,
         options: RequestOptions? = null,
-    ): NeonFunctionsListResponse {
+    ): ListFunctionsResponse {
         return dev.octri.showcase.neon.methods.Functions.listFunctions(
             clientConfig,
             projectId,
@@ -261,7 +261,7 @@ class FunctionsNamespace(private val clientConfig: ClientConfig) {
         cursor: String? = null,
         limit: Long? = null,
         options: RequestOptions? = null,
-    ): CustomDomainsListResponse {
+    ): ListFunctionsCustomDomainsResponse {
         return dev.octri.showcase.neon.methods.Functions.listFunctionsCustomDomains(
             clientConfig,
             projectId,

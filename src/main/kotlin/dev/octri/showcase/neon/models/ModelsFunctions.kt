@@ -126,6 +126,35 @@ data class FunctionTriggerStorageObjectCreated(
     val prefix: String? = null,
 )
 
+/** Typed representation of the `ListFunctionsCustomDomainsResponse` API schema. */
+data class ListFunctionsCustomDomainsResponse(
+    /** Required array value serialized in the `custom_domains` wire field. */
+    @com.fasterxml.jackson.annotation.JsonProperty("custom_domains")
+    val customDomains: List<CustomDomain>,
+    /**
+     * To paginate the response, issue an initial request with `limit` value. Then, add the value
+     * returned in the response `.pagination.next` attribute into the request under the `cursor`
+     * query parameter to the subsequent request to retrieve next page in pagination. The contents
+     * on cursor `next` are opaque, clients are not expected to make any assumptions on the format
+     * of the data inside the cursor.
+     */
+    val pagination: CursorPagination? = null,
+)
+
+/** Typed representation of the `ListFunctionsResponse` API schema. */
+data class ListFunctionsResponse(
+    /** Required array value serialized in the `functions` wire field. */
+    val functions: List<NeonFunction>,
+    /**
+     * To paginate the response, issue an initial request with `limit` value. Then, add the value
+     * returned in the response `.pagination.next` attribute into the request under the `cursor`
+     * query parameter to the subsequent request to retrieve next page in pagination. The contents
+     * on cursor `next` are opaque, clients are not expected to make any assumptions on the format
+     * of the data inside the cursor.
+     */
+    val pagination: CursorPagination? = null,
+)
+
 /** Typed representation of the `NeonFunction` API schema. */
 data class NeonFunction(
     /** Opaque, stable function identifier. */

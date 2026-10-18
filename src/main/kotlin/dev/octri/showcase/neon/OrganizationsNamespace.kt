@@ -122,7 +122,7 @@ class OrganizationsNamespace(private val clientConfig: ClientConfig) {
         sortOrder: SchemaSchemaEnum? = null,
         limit: Long? = null,
         options: RequestOptions? = null,
-    ): OrganizationMembersResponse {
+    ): ListOrganizationsMembersResponse {
         return dev.octri.showcase.neon.methods.Organizations.listOrganizationsMembers(
             clientConfig,
             orgId,

@@ -3,6 +3,7 @@
 
 package dev.octri.showcase.neon.models
 
+import dev.octri.showcase.neon.models.branch.AnnotationData
 import dev.octri.showcase.neon.models.branch.AnnotationValueData
 import java.time.OffsetDateTime
 
@@ -344,6 +345,26 @@ data class ConnectionURIsOptionalResponse(
     val connectionUris: List<ConnectionDetails>? = null
 )
 
+/** Typed representation of the `CreateBranchResponse` API schema. */
+data class CreateBranchResponse(
+    /** Branch returned by the request. */
+    val branch: Branch,
+    /** Compute endpoints in the project. Each includes `id`, `branch_id`, `host`, and `type`. */
+    val endpoints: List<Endpoint>,
+    /** Required array value serialized in the `operations` wire field. */
+    val operations: List<Operation>,
+    /**
+     * Roles belonging to the branch. Each role includes fields such as `branch_id`, `name`,
+     * `protected`, `created_at`, and `updated_at`.
+     */
+    val roles: List<Role>,
+    /** Databases on the branch. Each includes `id`, `name`, `owner_name`, and `created_at`. */
+    val databases: List<Database>,
+    /** Connection URIs for the compute endpoint, including credentials. */
+    @com.fasterxml.jackson.annotation.JsonProperty("connection_uris")
+    val connectionUris: List<ConnectionDetails>? = null,
+)
+
 /** Configuration for the new Postgres database. */
 data class DatabaseCreateRequestDatabase(
     /** Name of the database to create. */
@@ -384,6 +405,33 @@ data class DatabaseUpdateRequestDatabase(
 data class DatabaseUpdateRequest(
     /** Properties to update on the database. */
     val database: DatabaseUpdateRequestDatabase
+)
+
+/** Typed representation of the `GetBranchResponse` API schema. */
+data class GetBranchResponse(
+    /** Branch returned by the request. */
+    val branch: Branch,
+    /** Annotation data associated with the annotated object. */
+    @com.fasterxml.jackson.annotation.JsonProperty("annotation") val `annotation`: AnnotationData,
+)
+
+/** Typed representation of the `ListBranchResponse` API schema. */
+data class ListBranchResponse(
+    /** Branches in the project. Each includes `id`, `name`, `current_state`, and `created_at`. */
+    val branches: List<Branch>,
+    /**
+     * Map of annotations keyed by resource identifier, where each value contains the annotation
+     * data for that resource.
+     */
+    val annotations: Map<String, AnnotationData>,
+    /**
+     * To paginate the response, issue an initial request with `limit` value. Then, add the value
+     * returned in the response `.pagination.next` attribute into the request under the `cursor`
+     * query parameter to the subsequent request to retrieve next page in pagination. The contents
+     * on cursor `next` are opaque, clients are not expected to make any assumptions on the format
+     * of the data inside the cursor.
+     */
+    val pagination: CursorPagination? = null,
 )
 
 /** Typed representation of the `MaskingRule` API schema. */
@@ -449,20 +497,4 @@ data class RoleOperations(
     val role: Role,
     /** Required array value serialized in the `operations` wire field. */
     val operations: List<Operation>,
-)
-
-/** Typed representation of the `RolePasswordResponse` API schema. */
-data class RolePasswordResponse(
-    /** The role password */
-    val password: String
-)
-
-/** Typed representation of the `RoleResponse` API schema. */
-data class RoleResponse(
-    /**
-     * Role details for the requested database role. The `password` field is included in the
-     * response when a role is created or its password is reset, and is not returned in subsequent
-     * read requests. Store it securely at that time.
-     */
-    val role: Role
 )

@@ -5,12 +5,12 @@ package dev.octri.showcase.neon.methods
 
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.CustomDomain
-import dev.octri.showcase.neon.CustomDomainsListResponse
 import dev.octri.showcase.neon.FunctionDeployRequestRuntimeEnum
 import dev.octri.showcase.neon.GeneralError
+import dev.octri.showcase.neon.ListFunctionsCustomDomainsResponse
+import dev.octri.showcase.neon.ListFunctionsResponse
 import dev.octri.showcase.neon.NeonFunctionDeploymentResponse
 import dev.octri.showcase.neon.NeonFunctionResponse
-import dev.octri.showcase.neon.NeonFunctionsListResponse
 import dev.octri.showcase.neon.RequestOptions
 import dev.octri.showcase.neon.SdkClient
 import dev.octri.showcase.neon.TriggerCreateRequest
@@ -38,7 +38,7 @@ object Functions {
         cursor: String? = null,
         limit: Long? = null,
         options: RequestOptions? = null,
-    ): NeonFunctionsListResponse {
+    ): ListFunctionsResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
@@ -47,7 +47,7 @@ object Functions {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 1000.0))
         }
 
-        return SdkClient.request<NeonFunctionsListResponse>(
+        return SdkClient.request<ListFunctionsResponse>(
                 SdkClient.RequestSpec(
                     "GET",
                     "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/functions",
@@ -544,7 +544,7 @@ object Functions {
         cursor: String? = null,
         limit: Long? = null,
         options: RequestOptions? = null,
-    ): CustomDomainsListResponse {
+    ): ListFunctionsCustomDomainsResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
@@ -553,7 +553,7 @@ object Functions {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 1000.0))
         }
 
-        return SdkClient.request<CustomDomainsListResponse>(
+        return SdkClient.request<ListFunctionsCustomDomainsResponse>(
                 SdkClient.RequestSpec(
                     "GET",
                     "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/custom-domains",

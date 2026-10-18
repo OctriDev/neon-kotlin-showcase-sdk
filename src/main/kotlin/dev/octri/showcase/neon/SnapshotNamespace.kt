@@ -83,7 +83,7 @@ class SnapshotNamespace(private val clientConfig: ClientConfig) {
     fun restore(
         request: dev.octri.showcase.neon.methods.SnapshotMethods.RestoreSnapshotRequest,
         options: RequestOptions? = null,
-    ): BranchResponse {
+    ): RestoreSnapshotResponse {
         return dev.octri.showcase.neon.methods.SnapshotMethods.restoreSnapshot(
             clientConfig,
             request,

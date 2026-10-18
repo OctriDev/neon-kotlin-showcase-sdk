@@ -205,20 +205,6 @@ data class RolesResponse(
     val roles: List<Role>
 )
 
-/** Typed representation of the `SharedEmailServer` API schema. */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
-)
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
-)
-data class SharedEmailServer(
-    /** Email address used as the sender for outgoing messages from this shared email server. */
-    @com.fasterxml.jackson.annotation.JsonProperty("sender_email") val senderEmail: String? = null,
-    /** Display name shown as the sender in outgoing emails. */
-    @com.fasterxml.jackson.annotation.JsonProperty("sender_name") val senderName: String? = null,
-) : NeonAuthEmailServerConfig, NeonAuthEmailServerConfigResponse
-
 typealias SuspendTimeoutSeconds = Long
 
 /** Typed representation of the `TransferProjectsToOrganizationRequest` API schema. */

@@ -12,7 +12,7 @@ class ConsumptionNamespace(private val clientConfig: ClientConfig) {
     fun getHistoryPerProject(
         request: dev.octri.showcase.neon.methods.Consumption.GetConsumptionHistoryPerProjectRequest,
         options: RequestOptions? = null,
-    ): ConsumptionHistoryPerProjectResponse {
+    ): GetConsumptionHistoryPerProjectResponse {
         return dev.octri.showcase.neon.methods.Consumption.getConsumptionHistoryPerProject(
             clientConfig,
             request,
@@ -32,7 +32,7 @@ class ConsumptionNamespace(private val clientConfig: ClientConfig) {
         request:
             dev.octri.showcase.neon.methods.Consumption.GetConsumptionHistoryPerProjectV2Request,
         options: RequestOptions? = null,
-    ): ConsumptionHistoryPerProjectV2Response {
+    ): GetConsumptionHistoryPerProjectV2Response {
         return dev.octri.showcase.neon.methods.Consumption.getConsumptionHistoryPerProjectV2(
             clientConfig,
             request,
@@ -52,7 +52,7 @@ class ConsumptionNamespace(private val clientConfig: ClientConfig) {
         request:
             dev.octri.showcase.neon.methods.Consumption.GetConsumptionHistoryPerBranchV2Request,
         options: RequestOptions? = null,
-    ): ConsumptionHistoryPerBranchV2Response {
+    ): GetConsumptionHistoryPerBranchV2Response {
         return dev.octri.showcase.neon.methods.Consumption.getConsumptionHistoryPerBranchV2(
             clientConfig,
             request,

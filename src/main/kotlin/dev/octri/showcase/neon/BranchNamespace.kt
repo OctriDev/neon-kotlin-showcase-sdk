@@ -16,7 +16,7 @@ class BranchNamespace(private val clientConfig: ClientConfig) {
         projectId: String,
         body: BranchCreateRequest? = null,
         options: RequestOptions? = null,
-    ): BranchResponse {
+    ): CreateBranchResponse {
         return dev.octri.showcase.neon.methods.BranchMethods.createBranch(
             clientConfig,
             projectId,
@@ -35,7 +35,7 @@ class BranchNamespace(private val clientConfig: ClientConfig) {
     fun list(
         request: dev.octri.showcase.neon.methods.BranchMethods.ListBranchRequest,
         options: RequestOptions? = null,
-    ): BranchesResponse {
+    ): ListBranchResponse {
         return dev.octri.showcase.neon.methods.BranchMethods.listBranch(
             clientConfig,
             request,
@@ -61,7 +61,7 @@ class BranchNamespace(private val clientConfig: ClientConfig) {
         projectId: String,
         body: BranchAnonymizedCreateRequest,
         options: RequestOptions? = null,
-    ): BranchResponse {
+    ): CreateBranchResponse {
         return dev.octri.showcase.neon.methods.BranchMethods.createBranchAnonymized(
             clientConfig,
             projectId,
@@ -93,7 +93,11 @@ class BranchNamespace(private val clientConfig: ClientConfig) {
      * can contain one or more branches. A parent branch is identified by a `parent_id` value, which
      * is the `id` of the parent branch. For related information, see Manage branches.
      */
-    fun get(projectId: String, branchId: String, options: RequestOptions? = null): BranchResponse {
+    fun get(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): GetBranchResponse {
         return dev.octri.showcase.neon.methods.BranchMethods.getBranch(
             clientConfig,
             projectId,

@@ -37,7 +37,7 @@ class ProjectNamespace(private val clientConfig: ClientConfig) {
     fun list(
         request: dev.octri.showcase.neon.methods.ProjectMethods.ListProjectsRequest,
         options: RequestOptions? = null,
-    ): ProjectsResponse {
+    ): ListProjectsResponse {
         return dev.octri.showcase.neon.methods.ProjectMethods.listProjects(
             clientConfig,
             request,
@@ -56,7 +56,7 @@ class ProjectNamespace(private val clientConfig: ClientConfig) {
     fun create(
         project: dev.octri.showcase.neon.methods.ProjectMethods.ProjectCreateRequestProject,
         options: RequestOptions? = null,
-    ): ProjectResponse {
+    ): CreateProjectResponse {
         return dev.octri.showcase.neon.methods.ProjectMethods.createProject(
             clientConfig,
             project,
@@ -74,7 +74,7 @@ class ProjectNamespace(private val clientConfig: ClientConfig) {
         search: String? = null,
         timeout: Long? = null,
         options: RequestOptions? = null,
-    ): ProjectsResponse {
+    ): ListSharedProjectsResponse {
         return dev.octri.showcase.neon.methods.ProjectMethods.listSharedProjects(
             clientConfig,
             cursor,
@@ -111,7 +111,7 @@ class ProjectNamespace(private val clientConfig: ClientConfig) {
         projectId: String,
         project: dev.octri.showcase.neon.methods.ProjectMethods.ProjectUpdateRequestProject,
         options: RequestOptions? = null,
-    ): ProjectResponse {
+    ): UpdateProjectResponse {
         return dev.octri.showcase.neon.methods.ProjectMethods.updateProject(
             clientConfig,
             projectId,

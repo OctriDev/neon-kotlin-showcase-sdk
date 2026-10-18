@@ -8,6 +8,7 @@ import dev.octri.showcase.neon.EmptyResponse
 import dev.octri.showcase.neon.GeneralError
 import dev.octri.showcase.neon.LimitsUnsatisfiedResponse
 import dev.octri.showcase.neon.ListOrganizationsMembersParameterEnum
+import dev.octri.showcase.neon.ListOrganizationsMembersResponse
 import dev.octri.showcase.neon.Member
 import dev.octri.showcase.neon.MemberRole
 import dev.octri.showcase.neon.OrgApiKeyCreateRequest
@@ -17,7 +18,6 @@ import dev.octri.showcase.neon.OrgApiKeysListResponseItem
 import dev.octri.showcase.neon.Organization
 import dev.octri.showcase.neon.OrganizationInvitationsResponse
 import dev.octri.showcase.neon.OrganizationInviteCreateRequest
-import dev.octri.showcase.neon.OrganizationMembersResponse
 import dev.octri.showcase.neon.ProjectsWithIntegrationResponse
 import dev.octri.showcase.neon.RequestOptions
 import dev.octri.showcase.neon.SchemaSchemaEnum
@@ -262,14 +262,14 @@ object Organizations {
         sortOrder: SchemaSchemaEnum? = null,
         limit: Long? = null,
         options: RequestOptions? = null,
-    ): OrganizationMembersResponse {
+    ): ListOrganizationsMembersResponse {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
         if (limit != null) {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 500.0))
         }
 
-        return SdkClient.request<OrganizationMembersResponse>(
+        return SdkClient.request<ListOrganizationsMembersResponse>(
                 SdkClient.RequestSpec(
                     "GET",
                     "/organizations/${SdkClient.encodePathSegment(orgId)}/members",

@@ -3,7 +3,6 @@
 
 package dev.octri.showcase.neon.models
 
-import dev.octri.showcase.neon.models.branch.AnnotationValueData
 import java.time.OffsetDateTime
 
 /** Required object value serialized in the `reasons[]` wire field. */
@@ -48,30 +47,6 @@ data class AddProjectJWKSRequest(
     val skipRoleCreation: Boolean? = null,
 )
 
-/** Typed representation of the `AdvisorIssue` API schema. */
-data class AdvisorIssue(
-    /** Unique identifier for the issue type */
-    val name: String,
-    /** Human-readable title */
-    val title: String,
-    /** Severity level of the issue */
-    val level: String,
-    /** Whether this issue affects external API exposure or is internal only */
-    val facing: AdvisorIssueFacingEnum,
-    /** Categories this issue belongs to */
-    val categories: List<AdvisorCategory>,
-    /** Detailed description of what this check detects */
-    val description: String,
-    /** Specific details about this instance of the issue */
-    val detail: String,
-    /** URL to documentation on how to fix this issue */
-    val remediation: String,
-    /** Additional context-specific metadata */
-    val metadata: Map<String, Any>,
-    /** Unique key for caching this issue result */
-    @com.fasterxml.jackson.annotation.JsonProperty("cache_key") val cacheKey: String,
-)
-
 /**
  * A list of IP addresses that are allowed to connect to the compute endpoint. If the list is empty
  * or not set, all IP addresses are allowed. If protected_branches_only is true, the list will be
@@ -85,52 +60,29 @@ data class AllowedIps(
     val protectedBranchesOnly: Boolean? = null,
 )
 
-/** Typed representation of the `AvailablePreloadLibraries` API schema. */
-data class AvailablePreloadLibraries(
-    /**
-     * Preload libraries available for the project's Postgres version. Each entry includes
-     * `library_name`, `description`, `is_default`, `is_experimental`, and `version`.
-     */
-    val libraries: List<AvailablePreloadLibrary>? = null
-)
-
-/** Typed representation of the `AvailablePreloadLibrary` API schema. */
-data class AvailablePreloadLibrary(
-    /**
-     * Name of the Postgres shared preload library as it appears in the `shared_preload_libraries`
-     * parameter (for example, `pg_stat_statements`).
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("library_name") val libraryName: String,
-    /** Human-readable explanation of the library's purpose and behavior. */
-    val description: String,
-    /**
-     * Whether this library is loaded by default in the `shared_preload_libraries` configuration for
-     * new compute endpoints.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("is_default") val isDefault: Boolean,
-    /**
-     * Marks the library as experimental. Experimental libraries may be unstable, subject to
-     * breaking changes, or not recommended for production use.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("is_experimental") val isExperimental: Boolean,
-    /** Version of the preload library. */
-    val version: String,
-)
-
-/** Typed representation of the `ConnectionURIResponse` API schema. */
-data class ConnectionURIResponse(
-    /** The connection URI. */
-    val uri: String
-)
-
-/** Typed representation of the `ConnectionURIsResponse` API schema. */
-data class ConnectionURIsResponse(
+/** Typed representation of the `CreateProjectResponse` API schema. */
+data class CreateProjectResponse(
+    /** Full details of the project, including configuration, consumption metrics, and ownership. */
+    val project: Project,
     /**
      * Connection URIs for the project. Each entry contains credentials and should be treated as
      * sensitive.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("connection_uris")
-    val connectionUris: List<ConnectionDetails>
+    val connectionUris: List<ConnectionDetails>,
+    /**
+     * Roles belonging to the branch. Each role includes fields such as `branch_id`, `name`,
+     * `protected`, `created_at`, and `updated_at`.
+     */
+    val roles: List<Role>,
+    /** Databases on the branch. Each includes `id`, `name`, `owner_name`, and `created_at`. */
+    val databases: List<Database>,
+    /** Required array value serialized in the `operations` wire field. */
+    val operations: List<Operation>,
+    /** Branch returned by the request. */
+    val branch: Branch,
+    /** Compute endpoints in the project. Each includes `id`, `branch_id`, `host`, and `type`. */
+    val endpoints: List<Endpoint>,
 )
 
 /** A collection of settings for a Neon endpoint */
@@ -228,256 +180,34 @@ data class MaintenanceWindow(
 
 typealias PgVersion = Long
 
-/** Typed representation of the `Project` API schema. */
-class Project(
+/** Typed representation of the `ProjectsResponse` API schema. */
+data class ProjectsResponse(
     /**
-     * Deprecated: always returns 0. Use the consumption history v2 endpoints
-     * (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. Bytes-Hour.
-     * Project consumed that much Postgres storage hourly during the billing period. The value has
-     * some lag. The value is reset at the beginning of each billing period.
+     * List of projects accessible to the caller. Projects that exist but could not be retrieved are
+     * identified in `unavailable_project_ids`.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("data_storage_bytes_hour")
-    val dataStorageBytesHour: Long,
+    val projects: List<ProjectListItem>,
     /**
-     * Bytes. Egress traffic from the Neon cloud to the client for given project over the billing
-     * period. Includes deleted endpoints. The value has some lag. The value is reset at the
-     * beginning of each billing period.
+     * A list of project IDs indicating which projects are known to exist, but whose details could
+     * not be fetched within the requested (or implicit) time limit
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("data_transfer_bytes")
-    val dataTransferBytes: Long,
-    /**
-     * Bytes. Amount of WAL that travelled through Postgres storage for given project across all
-     * branches. The value has some lag. The value is reset at the beginning of each billing period.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("written_data_bytes") val writtenDataBytes: Long,
-    /**
-     * Seconds. The number of CPU seconds used by the project's compute endpoints, including compute
-     * endpoints that have been deleted. The value has some lag. The value is reset at the beginning
-     * of each billing period. Examples: 1. An endpoint that uses 1 CPU for 1 second is equal to
-     * `compute_time=1`. 2. An endpoint that uses 2 CPUs simultaneously for 1 second is equal to
-     * `compute_time=2`.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("compute_time_seconds")
-    val computeTimeSeconds: Long,
-    /**
-     * Seconds. Control plane observed endpoints of this project being active this amount of
-     * wall-clock time. The value has some lag. The value is reset at the beginning of each billing
-     * period.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("active_time_seconds")
-    val activeTimeSeconds: Long,
-    /** Deprecated. Use `compute_time_seconds` instead. */
-    @com.fasterxml.jackson.annotation.JsonProperty("cpu_used_sec") val cpuUsedSec: Long,
-    /** The Neon project ID. Use as the `project_id` path parameter in other endpoints. */
-    val id: String,
-    /**
-     * The cloud platform identifier. Currently, only AWS is supported, for which the identifier is
-     * `aws`.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("platform_id") val platformId: String,
-    /**
-     * Cloud region where the resource's Postgres compute and storage reside (for example,
-     * `aws-us-east-1`). Valid values are returned by `GET /regions`.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("region_id") val regionId: String,
-    /** The project name */
-    val name: String,
-    /**
-     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size
-     * compute. Also `docker` and `serverless-platform`.
-     */
-    val provisioner: Provisioner,
-    /**
-     * The major Postgres version number. Supported versions are `14`, `15`, `16`, `17`, and `18`.
-     * `19` is rolling out and is accepted only in regions where it is enabled; requesting it
-     * elsewhere returns an error.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("pg_version") val pgVersion: PgVersion,
-    /**
-     * The proxy host for the project. This value combines the `region_id`, the `platform_id`, and
-     * the Neon domain (`neon.tech`).
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("proxy_host") val proxyHost: String,
-    /** The logical size limit for a branch. The value is in MiB. */
-    @com.fasterxml.jackson.annotation.JsonProperty("branch_logical_size_limit")
-    val branchLogicalSizeLimit: Long,
-    /** The logical size limit for a branch. The value is in B. */
-    @com.fasterxml.jackson.annotation.JsonProperty("branch_logical_size_limit_bytes")
-    val branchLogicalSizeLimitBytes: Long,
-    /**
-     * Whether or not passwords are stored for roles in the Neon project. Storing passwords
-     * facilitates access to Neon features that require authorization.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("store_passwords") val storePasswords: Boolean,
-    /** The project creation source */
-    @com.fasterxml.jackson.annotation.JsonProperty("creation_source") val creationSource: String,
-    /** The number of seconds to retain the shared history for all branches in this project. */
-    @com.fasterxml.jackson.annotation.JsonProperty("history_retention_seconds")
-    val historyRetentionSeconds: Int,
-    /** A timestamp indicating when the project was created */
-    @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /** A timestamp indicating when the project was last updated */
-    @com.fasterxml.jackson.annotation.JsonProperty("updated_at") val updatedAt: OffsetDateTime,
-    /**
-     * A date-time indicating when Neon Cloud started measuring consumption for current consumption
-     * period.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("consumption_period_start")
-    val consumptionPeriodStart: OffsetDateTime,
-    /**
-     * A date-time indicating when Neon Cloud plans to stop measuring consumption for current
-     * consumption period.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("consumption_period_end")
-    val consumptionPeriodEnd: OffsetDateTime,
-    /** ID of the organization that owns the project. */
-    @com.fasterxml.jackson.annotation.JsonProperty("owner_id") val ownerId: String,
-    /** A collection of settings for a Neon endpoint */
-    @com.fasterxml.jackson.annotation.JsonProperty("default_endpoint_settings")
-    val defaultEndpointSettings: DefaultEndpointSettings? = null,
-    /**
-     * Project-level settings, for example `quota`, `allowed_ips`, `enable_logical_replication`, and
-     * `maintenance_window`.
-     */
-    val settings: ProjectSettingsData? = null,
-    /**
-     * A timestamp indicating when project maintenance begins. If set, the project is placed into
-     * maintenance mode at this time.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("maintenance_starts_at")
-    val maintenanceStartsAt: OffsetDateTime? = null,
-    /**
-     * Deprecated: always returns 0. Use the consumption history v2 endpoints
-     * (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. The current
-     * space occupied by the project in Postgres storage, in bytes. Synthetic Postgres storage size
-     * combines the logical data size and Write-Ahead Log (WAL) size for all branches in a project.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("synthetic_storage_size")
-    val syntheticStorageSize: Long? = null,
-    /**
-     * Deprecated. Use the `consumption_period_end` field instead. A timestamp indicating when the
-     * project quota resets.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("quota_reset_at")
-    val quotaResetAt: OffsetDateTime? = null,
-    /** Ownership details for the project, including the owner's name and email. */
-    val owner: ProjectOwnerData? = null,
-    /**
-     * The most recent time when any endpoint of this project was active. Omitted when observed no
-     * activity for endpoints of this project.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("compute_last_active_at")
-    val computeLastActiveAt: OffsetDateTime? = null,
-    /** The Neon organization ID. Returned as `id` from `GET /users/me/organizations`. */
-    @com.fasterxml.jackson.annotation.JsonProperty("org_id") val orgId: String? = null,
-    /**
-     * A timestamp indicating when project update begins. If set, computes might experience a brief
-     * restart around this time.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("maintenance_scheduled_for")
-    val maintenanceScheduledFor: OffsetDateTime? = null,
-    /** A timestamp indicating when HIPAA was enabled for this project */
-    @com.fasterxml.jackson.annotation.JsonProperty("hipaa_enabled_at")
-    val hipaaEnabledAt: OffsetDateTime? = null,
-    /** Optional `string` value serialized in the `effective_project_permission` wire field. */
-    @com.fasterxml.jackson.annotation.JsonProperty("effective_project_permission")
-    val effectiveProjectPermission: ProjectPermissionLevel? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("unavailable_project_ids")
+    val unavailableProjectIds: List<String>? = null,
 )
 
-/** Configuration for the initial branch created with the project. */
-data class ProjectCreateRequestProjectBranch(
-    /** The default branch name. If not specified, the default branch name, `main`, will be used. */
-    val name: String? = null,
+/** Typed representation of the `SetProjectMemberRoleRequest` API schema. */
+data class SetProjectMemberRoleRequest(
     /**
-     * The role name. If not specified, the default role name, `{database_name}_owner`, will be
-     * used.
+     * Per-project role. `viewer` maps to `VIEWER`, `editor` maps to `EDITOR`, and `admin` maps to
+     * `ADMIN`.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("role_name") val roleName: String? = null,
-    /** The database name. If not specified, the default database name, `neondb`, will be used. */
-    @com.fasterxml.jackson.annotation.JsonProperty("database_name")
-    val databaseName: String? = null,
-    /** Arbitrary key-value metadata to attach to the branch. */
-    val annotations: AnnotationValueData? = null,
+    val role: ProjectRole
 )
 
-/**
- * Configuration for the new project, including name, region, and Postgres compute and storage
- * settings.
- */
-data class ProjectCreateRequestProject(
-    /** Project-level settings applied at creation. */
-    val settings: ProjectSettingsData? = null,
-    /**
-     * The project name. If not specified, the name will be identical to the generated project ID
-     */
-    val name: String? = null,
-    /** Enable Realtime for the default branch with these options. */
-    val realtime: RealtimeOptions? = null,
-    /** Configuration for the initial branch created with the project. */
-    val branch: ProjectCreateRequestProjectBranch? = null,
-    /**
-     * Deprecated. Use `default_endpoint_settings.autoscaling_limit_min_cu` instead. The minimum
-     * number of Compute Units. The minimum value is `0.25`. See Compute size and Autoscaling
-     * configuration for more information.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_min_cu")
-    val autoscalingLimitMinCu: ComputeUnit? = null,
-    /**
-     * Deprecated. Use `default_endpoint_settings.autoscaling_limit_max_cu` instead. The maximum
-     * number of Compute Units. See Compute size and Autoscaling configuration for more information.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_max_cu")
-    val autoscalingLimitMaxCu: ComputeUnit? = null,
-    /**
-     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size
-     * compute. Also `docker` and `serverless-platform`.
-     */
-    val provisioner: Provisioner? = null,
-    /**
-     * The region identifier. Refer to our Regions documentation for supported regions. Values are
-     * specified in this format: `aws-us-east-1`
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("region_id") val regionId: String? = null,
-    /** A collection of settings for a Neon endpoint */
-    @com.fasterxml.jackson.annotation.JsonProperty("default_endpoint_settings")
-    val defaultEndpointSettings: DefaultEndpointSettings? = null,
-    /**
-     * The major Postgres version number. Supported versions are `14`, `15`, `16`, `17`, and `18`.
-     * `19` is rolling out and is accepted only in regions where it is enabled; requesting it
-     * elsewhere returns an error.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("pg_version") val pgVersion: PgVersion? = null,
-    /**
-     * Whether or not passwords are stored for roles in the Neon project. Storing passwords
-     * facilitates access to Neon features that require authorization.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("store_passwords")
-    val storePasswords: Boolean? = null,
-    /**
-     * History window (point-in-time restore range) for all branches, in seconds. `0` disables it.
-     * Default 1 day (Free: 6 hours). Maximum depends on plan: Free 6 hours (21600), Launch 7 days
-     * (604800), Scale 30 days (2592000).
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("history_retention_seconds")
-    val historyRetentionSeconds: Int? = null,
-    /**
-     * ID of the organization that will own the project. If omitted when using an organization API
-     * key, it is inferred from the key.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("org_id") val orgId: String? = null,
-)
-
-/** Typed representation of the `ProjectCreateRequest` API schema. */
-data class ProjectCreateRequest(
-    /**
-     * Configuration for the new project, including name, region, and Postgres compute and storage
-     * settings.
-     */
-    val project: ProjectCreateRequestProject
-)
-
-/** The list of configured JWKS definitions for a project */
-data class ProjectJWKSResponse(
-    /** JWKS configurations associated with the project. */
-    val jwks: List<JWKS>
+/** Typed representation of the `UpdateProjectResponse` API schema. */
+data class UpdateProjectResponse(
+    /** Full details of the project, including configuration, consumption metrics, and ownership. */
+    val project: Project,
+    /** Required array value serialized in the `operations` wire field. */
+    val operations: List<Operation>,
 )

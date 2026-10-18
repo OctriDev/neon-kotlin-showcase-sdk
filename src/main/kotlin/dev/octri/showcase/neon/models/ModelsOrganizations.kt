@@ -26,6 +26,23 @@ data class Invitation(
     val role: MemberRole,
 )
 
+/** Typed representation of the `ListOrganizationsMembersResponse` API schema. */
+data class ListOrganizationsMembersResponse(
+    /**
+     * Members of the organization, each combining membership details (role, status) with the
+     * associated user's identity.
+     */
+    val members: List<MemberWithUser>,
+    /**
+     * To paginate the response, issue an initial request with `limit` value. Then, add the value
+     * returned in the response `.pagination.next` attribute into the request under the `cursor`
+     * query parameter to the subsequent request to retrieve next page in pagination. The contents
+     * on cursor `next` are opaque, clients are not expected to make any assumptions on the format
+     * of the data inside the cursor.
+     */
+    val pagination: CursorPagination? = null,
+)
+
 /** Typed representation of the `Member` API schema. */
 data class Member(
     /** The organization member's ID. */

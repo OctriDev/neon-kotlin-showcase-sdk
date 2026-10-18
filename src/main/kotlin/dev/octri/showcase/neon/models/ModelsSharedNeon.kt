@@ -283,3 +283,72 @@ data class NeonAuthUpdateOAuthProviderRequest(
     @com.fasterxml.jackson.annotation.JsonProperty("microsoft_tenant_id")
     val microsoftTenantId: String? = null,
 )
+
+/** Typed representation of the `SharedEmailServer` API schema. */
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
+    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
+)
+@com.fasterxml.jackson.annotation.JsonTypeInfo(
+    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
+)
+data class SharedEmailServer(
+    /** Email address used as the sender for outgoing messages from this shared email server. */
+    @com.fasterxml.jackson.annotation.JsonProperty("sender_email") val senderEmail: String? = null,
+    /** Display name shown as the sender in outgoing emails. */
+    @com.fasterxml.jackson.annotation.JsonProperty("sender_name") val senderName: String? = null,
+    /** Optional enumerated value serialized in the `type` wire field. */
+    val type: SharedEmailServerTypeEnum? = null,
+) : NeonAuthEmailServerConfig, NeonAuthEmailServerConfigResponse
+
+/** Typed representation of the `StandardEmailServer` API schema. */
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
+    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
+)
+@com.fasterxml.jackson.annotation.JsonTypeInfo(
+    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
+)
+data class StandardEmailServer(
+    /** Hostname of the email server. */
+    val host: String? = null,
+    /** TCP port of the SMTP server. Common values: 25 (SMTP), 465 (SMTPS), 587 (submission). */
+    val port: Long? = null,
+    /** Username for authenticating with the SMTP server. */
+    val username: String? = null,
+    /** Password for authenticating with the SMTP server. */
+    val password: String? = null,
+    /** Email address used as the From address on outgoing auth emails. */
+    @com.fasterxml.jackson.annotation.JsonProperty("sender_email") val senderEmail: String? = null,
+    /** Display name shown as the sender in outgoing emails. */
+    @com.fasterxml.jackson.annotation.JsonProperty("sender_name") val senderName: String? = null,
+    /** Optional enumerated value serialized in the `type` wire field. */
+    val type: StandardEmailServerTypeEnum? = null,
+) : NeonAuthEmailServerConfig
+
+/** Typed representation of the `StandardEmailServerResponse` API schema. */
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
+    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
+)
+@com.fasterxml.jackson.annotation.JsonTypeInfo(
+    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
+)
+data class StandardEmailServerResponse(
+    /** Hostname of the email server. */
+    val host: String,
+    /** TCP port of the SMTP server. Common values: 25 (SMTP), 465 (SMTPS), 587 (submission). */
+    val port: Long,
+    /** Username for authenticating with the SMTP server. */
+    val username: String,
+    /**
+     * On GET, returned redacted (empty) for ordinary callers, while callers with project-credential
+     * read permission receive the stored password — do not assume this field is empty. Update
+     * (PATCH) responses always return it redacted (empty) regardless of permission. Provide a value
+     * on update to set or rotate the password.
+     */
+    val password: String,
+    /** Email address used as the From address on outgoing auth emails. */
+    @com.fasterxml.jackson.annotation.JsonProperty("sender_email") val senderEmail: String,
+    /** Display name shown as the sender in outgoing emails. */
+    @com.fasterxml.jackson.annotation.JsonProperty("sender_name") val senderName: String,
+    /** Optional enumerated value serialized in the `type` wire field. */
+    val type: StandardEmailServerResponseTypeEnum? = null,
+) : NeonAuthEmailServerConfigResponse

@@ -3,6 +3,57 @@
 
 package dev.octri.showcase.neon.models
 
+/** Optional enumerated value serialized in the `type` wire field. */
+enum class StandardEmailServerTypeEnum(
+    @com.fasterxml.jackson.annotation.JsonValue val value: String
+) {
+    STANDARD("standard");
+
+    override fun toString() = value
+
+    companion object {
+        @com.fasterxml.jackson.annotation.JsonCreator
+        @JvmStatic
+        fun fromValue(v: String) =
+            values().find { it.value == v }
+                ?: throw IllegalArgumentException("Unknown enum value: $v")
+    }
+}
+
+/** Optional enumerated value serialized in the `type` wire field. */
+enum class StandardEmailServerResponseTypeEnum(
+    @com.fasterxml.jackson.annotation.JsonValue val value: String
+) {
+    STANDARD("standard");
+
+    override fun toString() = value
+
+    companion object {
+        @com.fasterxml.jackson.annotation.JsonCreator
+        @JvmStatic
+        fun fromValue(v: String) =
+            values().find { it.value == v }
+                ?: throw IllegalArgumentException("Unknown enum value: $v")
+    }
+}
+
+/** Trigger type discriminator. */
+enum class StorageObjectCreatedTriggerTypeEnum(
+    @com.fasterxml.jackson.annotation.JsonValue val value: String
+) {
+    STORAGE_OBJECT_CREATED("storage_object_created");
+
+    override fun toString() = value
+
+    companion object {
+        @com.fasterxml.jackson.annotation.JsonCreator
+        @JvmStatic
+        fun fromValue(v: String) =
+            values().find { it.value == v }
+                ?: throw IllegalArgumentException("Unknown enum value: $v")
+    }
+}
+
 /** Trigger type discriminator. */
 enum class StorageObjectCreatedTriggerCreateRequestTypeEnum(
     @com.fasterxml.jackson.annotation.JsonValue val value: String
