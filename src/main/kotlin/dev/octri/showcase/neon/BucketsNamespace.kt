@@ -3,69 +3,192 @@
 
 package dev.octri.showcase.neon
 
-
 class BucketsNamespace(private val clientConfig: ClientConfig) {
     /**
-     * Creates a new branchable object storage bucket on the specified branch. Buckets are managed by the Neon Platform branchable object storage service. **Note**: This endpoint is currently in Beta.
+     * Creates a new branchable object storage bucket on the specified branch. Buckets are managed
+     * by the Neon Platform branchable object storage service. **Note**: This endpoint is currently
+     * in Beta.
      */
-    fun create(projectId: String, branchId: String, name: String, accessLevel: BucketCreateRequestAccessLevelEnum? = null, options: RequestOptions? = null): BucketResponse {
-        return dev.octri.showcase.neon.methods.Buckets.createBuckets(clientConfig, projectId, branchId, name, accessLevel, options)
+    fun create(
+        projectId: String,
+        branchId: String,
+        name: String,
+        accessLevel: BucketCreateRequestAccessLevelEnum? = null,
+        options: RequestOptions? = null,
+    ): BucketResponse {
+        return dev.octri.showcase.neon.methods.Buckets.createBuckets(
+            clientConfig,
+            projectId,
+            branchId,
+            name,
+            accessLevel,
+            options,
+        )
     }
 
     /**
-     * Lists branchable object storage buckets visible on the specified branch, including those inherited from ancestor branches. **Note**: This endpoint is currently in Beta.
+     * Lists branchable object storage buckets visible on the specified branch, including those
+     * inherited from ancestor branches. **Note**: This endpoint is currently in Beta.
      */
-    fun list(projectId: String, branchId: String, options: RequestOptions? = null): BucketsListResponse {
-        return dev.octri.showcase.neon.methods.Buckets.listBuckets(clientConfig, projectId, branchId, options)
+    fun list(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): BucketsListResponse {
+        return dev.octri.showcase.neon.methods.Buckets.listBuckets(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Deletes the named bucket from the specified branch. **Note**: This endpoint is currently in Beta.
+     * Deletes the named bucket from the specified branch. **Note**: This endpoint is currently in
+     * Beta.
      */
-    fun delete(projectId: String, branchId: String, bucketName: String, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.Buckets.deleteBuckets(clientConfig, projectId, branchId, bucketName, options)
+    fun delete(
+        projectId: String,
+        branchId: String,
+        bucketName: String,
+        options: RequestOptions? = null,
+    ): Unit {
+        return dev.octri.showcase.neon.methods.Buckets.deleteBuckets(
+            clientConfig,
+            projectId,
+            branchId,
+            bucketName,
+            options,
+        )
     }
 
     /**
-     * Lists objects visible in the named bucket on the specified branch, including those inherited from ancestor branches. Listing is served by the user's session (no customer S3 credentials required). When `delimiter` is supplied (typically `/`), keys are collapsed into common prefixes (`folders`) so callers can render a folder-style browser; keys that do not contain the delimiter after `prefix` are returned as `objects`. **Note**: This endpoint is currently in Beta.
+     * Lists objects visible in the named bucket on the specified branch, including those inherited
+     * from ancestor branches. Listing is served by the user's session (no customer S3 credentials
+     * required). When `delimiter` is supplied (typically `/`), keys are collapsed into common
+     * prefixes (`folders`) so callers can render a folder-style browser; keys that do not contain
+     * the delimiter after `prefix` are returned as `objects`. **Note**: This endpoint is currently
+     * in Beta.
      */
-    fun listObjects(request: dev.octri.showcase.neon.methods.Buckets.ListBucketsObjectsRequest, options: RequestOptions? = null): BucketObjectsListResponse {
-        return dev.octri.showcase.neon.methods.Buckets.listBucketsObjects(clientConfig, request, options)
+    fun listObjects(
+        request: dev.octri.showcase.neon.methods.Buckets.ListBucketsObjectsRequest,
+        options: RequestOptions? = null,
+    ): BucketObjectsListResponse {
+        return dev.octri.showcase.neon.methods.Buckets.listBucketsObjects(
+            clientConfig,
+            request,
+            options,
+        )
     }
 
     /**
-     * Lists objects visible in the named bucket on the specified branch, including those inherited from ancestor branches. Listing is served by the user's session (no customer S3 credentials required). When `delimiter` is supplied (typically `/`), keys are collapsed into common prefixes (`folders`) so callers can render a folder-style browser; keys that do not contain the delimiter after `prefix` are returned as `objects`. **Note**: This endpoint is currently in Beta.
+     * Lists objects visible in the named bucket on the specified branch, including those inherited
+     * from ancestor branches. Listing is served by the user's session (no customer S3 credentials
+     * required). When `delimiter` is supplied (typically `/`), keys are collapsed into common
+     * prefixes (`folders`) so callers can render a folder-style browser; keys that do not contain
+     * the delimiter after `prefix` are returned as `objects`. **Note**: This endpoint is currently
+     * in Beta.
      */
-    fun listObjectsPaginated(request: dev.octri.showcase.neon.methods.Buckets.ListBucketsObjectsRequest, options: RequestOptions? = null, yieldFn: (BucketObject) -> Boolean) {
-        dev.octri.showcase.neon.methods.Buckets.listBucketsObjectsPaginated(clientConfig, request, options, yieldFn)
+    fun listObjectsPaginated(
+        request: dev.octri.showcase.neon.methods.Buckets.ListBucketsObjectsRequest,
+        options: RequestOptions? = null,
+        yieldFn: (BucketObject) -> Boolean,
+    ) {
+        dev.octri.showcase.neon.methods.Buckets.listBucketsObjectsPaginated(
+            clientConfig,
+            request,
+            options,
+            yieldFn,
+        )
     }
 
     /**
-     * Deletes the named object from the bucket on the specified branch. Served by the user's session (no customer S3 credentials required). **Note**: This endpoint is currently in Beta.
+     * Deletes the named object from the bucket on the specified branch. Served by the user's
+     * session (no customer S3 credentials required). **Note**: This endpoint is currently in Beta.
      */
-    fun deleteObject(projectId: String, branchId: String, bucketName: String, objectKey: String, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.Buckets.deleteBucketsObject(clientConfig, projectId, branchId, bucketName, objectKey, options)
+    fun deleteObject(
+        projectId: String,
+        branchId: String,
+        bucketName: String,
+        objectKey: String,
+        options: RequestOptions? = null,
+    ): Unit {
+        return dev.octri.showcase.neon.methods.Buckets.deleteBucketsObject(
+            clientConfig,
+            projectId,
+            branchId,
+            bucketName,
+            objectKey,
+            options,
+        )
     }
 
     /**
-     * Streams the raw bytes of the named object from the bucket on the specified branch, including objects inherited from ancestor branches. Served by the user's session (no customer S3 credentials required). The body is returned as `application/octet-stream` so a browser treats it as a download; the `Content-Length` and `ETag` response headers echo the stored object metadata. BINARY-STREAM EXCEPTION TO THE BUILD-GENERATED-TYPES RULE (#7029): the successful 200 body is the raw…
+     * Streams the raw bytes of the named object from the bucket on the specified branch, including
+     * objects inherited from ancestor branches. Served by the user's session (no customer S3
+     * credentials required). The body is returned as `application/octet-stream` so a browser treats
+     * it as a download; the `Content-Length` and `ETag` response headers echo the stored object
+     * metadata. BINARY-STREAM EXCEPTION TO THE BUILD-GENERATED-TYPES RULE (#7029): the successful
+     * 200 body is the raw…
      */
-    fun getObject(projectId: String, branchId: String, bucketName: String, objectKey: String, options: RequestOptions? = null): ByteArray {
-        return dev.octri.showcase.neon.methods.Buckets.getBucketsObject(clientConfig, projectId, branchId, bucketName, objectKey, options)
+    fun getObject(
+        projectId: String,
+        branchId: String,
+        bucketName: String,
+        objectKey: String,
+        options: RequestOptions? = null,
+    ): ByteArray {
+        return dev.octri.showcase.neon.methods.Buckets.getBucketsObject(
+            clientConfig,
+            projectId,
+            branchId,
+            bucketName,
+            objectKey,
+            options,
+        )
     }
 
     /**
-     * Soft-deletes every object on the specified branch whose key starts with `prefix`, in a single call. Intended to back a "delete folder" action in an object browser: a `prefix` of `app/avatars/` removes every object beneath that folder. Served by the user's session (no customer S3 credentials required). `prefix` must be non-empty, end with `/`, be at most 1024 bytes, and contain no control characters - a partial-segment prefix cannot accidentally delete sibling keys. Returns…
+     * Soft-deletes every object on the specified branch whose key starts with `prefix`, in a single
+     * call. Intended to back a "delete folder" action in an object browser: a `prefix` of
+     * `app/avatars/` removes every object beneath that folder. Served by the user's session (no
+     * customer S3 credentials required). `prefix` must be non-empty, end with `/`, be at most 1024
+     * bytes, and contain no control characters - a partial-segment prefix cannot accidentally
+     * delete sibling keys. Returns…
      */
-    fun deleteObjectsByPrefix(projectId: String, branchId: String, bucketName: String, prefix: String, options: RequestOptions? = null): BucketObjectsDeletePrefixResponse {
-        return dev.octri.showcase.neon.methods.Buckets.deleteBucketsObjectsByPrefix(clientConfig, projectId, branchId, bucketName, prefix, options)
+    fun deleteObjectsByPrefix(
+        projectId: String,
+        branchId: String,
+        bucketName: String,
+        prefix: String,
+        options: RequestOptions? = null,
+    ): BucketObjectsDeletePrefixResponse {
+        return dev.octri.showcase.neon.methods.Buckets.deleteBucketsObjectsByPrefix(
+            clientConfig,
+            projectId,
+            branchId,
+            bucketName,
+            prefix,
+            options,
+        )
     }
 
     /**
-     * Returns a presigned URL that transfers bytes directly to or from the object's bucket on the specified branch, without the caller ever handling S3 credentials. The `operation` field selects the direction: - `upload` returns a presigned `PUT` URL (the caller `PUT`s the file bytes straight to `url` with the returned `headers`). Authorized with project write access. - `download` returns a presigned `GET` URL (the caller `GET`s the bytes straight from `url`). Authorized with…
+     * Returns a presigned URL that transfers bytes directly to or from the object's bucket on the
+     * specified branch, without the caller ever handling S3 credentials. The `operation` field
+     * selects the direction: - `upload` returns a presigned `PUT` URL (the caller `PUT`s the file
+     * bytes straight to `url` with the returned `headers`). Authorized with project write access. -
+     * `download` returns a presigned `GET` URL (the caller `GET`s the bytes straight from `url`).
+     * Authorized with…
      */
-    fun presignObject(request: dev.octri.showcase.neon.methods.Buckets.PresignBucketsObjectRequest, options: RequestOptions? = null): PresignResponse {
-        return dev.octri.showcase.neon.methods.Buckets.presignBucketsObject(clientConfig, request, options)
+    fun presignObject(
+        request: dev.octri.showcase.neon.methods.Buckets.PresignBucketsObjectRequest,
+        options: RequestOptions? = null,
+    ): PresignResponse {
+        return dev.octri.showcase.neon.methods.Buckets.presignBucketsObject(
+            clientConfig,
+            request,
+            options,
+        )
     }
-
 }

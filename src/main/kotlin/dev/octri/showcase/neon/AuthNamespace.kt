@@ -3,270 +3,686 @@
 
 package dev.octri.showcase.neon
 
-
 class AuthNamespace(private val clientConfig: ClientConfig) {
     /**
-     * Retrieves the Neon Auth integration details for the specified branch, including the auth provider type and integration status.
+     * Retrieves the Neon Auth integration details for the specified branch, including the auth
+     * provider type and integration status.
      */
-    fun get(projectId: String, branchId: String, options: RequestOptions? = null): NeonAuthIntegration {
-        return dev.octri.showcase.neon.methods.Auth.getAuth(clientConfig, projectId, branchId, options)
+    fun get(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): NeonAuthIntegration {
+        return dev.octri.showcase.neon.methods.Auth.getAuth(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Enables Neon Auth for the specified branch by connecting it to an authentication provider. Creating the integration provisions the `neon_auth` schema in the branch database, which stores user identity data synchronized from the provider.
+     * Enables Neon Auth for the specified branch by connecting it to an authentication provider.
+     * Creating the integration provisions the `neon_auth` schema in the branch database, which
+     * stores user identity data synchronized from the provider.
      */
-    fun create(projectId: String, branchId: String, authProvider: NeonAuthSupportedAuthProvider, databaseName: String? = null, options: RequestOptions? = null): NeonAuthCreateIntegrationResponse {
-        return dev.octri.showcase.neon.methods.Auth.createAuth(clientConfig, projectId, branchId, authProvider, databaseName, options)
+    fun create(
+        projectId: String,
+        branchId: String,
+        authProvider: NeonAuthSupportedAuthProvider,
+        databaseName: String? = null,
+        options: RequestOptions? = null,
+    ): NeonAuthCreateIntegrationResponse {
+        return dev.octri.showcase.neon.methods.Auth.createAuth(
+            clientConfig,
+            projectId,
+            branchId,
+            authProvider,
+            databaseName,
+            options,
+        )
     }
 
     /**
-     * Disables the Neon Auth integration for the specified branch, removing the connection to the authentication provider. If `delete_data` is `true`, also deletes the `neon_auth` schema and all associated tables from the branch database. The integration can be re-enabled by calling `POST /projects/{project_id}/branches/{branch_id}/auth`.
+     * Disables the Neon Auth integration for the specified branch, removing the connection to the
+     * authentication provider. If `delete_data` is `true`, also deletes the `neon_auth` schema and
+     * all associated tables from the branch database. The integration can be re-enabled by calling
+     * `POST /projects/{project_id}/branches/{branch_id}/auth`.
      */
-    fun disable(projectId: String, branchId: String, deleteData: Boolean? = null, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.Auth.disableAuth(clientConfig, projectId, branchId, deleteData, options)
+    fun disable(
+        projectId: String,
+        branchId: String,
+        deleteData: Boolean? = null,
+        options: RequestOptions? = null,
+    ): Unit {
+        return dev.octri.showcase.neon.methods.Auth.disableAuth(
+            clientConfig,
+            projectId,
+            branchId,
+            deleteData,
+            options,
+        )
     }
 
     /**
-     * Lists the trusted domains in the redirect URI whitelist for the specified branch. Only domains in this list are permitted as redirect targets after authentication.
+     * Lists the trusted domains in the redirect URI whitelist for the specified branch. Only
+     * domains in this list are permitted as redirect targets after authentication.
      */
-    fun listTrustedDomains(projectId: String, branchId: String, options: RequestOptions? = null): NeonAuthRedirectURIWhitelistResponse {
-        return dev.octri.showcase.neon.methods.Auth.listAuthTrustedDomains(clientConfig, projectId, branchId, options)
+    fun listTrustedDomains(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): NeonAuthRedirectURIWhitelistResponse {
+        return dev.octri.showcase.neon.methods.Auth.listAuthTrustedDomains(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Adds a domain to the redirect URI whitelist for the specified branch. Only domains in this list are permitted as redirect targets after authentication.
+     * Adds a domain to the redirect URI whitelist for the specified branch. Only domains in this
+     * list are permitted as redirect targets after authentication.
      */
-    fun addTrustedDomain(projectId: String, branchId: String, domain: String, authProvider: NeonAuthSupportedAuthProvider, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.Auth.addAuthTrustedDomain(clientConfig, projectId, branchId, domain, authProvider, options)
+    fun addTrustedDomain(
+        projectId: String,
+        branchId: String,
+        domain: String,
+        authProvider: NeonAuthSupportedAuthProvider,
+        options: RequestOptions? = null,
+    ): Unit {
+        return dev.octri.showcase.neon.methods.Auth.addAuthTrustedDomain(
+            clientConfig,
+            projectId,
+            branchId,
+            domain,
+            authProvider,
+            options,
+        )
     }
 
     /**
-     * Removes a domain from the redirect URI whitelist for the specified branch. After removal, the domain can no longer be used as a redirect target after authentication.
+     * Removes a domain from the redirect URI whitelist for the specified branch. After removal, the
+     * domain can no longer be used as a redirect target after authentication.
      */
-    fun deleteTrustedDomain(projectId: String, branchId: String, authProvider: NeonAuthSupportedAuthProvider, domains: List<NeonAuthDeleteDomainFromRedirectURIWhitelistItem>, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.Auth.deleteAuthTrustedDomain(clientConfig, projectId, branchId, authProvider, domains, options)
+    fun deleteTrustedDomain(
+        projectId: String,
+        branchId: String,
+        authProvider: NeonAuthSupportedAuthProvider,
+        domains: List<NeonAuthDeleteDomainFromRedirectURIWhitelistItem>,
+        options: RequestOptions? = null,
+    ): Unit {
+        return dev.octri.showcase.neon.methods.Auth.deleteAuthTrustedDomain(
+            clientConfig,
+            projectId,
+            branchId,
+            authProvider,
+            domains,
+            options,
+        )
     }
 
     /**
-     * Creates a new user in the Neon Auth user directory for the specified branch. The user is created in the `neon_auth.users_sync` table and can immediately authenticate using the branch's configured auth providers.
+     * Creates a new user in the Neon Auth user directory for the specified branch. The user is
+     * created in the `neon_auth.users_sync` table and can immediately authenticate using the
+     * branch's configured auth providers.
      */
-    fun createUser(projectId: String, branchId: String, email: String, name: String? = null, options: RequestOptions? = null): NeonAuthCreateNewUserResponse {
-        return dev.octri.showcase.neon.methods.Auth.createAuthUser(clientConfig, projectId, branchId, email, name, options)
+    fun createUser(
+        projectId: String,
+        branchId: String,
+        email: String,
+        name: String? = null,
+        options: RequestOptions? = null,
+    ): NeonAuthCreateNewUserResponse {
+        return dev.octri.showcase.neon.methods.Auth.createAuthUser(
+            clientConfig,
+            projectId,
+            branchId,
+            email,
+            name,
+            options,
+        )
     }
 
     /**
-     * Deletes the specified user from the Neon Auth user directory for the specified branch. Removes the user record from `neon_auth.users_sync`. This action cannot be undone.
+     * Deletes the specified user from the Neon Auth user directory for the specified branch.
+     * Removes the user record from `neon_auth.users_sync`. This action cannot be undone.
      */
-    fun deleteUser(projectId: String, branchId: String, authUserId: String, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.Auth.deleteAuthUser(clientConfig, projectId, branchId, authUserId, options)
+    fun deleteUser(
+        projectId: String,
+        branchId: String,
+        authUserId: String,
+        options: RequestOptions? = null,
+    ): Unit {
+        return dev.octri.showcase.neon.methods.Auth.deleteAuthUser(
+            clientConfig,
+            projectId,
+            branchId,
+            authUserId,
+            options,
+        )
     }
 
     /**
-     * Updates the role of a user in the Neon Auth user directory for the specified branch. The role controls the user's level of access within the Neon Auth integration.
+     * Updates the role of a user in the Neon Auth user directory for the specified branch. The role
+     * controls the user's level of access within the Neon Auth integration.
      */
-    fun updateUserRole(projectId: String, branchId: String, authUserId: String, roles: List<String>, options: RequestOptions? = null): UpdateNeonAuthUserRoleResponse {
-        return dev.octri.showcase.neon.methods.Auth.updateAuthUserRole(clientConfig, projectId, branchId, authUserId, roles, options)
+    fun updateUserRole(
+        projectId: String,
+        branchId: String,
+        authUserId: String,
+        roles: List<String>,
+        options: RequestOptions? = null,
+    ): UpdateNeonAuthUserRoleResponse {
+        return dev.octri.showcase.neon.methods.Auth.updateAuthUserRole(
+            clientConfig,
+            projectId,
+            branchId,
+            authUserId,
+            roles,
+            options,
+        )
+    }
+
+    /** Lists the OAuth providers configured for the specified branch's Neon Auth integration. */
+    fun listOauthProviders(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): ListNeonAuthOauthProvidersResponse {
+        return dev.octri.showcase.neon.methods.Auth.listAuthOauthProviders(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Lists the OAuth providers configured for the specified branch's Neon Auth integration.
+     * Adds an OAuth provider configuration to the specified branch's Neon Auth integration. After
+     * adding, users can authenticate using the configured provider.
      */
-    fun listOauthProviders(projectId: String, branchId: String, options: RequestOptions? = null): ListNeonAuthOauthProvidersResponse {
-        return dev.octri.showcase.neon.methods.Auth.listAuthOauthProviders(clientConfig, projectId, branchId, options)
+    fun addOauthProvider(
+        request: dev.octri.showcase.neon.methods.Auth.AddAuthOauthProviderRequest,
+        options: RequestOptions? = null,
+    ): NeonAuthOauthProvider {
+        return dev.octri.showcase.neon.methods.Auth.addAuthOauthProvider(
+            clientConfig,
+            request,
+            options,
+        )
+    }
+
+    /** Updates an OAuth provider for the specified project. */
+    fun updateOauthProvider(
+        request: dev.octri.showcase.neon.methods.Auth.UpdateAuthOauthProviderRequest,
+        options: RequestOptions? = null,
+    ): NeonAuthOauthProvider {
+        return dev.octri.showcase.neon.methods.Auth.updateAuthOauthProvider(
+            clientConfig,
+            request,
+            options,
+        )
+    }
+
+    /** Deletes an OAuth provider from the specified project. */
+    fun deleteOauthProvider(
+        projectId: String,
+        branchId: String,
+        oauthProviderId: NeonAuthOauthProviderId,
+        options: RequestOptions? = null,
+    ): Unit {
+        return dev.octri.showcase.neon.methods.Auth.deleteAuthOauthProvider(
+            clientConfig,
+            projectId,
+            branchId,
+            oauthProviderId,
+            options,
+        )
     }
 
     /**
-     * Adds an OAuth provider configuration to the specified branch's Neon Auth integration. After adding, users can authenticate using the configured provider.
-     */
-    fun addOauthProvider(request: dev.octri.showcase.neon.methods.Auth.AddAuthOauthProviderRequest, options: RequestOptions? = null): NeonAuthOauthProvider {
-        return dev.octri.showcase.neon.methods.Auth.addAuthOauthProvider(clientConfig, request, options)
-    }
-
-    /**
-     * Updates an OAuth provider for the specified project.
-     */
-    fun updateOauthProvider(request: dev.octri.showcase.neon.methods.Auth.UpdateAuthOauthProviderRequest, options: RequestOptions? = null): NeonAuthOauthProvider {
-        return dev.octri.showcase.neon.methods.Auth.updateAuthOauthProvider(clientConfig, request, options)
-    }
-
-    /**
-     * Deletes an OAuth provider from the specified project.
-     */
-    fun deleteOauthProvider(projectId: String, branchId: String, oauthProviderId: NeonAuthOauthProviderId, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.Auth.deleteAuthOauthProvider(clientConfig, projectId, branchId, oauthProviderId, options)
-    }
-
-    /**
-     * Sends a test email using the SMTP server settings supplied in the request body to verify connectivity and credentials. The request body must include the full SMTP server settings (`host`, `port`, `username`, `password`, `sender_email`, `sender_name`) and the `recipient_email` address. Deprecated: to test a branch's already-saved configuration, use `sendNeonAuthEmailProviderTest`, which reuses the stored SMTP password server-side so the caller never has to re-supply (or be…
+     * Sends a test email using the SMTP server settings supplied in the request body to verify
+     * connectivity and credentials. The request body must include the full SMTP server settings
+     * (`host`, `port`, `username`, `password`, `sender_email`, `sender_name`) and the
+     * `recipient_email` address. Deprecated: to test a branch's already-saved configuration, use
+     * `sendNeonAuthEmailProviderTest`, which reuses the stored SMTP password server-side so the
+     * caller never has to re-supply (or be…
      *
-     * @deprecated This operation is deprecated and may be removed in a future
-     *   release.
+     * @deprecated This operation is deprecated and may be removed in a future release.
      */
-    fun sendTestEmail(request: dev.octri.showcase.neon.methods.Auth.SendAuthTestEmailRequest, options: RequestOptions? = null): SendNeonAuthTestEmailResponse {
-        return dev.octri.showcase.neon.methods.Auth.sendAuthTestEmail(clientConfig, request, options)
+    fun sendTestEmail(
+        request: dev.octri.showcase.neon.methods.Auth.SendAuthTestEmailRequest,
+        options: RequestOptions? = null,
+    ): SendNeonAuthTestEmailResponse {
+        return dev.octri.showcase.neon.methods.Auth.sendAuthTestEmail(
+            clientConfig,
+            request,
+            options,
+        )
     }
 
     /**
-     * Sends a test email using the branch's already-saved custom SMTP configuration. Only the `recipient_email` is provided — the stored SMTP settings and password are used server-side, so the caller does not need to re-supply (or be able to read) the password. This avoids the GET response's masked password being sent back, which would fail SMTP authentication. Requires a configured custom SMTP provider on a Better Auth integration. A shared provider, a missing configuration, or a…
+     * Sends a test email using the branch's already-saved custom SMTP configuration. Only the
+     * `recipient_email` is provided — the stored SMTP settings and password are used server-side,
+     * so the caller does not need to re-supply (or be able to read) the password. This avoids the
+     * GET response's masked password being sent back, which would fail SMTP authentication.
+     * Requires a configured custom SMTP provider on a Better Auth integration. A shared provider, a
+     * missing configuration, or a…
      */
-    fun sendEmailProviderTest(projectId: String, branchId: String, recipientEmail: String, options: RequestOptions? = null): SendNeonAuthTestEmailResponse {
-        return dev.octri.showcase.neon.methods.Auth.sendAuthEmailProviderTest(clientConfig, projectId, branchId, recipientEmail, options)
+    fun sendEmailProviderTest(
+        projectId: String,
+        branchId: String,
+        recipientEmail: String,
+        options: RequestOptions? = null,
+    ): SendNeonAuthTestEmailResponse {
+        return dev.octri.showcase.neon.methods.Auth.sendAuthEmailProviderTest(
+            clientConfig,
+            projectId,
+            branchId,
+            recipientEmail,
+            options,
+        )
     }
 
     /**
-     * Retrieves the email and password authentication configuration for the specified branch's Neon Auth integration, including whether it is enabled and the email verification method.
+     * Retrieves the email and password authentication configuration for the specified branch's Neon
+     * Auth integration, including whether it is enabled and the email verification method.
      */
-    fun getEmailAndPasswordConfig(projectId: String, branchId: String, options: RequestOptions? = null): NeonAuthEmailAndPasswordConfig {
-        return dev.octri.showcase.neon.methods.Auth.getAuthEmailAndPasswordConfig(clientConfig, projectId, branchId, options)
+    fun getEmailAndPasswordConfig(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): NeonAuthEmailAndPasswordConfig {
+        return dev.octri.showcase.neon.methods.Auth.getAuthEmailAndPasswordConfig(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Updates the email and password authentication configuration for the specified branch's Neon Auth integration. Only the fields provided in the request body are updated.
+     * Updates the email and password authentication configuration for the specified branch's Neon
+     * Auth integration. Only the fields provided in the request body are updated.
      */
-    fun updateEmailAndPasswordConfig(request: dev.octri.showcase.neon.methods.Auth.UpdateAuthEmailAndPasswordConfigRequest, options: RequestOptions? = null): NeonAuthEmailAndPasswordConfig {
-        return dev.octri.showcase.neon.methods.Auth.updateAuthEmailAndPasswordConfig(clientConfig, request, options)
+    fun updateEmailAndPasswordConfig(
+        request: dev.octri.showcase.neon.methods.Auth.UpdateAuthEmailAndPasswordConfigRequest,
+        options: RequestOptions? = null,
+    ): NeonAuthEmailAndPasswordConfig {
+        return dev.octri.showcase.neon.methods.Auth.updateAuthEmailAndPasswordConfig(
+            clientConfig,
+            request,
+            options,
+        )
     }
 
     /**
-     * Retrieves the email provider configuration for the specified branch's Neon Auth integration, including the provider type and server settings.
+     * Retrieves the email provider configuration for the specified branch's Neon Auth integration,
+     * including the provider type and server settings.
      */
-    fun getEmailProvider(projectId: String, branchId: String, options: RequestOptions? = null): NeonAuthEmailServerConfigResponse {
-        return dev.octri.showcase.neon.methods.Auth.getAuthEmailProvider(clientConfig, projectId, branchId, options)
+    fun getEmailProvider(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): NeonAuthEmailServerConfigResponse {
+        return dev.octri.showcase.neon.methods.Auth.getAuthEmailProvider(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Updates the email provider configuration for a branch's Neon Auth integration. Use the `standard` fields to configure SMTP settings and the sender identity; Better Auth integrations merge omitted fields, while Legacy Stack Auth integrations require all six standard fields on each update. Returns the updated email provider configuration.
+     * Updates the email provider configuration for a branch's Neon Auth integration. Use the
+     * `standard` fields to configure SMTP settings and the sender identity; Better Auth
+     * integrations merge omitted fields, while Legacy Stack Auth integrations require all six
+     * standard fields on each update. Returns the updated email provider configuration.
      *
-     * Updates the email provider configuration for the specified branch's Neon Auth integration. The email provider handles transactional messages such as verification emails and password reset links. Partial `standard` updates — omitting fields to keep their stored values — are supported only for Better Auth integrations, which merge omitted fields server-side. Legacy Stack Auth integrations do not merge and require all six `standard` fields (`host`, `port`, `username`,…
+     * Updates the email provider configuration for the specified branch's Neon Auth integration.
+     * The email provider handles transactional messages such as verification emails and password
+     * reset links. Partial `standard` updates — omitting fields to keep their stored values — are
+     * supported only for Better Auth integrations, which merge omitted fields server-side. Legacy
+     * Stack Auth integrations do not merge and require all six `standard` fields (`host`, `port`,
+     * `username`,…
      */
-    fun updateEmailProvider(projectId: String, branchId: String, body: NeonAuthEmailServerConfig, options: RequestOptions? = null): NeonAuthEmailServerConfigResponse {
-        return dev.octri.showcase.neon.methods.Auth.updateAuthEmailProvider(clientConfig, projectId, branchId, body, options)
+    fun updateEmailProvider(
+        projectId: String,
+        branchId: String,
+        body: NeonAuthEmailServerConfig,
+        options: RequestOptions? = null,
+    ): NeonAuthEmailServerConfigResponse {
+        return dev.octri.showcase.neon.methods.Auth.updateAuthEmailProvider(
+            clientConfig,
+            projectId,
+            branchId,
+            body,
+            options,
+        )
     }
 
     /**
-     * Retrieves the localhost allow setting for the specified branch's Neon Auth integration. When enabled, authentication flows work from `localhost` without adding it to the redirect URI whitelist.
+     * Retrieves the localhost allow setting for the specified branch's Neon Auth integration. When
+     * enabled, authentication flows work from `localhost` without adding it to the redirect URI
+     * whitelist.
      */
-    fun getAllowLocalhost(projectId: String, branchId: String, options: RequestOptions? = null): NeonAuthAllowLocalhostResponse {
-        return dev.octri.showcase.neon.methods.Auth.getAuthAllowLocalhost(clientConfig, projectId, branchId, options)
+    fun getAllowLocalhost(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): NeonAuthAllowLocalhostResponse {
+        return dev.octri.showcase.neon.methods.Auth.getAuthAllowLocalhost(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Updates the localhost allow setting for the specified branch's Neon Auth integration. When enabled, authentication flows work from `localhost` without adding it to the redirect URI whitelist.
+     * Updates the localhost allow setting for the specified branch's Neon Auth integration. When
+     * enabled, authentication flows work from `localhost` without adding it to the redirect URI
+     * whitelist.
      */
-    fun updateAllowLocalhost(projectId: String, branchId: String, allowLocalhost: Boolean, options: RequestOptions? = null): NeonAuthAllowLocalhostResponse {
-        return dev.octri.showcase.neon.methods.Auth.updateAuthAllowLocalhost(clientConfig, projectId, branchId, allowLocalhost, options)
+    fun updateAllowLocalhost(
+        projectId: String,
+        branchId: String,
+        allowLocalhost: Boolean,
+        options: RequestOptions? = null,
+    ): NeonAuthAllowLocalhostResponse {
+        return dev.octri.showcase.neon.methods.Auth.updateAuthAllowLocalhost(
+            clientConfig,
+            projectId,
+            branchId,
+            allowLocalhost,
+            options,
+        )
     }
 
     /**
-     * Returns all plugin configurations for Neon Auth in a single response. This endpoint aggregates organization, email provider, email and password, OAuth providers, and localhost settings.
+     * Returns all plugin configurations for Neon Auth in a single response. This endpoint
+     * aggregates organization, email provider, email and password, OAuth providers, and localhost
+     * settings.
      */
-    fun getPluginConfigs(projectId: String, branchId: String, options: RequestOptions? = null): NeonAuthPluginConfigs {
-        return dev.octri.showcase.neon.methods.Auth.getAuthPluginConfigs(clientConfig, projectId, branchId, options)
+    fun getPluginConfigs(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): NeonAuthPluginConfigs {
+        return dev.octri.showcase.neon.methods.Auth.getAuthPluginConfigs(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Updates the organization plugin configuration for Neon Auth. The organization plugin enables multi-tenant organization support.
+     * Updates the organization plugin configuration for Neon Auth. The organization plugin enables
+     * multi-tenant organization support.
      */
-    fun updateOrganizationPlugin(request: dev.octri.showcase.neon.methods.Auth.UpdateAuthOrganizationPluginRequest, options: RequestOptions? = null): NeonAuthOrganizationConfig {
-        return dev.octri.showcase.neon.methods.Auth.updateAuthOrganizationPlugin(clientConfig, request, options)
+    fun updateOrganizationPlugin(
+        request: dev.octri.showcase.neon.methods.Auth.UpdateAuthOrganizationPluginRequest,
+        options: RequestOptions? = null,
+    ): NeonAuthOrganizationConfig {
+        return dev.octri.showcase.neon.methods.Auth.updateAuthOrganizationPlugin(
+            clientConfig,
+            request,
+            options,
+        )
     }
 
     /**
-     * Updates the auth configuration for the branch. Currently supports updating the application name used in auth emails.
+     * Updates the auth configuration for the branch. Currently supports updating the application
+     * name used in auth emails.
      */
-    fun updateConfig(projectId: String, branchId: String, name: String, options: RequestOptions? = null): NeonAuthConfigResponse {
-        return dev.octri.showcase.neon.methods.Auth.updateAuthConfig(clientConfig, projectId, branchId, name, options)
+    fun updateConfig(
+        projectId: String,
+        branchId: String,
+        name: String,
+        options: RequestOptions? = null,
+    ): NeonAuthConfigResponse {
+        return dev.octri.showcase.neon.methods.Auth.updateAuthConfig(
+            clientConfig,
+            projectId,
+            branchId,
+            name,
+            options,
+        )
     }
 
     /**
-     * Updates the magic link plugin configuration for Neon Auth. The magic link plugin enables passwordless authentication via email magic links.
+     * Updates the magic link plugin configuration for Neon Auth. The magic link plugin enables
+     * passwordless authentication via email magic links.
      */
-    fun updateMagicLinkPlugin(projectId: String, branchId: String, enabled: Boolean? = null, expiresIn: Int? = null, disableSignUp: Boolean? = null, options: RequestOptions? = null): NeonAuthMagicLinkConfig {
-        return dev.octri.showcase.neon.methods.Auth.updateAuthMagicLinkPlugin(clientConfig, projectId, branchId, enabled, expiresIn, disableSignUp, options)
+    fun updateMagicLinkPlugin(
+        projectId: String,
+        branchId: String,
+        enabled: Boolean? = null,
+        expiresIn: Int? = null,
+        disableSignUp: Boolean? = null,
+        options: RequestOptions? = null,
+    ): NeonAuthMagicLinkConfig {
+        return dev.octri.showcase.neon.methods.Auth.updateAuthMagicLinkPlugin(
+            clientConfig,
+            projectId,
+            branchId,
+            enabled,
+            expiresIn,
+            disableSignUp,
+            options,
+        )
     }
 
     /**
-     * Returns the phone number plugin configuration for Neon Auth. The phone number plugin enables phone-based OTP authentication.
+     * Returns the phone number plugin configuration for Neon Auth. The phone number plugin enables
+     * phone-based OTP authentication.
      */
-    fun getPhoneNumberPlugin(projectId: String, branchId: String, options: RequestOptions? = null): NeonAuthPhoneNumberConfig {
-        return dev.octri.showcase.neon.methods.Auth.getAuthPhoneNumberPlugin(clientConfig, projectId, branchId, options)
+    fun getPhoneNumberPlugin(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): NeonAuthPhoneNumberConfig {
+        return dev.octri.showcase.neon.methods.Auth.getAuthPhoneNumberPlugin(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Updates the phone number plugin configuration for Neon Auth. Only the fields provided in the request body are updated; omitted fields retain their current values. The phone number plugin enables phone-based OTP authentication. OTP codes are delivered via the `send.otp` webhook event with `delivery_preference: "sms"`. A webhook must be configured with the `send.otp` event enabled for SMS delivery to work.
+     * Updates the phone number plugin configuration for Neon Auth. Only the fields provided in the
+     * request body are updated; omitted fields retain their current values. The phone number plugin
+     * enables phone-based OTP authentication. OTP codes are delivered via the `send.otp` webhook
+     * event with `delivery_preference: "sms"`. A webhook must be configured with the `send.otp`
+     * event enabled for SMS delivery to work.
      */
-    fun updatePhoneNumberPlugin(projectId: String, branchId: String, enabled: Boolean? = null, otpExpiresIn: Long? = null, options: RequestOptions? = null): NeonAuthPhoneNumberConfig {
-        return dev.octri.showcase.neon.methods.Auth.updateAuthPhoneNumberPlugin(clientConfig, projectId, branchId, enabled, otpExpiresIn, options)
+    fun updatePhoneNumberPlugin(
+        projectId: String,
+        branchId: String,
+        enabled: Boolean? = null,
+        otpExpiresIn: Long? = null,
+        options: RequestOptions? = null,
+    ): NeonAuthPhoneNumberConfig {
+        return dev.octri.showcase.neon.methods.Auth.updateAuthPhoneNumberPlugin(
+            clientConfig,
+            projectId,
+            branchId,
+            enabled,
+            otpExpiresIn,
+            options,
+        )
     }
 
     /**
-     * Returns the OAuth provider plugin configuration for Neon Auth. The OAuth provider plugin lets Neon Auth act as an OAuth 2.1 authorization server for your own clients, such as MCP clients.
+     * Returns the OAuth provider plugin configuration for Neon Auth. The OAuth provider plugin lets
+     * Neon Auth act as an OAuth 2.1 authorization server for your own clients, such as MCP clients.
      */
-    fun getOAuthProviderPlugin(projectId: String, branchId: String, options: RequestOptions? = null): NeonAuthOAuthProviderConfig {
-        return dev.octri.showcase.neon.methods.Auth.getAuthOAuthProviderPlugin(clientConfig, projectId, branchId, options)
+    fun getOAuthProviderPlugin(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): NeonAuthOAuthProviderConfig {
+        return dev.octri.showcase.neon.methods.Auth.getAuthOAuthProviderPlugin(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Updates the OAuth provider plugin configuration for Neon Auth. Only the fields provided in the request body are updated; omitted fields retain their current values. A provided `resources` list replaces the stored list. A provided `mcp` object replaces the stored MCP configuration and must include `resource`. The plugin can only be enabled on the project's root branch.
+     * Updates the OAuth provider plugin configuration for Neon Auth. Only the fields provided in
+     * the request body are updated; omitted fields retain their current values. A provided
+     * `resources` list replaces the stored list. A provided `mcp` object replaces the stored MCP
+     * configuration and must include `resource`. The plugin can only be enabled on the project's
+     * root branch.
      */
-    fun updateOAuthProviderPlugin(request: dev.octri.showcase.neon.methods.Auth.UpdateAuthOAuthProviderPluginRequest, options: RequestOptions? = null): NeonAuthOAuthProviderConfig {
-        return dev.octri.showcase.neon.methods.Auth.updateAuthOAuthProviderPlugin(clientConfig, request, options)
+    fun updateOAuthProviderPlugin(
+        request: dev.octri.showcase.neon.methods.Auth.UpdateAuthOAuthProviderPluginRequest,
+        options: RequestOptions? = null,
+    ): NeonAuthOAuthProviderConfig {
+        return dev.octri.showcase.neon.methods.Auth.updateAuthOAuthProviderPlugin(
+            clientConfig,
+            request,
+            options,
+        )
     }
 
     /**
-     * Lists the OAuth clients registered for the branch's Neon Auth OAuth provider. Client secrets are never returned.
+     * Lists the OAuth clients registered for the branch's Neon Auth OAuth provider. Client secrets
+     * are never returned.
      */
-    fun listOAuthClients(projectId: String, branchId: String, options: RequestOptions? = null): ListNeonAuthOAuthClientsResponse {
-        return dev.octri.showcase.neon.methods.Auth.listAuthOAuthClients(clientConfig, projectId, branchId, options)
+    fun listOAuthClients(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): ListNeonAuthOAuthClientsResponse {
+        return dev.octri.showcase.neon.methods.Auth.listAuthOAuthClients(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Registers an OAuth client with the branch's Neon Auth OAuth provider. For `confidential` clients the response includes the `client_secret`, which is shown only once. Every entry in `resources` must be configured on the OAuth provider plugin.
+     * Registers an OAuth client with the branch's Neon Auth OAuth provider. For `confidential`
+     * clients the response includes the `client_secret`, which is shown only once. Every entry in
+     * `resources` must be configured on the OAuth provider plugin.
      */
-    fun createOAuthClient(request: dev.octri.showcase.neon.methods.Auth.CreateAuthOAuthClientRequest, options: RequestOptions? = null): NeonAuthOAuthClientCreated {
-        return dev.octri.showcase.neon.methods.Auth.createAuthOAuthClient(clientConfig, request, options)
+    fun createOAuthClient(
+        request: dev.octri.showcase.neon.methods.Auth.CreateAuthOAuthClientRequest,
+        options: RequestOptions? = null,
+    ): NeonAuthOAuthClientCreated {
+        return dev.octri.showcase.neon.methods.Auth.createAuthOAuthClient(
+            clientConfig,
+            request,
+            options,
+        )
     }
 
     /**
-     * Returns an OAuth client registered with the branch's Neon Auth OAuth provider. The client secret is never returned.
+     * Returns an OAuth client registered with the branch's Neon Auth OAuth provider. The client
+     * secret is never returned.
      */
-    fun getOAuthClient(projectId: String, branchId: String, clientId: String, options: RequestOptions? = null): NeonAuthOAuthClient {
-        return dev.octri.showcase.neon.methods.Auth.getAuthOAuthClient(clientConfig, projectId, branchId, clientId, options)
+    fun getOAuthClient(
+        projectId: String,
+        branchId: String,
+        clientId: String,
+        options: RequestOptions? = null,
+    ): NeonAuthOAuthClient {
+        return dev.octri.showcase.neon.methods.Auth.getAuthOAuthClient(
+            clientConfig,
+            projectId,
+            branchId,
+            clientId,
+            options,
+        )
     }
 
     /**
-     * Updates an OAuth client. Only the fields provided in the request body are updated. A provided `resources` list replaces the client's stored list. The client `type` cannot be changed.
+     * Updates an OAuth client. Only the fields provided in the request body are updated. A provided
+     * `resources` list replaces the client's stored list. The client `type` cannot be changed.
      */
-    fun updateOAuthClient(request: dev.octri.showcase.neon.methods.Auth.UpdateAuthOAuthClientRequest, options: RequestOptions? = null): NeonAuthOAuthClient {
-        return dev.octri.showcase.neon.methods.Auth.updateAuthOAuthClient(clientConfig, request, options)
+    fun updateOAuthClient(
+        request: dev.octri.showcase.neon.methods.Auth.UpdateAuthOAuthClientRequest,
+        options: RequestOptions? = null,
+    ): NeonAuthOAuthClient {
+        return dev.octri.showcase.neon.methods.Auth.updateAuthOAuthClient(
+            clientConfig,
+            request,
+            options,
+        )
+    }
+
+    /** Deletes an OAuth client. Tokens already issued to the client are not revoked. */
+    fun deleteOAuthClient(
+        projectId: String,
+        branchId: String,
+        clientId: String,
+        options: RequestOptions? = null,
+    ): Unit {
+        return dev.octri.showcase.neon.methods.Auth.deleteAuthOAuthClient(
+            clientConfig,
+            projectId,
+            branchId,
+            clientId,
+            options,
+        )
     }
 
     /**
-     * Deletes an OAuth client. Tokens already issued to the client are not revoked.
+     * Generates a new secret for a confidential OAuth client and invalidates the previous one. The
+     * new secret is shown only once.
      */
-    fun deleteOAuthClient(projectId: String, branchId: String, clientId: String, options: RequestOptions? = null): Unit {
-        return dev.octri.showcase.neon.methods.Auth.deleteAuthOAuthClient(clientConfig, projectId, branchId, clientId, options)
+    fun rotateOAuthClientSecret(
+        projectId: String,
+        branchId: String,
+        clientId: String,
+        options: RequestOptions? = null,
+    ): NeonAuthOAuthClientSecret {
+        return dev.octri.showcase.neon.methods.Auth.rotateAuthOAuthClientSecret(
+            clientConfig,
+            projectId,
+            branchId,
+            clientId,
+            options,
+        )
     }
 
     /**
-     * Generates a new secret for a confidential OAuth client and invalidates the previous one. The new secret is shown only once.
+     * Returns the webhook configuration for the specified branch's Neon Auth integration, including
+     * the endpoint URL and the events that trigger it.
      */
-    fun rotateOAuthClientSecret(projectId: String, branchId: String, clientId: String, options: RequestOptions? = null): NeonAuthOAuthClientSecret {
-        return dev.octri.showcase.neon.methods.Auth.rotateAuthOAuthClientSecret(clientConfig, projectId, branchId, clientId, options)
+    fun getWebhookConfig(
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): NeonAuthWebhookConfig {
+        return dev.octri.showcase.neon.methods.Auth.getAuthWebhookConfig(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
     /**
-     * Returns the webhook configuration for the specified branch's Neon Auth integration, including the endpoint URL and the events that trigger it.
+     * Updates the webhook configuration for the specified branch's Neon Auth integration. Webhooks
+     * notify an external endpoint when auth events occur, such as user creation or sign-in.
      */
-    fun getWebhookConfig(projectId: String, branchId: String, options: RequestOptions? = null): NeonAuthWebhookConfig {
-        return dev.octri.showcase.neon.methods.Auth.getAuthWebhookConfig(clientConfig, projectId, branchId, options)
+    fun updateWebhookConfig(
+        request: dev.octri.showcase.neon.methods.Auth.UpdateAuthWebhookConfigRequest,
+        options: RequestOptions? = null,
+    ): NeonAuthWebhookConfig {
+        return dev.octri.showcase.neon.methods.Auth.updateAuthWebhookConfig(
+            clientConfig,
+            request,
+            options,
+        )
     }
-
-    /**
-     * Updates the webhook configuration for the specified branch's Neon Auth integration. Webhooks notify an external endpoint when auth events occur, such as user creation or sign-in.
-     */
-    fun updateWebhookConfig(request: dev.octri.showcase.neon.methods.Auth.UpdateAuthWebhookConfigRequest, options: RequestOptions? = null): NeonAuthWebhookConfig {
-        return dev.octri.showcase.neon.methods.Auth.updateAuthWebhookConfig(clientConfig, request, options)
-    }
-
 }
