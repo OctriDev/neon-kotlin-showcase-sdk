@@ -7,170 +7,192 @@ import java.time.OffsetDateTime
 
 typealias ProjectBranchLogDuration = String
 
-/** Typed representation of the `ProjectBranchLogFieldsResponse` API schema. */
+/**
+ * Typed representation of the `ProjectBranchLogFieldsResponse` API schema.
+ */
 data class ProjectBranchLogFieldsResponse(
     /**
-     * Log field names observed on this branch, each usable as `field_name` on the log field-values
-     * endpoint. Computed per branch rather than fixed by this specification, so clients should not
-     * assume a particular set.
+     * Log field names observed on this branch, each usable as `field_name` on the log field-values endpoint. Computed per branch rather than fixed by this specification, so clients should not assume a particular set.
      */
     val fields: List<String>
 )
 
-/** Typed representation of the `ProjectBranchLogFieldValuesResponse` API schema. */
+/**
+ * Typed representation of the `ProjectBranchLogFieldValuesResponse` API schema.
+ */
 data class ProjectBranchLogFieldValuesResponse(
-    /** Required array value serialized in the `values` wire field. */
+    /**
+     * Required array value serialized in the `values` wire field.
+     */
     val values: List<String>,
     /**
-     * True when more distinct values exist than were returned, because either the requested `limit`
-     * or the server's own scan cap was reached. A caller that filters on a partial list is choosing
-     * from an arbitrary subset, so narrow `since` or `source` and ask again when this is `true`.
+     * True when more distinct values exist than were returned, because either the requested `limit` or the server's own scan cap was reached. A caller that filters on a partial list is choosing from an arbitrary subset, so narrow `since` or `source` and ask again when this is `true`.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("is_truncated") val isTruncated: Boolean,
+    @com.fasterxml.jackson.annotation.JsonProperty("is_truncated") val isTruncated: Boolean
 )
 
-/** Typed representation of the `ProjectBranchLogRecord` API schema. */
+/**
+ * Typed representation of the `ProjectBranchLogRecord` API schema.
+ */
 data class ProjectBranchLogRecord(
-    /** The OpenTelemetry record timestamp in UTC. */
+    /**
+     * The OpenTelemetry record timestamp in UTC.
+     */
     val timestamp: OffsetDateTime,
     /**
-     * The OpenTelemetry log body rendered as text. A body that is already a string is returned
-     * verbatim. Any other OpenTelemetry `AnyValue` body — notably the structured key/value body
-     * that `storage` records always carry — is rendered as compact JSON with its keys sorted
-     * alphabetically, for example `{"bytes":1024,"operation":"GET","object_key":"a/b.png"}`.
+     * The OpenTelemetry log body rendered as text. A body that is already a string is returned verbatim. Any other OpenTelemetry `AnyValue` body — notably the structured key/value body that `storage` records always carry — is rendered as compact JSON with its keys sorted alphabetically, for example `{"bytes":1024,"operation":"GET","object_key":"a/b.png"}`.
      */
     val message: String,
-    /** Customer-defined OpenTelemetry log and resource attributes. */
+    /**
+     * Customer-defined OpenTelemetry log and resource attributes.
+     */
     val attributes: Map<String, Any>,
-    /** The Neon service that emitted the log record. */
+    /**
+     * The Neon service that emitted the log record.
+     */
     val source: ProjectBranchLogSource? = null,
-    /** The Neon identifier of the service instance that emitted the record. */
+    /**
+     * The Neon identifier of the service instance that emitted the record.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("entity_id") val entityId: String? = null,
-    /** The OpenTelemetry `service.name` resource attribute. */
+    /**
+     * The OpenTelemetry `service.name` resource attribute.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("service_name") val serviceName: String? = null,
-    /** The OpenTelemetry instrumentation scope name. */
+    /**
+     * The OpenTelemetry instrumentation scope name.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("scope_name") val scopeName: String? = null,
-    /** The numeric OpenTelemetry severity. */
-    @com.fasterxml.jackson.annotation.JsonProperty("severity_number")
-    val severityNumber: Long? = null,
-    /** The original OpenTelemetry severity text. */
-    @com.fasterxml.jackson.annotation.JsonProperty("severity_text")
-    val severityText: String? = null,
-    /** The OpenTelemetry trace ID, when the record belongs to a trace. */
+    /**
+     * The numeric OpenTelemetry severity.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("severity_number") val severityNumber: Long? = null,
+    /**
+     * The original OpenTelemetry severity text.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("severity_text") val severityText: String? = null,
+    /**
+     * The OpenTelemetry trace ID, when the record belongs to a trace.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("trace_id") val traceId: String? = null,
-    /** The OpenTelemetry span ID, when the record belongs to a span. */
-    @com.fasterxml.jackson.annotation.JsonProperty("span_id") val spanId: String? = null,
+    /**
+     * The OpenTelemetry span ID, when the record belongs to a span.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("span_id") val spanId: String? = null
 )
 
-/** Typed representation of the `ProjectBranchLogsInvalidQuery` API schema. */
+/**
+ * Typed representation of the `ProjectBranchLogsInvalidQuery` API schema.
+ */
 data class ProjectBranchLogsInvalidQuery(
-    /** Required `string` value serialized in the `code` wire field. */
+    /**
+     * Required `string` value serialized in the `code` wire field.
+     */
     val code: String,
-    /** Required `string` value serialized in the `message` wire field. */
+    /**
+     * Required `string` value serialized in the `message` wire field.
+     */
     val message: String,
     /**
-     * Machine-readable reason why the request was rejected: - `time_range_too_large`: the requested
-     * window spans more than seven days. - `invalid_time_range`: `end_time` is not after
-     * `start_time`. - `conflicting_time_range`: both `since` and `start_time` were supplied. -
-     * `invalid_cursor`: the supplied `cursor` is malformed, expired, or was issued for a different
-     * query. - `unknown_field`: the requested `field_name` is not one of the fields the log fields
-     * endpoint reports for this…
+     * Machine-readable reason why the request was rejected: - `time_range_too_large`: the requested window spans more than seven days. - `invalid_time_range`: `end_time` is not after `start_time`. - `conflicting_time_range`: both `since` and `start_time` were supplied. - `invalid_cursor`: the supplied `cursor` is malformed, expired, or was issued for a different query. - `unknown_field`: the requested `field_name` is not one of the fields the log fields endpoint reports for this…
      */
-    val reason: ProjectBranchLogsInvalidQueryReasonEnum,
+    val reason: ProjectBranchLogsInvalidQueryReasonEnum
 ) : dev.octri.showcase.neon.ErrorBody
 
-/** Typed representation of the `ProjectBranchLogsNotAvailable` API schema. */
+/**
+ * Typed representation of the `ProjectBranchLogsNotAvailable` API schema.
+ */
 data class ProjectBranchLogsNotAvailable(
-    /** Required `string` value serialized in the `code` wire field. */
+    /**
+     * Required `string` value serialized in the `code` wire field.
+     */
     val code: String,
-    /** Required `string` value serialized in the `message` wire field. */
+    /**
+     * Required `string` value serialized in the `message` wire field.
+     */
     val message: String,
     /**
-     * Machine-readable reason why logs cannot be read: - `branch_not_found`: the project or branch
-     * does not exist, or the caller does not have access to it. - `telemetry_not_enabled`: the
-     * branch exists but is not collecting telemetry, so it has no logs to serve.
+     * Machine-readable reason why logs cannot be read: - `branch_not_found`: the project or branch does not exist, or the caller does not have access to it. - `telemetry_not_enabled`: the branch exists but is not collecting telemetry, so it has no logs to serve.
      */
-    val reason: ProjectBranchLogsNotAvailableReasonEnum,
+    val reason: ProjectBranchLogsNotAvailableReasonEnum
 ) : dev.octri.showcase.neon.ErrorBody
 
-/** Typed representation of the `ProjectBranchLogsQueryRequest` API schema. */
+/**
+ * Typed representation of the `ProjectBranchLogsQueryRequest` API schema.
+ */
 data class ProjectBranchLogsQueryRequest(
     /**
-     * Length of the query window, ending at `end_time` or at the current time when `end_time` is
-     * omitted. Mutually exclusive with `start_time`. Prefer this over computing absolute bounds
-     * when the caller only means "the last hour".
+     * Length of the query window, ending at `end_time` or at the current time when `end_time` is omitted. Mutually exclusive with `start_time`. Prefer this over computing absolute bounds when the caller only means "the last hour".
      */
     val since: ProjectBranchLogDuration? = null,
     /**
-     * Inclusive beginning of the query window. Mutually exclusive with `since`. Defaults to one
-     * hour before `end_time`, or one hour before the current time when both bounds are omitted.
+     * Inclusive beginning of the query window. Mutually exclusive with `since`. Defaults to one hour before `end_time`, or one hour before the current time when both bounds are omitted.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("start_time")
-    val startTime: OffsetDateTime? = null,
-    /** Exclusive end of the query window. Defaults to the current time. */
+    @com.fasterxml.jackson.annotation.JsonProperty("start_time") val startTime: OffsetDateTime? = null,
+    /**
+     * Exclusive end of the query window. Defaults to the current time.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("end_time") val endTime: OffsetDateTime? = null,
-    /** Maximum number of log records to return per page. */
+    /**
+     * Maximum number of log records to return per page.
+     */
     val limit: Long? = null,
     /**
-     * Opaque pagination cursor returned as `next_cursor` by a previous call. Resume the query after
-     * the last record of the previous page, repeating the time range and every filter unchanged.
+     * Opaque pagination cursor returned as `next_cursor` by a previous call. Resume the query after the last record of the previous page, repeating the time range and every filter unchanged.
      */
     val cursor: String? = null,
     /**
      * Order matching records by timestamp. `desc`, the default, returns the newest records first.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("sort_order")
-    val sortOrder: ProjectBranchLogsQueryRequestSortOrderEnum? = null,
-    /** The Neon service that emitted the log record. */
+    @com.fasterxml.jackson.annotation.JsonProperty("sort_order") val sortOrder: ProjectBranchLogsQueryRequestSortOrderEnum? = null,
+    /**
+     * The Neon service that emitted the log record.
+     */
     val source: ProjectBranchLogSource? = null,
-    /** Match the OpenTelemetry `service.name` resource attribute exactly. */
+    /**
+     * Match the OpenTelemetry `service.name` resource attribute exactly.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("service_name") val serviceName: String? = null,
-    /** Match the OpenTelemetry instrumentation scope name exactly. */
+    /**
+     * Match the OpenTelemetry instrumentation scope name exactly.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("scope_name") val scopeName: String? = null,
     /**
-     * An OpenTelemetry severity level. A minimum severity includes every higher level in this
-     * order: `trace`, `debug`, `info`, `warn`, `error`, `fatal`.
+     * An OpenTelemetry severity level. A minimum severity includes every higher level in this order: `trace`, `debug`, `info`, `warn`, `error`, `fatal`.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("minimum_severity")
-    val minimumSeverity: ProjectBranchLogSeverity? = null,
-    /** Match the OpenTelemetry severity text exactly. */
-    @com.fasterxml.jackson.annotation.JsonProperty("severity_text")
-    val severityText: String? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("minimum_severity") val minimumSeverity: ProjectBranchLogSeverity? = null,
     /**
-     * Match records whose rendered `message` contains this case-sensitive substring. Records with a
-     * structured body are matched against their JSON rendering, so the substring meets JSON syntax
-     * rather than prose: a bare key name such as `operation` matches every record carrying that
-     * key, and `http_status: 200` matches none, because the rendering contains `"http_status":200`
-     * with no space.
+     * Match the OpenTelemetry severity text exactly.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("body_contains")
-    val bodyContains: String? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("severity_text") val severityText: String? = null,
     /**
-     * Match records associated with this OpenTelemetry trace ID. W3C Trace Context defines a trace
-     * ID as 32 lowercase hex digits, and that is what is stored, so an uppercase value is rejected
-     * rather than silently matching nothing.
+     * Match records whose rendered `message` contains this case-sensitive substring. Records with a structured body are matched against their JSON rendering, so the substring meets JSON syntax rather than prose: a bare key name such as `operation` matches every record carrying that key, and `http_status: 200` matches none, because the rendering contains `"http_status":200` with no space.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("body_contains") val bodyContains: String? = null,
+    /**
+     * Match records associated with this OpenTelemetry trace ID. W3C Trace Context defines a trace ID as 32 lowercase hex digits, and that is what is stored, so an uppercase value is rejected rather than silently matching nothing.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("trace_id") val traceId: String? = null,
     /**
-     * Escape hatch for selections the structured filters cannot express: a raw LogQL expression,
-     * evaluated against this branch's log stream. Only stream selectors and line filters are
-     * accepted — no aggregations and no parser stages. Supplying this alongside any structured
-     * filter is rejected with `conflicting_filters` rather than silently ignoring one of them.
-     * `limit`, `sort_order`, and the time window still apply. This field passes the underlying
-     * query language through to the…
+     * Escape hatch for selections the structured filters cannot express: a raw LogQL expression, evaluated against this branch's log stream. Only stream selectors and line filters are accepted — no aggregations and no parser stages. Supplying this alongside any structured filter is rejected with `conflicting_filters` rather than silently ignoring one of them. `limit`, `sort_order`, and the time window still apply. This field passes the underlying query language through to the…
      */
-    val logql: String? = null,
+    val logql: String? = null
 )
 
-/** Typed representation of the `ProjectBranchLogsQueryResponse` API schema. */
+/**
+ * Typed representation of the `ProjectBranchLogsQueryResponse` API schema.
+ */
 data class ProjectBranchLogsQueryResponse(
-    /** Required array value serialized in the `logs` wire field. */
+    /**
+     * Required array value serialized in the `logs` wire field.
+     */
     val logs: List<ProjectBranchLogRecord>,
-    /** True when more records matched than were returned. */
+    /**
+     * True when more records matched than were returned.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("is_truncated") val isTruncated: Boolean,
     /**
-     * Pagination cursor to pass as `cursor` on the next request. Empty when the response is not
-     * truncated.
+     * Pagination cursor to pass as `cursor` on the next request. Empty when the response is not truncated.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("next_cursor") val nextCursor: String? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("next_cursor") val nextCursor: String? = null
 )

@@ -3,112 +3,43 @@
 
 package dev.octri.showcase.neon
 
+
 class CredentialsNamespace(private val clientConfig: ClientConfig) {
     /**
-     * Creates a scoped service credential for a specified project branch. Provide `scopes` and
-     * `principal_type` to define the credential's capabilities and principal. The endpoint is in
-     * beta, and returns `api_token` and `s3_secret_access_key` only once; they are not stored
-     * server-side.
+     * Creates a scoped service credential for a specified project branch. Provide `scopes` and `principal_type` to define the credential's capabilities and principal. The endpoint is in beta, and returns `api_token` and `s3_secret_access_key` only once; they are not stored server-side.
      *
-     * Issues a new scoped service credential anchored to the specified branch. The response carries
-     * `api_token` and `s3_secret_access_key` exactly once — they are not stored server-side.
-     * **Note**: This endpoint is currently in Beta.
+     * Issues a new scoped service credential anchored to the specified branch. The response carries `api_token` and `s3_secret_access_key` exactly once — they are not stored server-side. **Note**: This endpoint is currently in Beta.
      */
-    fun create(
-        projectId: String,
-        branchId: String,
-        scopes: List<CredentialScope>,
-        principalType: CreateCredentialRequestPrincipalTypeEnum,
-        name: String? = null,
-        options: RequestOptions? = null,
-    ): CreateCredentialResponse {
-        return dev.octri.showcase.neon.methods.Credentials.createCredential(
-            clientConfig,
-            projectId,
-            branchId,
-            scopes,
-            principalType,
-            name,
-            options,
-        )
+    fun create(projectId: String, branchId: String, scopes: List<CredentialScope>, principalType: CreateCredentialRequestPrincipalTypeEnum, name: String? = null, options: RequestOptions? = null): CreateCredentialResponse {
+        return dev.octri.showcase.neon.methods.Credentials.createCredential(clientConfig, projectId, branchId, scopes, principalType, name, options)
     }
 
     /**
-     * Returns metadata for customer-issued credentials on the branch. Secrets are never included.
-     * **Note**: This endpoint is currently in Beta.
+     * Returns metadata for customer-issued credentials on the branch. Secrets are never included. **Note**: This endpoint is currently in Beta.
      */
-    fun list(
-        projectId: String,
-        branchId: String,
-        options: RequestOptions? = null,
-    ): ListCredentialsResponse {
-        return dev.octri.showcase.neon.methods.Credentials.listCredentials(
-            clientConfig,
-            projectId,
-            branchId,
-            options,
-        )
-    }
-
-    /** Soft-deletes the credential. Idempotent. **Note**: This endpoint is currently in Beta. */
-    fun revoke(
-        projectId: String,
-        branchId: String,
-        tokenId: String,
-        options: RequestOptions? = null,
-    ): Unit {
-        return dev.octri.showcase.neon.methods.Credentials.revokeCredential(
-            clientConfig,
-            projectId,
-            branchId,
-            tokenId,
-            options,
-        )
+    fun list(projectId: String, branchId: String, options: RequestOptions? = null): ListCredentialsResponse {
+        return dev.octri.showcase.neon.methods.Credentials.listCredentials(clientConfig, projectId, branchId, options)
     }
 
     /**
-     * Returns the live `api_token` and `s3_secret_access_key` of an existing credential, so a
-     * credential whose issuance response was lost can be recovered without minting a new one. This
-     * is a POST with an explicit `/reveal` verb so the secrets never ride a GET, where they would
-     * land in access logs, browser history and proxy caches. Revoked and expired credentials return
-     * 404, as does a `token_id` that does not belong to this project. A credential issued before
-     * secret retrieval was…
+     * Soft-deletes the credential. Idempotent. **Note**: This endpoint is currently in Beta.
      */
-    fun reveal(
-        projectId: String,
-        branchId: String,
-        tokenId: String,
-        options: RequestOptions? = null,
-    ): CredentialSecret {
-        return dev.octri.showcase.neon.methods.Credentials.revealCredential(
-            clientConfig,
-            projectId,
-            branchId,
-            tokenId,
-            options,
-        )
+    fun revoke(projectId: String, branchId: String, tokenId: String, options: RequestOptions? = null): Unit {
+        return dev.octri.showcase.neon.methods.Credentials.revokeCredential(clientConfig, projectId, branchId, tokenId, options)
     }
 
     /**
-     * Replaces the secret material on an existing scoped credential in place. `token_id` is
-     * preserved — it is the `AWS_ACCESS_KEY_ID` for S3-compatible clients, so the access key id
-     * your application already holds keeps working and only the secret changes. This is the analog
-     * of resetting a Postgres password, not of issuing a second credential. The response carries
-     * the new `api_token` and `s3_secret_access_key` exactly once. Rotation is **not** idempotent:
-     * retrying after an…
+     * Returns the live `api_token` and `s3_secret_access_key` of an existing credential, so a credential whose issuance response was lost can be recovered without minting a new one. This is a POST with an explicit `/reveal` verb so the secrets never ride a GET, where they would land in access logs, browser history and proxy caches. Revoked and expired credentials return 404, as does a `token_id` that does not belong to this project. A credential issued before secret retrieval was…
      */
-    fun rotate(
-        projectId: String,
-        branchId: String,
-        tokenId: String,
-        options: RequestOptions? = null,
-    ): RotateCredentialResponse {
-        return dev.octri.showcase.neon.methods.Credentials.rotateCredential(
-            clientConfig,
-            projectId,
-            branchId,
-            tokenId,
-            options,
-        )
+    fun reveal(projectId: String, branchId: String, tokenId: String, options: RequestOptions? = null): CredentialSecret {
+        return dev.octri.showcase.neon.methods.Credentials.revealCredential(clientConfig, projectId, branchId, tokenId, options)
     }
+
+    /**
+     * Replaces the secret material on an existing scoped credential in place. `token_id` is preserved — it is the `AWS_ACCESS_KEY_ID` for S3-compatible clients, so the access key id your application already holds keeps working and only the secret changes. This is the analog of resetting a Postgres password, not of issuing a second credential. The response carries the new `api_token` and `s3_secret_access_key` exactly once. Rotation is **not** idempotent: retrying after an…
+     */
+    fun rotate(projectId: String, branchId: String, tokenId: String, options: RequestOptions? = null): RotateCredentialResponse {
+        return dev.octri.showcase.neon.methods.Credentials.rotateCredential(clientConfig, projectId, branchId, tokenId, options)
+    }
+
 }

@@ -13,78 +13,50 @@ import dev.octri.showcase.neon.Validation
 
 object OperationMethods {
 
+
     /**
-     * Retrieves details for the specified operation. An operation is an action performed on a Neon
-     * project resource.
+     * Retrieves details for the specified operation. An operation is an action performed on a Neon project resource.
      *
      * @param projectId The Neon project ID
      * @param operationId The operation ID
      */
-    fun getOperation(
-        clientConfig: ClientConfig,
-        projectId: String,
-        operationId: String,
-        options: RequestOptions? = null,
-    ): OperationResponse {
+    fun getOperation(clientConfig: ClientConfig, projectId: String, operationId: String, options: RequestOptions? = null): OperationResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateUuid("operation_id", operationId)
 
-        return SdkClient.request<OperationResponse>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/operations/${SdkClient.encodePathSegment(operationId)}",
-                    config = clientConfig,
-                    operationId = "getOperation",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<OperationResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/operations/${SdkClient.encodePathSegment(operationId)}", config = clientConfig, operationId = "getOperation", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Retrieves a list of operations for the specified Neon project. The number of operations
-     * returned can be large. To paginate the response, issue an initial request with a `limit`
-     * value. Then, add the `cursor` value that was returned in the response to the next request.
-     * Operations older than 6 months may be deleted from our systems. If you need more history than
-     * that, you should store your own history.
+     * Retrieves a list of operations for the specified Neon project. The number of operations returned can be large. To paginate the response, issue an initial request with a `limit` value. Then, add the `cursor` value that was returned in the response to the next request. Operations older than 6 months may be deleted from our systems. If you need more history than that, you should store your own history.
      *
      * @param projectId The Neon project ID
-     * @param cursor Specify the cursor value from the previous response to get the next batch of
-     *   operations
-     * @param limit Specify a value from 1 to 1000 to limit number of operations in the response
+     * @param cursor Specify the cursor value from the previous response to get the
+     *   next batch of operations
+     * @param limit Specify a value from 1 to 1000 to limit number of operations in
+     *   the response
      */
-    fun listOperation(
-        clientConfig: ClientConfig,
-        projectId: String,
-        cursor: String? = null,
-        limit: Long? = null,
-        options: RequestOptions? = null,
-    ): ListOperationResponse {
+    fun listOperation(clientConfig: ClientConfig, projectId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): ListOperationResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         if (limit != null) {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 1000.0))
-        }
+}
 
-        return SdkClient.request<ListOperationResponse>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/operations",
-                    config = clientConfig,
-                    query =
-                        mapOf(
-                            "cursor" to SdkClient.queryValue(cursor, "form", true),
-                            "limit" to SdkClient.queryValue(limit, "form", true),
-                        ),
-                    operationId = "listOperation",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<ListOperationResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/operations", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true)), operationId = "listOperation", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
+
+
+
+
+
+
+
 }

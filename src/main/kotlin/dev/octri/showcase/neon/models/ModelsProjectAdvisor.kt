@@ -3,26 +3,48 @@
 
 package dev.octri.showcase.neon.models
 
-/** Typed representation of the `AdvisorIssue` API schema. */
+/**
+ * Typed representation of the `AdvisorIssue` API schema.
+ */
 data class AdvisorIssue(
-    /** Unique identifier for the issue type */
+    /**
+     * Unique identifier for the issue type
+     */
     val name: String,
-    /** Human-readable title */
+    /**
+     * Human-readable title
+     */
     val title: String,
-    /** Severity level of the issue */
+    /**
+     * Severity level of the issue
+     */
     val level: String,
-    /** Whether this issue affects external API exposure or is internal only */
+    /**
+     * Whether this issue affects external API exposure or is internal only
+     */
     val facing: AdvisorIssueFacingEnum,
-    /** Categories this issue belongs to */
+    /**
+     * Categories this issue belongs to
+     */
     val categories: List<AdvisorCategory>,
-    /** Detailed description of what this check detects */
+    /**
+     * Detailed description of what this check detects
+     */
     val description: String,
-    /** Specific details about this instance of the issue */
+    /**
+     * Specific details about this instance of the issue
+     */
     val detail: String,
-    /** URL to documentation on how to fix this issue */
+    /**
+     * URL to documentation on how to fix this issue
+     */
     val remediation: String,
-    /** Additional context-specific metadata */
+    /**
+     * Additional context-specific metadata
+     */
     val metadata: Map<String, Any>,
-    /** Unique key for caching this issue result */
-    @com.fasterxml.jackson.annotation.JsonProperty("cache_key") val cacheKey: String,
+    /**
+     * Unique key for caching this issue result
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("cache_key") val cacheKey: String
 )

@@ -3,6 +3,7 @@
 
 package dev.octri.showcase.neon
 
+
 class Neon(private val clientConfig: ClientConfig) {
     val project: ProjectNamespace
     val apiKey: ApiKeyNamespace
@@ -24,7 +25,6 @@ class Neon(private val clientConfig: ClientConfig) {
     val logs: LogsNamespace
     val credentials: CredentialsNamespace
     val functions: FunctionsNamespace
-
     init {
         project = ProjectNamespace(clientConfig)
         apiKey = ApiKeyNamespace(clientConfig)
@@ -47,16 +47,17 @@ class Neon(private val clientConfig: ClientConfig) {
         credentials = CredentialsNamespace(clientConfig)
         functions = FunctionsNamespace(clientConfig)
     }
-
     /**
-     * Turns SDK logging on and configures it. Logging is OFF by default — this SDK reports nothing
-     * until you call this (or construct the client with logging enabled). Reports go to the
-     * endpoint this build was generated with, or to the endpoint you set; with neither, nothing is
-     * sent. Set enabled = false in the block to turn it off.
+     * Turns SDK logging on and configures it. Logging is OFF by default — this
+     * SDK reports nothing until you call this (or construct the client with
+     * logging enabled). Reports go to the endpoint this build was generated with,
+     * or to the endpoint you set; with neither, nothing is sent. Set
+     * enabled = false in the block to turn it off.
      */
     fun setLoggingConfig(block: LoggingConfig.() -> Unit = {}): LoggingConfig {
         clientConfig.logging.enabled = true
         clientConfig.logging.block()
         return clientConfig.logging
     }
+
 }

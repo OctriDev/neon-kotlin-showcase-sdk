@@ -3,13 +3,13 @@
 
 package dev.octri.showcase.neon
 
+
 class RegionNamespace(private val clientConfig: ClientConfig) {
     /**
-     * Lists supported Neon regions. **Note:** Not all regions are available to all organizations.
-     * Pass the `org_id` parameter to get an accurate list of regions available to your
-     * organization.
+     * Lists supported Neon regions. **Note:** Not all regions are available to all organizations. Pass the `org_id` parameter to get an accurate list of regions available to your organization.
      */
     fun getActive(orgId: String? = null, options: RequestOptions? = null): ActiveRegionsResponse {
         return dev.octri.showcase.neon.methods.Region.getActiveRegions(clientConfig, orgId, options)
     }
+
 }
