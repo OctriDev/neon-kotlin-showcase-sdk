@@ -4,630 +4,578 @@
 package dev.octri.showcase.neon.models
 
 import com.fasterxml.jackson.annotation.JsonProperty as JacksonJsonProperty
-
 import dev.octri.showcase.neon.models.branch.AnnotationValueData
 import java.time.OffsetDateTime
 
-/**
- * Typed representation of the `Project` API schema.
- */
+/** Typed representation of the `Project` API schema. */
 class Project(
     /**
-     * Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. Bytes-Hour. Project consumed that much Postgres storage hourly during the billing period. The value has some lag. The value is reset at the beginning of each billing period.
+     * Deprecated: always returns 0. Use the consumption history v2 endpoints
+     * (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. Bytes-Hour.
+     * Project consumed that much Postgres storage hourly during the billing period. The value has
+     * some lag. The value is reset at the beginning of each billing period.
      */
     @JacksonJsonProperty("data_storage_bytes_hour") val dataStorageBytesHour: Long,
     /**
-     * Bytes. Egress traffic from the Neon cloud to the client for given project over the billing period. Includes deleted endpoints. The value has some lag. The value is reset at the beginning of each billing period.
+     * Bytes. Egress traffic from the Neon cloud to the client for given project over the billing
+     * period. Includes deleted endpoints. The value has some lag. The value is reset at the
+     * beginning of each billing period.
      */
     @JacksonJsonProperty("data_transfer_bytes") val dataTransferBytes: Long,
     /**
-     * Bytes. Amount of WAL that travelled through Postgres storage for given project across all branches. The value has some lag. The value is reset at the beginning of each billing period.
+     * Bytes. Amount of WAL that travelled through Postgres storage for given project across all
+     * branches. The value has some lag. The value is reset at the beginning of each billing period.
      */
     @JacksonJsonProperty("written_data_bytes") val writtenDataBytes: Long,
     /**
-     * Seconds. The number of CPU seconds used by the project's compute endpoints, including compute endpoints that have been deleted. The value has some lag. The value is reset at the beginning of each billing period. Examples: 1. An endpoint that uses 1 CPU for 1 second is equal to `compute_time=1`. 2. An endpoint that uses 2 CPUs simultaneously for 1 second is equal to `compute_time=2`.
+     * Seconds. The number of CPU seconds used by the project's compute endpoints, including compute
+     * endpoints that have been deleted. The value has some lag. The value is reset at the beginning
+     * of each billing period. Examples: 1. An endpoint that uses 1 CPU for 1 second is equal to
+     * `compute_time=1`. 2. An endpoint that uses 2 CPUs simultaneously for 1 second is equal to
+     * `compute_time=2`.
      */
     @JacksonJsonProperty("compute_time_seconds") val computeTimeSeconds: Long,
     /**
-     * Seconds. Control plane observed endpoints of this project being active this amount of wall-clock time. The value has some lag. The value is reset at the beginning of each billing period.
+     * Seconds. Control plane observed endpoints of this project being active this amount of
+     * wall-clock time. The value has some lag. The value is reset at the beginning of each billing
+     * period.
      */
     @JacksonJsonProperty("active_time_seconds") val activeTimeSeconds: Long,
-    /**
-     * Deprecated. Use `compute_time_seconds` instead.
-     */
+    /** Deprecated. Use `compute_time_seconds` instead. */
     @JacksonJsonProperty("cpu_used_sec") val cpuUsedSec: Long,
-    /**
-     * The Neon project ID. Use as the `project_id` path parameter in other endpoints.
-     */
+    /** The Neon project ID. Use as the `project_id` path parameter in other endpoints. */
     val id: String,
     /**
-     * The cloud platform identifier. Currently, only AWS is supported, for which the identifier is `aws`.
+     * The cloud platform identifier. Currently, only AWS is supported, for which the identifier is
+     * `aws`.
      */
     @JacksonJsonProperty("platform_id") val platformId: String,
     /**
-     * Cloud region where the resource's Postgres compute and storage reside (for example, `aws-us-east-1`). Valid values are returned by `GET /regions`.
+     * Cloud region where the resource's Postgres compute and storage reside (for example,
+     * `aws-us-east-1`). Valid values are returned by `GET /regions`.
      */
     @JacksonJsonProperty("region_id") val regionId: String,
-    /**
-     * The project name
-     */
+    /** The project name */
     val name: String,
     /**
-     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size compute. Also `docker` and `serverless-platform`.
+     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size
+     * compute. Also `docker` and `serverless-platform`.
      */
     val provisioner: Provisioner,
     /**
-     * The major Postgres version number. Supported versions are `14`, `15`, `16`, `17`, and `18`. `19` is rolling out and is accepted only in regions where it is enabled; requesting it elsewhere returns an error.
+     * The major Postgres version number. Supported versions are `14`, `15`, `16`, `17`, and `18`.
+     * `19` is rolling out and is accepted only in regions where it is enabled; requesting it
+     * elsewhere returns an error.
      */
     @JacksonJsonProperty("pg_version") val pgVersion: PgVersion,
     /**
-     * The proxy host for the project. This value combines the `region_id`, the `platform_id`, and the Neon domain (`neon.tech`).
+     * The proxy host for the project. This value combines the `region_id`, the `platform_id`, and
+     * the Neon domain (`neon.tech`).
      */
     @JacksonJsonProperty("proxy_host") val proxyHost: String,
-    /**
-     * The logical size limit for a branch. The value is in MiB.
-     */
+    /** The logical size limit for a branch. The value is in MiB. */
     @JacksonJsonProperty("branch_logical_size_limit") val branchLogicalSizeLimit: Long,
-    /**
-     * The logical size limit for a branch. The value is in B.
-     */
+    /** The logical size limit for a branch. The value is in B. */
     @JacksonJsonProperty("branch_logical_size_limit_bytes") val branchLogicalSizeLimitBytes: Long,
     /**
-     * Whether or not passwords are stored for roles in the Neon project. Storing passwords facilitates access to Neon features that require authorization.
+     * Whether or not passwords are stored for roles in the Neon project. Storing passwords
+     * facilitates access to Neon features that require authorization.
      */
     @JacksonJsonProperty("store_passwords") val storePasswords: Boolean,
-    /**
-     * The project creation source
-     */
+    /** The project creation source */
     @JacksonJsonProperty("creation_source") val creationSource: String,
-    /**
-     * The number of seconds to retain the shared history for all branches in this project.
-     */
+    /** The number of seconds to retain the shared history for all branches in this project. */
     @JacksonJsonProperty("history_retention_seconds") val historyRetentionSeconds: Int,
-    /**
-     * A timestamp indicating when the project was created
-     */
+    /** A timestamp indicating when the project was created */
     @JacksonJsonProperty("created_at") val createdAt: OffsetDateTime,
-    /**
-     * A timestamp indicating when the project was last updated
-     */
+    /** A timestamp indicating when the project was last updated */
     @JacksonJsonProperty("updated_at") val updatedAt: OffsetDateTime,
     /**
-     * A date-time indicating when Neon Cloud started measuring consumption for current consumption period.
+     * A date-time indicating when Neon Cloud started measuring consumption for current consumption
+     * period.
      */
     @JacksonJsonProperty("consumption_period_start") val consumptionPeriodStart: OffsetDateTime,
     /**
-     * A date-time indicating when Neon Cloud plans to stop measuring consumption for current consumption period.
+     * A date-time indicating when Neon Cloud plans to stop measuring consumption for current
+     * consumption period.
      */
     @JacksonJsonProperty("consumption_period_end") val consumptionPeriodEnd: OffsetDateTime,
-    /**
-     * ID of the organization that owns the project.
-     */
+    /** ID of the organization that owns the project. */
     @JacksonJsonProperty("owner_id") val ownerId: String,
+    /** A collection of settings for a Neon endpoint */
+    @JacksonJsonProperty("default_endpoint_settings")
+    val defaultEndpointSettings: DefaultEndpointSettings? = null,
     /**
-     * A collection of settings for a Neon endpoint
-     */
-    @JacksonJsonProperty("default_endpoint_settings") val defaultEndpointSettings: DefaultEndpointSettings? = null,
-    /**
-     * Project-level settings, for example `quota`, `allowed_ips`, `enable_logical_replication`, and `maintenance_window`.
+     * Project-level settings, for example `quota`, `allowed_ips`, `enable_logical_replication`, and
+     * `maintenance_window`.
      */
     val settings: ProjectSettingsData? = null,
     /**
-     * A timestamp indicating when project maintenance begins. If set, the project is placed into maintenance mode at this time.
+     * A timestamp indicating when project maintenance begins. If set, the project is placed into
+     * maintenance mode at this time.
      */
     @JacksonJsonProperty("maintenance_starts_at") val maintenanceStartsAt: OffsetDateTime? = null,
     /**
-     * Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. The current space occupied by the project in Postgres storage, in bytes. Synthetic Postgres storage size combines the logical data size and Write-Ahead Log (WAL) size for all branches in a project.
+     * Deprecated: always returns 0. Use the consumption history v2 endpoints
+     * (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. The current
+     * space occupied by the project in Postgres storage, in bytes. Synthetic Postgres storage size
+     * combines the logical data size and Write-Ahead Log (WAL) size for all branches in a project.
      */
     @JacksonJsonProperty("synthetic_storage_size") val syntheticStorageSize: Long? = null,
     /**
-     * Deprecated. Use the `consumption_period_end` field instead. A timestamp indicating when the project quota resets.
+     * Deprecated. Use the `consumption_period_end` field instead. A timestamp indicating when the
+     * project quota resets.
      */
     @JacksonJsonProperty("quota_reset_at") val quotaResetAt: OffsetDateTime? = null,
-    /**
-     * Ownership details for the project, including the owner's name and email.
-     */
+    /** Ownership details for the project, including the owner's name and email. */
     val owner: ProjectOwnerData? = null,
     /**
-     * The most recent time when any endpoint of this project was active. Omitted when observed no activity for endpoints of this project.
+     * The most recent time when any endpoint of this project was active. Omitted when observed no
+     * activity for endpoints of this project.
      */
     @JacksonJsonProperty("compute_last_active_at") val computeLastActiveAt: OffsetDateTime? = null,
-    /**
-     * The Neon organization ID. Returned as `id` from `GET /users/me/organizations`.
-     */
+    /** The Neon organization ID. Returned as `id` from `GET /users/me/organizations`. */
     @JacksonJsonProperty("org_id") val orgId: String? = null,
     /**
-     * A timestamp indicating when project update begins. If set, computes might experience a brief restart around this time.
+     * A timestamp indicating when project update begins. If set, computes might experience a brief
+     * restart around this time.
      */
-    @JacksonJsonProperty("maintenance_scheduled_for") val maintenanceScheduledFor: OffsetDateTime? = null,
-    /**
-     * A timestamp indicating when HIPAA was enabled for this project
-     */
+    @JacksonJsonProperty("maintenance_scheduled_for")
+    val maintenanceScheduledFor: OffsetDateTime? = null,
+    /** A timestamp indicating when HIPAA was enabled for this project */
     @JacksonJsonProperty("hipaa_enabled_at") val hipaaEnabledAt: OffsetDateTime? = null,
-    /**
-     * Optional `string` value serialized in the `effective_project_permission` wire field.
-     */
-    @JacksonJsonProperty("effective_project_permission") val effectiveProjectPermission: ProjectPermissionLevel? = null
+    /** Optional `string` value serialized in the `effective_project_permission` wire field. */
+    @JacksonJsonProperty("effective_project_permission")
+    val effectiveProjectPermission: ProjectPermissionLevel? = null,
 )
 
-/**
- * Configuration for the initial branch created with the project.
- */
+/** Configuration for the initial branch created with the project. */
 data class ProjectCreateRequestProjectBranch(
-    /**
-     * The default branch name. If not specified, the default branch name, `main`, will be used.
-     */
+    /** The default branch name. If not specified, the default branch name, `main`, will be used. */
     val name: String? = null,
     /**
-     * The role name. If not specified, the default role name, `{database_name}_owner`, will be used.
+     * The role name. If not specified, the default role name, `{database_name}_owner`, will be
+     * used.
      */
     @JacksonJsonProperty("role_name") val roleName: String? = null,
-    /**
-     * The database name. If not specified, the default database name, `neondb`, will be used.
-     */
+    /** The database name. If not specified, the default database name, `neondb`, will be used. */
     @JacksonJsonProperty("database_name") val databaseName: String? = null,
-    /**
-     * Arbitrary key-value metadata to attach to the branch.
-     */
-    val annotations: AnnotationValueData? = null
+    /** Arbitrary key-value metadata to attach to the branch. */
+    val annotations: AnnotationValueData? = null,
 )
 
 /**
- * Configuration for the new project, including name, region, and Postgres compute and storage settings.
+ * Configuration for the new project, including name, region, and Postgres compute and storage
+ * settings.
  */
 data class ProjectCreateRequestProject(
-    /**
-     * Project-level settings applied at creation.
-     */
+    /** Project-level settings applied at creation. */
     val settings: ProjectSettingsData? = null,
     /**
      * The project name. If not specified, the name will be identical to the generated project ID
      */
     val name: String? = null,
-    /**
-     * Enable Realtime for the default branch with these options.
-     */
+    /** Enable Realtime for the default branch with these options. */
     val realtime: RealtimeOptions? = null,
-    /**
-     * Configuration for the initial branch created with the project.
-     */
+    /** Configuration for the initial branch created with the project. */
     val branch: ProjectCreateRequestProjectBranch? = null,
     /**
-     * Deprecated. Use `default_endpoint_settings.autoscaling_limit_min_cu` instead. The minimum number of Compute Units. The minimum value is `0.25`. See Compute size and Autoscaling configuration for more information.
+     * Deprecated. Use `default_endpoint_settings.autoscaling_limit_min_cu` instead. The minimum
+     * number of Compute Units. The minimum value is `0.25`. See Compute size and Autoscaling
+     * configuration for more information.
      */
     @JacksonJsonProperty("autoscaling_limit_min_cu") val autoscalingLimitMinCu: ComputeUnit? = null,
     /**
-     * Deprecated. Use `default_endpoint_settings.autoscaling_limit_max_cu` instead. The maximum number of Compute Units. See Compute size and Autoscaling configuration for more information.
+     * Deprecated. Use `default_endpoint_settings.autoscaling_limit_max_cu` instead. The maximum
+     * number of Compute Units. See Compute size and Autoscaling configuration for more information.
      */
     @JacksonJsonProperty("autoscaling_limit_max_cu") val autoscalingLimitMaxCu: ComputeUnit? = null,
     /**
-     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size compute. Also `docker` and `serverless-platform`.
+     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size
+     * compute. Also `docker` and `serverless-platform`.
      */
     val provisioner: Provisioner? = null,
     /**
-     * The region identifier. Refer to our Regions documentation for supported regions. Values are specified in this format: `aws-us-east-1`
+     * The region identifier. Refer to our Regions documentation for supported regions. Values are
+     * specified in this format: `aws-us-east-1`
      */
     @JacksonJsonProperty("region_id") val regionId: String? = null,
+    /** A collection of settings for a Neon endpoint */
+    @JacksonJsonProperty("default_endpoint_settings")
+    val defaultEndpointSettings: DefaultEndpointSettings? = null,
     /**
-     * A collection of settings for a Neon endpoint
-     */
-    @JacksonJsonProperty("default_endpoint_settings") val defaultEndpointSettings: DefaultEndpointSettings? = null,
-    /**
-     * The major Postgres version number. Supported versions are `14`, `15`, `16`, `17`, and `18`. `19` is rolling out and is accepted only in regions where it is enabled; requesting it elsewhere returns an error.
+     * The major Postgres version number. Supported versions are `14`, `15`, `16`, `17`, and `18`.
+     * `19` is rolling out and is accepted only in regions where it is enabled; requesting it
+     * elsewhere returns an error.
      */
     @JacksonJsonProperty("pg_version") val pgVersion: PgVersion? = null,
     /**
-     * Whether or not passwords are stored for roles in the Neon project. Storing passwords facilitates access to Neon features that require authorization.
+     * Whether or not passwords are stored for roles in the Neon project. Storing passwords
+     * facilitates access to Neon features that require authorization.
      */
     @JacksonJsonProperty("store_passwords") val storePasswords: Boolean? = null,
     /**
-     * History window (point-in-time restore range) for all branches, in seconds. `0` disables it. Default 1 day (Free: 6 hours). Maximum depends on plan: Free 6 hours (21600), Launch 7 days (604800), Scale 30 days (2592000).
+     * History window (point-in-time restore range) for all branches, in seconds. `0` disables it.
+     * Default 1 day (Free: 6 hours). Maximum depends on plan: Free 6 hours (21600), Launch 7 days
+     * (604800), Scale 30 days (2592000).
      */
     @JacksonJsonProperty("history_retention_seconds") val historyRetentionSeconds: Int? = null,
     /**
-     * ID of the organization that will own the project. If omitted when using an organization API key, it is inferred from the key.
+     * ID of the organization that will own the project. If omitted when using an organization API
+     * key, it is inferred from the key.
      */
-    @JacksonJsonProperty("org_id") val orgId: String? = null
+    @JacksonJsonProperty("org_id") val orgId: String? = null,
 )
 
-/**
- * Typed representation of the `ProjectCreateRequest` API schema.
- */
+/** Typed representation of the `ProjectCreateRequest` API schema. */
 data class ProjectCreateRequest(
     /**
-     * Configuration for the new project, including name, region, and Postgres compute and storage settings.
+     * Configuration for the new project, including name, region, and Postgres compute and storage
+     * settings.
      */
     val project: ProjectCreateRequestProject
 )
 
-/**
- * The list of configured JWKS definitions for a project
- */
+/** The list of configured JWKS definitions for a project */
 data class ProjectJWKSResponse(
-    /**
-     * JWKS configurations associated with the project.
-     */
+    /** JWKS configurations associated with the project. */
     val jwks: List<JWKS>
 )
 
-/**
- * Essential data about the project. Full data is available at `GET /projects/{project_id}`.
- */
+/** Essential data about the project. Full data is available at `GET /projects/{project_id}`. */
 data class ProjectListItem(
-    /**
-     * The Neon project ID. Use as the `project_id` path parameter in other endpoints.
-     */
+    /** The Neon project ID. Use as the `project_id` path parameter in other endpoints. */
     val id: String,
     /**
-     * The cloud platform identifier. Currently, only AWS is supported, for which the identifier is `aws`.
+     * The cloud platform identifier. Currently, only AWS is supported, for which the identifier is
+     * `aws`.
      */
     @JacksonJsonProperty("platform_id") val platformId: String,
     /**
-     * Cloud region where the project's Postgres compute and storage reside (for example, `aws-us-east-2`). Valid values are returned by `GET /regions`.
+     * Cloud region where the project's Postgres compute and storage reside (for example,
+     * `aws-us-east-2`). Valid values are returned by `GET /regions`.
      */
     @JacksonJsonProperty("region_id") val regionId: String,
-    /**
-     * The project name
-     */
+    /** The project name */
     val name: String,
     /**
-     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size compute. Also `docker` and `serverless-platform`.
+     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size
+     * compute. Also `docker` and `serverless-platform`.
      */
     val provisioner: Provisioner,
     /**
-     * The major Postgres version number. Supported versions are `14`, `15`, `16`, `17`, and `18`. `19` is rolling out and is accepted only in regions where it is enabled; requesting it elsewhere returns an error.
+     * The major Postgres version number. Supported versions are `14`, `15`, `16`, `17`, and `18`.
+     * `19` is rolling out and is accepted only in regions where it is enabled; requesting it
+     * elsewhere returns an error.
      */
     @JacksonJsonProperty("pg_version") val pgVersion: PgVersion,
     /**
-     * The proxy host for the project. This value combines the `region_id`, the `platform_id`, and the Neon domain (`neon.tech`).
+     * The proxy host for the project. This value combines the `region_id`, the `platform_id`, and
+     * the Neon domain (`neon.tech`).
      */
     @JacksonJsonProperty("proxy_host") val proxyHost: String,
-    /**
-     * The logical size limit for a branch. The value is in MiB.
-     */
+    /** The logical size limit for a branch. The value is in MiB. */
     @JacksonJsonProperty("branch_logical_size_limit") val branchLogicalSizeLimit: Long,
-    /**
-     * The logical size limit for a branch. The value is in B.
-     */
+    /** The logical size limit for a branch. The value is in B. */
     @JacksonJsonProperty("branch_logical_size_limit_bytes") val branchLogicalSizeLimitBytes: Long,
     /**
-     * Whether or not passwords are stored for roles in the Neon project. Storing passwords facilitates access to Neon features that require authorization.
+     * Whether or not passwords are stored for roles in the Neon project. Storing passwords
+     * facilitates access to Neon features that require authorization.
      */
     @JacksonJsonProperty("store_passwords") val storePasswords: Boolean,
     /**
      * Control plane observed endpoints of this project being active this amount of wall-clock time.
      */
     @JacksonJsonProperty("active_time") val activeTime: Long,
-    /**
-     * Deprecated. Use `compute_time_seconds` from `GET /projects/{project_id}` instead.
-     */
+    /** Deprecated. Use `compute_time_seconds` from `GET /projects/{project_id}` instead. */
     @JacksonJsonProperty("cpu_used_sec") val cpuUsedSec: Long,
-    /**
-     * The project creation source
-     */
+    /** The project creation source */
     @JacksonJsonProperty("creation_source") val creationSource: String,
-    /**
-     * A timestamp indicating when the project was created
-     */
+    /** A timestamp indicating when the project was created */
     @JacksonJsonProperty("created_at") val createdAt: OffsetDateTime,
-    /**
-     * A timestamp indicating when the project was last updated
-     */
+    /** A timestamp indicating when the project was last updated */
     @JacksonJsonProperty("updated_at") val updatedAt: OffsetDateTime,
-    /**
-     * ID of the organization that owns the project.
-     */
+    /** ID of the organization that owns the project. */
     @JacksonJsonProperty("owner_id") val ownerId: String,
+    /** A collection of settings for a Neon endpoint */
+    @JacksonJsonProperty("default_endpoint_settings")
+    val defaultEndpointSettings: DefaultEndpointSettings? = null,
     /**
-     * A collection of settings for a Neon endpoint
-     */
-    @JacksonJsonProperty("default_endpoint_settings") val defaultEndpointSettings: DefaultEndpointSettings? = null,
-    /**
-     * Project-level settings, for example `quota`, `allowed_ips`, `enable_logical_replication`, and `maintenance_window`.
+     * Project-level settings, for example `quota`, `allowed_ips`, `enable_logical_replication`, and
+     * `maintenance_window`.
      */
     val settings: ProjectSettingsData? = null,
     /**
-     * A timestamp indicating when project maintenance begins. If set, the project is placed into maintenance mode at this time.
+     * A timestamp indicating when project maintenance begins. If set, the project is placed into
+     * maintenance mode at this time.
      */
     @JacksonJsonProperty("maintenance_starts_at") val maintenanceStartsAt: OffsetDateTime? = null,
     /**
-     * Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. The current space occupied by the project in Postgres storage, in bytes. Synthetic Postgres storage size combines the logical data size and Write-Ahead Log (WAL) size for all branches in a project.
+     * Deprecated: always returns 0. Use the consumption history v2 endpoints
+     * (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. The current
+     * space occupied by the project in Postgres storage, in bytes. Synthetic Postgres storage size
+     * combines the logical data size and Write-Ahead Log (WAL) size for all branches in a project.
      */
     @JacksonJsonProperty("synthetic_storage_size") val syntheticStorageSize: Long? = null,
     /**
-     * Deprecated. Use `consumption_period_end` from `GET /projects/{project_id}` instead. A timestamp indicating when the project quota resets.
+     * Deprecated. Use `consumption_period_end` from `GET /projects/{project_id}` instead. A
+     * timestamp indicating when the project quota resets.
      */
     @JacksonJsonProperty("quota_reset_at") val quotaResetAt: OffsetDateTime? = null,
     /**
-     * The most recent time when any endpoint of this project was active. Omitted when observed no activity for endpoints of this project.
+     * The most recent time when any endpoint of this project was active. Omitted when observed no
+     * activity for endpoints of this project.
      */
     @JacksonJsonProperty("compute_last_active_at") val computeLastActiveAt: OffsetDateTime? = null,
     /**
-     * ID of the organization that owns the project. Project permissions are granted to organization members as configured by the organization's admins, independent of which member created the project.
+     * ID of the organization that owns the project. Project permissions are granted to organization
+     * members as configured by the organization's admins, independent of which member created the
+     * project.
      */
     @JacksonJsonProperty("org_id") val orgId: String? = null,
-    /**
-     * Name of the organization that owns the project.
-     */
+    /** Name of the organization that owns the project. */
     @JacksonJsonProperty("org_name") val orgName: String? = null,
-    /**
-     * The number of seconds to retain the shared history for all branches in this project.
-     */
+    /** The number of seconds to retain the shared history for all branches in this project. */
     @JacksonJsonProperty("history_retention_seconds") val historyRetentionSeconds: Int? = null,
-    /**
-     * A timestamp indicating when HIPAA was enabled for this project
-     */
+    /** A timestamp indicating when HIPAA was enabled for this project */
     @JacksonJsonProperty("hipaa_enabled_at") val hipaaEnabledAt: OffsetDateTime? = null,
-    /**
-     * A timestamp indicating when the project was deleted
-     */
+    /** A timestamp indicating when the project was deleted */
     @JacksonJsonProperty("deleted_at") val deletedAt: OffsetDateTime? = null,
-    /**
-     * A timestamp indicating the project will be recoverable until this date and time.
-     */
+    /** A timestamp indicating the project will be recoverable until this date and time. */
     @JacksonJsonProperty("recoverable_until") val recoverableUntil: OffsetDateTime? = null,
-    /**
-     * Optional `string` value serialized in the `effective_project_permission` wire field.
-     */
-    @JacksonJsonProperty("effective_project_permission") val effectiveProjectPermission: ProjectPermissionLevel? = null
+    /** Optional `string` value serialized in the `effective_project_permission` wire field. */
+    @JacksonJsonProperty("effective_project_permission")
+    val effectiveProjectPermission: ProjectPermissionLevel? = null,
 )
 
-/**
- * Typed representation of the `ProjectMember` API schema.
- */
+/** Typed representation of the `ProjectMember` API schema. */
 data class ProjectMember(
-    /**
-     * The organization member ID.
-     */
+    /** The organization member ID. */
     @JacksonJsonProperty("member_id") val memberId: String,
-    /**
-     * The user ID for the organization member.
-     */
+    /** The user ID for the organization member. */
     @JacksonJsonProperty("user_id") val userId: String,
-    /**
-     * Organization-level role used by project member role management.
-     */
+    /** Organization-level role used by project member role management. */
     @JacksonJsonProperty("org_role") val orgRole: ProjectMemberOrgRole,
-    /**
-     * Email address of the user who has been granted access to the project.
-     */
+    /** Email address of the user who has been granted access to the project. */
     val email: String? = null,
-    /**
-     * The user's display name.
-     */
+    /** The user's display name. */
     val name: String? = null,
     /**
-     * Per-project role. `viewer` maps to `VIEWER`, `editor` maps to `EDITOR`, and `admin` maps to `ADMIN`.
+     * Per-project role. `viewer` maps to `VIEWER`, `editor` maps to `EDITOR`, and `admin` maps to
+     * `ADMIN`.
      */
     @JacksonJsonProperty("project_role") val projectRole: ProjectRole? = null,
     /**
-     * The caller's effective permission for a project when per-project permissions are enabled. `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management. Omitted for personal projects, flag-off organizations, and non-user subjects.
+     * The caller's effective permission for a project when per-project permissions are enabled.
+     * `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management.
+     * Omitted for personal projects, flag-off organizations, and non-user subjects.
      */
-    @JacksonJsonProperty("org_default_project_permission") val orgDefaultProjectPermission: ProjectPermissionLevel? = null,
+    @JacksonJsonProperty("org_default_project_permission")
+    val orgDefaultProjectPermission: ProjectPermissionLevel? = null,
     /**
-     * The caller's effective permission for a project when per-project permissions are enabled. `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management. Omitted for personal projects, flag-off organizations, and non-user subjects.
+     * The caller's effective permission for a project when per-project permissions are enabled.
+     * `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management.
+     * Omitted for personal projects, flag-off organizations, and non-user subjects.
      */
-    @JacksonJsonProperty("explicit_project_permission") val explicitProjectPermission: ProjectPermissionLevel? = null,
+    @JacksonJsonProperty("explicit_project_permission")
+    val explicitProjectPermission: ProjectPermissionLevel? = null,
     /**
-     * The caller's effective permission for a project when per-project permissions are enabled. `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management. Omitted for personal projects, flag-off organizations, and non-user subjects.
+     * The caller's effective permission for a project when per-project permissions are enabled.
+     * `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management.
+     * Omitted for personal projects, flag-off organizations, and non-user subjects.
      */
-    @JacksonJsonProperty("effective_project_permission") val effectiveProjectPermission: ProjectPermissionLevel? = null,
-    /**
-     * How a member's project access is granted.
-     */
-    @JacksonJsonProperty("grant_source") val grantSource: ProjectMemberGrantSource? = null
+    @JacksonJsonProperty("effective_project_permission")
+    val effectiveProjectPermission: ProjectPermissionLevel? = null,
+    /** How a member's project access is granted. */
+    @JacksonJsonProperty("grant_source") val grantSource: ProjectMemberGrantSource? = null,
 )
 
-/**
- * Typed representation of the `ProjectMemberRoleResponse` API schema.
- */
+/** Typed representation of the `ProjectMemberRoleResponse` API schema. */
 data class ProjectMemberRoleResponse(
-    /**
-     * Required `string` value serialized in the `project_id` wire field.
-     */
+    /** Required `string` value serialized in the `project_id` wire field. */
     @JacksonJsonProperty("project_id") val projectId: String,
-    /**
-     * Required `uuid`-formatted value serialized in the `member_id` wire field.
-     */
+    /** Required `uuid`-formatted value serialized in the `member_id` wire field. */
     @JacksonJsonProperty("member_id") val memberId: String,
-    /**
-     * Required `uuid`-formatted value serialized in the `user_id` wire field.
-     */
+    /** Required `uuid`-formatted value serialized in the `user_id` wire field. */
     @JacksonJsonProperty("user_id") val userId: String,
-    /**
-     * Organization-level role used by project member role management.
-     */
+    /** Organization-level role used by project member role management. */
     @JacksonJsonProperty("org_role") val orgRole: ProjectMemberOrgRole,
-    /**
-     * Email address of the user who has been granted access to the project.
-     */
+    /** Email address of the user who has been granted access to the project. */
     val email: String? = null,
-    /**
-     * The user's display name.
-     */
+    /** The user's display name. */
     val name: String? = null,
     /**
-     * The resulting effective project role after applying org-admin default access, explicit grants, and creator fallback. Null only when the member has no remaining effective project access.
+     * The resulting effective project role after applying org-admin default access, explicit
+     * grants, and creator fallback. Null only when the member has no remaining effective project
+     * access.
      */
     @JacksonJsonProperty("project_role") val projectRole: ProjectRole? = null,
     /**
-     * The caller's effective permission for a project when per-project permissions are enabled. `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management. Omitted for personal projects, flag-off organizations, and non-user subjects.
+     * The caller's effective permission for a project when per-project permissions are enabled.
+     * `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management.
+     * Omitted for personal projects, flag-off organizations, and non-user subjects.
      */
-    @JacksonJsonProperty("org_default_project_permission") val orgDefaultProjectPermission: ProjectPermissionLevel? = null,
+    @JacksonJsonProperty("org_default_project_permission")
+    val orgDefaultProjectPermission: ProjectPermissionLevel? = null,
     /**
-     * The caller's effective permission for a project when per-project permissions are enabled. `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management. Omitted for personal projects, flag-off organizations, and non-user subjects.
+     * The caller's effective permission for a project when per-project permissions are enabled.
+     * `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management.
+     * Omitted for personal projects, flag-off organizations, and non-user subjects.
      */
-    @JacksonJsonProperty("explicit_project_permission") val explicitProjectPermission: ProjectPermissionLevel? = null,
+    @JacksonJsonProperty("explicit_project_permission")
+    val explicitProjectPermission: ProjectPermissionLevel? = null,
     /**
-     * The caller's effective permission for a project when per-project permissions are enabled. `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management. Omitted for personal projects, flag-off organizations, and non-user subjects.
+     * The caller's effective permission for a project when per-project permissions are enabled.
+     * `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management.
+     * Omitted for personal projects, flag-off organizations, and non-user subjects.
      */
-    @JacksonJsonProperty("effective_project_permission") val effectiveProjectPermission: ProjectPermissionLevel? = null,
-    /**
-     * Hint that database credentials may need rotation after the role change.
-     */
-    @JacksonJsonProperty("credential_rotation_recommended") val credentialRotationRecommended: Boolean? = null,
-    /**
-     * Hint that project-scoped org API keys created by the target user may need rotation.
-     */
-    @JacksonJsonProperty("org_api_key_rotation_recommended") val orgApiKeyRotationRecommended: Boolean? = null
+    @JacksonJsonProperty("effective_project_permission")
+    val effectiveProjectPermission: ProjectPermissionLevel? = null,
+    /** Hint that database credentials may need rotation after the role change. */
+    @JacksonJsonProperty("credential_rotation_recommended")
+    val credentialRotationRecommended: Boolean? = null,
+    /** Hint that project-scoped org API keys created by the target user may need rotation. */
+    @JacksonJsonProperty("org_api_key_rotation_recommended")
+    val orgApiKeyRotationRecommended: Boolean? = null,
 )
 
-/**
- * Typed representation of the `ProjectMembers` API schema.
- */
+/** Typed representation of the `ProjectMembers` API schema. */
 data class ProjectMembers(
-    /**
-     * Required array value serialized in the `project_members` wire field.
-     */
+    /** Required array value serialized in the `project_members` wire field. */
     @JacksonJsonProperty("project_members") val projectMembers: List<ProjectMember>,
     /**
-     * To paginate the response, issue an initial request with `limit` value. Then, add the value returned in the response `.pagination.next` attribute into the request under the `cursor` query parameter to the subsequent request to retrieve next page in pagination. The contents on cursor `next` are opaque, clients are not expected to make any assumptions on the format of the data inside the cursor.
+     * To paginate the response, issue an initial request with `limit` value. Then, add the value
+     * returned in the response `.pagination.next` attribute into the request under the `cursor`
+     * query parameter to the subsequent request to retrieve next page in pagination. The contents
+     * on cursor `next` are opaque, clients are not expected to make any assumptions on the format
+     * of the data inside the cursor.
      */
-    val pagination: CursorPagination? = null
+    val pagination: CursorPagination? = null,
 )
 
-/**
- * Typed representation of the `ProjectOwnerData` API schema.
- */
+/** Typed representation of the `ProjectOwnerData` API schema. */
 data class ProjectOwnerData(
-    /**
-     * Email address of the project owner.
-     */
+    /** Email address of the project owner. */
     val email: String,
-    /**
-     * Display name of the project owner.
-     */
+    /** Display name of the project owner. */
     val name: String,
-    /**
-     * Maximum number of branches the owner is allowed to create across their projects.
-     */
+    /** Maximum number of branches the owner is allowed to create across their projects. */
     @JacksonJsonProperty("branches_limit") val branchesLimit: Long,
     /**
-     * Type of subscription to Neon Cloud. Notice that for users without billing account this will be "UNKNOWN"
+     * Type of subscription to Neon Cloud. Notice that for users without billing account this will
+     * be "UNKNOWN"
      */
-    @JacksonJsonProperty("subscription_type") val subscriptionType: BillingSubscriptionType
+    @JacksonJsonProperty("subscription_type") val subscriptionType: BillingSubscriptionType,
 )
 
-/**
- * Typed representation of the `ProjectPermission` API schema.
- */
+/** Typed representation of the `ProjectPermission` API schema. */
 data class ProjectPermission(
-    /**
-     * The project permission's ID.
-     */
+    /** The project permission's ID. */
     val id: String,
-    /**
-     * Email address of the user who has been granted access to the project.
-     */
+    /** Email address of the user who has been granted access to the project. */
     @JacksonJsonProperty("granted_to_email") val grantedToEmail: String,
-    /**
-     * Timestamp when the permission was granted.
-     */
+    /** Timestamp when the permission was granted. */
     @JacksonJsonProperty("granted_at") val grantedAt: OffsetDateTime,
-    /**
-     * Timestamp when the permission was revoked. Null if the permission is still active.
-     */
-    @JacksonJsonProperty("revoked_at") val revokedAt: OffsetDateTime? = null
+    /** Timestamp when the permission was revoked. Null if the permission is still active. */
+    @JacksonJsonProperty("revoked_at") val revokedAt: OffsetDateTime? = null,
 )
 
-/**
- * Typed representation of the `ProjectPermissions` API schema.
- */
+/** Typed representation of the `ProjectPermissions` API schema. */
 data class ProjectPermissions(
-    /**
-     * Required array value serialized in the `project_permissions` wire field.
-     */
+    /** Required array value serialized in the `project_permissions` wire field. */
     @JacksonJsonProperty("project_permissions") val projectPermissions: List<ProjectPermission>
 )
 
 /**
- * Per-project consumption quotas. If a quota is exceeded, all active computes are automatically suspended and cannot be started via API calls or incoming connections. The exception is `logical_size_bytes`, which is enforced per branch. If a branch exceeds its `logical_size_bytes` quota, computes can still be started, but write operations will fail—allowing data to be deleted to free up space. Computes on other branches are not affected. Setting `logical_size_bytes` overrides…
+ * Per-project consumption quotas. If a quota is exceeded, all active computes are automatically
+ * suspended and cannot be started via API calls or incoming connections. The exception is
+ * `logical_size_bytes`, which is enforced per branch. If a branch exceeds its `logical_size_bytes`
+ * quota, computes can still be started, but write operations will fail—allowing data to be deleted
+ * to free up space. Computes on other branches are not affected. Setting `logical_size_bytes`
+ * overrides…
  */
 data class ProjectQuota(
     /**
      * The total amount of wall-clock time allowed to be spent by the project's compute endpoints.
      */
     @JacksonJsonProperty("active_time_seconds") val activeTimeSeconds: Long? = null,
-    /**
-     * The total amount of CPU seconds allowed to be spent by the project's compute endpoints.
-     */
+    /** The total amount of CPU seconds allowed to be spent by the project's compute endpoints. */
     @JacksonJsonProperty("compute_time_seconds") val computeTimeSeconds: Long? = null,
-    /**
-     * Total amount of data written to all of a project's branches.
-     */
+    /** Total amount of data written to all of a project's branches. */
     @JacksonJsonProperty("written_data_bytes") val writtenDataBytes: Long? = null,
-    /**
-     * Total amount of data transferred from all of a project's branches using the proxy.
-     */
+    /** Total amount of data transferred from all of a project's branches using the proxy. */
     @JacksonJsonProperty("data_transfer_bytes") val dataTransferBytes: Long? = null,
     /**
-     * Limit on the logical size of every project's branch. If a branch exceeds its `logical_size_bytes` quota, computes can still be started, but write operations will fail—allowing data to be deleted to free up space. Computes on other branches are not affected. Setting `logical_size_bytes` overrides any lower value set by the `neon.max_cluster_size` Postgres setting.
+     * Limit on the logical size of every project's branch. If a branch exceeds its
+     * `logical_size_bytes` quota, computes can still be started, but write operations will
+     * fail—allowing data to be deleted to free up space. Computes on other branches are not
+     * affected. Setting `logical_size_bytes` overrides any lower value set by the
+     * `neon.max_cluster_size` Postgres setting.
      */
-    @JacksonJsonProperty("logical_size_bytes") val logicalSizeBytes: Long? = null
+    @JacksonJsonProperty("logical_size_bytes") val logicalSizeBytes: Long? = null,
 )
 
-/**
- * Typed representation of the `ProjectRecoverResponse` API schema.
- */
+/** Typed representation of the `ProjectRecoverResponse` API schema. */
 data class ProjectRecoverResponse(
-    /**
-     * Full details of the project, including configuration, consumption metrics, and ownership.
-     */
+    /** Full details of the project, including configuration, consumption metrics, and ownership. */
     val project: Project,
-    /**
-     * Branches in the project. Each includes `id`, `name`, `current_state`, and `created_at`.
-     */
-    val branches: List<Branch>
+    /** Branches in the project. Each includes `id`, `name`, `current_state`, and `created_at`. */
+    val branches: List<Branch>,
 )
 
-/**
- * Typed representation of the `ProjectResponse` API schema.
- */
+/** Typed representation of the `ProjectResponse` API schema. */
 data class ProjectResponse(
-    /**
-     * Full details of the project, including configuration, consumption metrics, and ownership.
-     */
+    /** Full details of the project, including configuration, consumption metrics, and ownership. */
     val project: Project
 )
 
-/**
- * Typed representation of the `ProjectSettingsData` API schema.
- */
+/** Typed representation of the `ProjectSettingsData` API schema. */
 data class ProjectSettingsData(
     /**
-     * Per-project consumption quotas. If a quota is exceeded, all active computes are automatically suspended and cannot be started via API calls or incoming connections. The exception is `logical_size_bytes`, which is enforced per branch. If a branch exceeds its `logical_size_bytes` quota, computes can still be started, but write operations will fail—allowing data to be deleted to free up space. Computes on other branches are not affected. Setting `logical_size_bytes` overrides…
+     * Per-project consumption quotas. If a quota is exceeded, all active computes are automatically
+     * suspended and cannot be started via API calls or incoming connections. The exception is
+     * `logical_size_bytes`, which is enforced per branch. If a branch exceeds its
+     * `logical_size_bytes` quota, computes can still be started, but write operations will
+     * fail—allowing data to be deleted to free up space. Computes on other branches are not
+     * affected. Setting `logical_size_bytes` overrides…
      */
     val quota: ProjectQuota? = null,
     /**
-     * A list of IP addresses that are allowed to connect to the compute endpoint. If the list is empty or not set, all IP addresses are allowed. If protected_branches_only is true, the list will be applied only to protected branches.
+     * A list of IP addresses that are allowed to connect to the compute endpoint. If the list is
+     * empty or not set, all IP addresses are allowed. If protected_branches_only is true, the list
+     * will be applied only to protected branches.
      */
     @JacksonJsonProperty("allowed_ips") val allowedIps: AllowedIps? = null,
     /**
-     * Sets wal_level=logical for all compute endpoints in this project. All active endpoints will be suspended. Once enabled, logical replication cannot be disabled.
+     * Sets wal_level=logical for all compute endpoints in this project. All active endpoints will
+     * be suspended. Once enabled, logical replication cannot be disabled.
      */
-    @JacksonJsonProperty("enable_logical_replication") val enableLogicalReplication: Boolean? = null,
+    @JacksonJsonProperty("enable_logical_replication")
+    val enableLogicalReplication: Boolean? = null,
     /**
-     * A maintenance window is a time period during which Neon may perform maintenance on the project's infrastructure. During this time, the project's compute endpoints may be unavailable and existing connections can be interrupted.
+     * A maintenance window is a time period during which Neon may perform maintenance on the
+     * project's infrastructure. During this time, the project's compute endpoints may be
+     * unavailable and existing connections can be interrupted.
      */
     @JacksonJsonProperty("maintenance_window") val maintenanceWindow: MaintenanceWindow? = null,
     /**
-     * When set, connections from the public internet are disallowed. This supersedes the AllowedIPs list. This parameter is under active development and its semantics may change in the future.
+     * When set, connections from the public internet are disallowed. This supersedes the AllowedIPs
+     * list. This parameter is under active development and its semantics may change in the future.
      */
     @JacksonJsonProperty("block_public_connections") val blockPublicConnections: Boolean? = null,
     /**
-     * When set, connections using VPC endpoints are disallowed. This parameter is under active development and its semantics may change in the future.
+     * When set, connections using VPC endpoints are disallowed. This parameter is under active
+     * development and its semantics may change in the future.
      */
     @JacksonJsonProperty("block_vpc_connections") val blockVpcConnections: Boolean? = null,
     /**
-     * Audit logging level, set only on HIPAA-enabled organizations (absent otherwise). Values: `base`, `extended`, `full`; HIPAA defaults to `extended`. Cannot be lowered back to `base` once `extended` or `full`.
+     * Audit logging level, set only on HIPAA-enabled organizations (absent otherwise). Values:
+     * `base`, `extended`, `full`; HIPAA defaults to `extended`. Cannot be lowered back to `base`
+     * once `extended` or `full`.
      */
     @JacksonJsonProperty("audit_log_level") val auditLogLevel: ProjectAuditLogLevel? = null,
-    /**
-     * Enables HIPAA compliance mode for the project, including audit logging.
-     */
+    /** Enables HIPAA compliance mode for the project, including audit logging. */
     val hipaa: Boolean? = null,
-    /**
-     * The shared libraries to preload into the project's compute instances.
-     */
-    @JacksonJsonProperty("preload_libraries") val preloadLibraries: PreloadLibraries? = null
+    /** The shared libraries to preload into the project's compute instances. */
+    @JacksonJsonProperty("preload_libraries") val preloadLibraries: PreloadLibraries? = null,
 )

@@ -3,42 +3,34 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `Realtime` API schema.
- */
+/** Typed representation of the `Realtime` API schema. */
 data class Realtime(
-    /**
-     * Whether Realtime is enabled for the branch.
-     */
+    /** Whether Realtime is enabled for the branch. */
     val enabled: Boolean,
     /**
      * Whether a provisioning, settings, rotation or deprovisioning change is still being applied.
      */
     val pending: Boolean,
-    /**
-     * Optional `string` value serialized in the `invocation_url` wire field.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("invocation_url") val invocationUrl: String? = null,
-    /**
-     * Optional `int32`-formatted value serialized in the `revision` wire field.
-     */
+    /** Optional `string` value serialized in the `invocation_url` wire field. */
+    @com.fasterxml.jackson.annotation.JsonProperty("invocation_url")
+    val invocationUrl: String? = null,
+    /** Optional `int32`-formatted value serialized in the `revision` wire field. */
     val revision: Int? = null,
-    /**
-     * Optional array value serialized in the `allowed_origins` wire field.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("allowed_origins") val allowedOrigins: List<String>? = null
+    /** Optional array value serialized in the `allowed_origins` wire field. */
+    @com.fasterxml.jackson.annotation.JsonProperty("allowed_origins")
+    val allowedOrigins: List<String>? = null,
 )
 
-/**
- * Typed representation of the `RealtimeSecret` API schema.
- */
+/** Typed representation of the `RealtimeSecret` API schema. */
 data class RealtimeSecret(
     /**
-     * The key the application backend issues Realtime tokens with, `nrt_live_1` followed by the unpadded base64url 32-byte AES-256-GCM key.
+     * The key the application backend issues Realtime tokens with, `nrt_live_1` followed by the
+     * unpadded base64url 32-byte AES-256-GCM key.
      */
     val secret: String,
     /**
-     * Whether a change is still being applied. After a rotation, the secret changes when this becomes false.
+     * Whether a change is still being applied. After a rotation, the secret changes when this
+     * becomes false.
      */
-    val pending: Boolean
+    val pending: Boolean,
 )

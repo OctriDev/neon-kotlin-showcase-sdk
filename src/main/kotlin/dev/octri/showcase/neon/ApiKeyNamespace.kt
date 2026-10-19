@@ -3,27 +3,32 @@
 
 package dev.octri.showcase.neon
 
-
 class ApiKeyNamespace(private val clientConfig: ClientConfig) {
     /**
-     * Retrieves the API keys for your Neon account. The response does not include API key tokens. A token is only provided when creating an API key. API keys can also be managed in the Neon Console. For more information, see Manage API keys.
+     * Retrieves the API keys for your Neon account. The response does not include API key tokens. A
+     * token is only provided when creating an API key. API keys can also be managed in the Neon
+     * Console. For more information, see Manage API keys.
      */
     fun list(options: RequestOptions? = null): List<ApiKeysListResponseItem> {
         return dev.octri.showcase.neon.methods.ApiKey.listApiKey(clientConfig, options)
     }
 
     /**
-     * Creates an API key. The `key_name` is a user-specified name for the key. Returns an `id` and `key`; the `key` is a randomly generated, 64-bit token required to access the Neon API. Store the key securely — it is only returned once. API keys can also be managed in the Neon Console. See Manage API keys.
+     * Creates an API key. The `key_name` is a user-specified name for the key. Returns an `id` and
+     * `key`; the `key` is a randomly generated, 64-bit token required to access the Neon API. Store
+     * the key securely — it is only returned once. API keys can also be managed in the Neon
+     * Console. See Manage API keys.
      */
     fun create(keyName: String, options: RequestOptions? = null): ApiKeyCreateResponse {
         return dev.octri.showcase.neon.methods.ApiKey.createApiKey(clientConfig, keyName, options)
     }
 
     /**
-     * Revokes the specified API key. An API key that is no longer needed can be revoked. This action cannot be reversed. API keys can also be managed in the Neon Console. See Manage API keys.
+     * Revokes the specified API key. An API key that is no longer needed can be revoked. This
+     * action cannot be reversed. API keys can also be managed in the Neon Console. See Manage API
+     * keys.
      */
     fun revoke(keyId: Long, options: RequestOptions? = null): ApiKeyRevokeResponse {
         return dev.octri.showcase.neon.methods.ApiKey.revokeApiKey(clientConfig, keyId, options)
     }
-
 }

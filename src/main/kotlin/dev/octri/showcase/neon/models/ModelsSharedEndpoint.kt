@@ -5,130 +5,114 @@ package dev.octri.showcase.neon.models
 
 import java.time.OffsetDateTime
 
-/**
- * Typed representation of the `Endpoint` API schema.
- */
+/** Typed representation of the `Endpoint` API schema. */
 data class Endpoint(
     /**
-     * The hostname of the compute endpoint. This is the hostname specified when connecting to a Neon database.
+     * The hostname of the compute endpoint. This is the hostname specified when connecting to a
+     * Neon database.
      */
     val host: String,
     /**
-     * The compute endpoint ID. Compute endpoint IDs have an `ep-` prefix. For example: `ep-little-smoke-851426`
+     * The compute endpoint ID. Compute endpoint IDs have an `ep-` prefix. For example:
+     * `ep-little-smoke-851426`
      */
     val id: String,
-    /**
-     * The ID of the project this compute endpoint belongs to.
-     */
+    /** The ID of the project this compute endpoint belongs to. */
     @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String,
-    /**
-     * The ID of the branch this compute endpoint belongs to.
-     */
+    /** The ID of the branch this compute endpoint belongs to. */
     @com.fasterxml.jackson.annotation.JsonProperty("branch_id") val branchId: String,
+    /** The minimum number of Compute Units */
+    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_min_cu")
+    val autoscalingLimitMinCu: ComputeUnit,
+    /** The maximum number of Compute Units */
+    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_max_cu")
+    val autoscalingLimitMaxCu: ComputeUnit,
     /**
-     * The minimum number of Compute Units
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_min_cu") val autoscalingLimitMinCu: ComputeUnit,
-    /**
-     * The maximum number of Compute Units
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_max_cu") val autoscalingLimitMaxCu: ComputeUnit,
-    /**
-     * Cloud region where the resource's Postgres compute and storage reside (for example, `aws-us-east-1`). Valid values are returned by `GET /regions`.
+     * Cloud region where the resource's Postgres compute and storage reside (for example,
+     * `aws-us-east-1`). Valid values are returned by `GET /regions`.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("region_id") val regionId: String,
     /**
-     * Compute endpoint type. `read_write`: the primary read-write endpoint (one per branch). `read_only`: a read replica endpoint (multiple allowed per branch).
+     * Compute endpoint type. `read_write`: the primary read-write endpoint (one per branch).
+     * `read_only`: a read replica endpoint (multiple allowed per branch).
      */
     val type: EndpointType,
     /**
-     * Lifecycle state of the compute endpoint. `init`: being initialized. `active`: running and accepting connections. `idle`: suspended (scaled to zero).
+     * Lifecycle state of the compute endpoint. `init`: being initialized. `active`: running and
+     * accepting connections. `idle`: suspended (scaled to zero).
      */
     @com.fasterxml.jackson.annotation.JsonProperty("current_state") val currentState: EndpointState,
-    /**
-     * A collection of settings for a compute endpoint
-     */
+    /** A collection of settings for a compute endpoint */
     val settings: EndpointSettingsData,
     /**
-     * Deprecated. To use connection pooling, append `-pooler` to the endpoint ID in the connection string.
+     * Deprecated. To use connection pooling, append `-pooler` to the endpoint ID in the connection
+     * string.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("pooler_enabled") val poolerEnabled: Boolean,
+    /** Deprecated. The connection pooler mode. Removal scheduled for June 20, 2026. */
+    @com.fasterxml.jackson.annotation.JsonProperty("pooler_mode")
+    val poolerMode: EndpointPoolerMode,
     /**
-     * Deprecated. The connection pooler mode. Removal scheduled for June 20, 2026.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("pooler_mode") val poolerMode: EndpointPoolerMode,
-    /**
-     * Whether to restrict connections to the compute endpoint. Enabling this option schedules a suspend compute operation. A disabled compute endpoint cannot be enabled by a connection or console action.
+     * Whether to restrict connections to the compute endpoint. Enabling this option schedules a
+     * suspend compute operation. A disabled compute endpoint cannot be enabled by a connection or
+     * console action.
      */
     val disabled: Boolean,
-    /**
-     * Whether to permit passwordless access to the compute endpoint
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("passwordless_access") val passwordlessAccess: Boolean,
-    /**
-     * The compute endpoint creation source
-     */
+    /** Whether to permit passwordless access to the compute endpoint */
+    @com.fasterxml.jackson.annotation.JsonProperty("passwordless_access")
+    val passwordlessAccess: Boolean,
+    /** The compute endpoint creation source */
     @com.fasterxml.jackson.annotation.JsonProperty("creation_source") val creationSource: String,
-    /**
-     * A timestamp indicating when the compute endpoint was created
-     */
+    /** A timestamp indicating when the compute endpoint was created */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /**
-     * A timestamp indicating when the compute endpoint was last updated
-     */
+    /** A timestamp indicating when the compute endpoint was last updated */
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at") val updatedAt: OffsetDateTime,
-    /**
-     * Deprecated. Use the `host` property instead.
-     */
+    /** Deprecated. Use the `host` property instead. */
     @com.fasterxml.jackson.annotation.JsonProperty("proxy_host") val proxyHost: String,
     /**
-     * Scale-to-zero idle timeout, in seconds, before the compute suspends. `0` means the plan default applies; `-1` means scale-to-zero is disabled (never suspends).
+     * Scale-to-zero idle timeout, in seconds, before the compute suspends. `0` means the plan
+     * default applies; `-1` means scale-to-zero is disabled (never suspends).
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("suspend_timeout_seconds") val suspendTimeoutSeconds: SuspendTimeoutSeconds,
+    @com.fasterxml.jackson.annotation.JsonProperty("suspend_timeout_seconds")
+    val suspendTimeoutSeconds: SuspendTimeoutSeconds,
     /**
-     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size compute. Also `docker` and `serverless-platform`.
+     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size
+     * compute. Also `docker` and `serverless-platform`.
      */
     val provisioner: Provisioner,
-    /**
-     * Optional name of the compute endpoint
-     */
+    /** Optional name of the compute endpoint */
     val name: String? = null,
     /**
-     * Target state the compute endpoint is transitioning to. Omitted when no transition is in progress.
+     * Target state the compute endpoint is transitioning to. Omitted when no transition is in
+     * progress.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("pending_state") val pendingState: EndpointState? = null,
-    /**
-     * A timestamp indicating when the compute endpoint was last active
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("last_active") val lastActive: OffsetDateTime? = null,
-    /**
-     * A timestamp indicating when the compute endpoint was last started
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("started_at") val startedAt: OffsetDateTime? = null,
-    /**
-     * A timestamp indicating when the compute endpoint was last suspended
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("suspended_at") val suspendedAt: OffsetDateTime? = null,
-    /**
-     * Attached compute's release version number.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("compute_release_version") val computeReleaseVersion: String? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("pending_state")
+    val pendingState: EndpointState? = null,
+    /** A timestamp indicating when the compute endpoint was last active */
+    @com.fasterxml.jackson.annotation.JsonProperty("last_active")
+    val lastActive: OffsetDateTime? = null,
+    /** A timestamp indicating when the compute endpoint was last started */
+    @com.fasterxml.jackson.annotation.JsonProperty("started_at")
+    val startedAt: OffsetDateTime? = null,
+    /** A timestamp indicating when the compute endpoint was last suspended */
+    @com.fasterxml.jackson.annotation.JsonProperty("suspended_at")
+    val suspendedAt: OffsetDateTime? = null,
+    /** Attached compute's release version number. */
+    @com.fasterxml.jackson.annotation.JsonProperty("compute_release_version")
+    val computeReleaseVersion: String? = null,
 )
 
-/**
- * A collection of settings for a compute endpoint
- */
+/** A collection of settings for a compute endpoint */
 data class EndpointSettingsData(
-    /**
-     * A raw representation of Postgres settings
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("pg_settings") val pgSettings: PgSettingsData? = null,
+    /** A raw representation of Postgres settings */
+    @com.fasterxml.jackson.annotation.JsonProperty("pg_settings")
+    val pgSettings: PgSettingsData? = null,
     /**
      * Deprecated. PgBouncer settings for the compute endpoint. Removal scheduled for June 20, 2026.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("pgbouncer_settings") val pgbouncerSettings: PgbouncerSettingsData? = null,
-    /**
-     * The shared libraries to preload into the project's compute instances.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("preload_libraries") val preloadLibraries: PreloadLibraries? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("pgbouncer_settings")
+    val pgbouncerSettings: PgbouncerSettingsData? = null,
+    /** The shared libraries to preload into the project's compute instances. */
+    @com.fasterxml.jackson.annotation.JsonProperty("preload_libraries")
+    val preloadLibraries: PreloadLibraries? = null,
 )

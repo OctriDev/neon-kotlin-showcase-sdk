@@ -3,42 +3,38 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `ConnectionDetails` API schema.
- */
+/** Typed representation of the `ConnectionDetails` API schema. */
 data class ConnectionDetails(
     /**
-     * The connection URI is defined as specified here: Connection URIs The connection URI can be used to connect to a Postgres database with psql or defined in a DATABASE_URL environment variable. When creating a branch from a parent with more than one role or database, the response body does not include a connection URI.
+     * The connection URI is defined as specified here: Connection URIs The connection URI can be
+     * used to connect to a Postgres database with psql or defined in a DATABASE_URL environment
+     * variable. When creating a branch from a parent with more than one role or database, the
+     * response body does not include a connection URI.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("connection_uri") val connectionUri: String,
     /**
-     * Individual components of the connection URI (host, port, database, role, and password) as discrete fields, for programmatic use rather than parsing the sibling `connection_uri` string.
+     * Individual components of the connection URI (host, port, database, role, and password) as
+     * discrete fields, for programmatic use rather than parsing the sibling `connection_uri`
+     * string.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("connection_parameters") val connectionParameters: ConnectionParameters
+    @com.fasterxml.jackson.annotation.JsonProperty("connection_parameters")
+    val connectionParameters: ConnectionParameters,
 )
 
-/**
- * Typed representation of the `ConnectionParameters` API schema.
- */
+/** Typed representation of the `ConnectionParameters` API schema. */
 data class ConnectionParameters(
-    /**
-     * Name of the Postgres database used in the connection URI.
-     */
+    /** Name of the Postgres database used in the connection URI. */
     val database: String,
-    /**
-     * Authentication password for the role, used in the connection URI.
-     */
+    /** Authentication password for the role, used in the connection URI. */
     val password: String,
-    /**
-     * Postgres role used to authenticate the database connection.
-     */
+    /** Postgres role used to authenticate the database connection. */
     val role: String,
-    /**
-     * Hostname of the compute endpoint. Use `pooler_host` for the pooled connection hostname.
-     */
+    /** Hostname of the compute endpoint. Use `pooler_host` for the pooled connection hostname. */
     val host: String,
     /**
-     * PgBouncer (transaction mode) pooled host, the `-pooler` variant of `host`. Connect through it to work around the Postgres `max_connections` limit for serverless or connection-per-request workloads.
+     * PgBouncer (transaction mode) pooled host, the `-pooler` variant of `host`. Connect through it
+     * to work around the Postgres `max_connections` limit for serverless or connection-per-request
+     * workloads.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("pooler_host") val poolerHost: String
+    @com.fasterxml.jackson.annotation.JsonProperty("pooler_host") val poolerHost: String,
 )
