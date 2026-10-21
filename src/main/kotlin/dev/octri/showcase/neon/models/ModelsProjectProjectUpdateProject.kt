@@ -3,34 +3,29 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Required object value serialized in the `project` wire field.
- */
+/** Required object value serialized in the `project` wire field. */
 data class ProjectUpdateRequestProject(
     /**
-     * Project-level settings, for example `quota`, `allowed_ips`, `enable_logical_replication`, and `maintenance_window`.
+     * Project-level settings, for example `quota`, `allowed_ips`, `enable_logical_replication`, and
+     * `maintenance_window`.
      */
     val settings: ProjectSettingsData? = null,
-    /**
-     * The project name
-     */
+    /** The project name */
     val name: String? = null,
+    /** A collection of settings for a Neon endpoint */
+    @com.fasterxml.jackson.annotation.JsonProperty("default_endpoint_settings")
+    val defaultEndpointSettings: DefaultEndpointSettings? = null,
     /**
-     * A collection of settings for a Neon endpoint
+     * History window (point-in-time restore range) for all branches, in seconds. `0` disables it.
+     * Default 1 day (Free: 6 hours). Maximum depends on plan: Free 6 hours (21600), Launch 7 days
+     * (604800), Scale 30 days (2592000).
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("default_endpoint_settings") val defaultEndpointSettings: DefaultEndpointSettings? = null,
-    /**
-     * History window (point-in-time restore range) for all branches, in seconds. `0` disables it. Default 1 day (Free: 6 hours). Maximum depends on plan: Free 6 hours (21600), Launch 7 days (604800), Scale 30 days (2592000).
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("history_retention_seconds") val historyRetentionSeconds: Int? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("history_retention_seconds")
+    val historyRetentionSeconds: Int? = null,
 )
 
-/**
- * Typed representation of the `ProjectUpdateRequest` API schema.
- */
+/** Typed representation of the `ProjectUpdateRequest` API schema. */
 data class ProjectUpdateRequest(
-    /**
-     * Required object value serialized in the `project` wire field.
-     */
+    /** Required object value serialized in the `project` wire field. */
     val project: ProjectUpdateRequestProject
 )

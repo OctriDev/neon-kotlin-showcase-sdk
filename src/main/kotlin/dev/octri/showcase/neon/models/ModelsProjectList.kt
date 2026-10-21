@@ -3,46 +3,49 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `ListProjectsResponse` API schema.
- */
+/** Typed representation of the `ListProjectsResponse` API schema. */
 data class ListProjectsResponse(
     /**
-     * List of projects accessible to the caller. Projects that exist but could not be retrieved are identified in `unavailable_project_ids`.
+     * List of projects accessible to the caller. Projects that exist but could not be retrieved are
+     * identified in `unavailable_project_ids`.
      */
     val projects: List<ProjectListItem>,
     /**
-     * Map of project IDs to their installed applications. Each key is a project ID; each value is an array of application types (for example, `vercel`, `github`).
+     * Map of project IDs to their installed applications. Each key is a project ID; each value is
+     * an array of application types (for example, `vercel`, `github`).
      */
     val applications: Map<String, List<ApplicationType>>,
-    /**
-     * Map of project IDs to their associated integration details.
-     */
+    /** Map of project IDs to their associated integration details. */
     val integrations: Map<String, List<ApplicationType>>,
     /**
-     * A list of project IDs indicating which projects are known to exist, but whose details could not be fetched within the requested (or implicit) time limit
+     * A list of project IDs indicating which projects are known to exist, but whose details could
+     * not be fetched within the requested (or implicit) time limit
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("unavailable_project_ids") val unavailableProjectIds: List<String>? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("unavailable_project_ids")
+    val unavailableProjectIds: List<String>? = null,
     /**
-     * Cursor-based pagination. The `cursor` value reflects the endpoint's sort field (for example, an ID or timestamp), so pass it back unchanged.
+     * Cursor-based pagination. The `cursor` value reflects the endpoint's sort field (for example,
+     * an ID or timestamp), so pass it back unchanged.
      */
-    val pagination: Pagination? = null
+    val pagination: Pagination? = null,
 )
 
-/**
- * Typed representation of the `ListSharedProjectsResponse` API schema.
- */
+/** Typed representation of the `ListSharedProjectsResponse` API schema. */
 data class ListSharedProjectsResponse(
     /**
-     * List of projects accessible to the caller. Projects that exist but could not be retrieved are identified in `unavailable_project_ids`.
+     * List of projects accessible to the caller. Projects that exist but could not be retrieved are
+     * identified in `unavailable_project_ids`.
      */
     val projects: List<ProjectListItem>,
     /**
-     * A list of project IDs indicating which projects are known to exist, but whose details could not be fetched within the requested (or implicit) time limit
+     * A list of project IDs indicating which projects are known to exist, but whose details could
+     * not be fetched within the requested (or implicit) time limit
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("unavailable_project_ids") val unavailableProjectIds: List<String>? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("unavailable_project_ids")
+    val unavailableProjectIds: List<String>? = null,
     /**
-     * Cursor-based pagination. The `cursor` value reflects the endpoint's sort field (for example, an ID or timestamp), so pass it back unchanged.
+     * Cursor-based pagination. The `cursor` value reflects the endpoint's sort field (for example,
+     * an ID or timestamp), so pass it back unchanged.
      */
-    val pagination: Pagination? = null
+    val pagination: Pagination? = null,
 )

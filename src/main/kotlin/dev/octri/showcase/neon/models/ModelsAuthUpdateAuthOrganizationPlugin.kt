@@ -3,28 +3,29 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `NeonAuthOrganizationConfigUpdate` API schema.
- */
+/** Typed representation of the `NeonAuthOrganizationConfigUpdate` API schema. */
 data class NeonAuthOrganizationConfigUpdate(
-    /**
-     * Controls whether the organization plugin is active for the organization.
-     */
+    /** Controls whether the organization plugin is active for the organization. */
     val enabled: Boolean? = null,
     /**
-     * Maximum organizations a user can belong to (created or joined). At the limit, the user cannot create or join more.
+     * Maximum organizations a user can belong to (created or joined). At the limit, the user cannot
+     * create or join more.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("organization_limit") val organizationLimit: Int? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("organization_limit")
+    val organizationLimit: Int? = null,
+    /** Maximum members per organization. */
+    @com.fasterxml.jackson.annotation.JsonProperty("membership_limit")
+    val membershipLimit: Int? = null,
     /**
-     * Maximum members per organization.
+     * Role of the organization's creator. `owner`: full control, including deleting the org and
+     * transferring ownership. `admin`: manage members and settings only.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("membership_limit") val membershipLimit: Int? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("creator_role")
+    val creatorRole: NeonAuthOrganizationConfigUpdateCreatorRoleEnum? = null,
     /**
-     * Role of the organization's creator. `owner`: full control, including deleting the org and transferring ownership. `admin`: manage members and settings only.
+     * When true, invited users receive an email containing an accept link. Requires that the
+     * invited user has a verified email address.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("creator_role") val creatorRole: NeonAuthOrganizationConfigUpdateCreatorRoleEnum? = null,
-    /**
-     * When true, invited users receive an email containing an accept link. Requires that the invited user has a verified email address.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("send_invitation_email") val sendInvitationEmail: Boolean? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("send_invitation_email")
+    val sendInvitationEmail: Boolean? = null,
 )

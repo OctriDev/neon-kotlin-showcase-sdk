@@ -3,16 +3,13 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `CreateBranchNeonAuthNewUserRequest` API schema.
- */
+/** Typed representation of the `CreateBranchNeonAuthNewUserRequest` API schema. */
 data class CreateBranchNeonAuthNewUserRequest(
-    /**
-     * Email address of the new Neon Auth user to create.
-     */
+    /** Email address of the new Neon Auth user to create. */
     val email: String,
     /**
-     * Display name for the new user. Optional. Pair with the required email field when creating a new user.
+     * Display name for the new user. Optional. Pair with the required email field when creating a
+     * new user.
      */
-    val name: String? = null
+    val name: String? = null,
 )

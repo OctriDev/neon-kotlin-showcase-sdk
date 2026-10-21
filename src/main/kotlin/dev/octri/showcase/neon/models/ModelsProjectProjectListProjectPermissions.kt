@@ -3,12 +3,9 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `ProjectPermissions` API schema.
- */
+/** Typed representation of the `ProjectPermissions` API schema. */
 data class ProjectPermissions(
-    /**
-     * Required array value serialized in the `project_permissions` wire field.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("project_permissions") val projectPermissions: List<ProjectPermission>
+    /** Required array value serialized in the `project_permissions` wire field. */
+    @com.fasterxml.jackson.annotation.JsonProperty("project_permissions")
+    val projectPermissions: List<ProjectPermission>
 )

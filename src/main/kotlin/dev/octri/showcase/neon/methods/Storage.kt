@@ -13,25 +13,40 @@ import dev.octri.showcase.neon.Validation
 
 object Storage {
 
-
     /**
-     * Returns whether branchable object storage is usable for the specified branch. A 200 response means the branch is registered in the object storage service and the S3 data plane will accept requests for it. A 404 response includes a `reason` field indicating why object storage is unavailable. **Note**: This endpoint is currently in Beta.
+     * Returns whether branchable object storage is usable for the specified branch. A 200 response
+     * means the branch is registered in the object storage service and the S3 data plane will
+     * accept requests for it. A 404 response includes a `reason` field indicating why object
+     * storage is unavailable. **Note**: This endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      */
-    fun getStorage(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): BranchStorage {
+    fun getStorage(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): BranchStorage {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<BranchStorage>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/storage", config = clientConfig, operationId = "getStorage", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("404" to BranchStorageNotEnabled::class.java, "default" to GeneralError::class.java))).data
+        return SdkClient.request<BranchStorage>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/storage",
+                    config = clientConfig,
+                    operationId = "getStorage",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors =
+                        mapOf(
+                            "404" to BranchStorageNotEnabled::class.java,
+                            "default" to GeneralError::class.java,
+                        ),
+                )
+            )
+            .data
     }
-
-
-
-
-
-
-
 }

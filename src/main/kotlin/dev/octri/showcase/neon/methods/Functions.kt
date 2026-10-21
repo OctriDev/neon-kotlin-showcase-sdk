@@ -16,41 +16,55 @@ import dev.octri.showcase.neon.SdkClient
 import dev.octri.showcase.neon.TriggerCreateRequest
 import dev.octri.showcase.neon.TriggerID
 import dev.octri.showcase.neon.TriggerResponse
-import dev.octri.showcase.neon.TriggersListResponse
 import dev.octri.showcase.neon.TriggerUpdateRequest
+import dev.octri.showcase.neon.TriggersListResponse
 import dev.octri.showcase.neon.Validation
 
 object Functions {
-
 
     /**
      * Lists functions on the specified branch. **Note**: This endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
-     * @param cursor A cursor to use in pagination. A cursor defines your place in
-     *   the data list. Include `response.pagination.next` in subsequent API calls to
-     *   fetch next page of the list.
-     * @param limit Specify a value from 1 to 1000 to limit number of functions in
-     *   the response
+     * @param cursor A cursor to use in pagination. A cursor defines your place in the data list.
+     *   Include `response.pagination.next` in subsequent API calls to fetch next page of the list.
+     * @param limit Specify a value from 1 to 1000 to limit number of functions in the response
      */
-    fun listFunctions(clientConfig: ClientConfig, projectId: String, branchId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): ListFunctionsResponse {
+    fun listFunctions(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        cursor: String? = null,
+        limit: Long? = null,
+        options: RequestOptions? = null,
+    ): ListFunctionsResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
         if (limit != null) {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 1000.0))
-}
+        }
 
-        return SdkClient.request<ListFunctionsResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/functions", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true)), operationId = "listFunctions", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ListFunctionsResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/functions",
+                    config = clientConfig,
+                    query =
+                        mapOf(
+                            "cursor" to SdkClient.queryValue(cursor, "form", true),
+                            "limit" to SdkClient.queryValue(limit, "form", true),
+                        ),
+                    operationId = "listFunctions",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
-
-
-
-
-
-
 
     /**
      * Returns the function identified by its slug. **Note**: This endpoint is currently in Beta.
@@ -59,33 +73,56 @@ object Functions {
      * @param branchId The Neon branch ID
      * @param slug The function slug
      */
-    fun getFunctions(clientConfig: ClientConfig, projectId: String, branchId: String, slug: String, options: RequestOptions? = null): NeonFunctionResponse {
+    fun getFunctions(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        slug: String,
+        options: RequestOptions? = null,
+    ): NeonFunctionResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("slug", slug, "^[a-z0-9]{1,20}$")
 
-        return SdkClient.request<NeonFunctionResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/functions/${SdkClient.encodePathSegment(slug)}", config = clientConfig, operationId = "getFunctions", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<NeonFunctionResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/functions/${SdkClient.encodePathSegment(slug)}",
+                    config = clientConfig,
+                    operationId = "getFunctions",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 
-
-
-
-
-
-
     /**
-     * Updates the function's mutable metadata — currently only the display `name`. A string sets the display name; `null` clears it, after which the function's `name` falls back to its slug. Leading and trailing whitespace is trimmed; a whitespace-only name is rejected. Acts only on a function owned by the branch: a slug that is only inherited from an ancestor branch returns 404 — rename it on the branch that owns it. Like every other change on a branch, a rename is isolated per…
+     * Updates the function's mutable metadata — currently only the display `name`. A string sets
+     * the display name; `null` clears it, after which the function's `name` falls back to its slug.
+     * Leading and trailing whitespace is trimmed; a whitespace-only name is rejected. Acts only on
+     * a function owned by the branch: a slug that is only inherited from an ancestor branch returns
+     * 404 — rename it on the branch that owns it. Like every other change on a branch, a rename is
+     * isolated per…
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param slug The function slug
-     * @param name New display name for the function. `null` clears the display name;
-     *   the function's `name` then falls back to its slug. Leading and trailing
-     *   whitespace is trimmed; a whitespace-only name is rejected.
+     * @param name New display name for the function. `null` clears the display name; the function's
+     *   `name` then falls back to its slug. Leading and trailing whitespace is trimmed; a
+     *   whitespace-only name is rejected.
      */
-    fun updateFunctions(clientConfig: ClientConfig, projectId: String, branchId: String, slug: String, name: String?, options: RequestOptions? = null): NeonFunctionResponse {
+    fun updateFunctions(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        slug: String,
+        name: String?,
+        options: RequestOptions? = null,
+    ): NeonFunctionResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
@@ -93,17 +130,23 @@ object Functions {
         Validation.validatePattern("slug", slug, "^[a-z0-9]{1,20}$")
 
         if (name != null) {
-        Validation.validateLength("name", name, Validation.LengthOpts(min = 1, max = 256))
-}
+            Validation.validateLength("name", name, Validation.LengthOpts(min = 1, max = 256))
+        }
 
-        return SdkClient.request<NeonFunctionResponse>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/functions/${SdkClient.encodePathSegment(slug)}", config = clientConfig, body = SdkClient.bodyMap("name" to (name)), operationId = "updateFunctions", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<NeonFunctionResponse>(
+                SdkClient.RequestSpec(
+                    "PATCH",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/functions/${SdkClient.encodePathSegment(slug)}",
+                    config = clientConfig,
+                    body = SdkClient.bodyMap("name" to (name)),
+                    operationId = "updateFunctions",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
-
-
-
-
-
-
 
     /**
      * Deletes the function identified by its slug. **Note**: This endpoint is currently in Beta.
@@ -112,21 +155,31 @@ object Functions {
      * @param branchId The Neon branch ID
      * @param slug The function slug
      */
-    fun deleteFunctions(clientConfig: ClientConfig, projectId: String, branchId: String, slug: String, options: RequestOptions? = null): Unit {
+    fun deleteFunctions(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        slug: String,
+        options: RequestOptions? = null,
+    ): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("slug", slug, "^[a-z0-9]{1,20}$")
 
-        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/functions/${SdkClient.encodePathSegment(slug)}", config = clientConfig, operationId = "deleteFunctions", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "DELETE",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/functions/${SdkClient.encodePathSegment(slug)}",
+                config = clientConfig,
+                operationId = "deleteFunctions",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
-
 
     /** Parameters for [createFunctionsDeployment]. */
     data class CreateFunctionsDeploymentRequest(
@@ -135,40 +188,66 @@ object Functions {
         val slug: String,
         val zip: SdkClient.UploadFile? = null,
         val runtime: FunctionDeployRequestRuntimeEnum? = null,
-        val environment: String? = null
+        val environment: String? = null,
     )
 
     /**
-     * Creates a deployment for a function on a branch. Supply at least one of `zip`, `environment`, or `runtime`; omitted fields inherit the function's latest version. The first deployment must include `zip`, and the newest deployment becomes active.
+     * Creates a deployment for a function on a branch. Supply at least one of `zip`, `environment`,
+     * or `runtime`; omitted fields inherit the function's latest version. The first deployment must
+     * include `zip`, and the newest deployment becomes active.
      *
-     * Creates a deployment for the function. Supply any subset of zip, environment, and runtime; omitted fields inherit the function's latest version. At least one field must be supplied. The first deployment of a function must include zip. The newest deployment becomes active. **Note**: This endpoint is currently in Beta.
+     * Creates a deployment for the function. Supply any subset of zip, environment, and runtime;
+     * omitted fields inherit the function's latest version. At least one field must be supplied.
+     * The first deployment of a function must include zip. The newest deployment becomes active.
+     * **Note**: This endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param slug The function slug
-     * @param zip Optional ZIP archive of the function source code. Omit to reuse the
-     *   latest version's bundle (a config-only change). Required for the first
-     *   deployment of a function. Place `index.mjs` or `index.js` at the archive root,
-     *   without a containing directory. If both exist, `index.mjs` is loaded. Export a
-     *   request handler function or an object with a `fetch` method. Use `export
-     *   default` for ESM or `module.exports` for CommonJS; prefer `index.mjs` for ESM.
-     *   Upload JavaScript ready to run…
-     * @param runtime Optional enumerated value serialized in the `runtime` wire
-     *   field.
-     * @param environment Optional JSON object (a string-to-string map) of
-     *   environment variables for the deployment, e.g. {"KEY":"VALUE"}. Carried as a
-     *   JSON-encoded string because multipart form data does not support typed object
-     *   parts. Values are write-only: they are encrypted at rest, and responses carry
-     *   only the variable names (the `environment` array), never the values.
+     * @param zip Optional ZIP archive of the function source code. Omit to reuse the latest
+     *   version's bundle (a config-only change). Required for the first deployment of a function.
+     *   Place `index.mjs` or `index.js` at the archive root, without a containing directory. If
+     *   both exist, `index.mjs` is loaded. Export a request handler function or an object with a
+     *   `fetch` method. Use `export default` for ESM or `module.exports` for CommonJS; prefer
+     *   `index.mjs` for ESM. Upload JavaScript ready to run…
+     * @param runtime Optional enumerated value serialized in the `runtime` wire field.
+     * @param environment Optional JSON object (a string-to-string map) of environment variables for
+     *   the deployment, e.g. {"KEY":"VALUE"}. Carried as a JSON-encoded string because multipart
+     *   form data does not support typed object parts. Values are write-only: they are encrypted at
+     *   rest, and responses carry only the variable names (the `environment` array), never the
+     *   values.
      */
-    fun createFunctionsDeployment(clientConfig: ClientConfig, request: CreateFunctionsDeploymentRequest, options: RequestOptions? = null): NeonFunctionDeploymentResponse {
+    fun createFunctionsDeployment(
+        clientConfig: ClientConfig,
+        request: CreateFunctionsDeploymentRequest,
+        options: RequestOptions? = null,
+    ): NeonFunctionDeploymentResponse {
         validateCreateFunctionsDeploymentRequest(request)
 
-        return SdkClient.request<NeonFunctionDeploymentResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/functions/${SdkClient.encodePathSegment(request.slug)}/deployments", config = clientConfig, body = SdkClient.bodyMap("zip" to (SdkClient.omitIfNull(request.zip)), "runtime" to (SdkClient.omitIfNull(request.runtime)), "environment" to (SdkClient.omitIfNull(request.environment))), contentType = "multipart/form-data", operationId = "createFunctionsDeployment", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<NeonFunctionDeploymentResponse>(
+                SdkClient.RequestSpec(
+                    "POST",
+                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/functions/${SdkClient.encodePathSegment(request.slug)}/deployments",
+                    config = clientConfig,
+                    body =
+                        SdkClient.bodyMap(
+                            "zip" to (SdkClient.omitIfNull(request.zip)),
+                            "runtime" to (SdkClient.omitIfNull(request.runtime)),
+                            "environment" to (SdkClient.omitIfNull(request.environment)),
+                        ),
+                    contentType = "multipart/form-data",
+                    operationId = "createFunctionsDeployment",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 
-
-    private fun validateCreateFunctionsDeploymentRequest(request: CreateFunctionsDeploymentRequest) {
+    private fun validateCreateFunctionsDeploymentRequest(
+        request: CreateFunctionsDeploymentRequest
+    ) {
         Validation.validatePattern("project_id", request.projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", request.branchId, "^[a-z0-9-]{1,60}$")
@@ -176,200 +255,338 @@ object Functions {
         Validation.validatePattern("slug", request.slug, "^[a-z0-9]{1,20}$")
     }
 
-
-
-
-
-
     /**
-     * Lists the complete project-bounded set of triggers visible on the branch, ordered by `trigger_id`. An inherited trigger keeps its project-wide ID and configuration, and is disabled on the child until explicitly enabled there. The supported trigger types are `schedule` and `storage_object_created`. A storage-object-created trigger watches one exact bucket and fires only after an object upload succeeds. **Note**: This endpoint is currently in Beta.
+     * Lists the complete project-bounded set of triggers visible on the branch, ordered by
+     * `trigger_id`. An inherited trigger keeps its project-wide ID and configuration, and is
+     * disabled on the child until explicitly enabled there. The supported trigger types are
+     * `schedule` and `storage_object_created`. A storage-object-created trigger watches one exact
+     * bucket and fires only after an object upload succeeds. **Note**: This endpoint is currently
+     * in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      */
-    fun listFunctionsTriggers(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): TriggersListResponse {
+    fun listFunctionsTriggers(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): TriggersListResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<TriggersListResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers", config = clientConfig, operationId = "listFunctionsTriggers", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<TriggersListResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers",
+                    config = clientConfig,
+                    operationId = "listFunctionsTriggers",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 
-
-
-
-
-
-
     /**
-     * Creates a trigger for a function visible on a branch. Set `type` to `schedule` or `storage_object_created` and provide the matching configuration; schedule expressions use five numeric cron fields interpreted in UTC. The trigger name must be unique among triggers visible on the branch, including inherited triggers.
+     * Creates a trigger for a function visible on a branch. Set `type` to `schedule` or
+     * `storage_object_created` and provide the matching configuration; schedule expressions use
+     * five numeric cron fields interpreted in UTC. The trigger name must be unique among triggers
+     * visible on the branch, including inherited triggers.
      *
-     * Creates a trigger for a Function visible on the branch. The required `type` discriminator selects the trigger-specific configuration. The supported types are `schedule` and `storage_object_created`. A schedule trigger uses a numeric five-field cron expression interpreted in UTC. A storage-object-created trigger fires only after a successful upload to one exact bucket and may narrow matches to an object-key prefix. The name must be unique among triggers visible on the branch,…
+     * Creates a trigger for a Function visible on the branch. The required `type` discriminator
+     * selects the trigger-specific configuration. The supported types are `schedule` and
+     * `storage_object_created`. A schedule trigger uses a numeric five-field cron expression
+     * interpreted in UTC. A storage-object-created trigger fires only after a successful upload to
+     * one exact bucket and may narrow matches to an object-key prefix. The name must be unique
+     * among triggers visible on the branch,…
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      */
-    fun createFunctionsTrigger(clientConfig: ClientConfig, projectId: String, branchId: String, body: TriggerCreateRequest, options: RequestOptions? = null): TriggerResponse {
+    fun createFunctionsTrigger(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        body: TriggerCreateRequest,
+        options: RequestOptions? = null,
+    ): TriggerResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<TriggerResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers", config = clientConfig, body = body, operationId = "createFunctionsTrigger", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<TriggerResponse>(
+                SdkClient.RequestSpec(
+                    "POST",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers",
+                    config = clientConfig,
+                    body = body,
+                    operationId = "createFunctionsTrigger",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 
-
-
-
-
-
-
     /**
-     * Returns the trigger visible on the branch. The supported trigger types are `schedule` and `storage_object_created`. **Note**: This endpoint is currently in Beta.
+     * Returns the trigger visible on the branch. The supported trigger types are `schedule` and
+     * `storage_object_created`. **Note**: This endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param triggerId The opaque, project-wide trigger ID
      */
-    fun getFunctionsTrigger(clientConfig: ClientConfig, projectId: String, branchId: String, triggerId: TriggerID, options: RequestOptions? = null): TriggerResponse {
+    fun getFunctionsTrigger(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        triggerId: TriggerID,
+        options: RequestOptions? = null,
+    ): TriggerResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        Validation.validateLength("trigger_id", triggerId, Validation.LengthOpts(min = 1, max = 128))
+        Validation.validateLength(
+            "trigger_id",
+            triggerId,
+            Validation.LengthOpts(min = 1, max = 128),
+        )
         Validation.validatePattern("trigger_id", triggerId, "^[A-Za-z0-9][A-Za-z0-9_.\\-]{0,127}$")
 
-        return SdkClient.request<TriggerResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers/${SdkClient.encodePathSegment(triggerId)}", config = clientConfig, operationId = "getFunctionsTrigger", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<TriggerResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers/${SdkClient.encodePathSegment(triggerId)}",
+                    config = clientConfig,
+                    operationId = "getFunctionsTrigger",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 
-
-
-
-
-
-
     /**
-     * Updates a branch trigger using a partial configuration. Set `type` to the existing trigger kind and provide at least one other field to change; supported kinds are `schedule` and `storage_object_created`. Editing an inherited trigger creates a child-local shadow that remains disabled unless you explicitly enable it; disabling a trigger does not cancel occurrences already committed for delivery.
+     * Updates a branch trigger using a partial configuration. Set `type` to the existing trigger
+     * kind and provide at least one other field to change; supported kinds are `schedule` and
+     * `storage_object_created`. Editing an inherited trigger creates a child-local shadow that
+     * remains disabled unless you explicitly enable it; disabling a trigger does not cancel
+     * occurrences already committed for delivery.
      *
-     * Applies a partial update. The required `type` discriminator must identify the existing trigger kind. The supported types are `schedule` and `storage_object_created`. Editing an inherited trigger creates a child-local shadow with the same `trigger_id`; it remains disabled unless this request explicitly enables it. For a schedule trigger, updating the schedule or enabled state increments `version` and recomputes `next_run_at`. Disabling stops future scheduling but does not…
+     * Applies a partial update. The required `type` discriminator must identify the existing
+     * trigger kind. The supported types are `schedule` and `storage_object_created`. Editing an
+     * inherited trigger creates a child-local shadow with the same `trigger_id`; it remains
+     * disabled unless this request explicitly enables it. For a schedule trigger, updating the
+     * schedule or enabled state increments `version` and recomputes `next_run_at`. Disabling stops
+     * future scheduling but does not…
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param triggerId The opaque, project-wide trigger ID
      */
-    fun updateFunctionTrigger(clientConfig: ClientConfig, projectId: String, branchId: String, triggerId: TriggerID, body: TriggerUpdateRequest, options: RequestOptions? = null): TriggerResponse {
+    fun updateFunctionTrigger(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        triggerId: TriggerID,
+        body: TriggerUpdateRequest,
+        options: RequestOptions? = null,
+    ): TriggerResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        Validation.validateLength("trigger_id", triggerId, Validation.LengthOpts(min = 1, max = 128))
+        Validation.validateLength(
+            "trigger_id",
+            triggerId,
+            Validation.LengthOpts(min = 1, max = 128),
+        )
         Validation.validatePattern("trigger_id", triggerId, "^[A-Za-z0-9][A-Za-z0-9_.\\-]{0,127}$")
 
-        return SdkClient.request<TriggerResponse>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers/${SdkClient.encodePathSegment(triggerId)}", config = clientConfig, body = body, operationId = "updateFunctionTrigger", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<TriggerResponse>(
+                SdkClient.RequestSpec(
+                    "PATCH",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers/${SdkClient.encodePathSegment(triggerId)}",
+                    config = clientConfig,
+                    body = body,
+                    operationId = "updateFunctionTrigger",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 
-
-
-
-
-
-
     /**
-     * Deletes a branch-local trigger or writes a branch-local tombstone for an inherited trigger so it does not reappear. Deletion stops future scheduling or storage-event matching but does not cancel invocations already committed for delivery. The supported trigger types are `schedule` and `storage_object_created`. **Note**: This endpoint is currently in Beta.
+     * Deletes a branch-local trigger or writes a branch-local tombstone for an inherited trigger so
+     * it does not reappear. Deletion stops future scheduling or storage-event matching but does not
+     * cancel invocations already committed for delivery. The supported trigger types are `schedule`
+     * and `storage_object_created`. **Note**: This endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param triggerId The opaque, project-wide trigger ID
      */
-    fun deleteFunctionsTrigger(clientConfig: ClientConfig, projectId: String, branchId: String, triggerId: TriggerID, options: RequestOptions? = null): Unit {
+    fun deleteFunctionsTrigger(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        triggerId: TriggerID,
+        options: RequestOptions? = null,
+    ): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        Validation.validateLength("trigger_id", triggerId, Validation.LengthOpts(min = 1, max = 128))
+        Validation.validateLength(
+            "trigger_id",
+            triggerId,
+            Validation.LengthOpts(min = 1, max = 128),
+        )
         Validation.validatePattern("trigger_id", triggerId, "^[A-Za-z0-9][A-Za-z0-9_.\\-]{0,127}$")
 
-        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers/${SdkClient.encodePathSegment(triggerId)}", config = clientConfig, operationId = "deleteFunctionsTrigger", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "DELETE",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers/${SdkClient.encodePathSegment(triggerId)}",
+                config = clientConfig,
+                operationId = "deleteFunctionsTrigger",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
-
     /**
-     * Registers a customer-owned domain (for example `dashboard.acme.com`) on the branch and points it at a target entity, chosen by `entity_type` + `entity_id`. In v1 only `entity_type: function` is supported (an unsupported type is rejected with `400`), where `entity_id` is the function slug and the function must already exist on the branch (else `404`). The response includes the `cname_target` the customer must point their domain at with a CNAME record; the domain goes live…
+     * Registers a customer-owned domain (for example `dashboard.acme.com`) on the branch and points
+     * it at a target entity, chosen by `entity_type` + `entity_id`. In v1 only `entity_type:
+     * function` is supported (an unsupported type is rejected with `400`), where `entity_id` is the
+     * function slug and the function must already exist on the branch (else `404`). The response
+     * includes the `cname_target` the customer must point their domain at with a CNAME record; the
+     * domain goes live…
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
-     * @param domain The custom domain to register (for example
-     *   `dashboard.acme.com`). Case-insensitive; normalized to lowercase (a trailing
-     *   root dot is stripped, so the 254-char bound admits a fully-qualified name
-     *   whose normalized form is 253 chars). Neon-managed and internal hostnames are
-     *   rejected.
-     * @param entityType The kind of branch entity to point the domain at. v1
-     *   supports only `function`; any other value is rejected with
-     *   `invalid_entity_type`.
-     * @param entityId The target entity's identifier within the branch. For
-     *   `function` this is the function slug (which must already exist on the branch).
+     * @param domain The custom domain to register (for example `dashboard.acme.com`).
+     *   Case-insensitive; normalized to lowercase (a trailing root dot is stripped, so the 254-char
+     *   bound admits a fully-qualified name whose normalized form is 253 chars). Neon-managed and
+     *   internal hostnames are rejected.
+     * @param entityType The kind of branch entity to point the domain at. v1 supports only
+     *   `function`; any other value is rejected with `invalid_entity_type`.
+     * @param entityId The target entity's identifier within the branch. For `function` this is the
+     *   function slug (which must already exist on the branch).
      */
-    fun registerFunctionsCustomDomain(clientConfig: ClientConfig, projectId: String, branchId: String, domain: String, entityType: String, entityId: String, options: RequestOptions? = null): CustomDomain {
+    fun registerFunctionsCustomDomain(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        domain: String,
+        entityType: String,
+        entityId: String,
+        options: RequestOptions? = null,
+    ): CustomDomain {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateLength("domain", domain, Validation.LengthOpts(min = 3, max = 254))
 
-        Validation.validateLength("entity_type", entityType, Validation.LengthOpts(min = 1, max = 32))
+        Validation.validateLength(
+            "entity_type",
+            entityType,
+            Validation.LengthOpts(min = 1, max = 32),
+        )
 
         Validation.validateLength("entity_id", entityId, Validation.LengthOpts(min = 1, max = 255))
 
-        return SdkClient.request<CustomDomain>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/custom-domains", config = clientConfig, body = SdkClient.bodyMap("domain" to (domain), "entity_type" to (entityType), "entity_id" to (entityId)), operationId = "registerFunctionsCustomDomain", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<CustomDomain>(
+                SdkClient.RequestSpec(
+                    "POST",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/custom-domains",
+                    config = clientConfig,
+                    body =
+                        SdkClient.bodyMap(
+                            "domain" to (domain),
+                            "entity_type" to (entityType),
+                            "entity_id" to (entityId),
+                        ),
+                    operationId = "registerFunctionsCustomDomain",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 
-
-
-
-
-
-
     /**
-     * Lists all custom domains registered on the branch, across every target entity. **Note**: This endpoint is currently in Beta.
+     * Lists all custom domains registered on the branch, across every target entity. **Note**: This
+     * endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
-     * @param cursor A cursor to use in pagination. A cursor defines your place in
-     *   the data list. Include `response.pagination.next` in subsequent API calls to
-     *   fetch next page of the list.
-     * @param limit Specify a value from 1 to 1000 to limit number of domains in the
-     *   response
+     * @param cursor A cursor to use in pagination. A cursor defines your place in the data list.
+     *   Include `response.pagination.next` in subsequent API calls to fetch next page of the list.
+     * @param limit Specify a value from 1 to 1000 to limit number of domains in the response
      */
-    fun listFunctionsCustomDomains(clientConfig: ClientConfig, projectId: String, branchId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): ListFunctionsCustomDomainsResponse {
+    fun listFunctionsCustomDomains(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        cursor: String? = null,
+        limit: Long? = null,
+        options: RequestOptions? = null,
+    ): ListFunctionsCustomDomainsResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
         if (limit != null) {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 1000.0))
-}
+        }
 
-        return SdkClient.request<ListFunctionsCustomDomainsResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/custom-domains", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true)), operationId = "listFunctionsCustomDomains", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ListFunctionsCustomDomainsResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/custom-domains",
+                    config = clientConfig,
+                    query =
+                        mapOf(
+                            "cursor" to SdkClient.queryValue(cursor, "form", true),
+                            "limit" to SdkClient.queryValue(limit, "form", true),
+                        ),
+                    operationId = "listFunctionsCustomDomains",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 
-
-
-
-
-
-
     /**
-     * Removes a custom domain registered on the branch and stops routing it. **Note**: This endpoint is currently in Beta.
+     * Removes a custom domain registered on the branch and stops routing it. **Note**: This
+     * endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param domain The registered custom domain (case-insensitive).
      */
-    fun deleteFunctionsCustomDomain(clientConfig: ClientConfig, projectId: String, branchId: String, domain: String, options: RequestOptions? = null): Unit {
+    fun deleteFunctionsCustomDomain(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        domain: String,
+        options: RequestOptions? = null,
+    ): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
@@ -377,13 +594,16 @@ object Functions {
         Validation.validateLength("domain", domain, Validation.LengthOpts(min = 3, max = 254))
         Validation.validatePattern("domain", domain, "^[A-Za-z0-9.-]+$")
 
-        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/custom-domains/${SdkClient.encodePathSegment(domain)}", config = clientConfig, operationId = "deleteFunctionsCustomDomain", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "DELETE",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/custom-domains/${SdkClient.encodePathSegment(domain)}",
+                config = clientConfig,
+                operationId = "deleteFunctionsCustomDomain",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
-
-
 }

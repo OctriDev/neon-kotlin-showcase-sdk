@@ -5,24 +5,14 @@ package dev.octri.showcase.neon.models
 
 import java.time.OffsetDateTime
 
-/**
- * Typed representation of the `ProjectTransferRequestResponse` API schema.
- */
+/** Typed representation of the `ProjectTransferRequestResponse` API schema. */
 data class ProjectTransferRequestResponse(
-    /**
-     * The unique identifier for the transfer request
-     */
+    /** The unique identifier for the transfer request */
     val id: String,
-    /**
-     * The ID of the project that is being transferred
-     */
+    /** The ID of the project that is being transferred */
     @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String,
-    /**
-     * The timestamp when the transfer request was created
-     */
+    /** The timestamp when the transfer request was created */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /**
-     * The timestamp when the transfer request will expire
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("expires_at") val expiresAt: OffsetDateTime
+    /** The timestamp when the transfer request will expire */
+    @com.fasterxml.jackson.annotation.JsonProperty("expires_at") val expiresAt: OffsetDateTime,
 )

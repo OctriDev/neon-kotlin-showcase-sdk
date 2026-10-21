@@ -5,16 +5,10 @@ package dev.octri.showcase.neon.models
 
 import dev.octri.showcase.neon.models.branch.AnnotationData
 
-/**
- * Typed representation of the `GetBranchResponse` API schema.
- */
+/** Typed representation of the `GetBranchResponse` API schema. */
 data class GetBranchResponse(
-    /**
-     * Branch returned by the request.
-     */
+    /** Branch returned by the request. */
     val branch: Branch,
-    /**
-     * Annotation data associated with the annotated object.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("annotation") val `annotation`: AnnotationData
+    /** Annotation data associated with the annotated object. */
+    @com.fasterxml.jackson.annotation.JsonProperty("annotation") val `annotation`: AnnotationData,
 )

@@ -3,42 +3,33 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `NeonAuthOAuthProviderConfigUpdate` API schema.
- */
+/** Typed representation of the `NeonAuthOAuthProviderConfigUpdate` API schema. */
 data class NeonAuthOAuthProviderConfigUpdate(
-    /**
-     * Whether the OAuth provider plugin is enabled.
-     */
+    /** Whether the OAuth provider plugin is enabled. */
     val enabled: Boolean? = null,
-    /**
-     * URL of the page that authorization requests redirect to for sign-in.
-     */
+    /** URL of the page that authorization requests redirect to for sign-in. */
     @com.fasterxml.jackson.annotation.JsonProperty("login_page") val loginPage: String? = null,
-    /**
-     * URL of the page that authorization requests redirect to for consent.
-     */
+    /** URL of the page that authorization requests redirect to for consent. */
     @com.fasterxml.jackson.annotation.JsonProperty("consent_page") val consentPage: String? = null,
     /**
-     * MCP resource configuration. When provided, `resource` is required and the stored MCP configuration is replaced as a whole.
+     * MCP resource configuration. When provided, `resource` is required and the stored MCP
+     * configuration is replaced as a whole.
      */
     val mcp: NeonAuthOAuthProviderMcpUpdate? = null,
     /**
      * Protected resources that clients can be linked to. When provided, replaces the stored list.
      */
-    val resources: List<NeonAuthOAuthProviderResource>? = null
+    val resources: List<NeonAuthOAuthProviderResource>? = null,
 )
 
-/**
- * Typed representation of the `NeonAuthOAuthProviderMcpUpdate` API schema.
- */
+/** Typed representation of the `NeonAuthOAuthProviderMcpUpdate` API schema. */
 data class NeonAuthOAuthProviderMcpUpdate(
-    /**
-     * The MCP server URL that dynamically registered clients are linked to.
-     */
+    /** The MCP server URL that dynamically registered clients are linked to. */
     val resource: String,
     /**
-     * Whether MCP clients may register themselves via dynamic client registration (RFC 7591). When omitted, the stored value is kept.
+     * Whether MCP clients may register themselves via dynamic client registration (RFC 7591). When
+     * omitted, the stored value is kept.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("dynamic_registration") val dynamicRegistration: Boolean? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("dynamic_registration")
+    val dynamicRegistration: Boolean? = null,
 )

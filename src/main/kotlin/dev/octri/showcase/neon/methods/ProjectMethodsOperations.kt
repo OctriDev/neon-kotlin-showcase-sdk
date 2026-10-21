@@ -29,433 +29,885 @@ import dev.octri.showcase.neon.ProjectUpdateRequestProject
 import dev.octri.showcase.neon.RequestOptions
 import dev.octri.showcase.neon.SdkClient
 import dev.octri.showcase.neon.UpdateProjectResponse
-import dev.octri.showcase.neon.Validation
 import dev.octri.showcase.neon.VPCEndpointsResponse
+import dev.octri.showcase.neon.Validation
 
 internal object ProjectMethodsGetProjectAdvisorSecurityIssuesOperation {
     /**
-     * Analyzes the database for security and performance issues. Returns a list of issues categorized by severity (ERROR, WARN, INFO). Requires read access to the project and Data API enabled.
+     * Analyzes the database for security and performance issues. Returns a list of issues
+     * categorized by severity (ERROR, WARN, INFO). Requires read access to the project and Data API
+     * enabled.
      *
      * @param projectId Neon project ID
-     * @param branchId Branch ID to analyze. If not specified, the project's default
-     *   branch is used.
-     * @param databaseName Database name to analyze. Required if branch has multiple
-     *   databases.
+     * @param branchId Branch ID to analyze. If not specified, the project's default branch is used.
+     * @param databaseName Database name to analyze. Required if branch has multiple databases.
      * @param category Filter issues by category
-     * @param minSeverity Minimum severity level to include. For example, WARN
-     *   returns WARN and ERROR issues, excluding INFO.
+     * @param minSeverity Minimum severity level to include. For example, WARN returns WARN and
+     *   ERROR issues, excluding INFO.
      */
-    fun getProjectAdvisorSecurityIssues(clientConfig: ClientConfig, projectId: String, branchId: String? = null, databaseName: String? = null, category: AdvisorCategory? = null, minSeverity: GetProjectAdvisorSecurityIssuesParameterEnum? = null, options: RequestOptions? = null): ProjectMethods.GetProjectAdvisorSecurityIssuesResponse {
+    fun getProjectAdvisorSecurityIssues(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String? = null,
+        databaseName: String? = null,
+        category: AdvisorCategory? = null,
+        minSeverity: GetProjectAdvisorSecurityIssuesParameterEnum? = null,
+        options: RequestOptions? = null,
+    ): ProjectMethods.GetProjectAdvisorSecurityIssuesResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         if (branchId != null) {
             Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
-}
+        }
 
-        return SdkClient.request<ProjectMethods.GetProjectAdvisorSecurityIssuesResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/advisors", config = clientConfig, query = mapOf("branch_id" to SdkClient.queryValue(branchId, "form", true), "database_name" to
-    SdkClient.queryValue(databaseName, "form", true), "category" to SdkClient.queryValue(category, "form", true), "min_severity" to
-    SdkClient.queryValue(minSeverity, "form", true)), operationId = "getProjectAdvisorSecurityIssues", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectMethods.GetProjectAdvisorSecurityIssuesResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/advisors",
+                    config = clientConfig,
+                    query =
+                        mapOf(
+                            "branch_id" to SdkClient.queryValue(branchId, "form", true),
+                            "database_name" to SdkClient.queryValue(databaseName, "form", true),
+                            "category" to SdkClient.queryValue(category, "form", true),
+                            "min_severity" to SdkClient.queryValue(minSeverity, "form", true),
+                        ),
+                    operationId = "getProjectAdvisorSecurityIssues",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsListProjectsOperation {
     /**
-     * Retrieves a list of projects for the specified organization. If using a personal API key, include the `org_id` parameter to specify which organization to work with. If using an org API key, `org_id` is automatically inferred from the key. For more information, see Manage organizations using the Neon API and Manage projects.
+     * Retrieves a list of projects for the specified organization. If using a personal API key,
+     * include the `org_id` parameter to specify which organization to work with. If using an org
+     * API key, `org_id` is automatically inferred from the key. For more information, see Manage
+     * organizations using the Neon API and Manage projects.
      *
-     * @param cursor Specify the cursor value from the previous response to retrieve
-     *   the next batch of projects.
-     * @param limit Specify a value from 1 to 400 to limit number of projects in the
-     *   response.
-     * @param search Search by project `name` or `id`. You can specify partial `name`
-     *   or `id` values to filter results.
+     * @param cursor Specify the cursor value from the previous response to retrieve the next batch
+     *   of projects.
+     * @param limit Specify a value from 1 to 400 to limit number of projects in the response.
+     * @param search Search by project `name` or `id`. You can specify partial `name` or `id` values
+     *   to filter results.
      * @param orgId Search for projects by `org_id`.
-     * @param timeout Specify an explicit timeout in milliseconds to limit response
-     *   delay. After timing out, the incomplete list of project data fetched so far
-     *   will be returned. Projects still being fetched when the timeout occurred are
-     *   listed in the "unavailable" attribute of the response. If not specified, an
-     *   implicit implementation defined timeout is chosen with the same behaviour as
-     *   above
+     * @param timeout Specify an explicit timeout in milliseconds to limit response delay. After
+     *   timing out, the incomplete list of project data fetched so far will be returned. Projects
+     *   still being fetched when the timeout occurred are listed in the "unavailable" attribute of
+     *   the response. If not specified, an implicit implementation defined timeout is chosen with
+     *   the same behaviour as above
      * @param recoverable Show only deleted projects within the recovery window.
      */
-    fun listProjects(clientConfig: ClientConfig, request: ProjectMethods.ListProjectsRequest, options: RequestOptions? = null): ListProjectsResponse {
+    fun listProjects(
+        clientConfig: ClientConfig,
+        request: ProjectMethods.ListProjectsRequest,
+        options: RequestOptions? = null,
+    ): ListProjectsResponse {
         validateListProjectsRequest(request)
 
-        return SdkClient.request<ListProjectsResponse>(SdkClient.RequestSpec("GET", "/projects", config = clientConfig, query = mapOf("cursor" to
-    SdkClient.queryValue(request.cursor, "form", true), "limit" to SdkClient.queryValue(request.limit, "form", true), "search" to
-    SdkClient.queryValue(request.search, "form", true), "org_id" to
-    SdkClient.queryValue(request.orgId, "form", true), "timeout" to
-    SdkClient.queryValue(request.timeout, "form", true), "recoverable" to
-    SdkClient.queryValue(request.recoverable, "form", true)), operationId = "listProjects", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ListProjectsResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects",
+                    config = clientConfig,
+                    query =
+                        mapOf(
+                            "cursor" to SdkClient.queryValue(request.cursor, "form", true),
+                            "limit" to SdkClient.queryValue(request.limit, "form", true),
+                            "search" to SdkClient.queryValue(request.search, "form", true),
+                            "org_id" to SdkClient.queryValue(request.orgId, "form", true),
+                            "timeout" to SdkClient.queryValue(request.timeout, "form", true),
+                            "recoverable" to
+                                SdkClient.queryValue(request.recoverable, "form", true),
+                        ),
+                    operationId = "listProjects",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
-
 
     private fun validateListProjectsRequest(request: ProjectMethods.ListProjectsRequest) {
         if (request.limit != null) {
-            Validation.validateRange("limit", request.limit, Validation.RangeOpts(min = 1.0, max = 400.0))
-}
+            Validation.validateRange(
+                "limit",
+                request.limit,
+                Validation.RangeOpts(min = 1.0, max = 400.0),
+            )
+        }
 
         if (request.orgId != null) {
             Validation.validatePattern("org_id", request.orgId, "^[a-z0-9-]{1,60}$")
-}
+        }
 
         if (request.timeout != null) {
-            Validation.validateRange("timeout", request.timeout, Validation.RangeOpts(min = 100.0, max = 30000.0))
-}
+            Validation.validateRange(
+                "timeout",
+                request.timeout,
+                Validation.RangeOpts(min = 100.0, max = 30000.0),
+            )
+        }
     }
 }
 
 internal object ProjectMethodsCreateProjectOperation {
     /**
-     * Creates a Neon project within an organization. If using a personal API key, include the `org_id` parameter to specify which organization to create the project in. If using an org API key, `org_id` is automatically inferred from the key. Plan limits define how many projects you can create. For more information, see Manage projects. You can specify a region and Postgres version in the request body. Neon supports Postgres 14 through 18, with 19 rolling out to enabled regions.…
+     * Creates a Neon project within an organization. If using a personal API key, include the
+     * `org_id` parameter to specify which organization to create the project in. If using an org
+     * API key, `org_id` is automatically inferred from the key. Plan limits define how many
+     * projects you can create. For more information, see Manage projects. You can specify a region
+     * and Postgres version in the request body. Neon supports Postgres 14 through 18, with 19
+     * rolling out to enabled regions.…
      *
-     * @param project Configuration for the new project, including name, region, and
-     *   Postgres compute and storage settings.
+     * @param project Configuration for the new project, including name, region, and Postgres
+     *   compute and storage settings.
      */
-    fun createProject(clientConfig: ClientConfig, project: ProjectMethods.ProjectCreateRequestProject, options: RequestOptions? = null): CreateProjectResponse {
-        return SdkClient.request<CreateProjectResponse>(SdkClient.RequestSpec("POST", "/projects", config = clientConfig, body = SdkClient.bodyMap("project" to (project)), operationId = "createProject", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+    fun createProject(
+        clientConfig: ClientConfig,
+        project: ProjectMethods.ProjectCreateRequestProject,
+        options: RequestOptions? = null,
+    ): CreateProjectResponse {
+        return SdkClient.request<CreateProjectResponse>(
+                SdkClient.RequestSpec(
+                    "POST",
+                    "/projects",
+                    config = clientConfig,
+                    body = SdkClient.bodyMap("project" to (project)),
+                    operationId = "createProject",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsListSharedProjectsOperation {
     /**
-     * Retrieves a list of projects shared with your Neon account. For more information, see Manage projects.
+     * Retrieves a list of projects shared with your Neon account. For more information, see Manage
+     * projects.
      *
-     * @param cursor Specify the cursor value from the previous response to get the
-     *   next batch of projects.
-     * @param limit Specify a value from 1 to 400 to limit number of projects in the
-     *   response.
+     * @param cursor Specify the cursor value from the previous response to get the next batch of
+     *   projects.
+     * @param limit Specify a value from 1 to 400 to limit number of projects in the response.
      * @param search Search query by name or id.
-     * @param timeout Specify an explicit timeout in milliseconds to limit response
-     *   delay. After timing out, the incomplete list of project data fetched so far
-     *   will be returned. Projects still being fetched when the timeout occurred are
-     *   listed in the "unavailable" attribute of the response. If not specified, an
-     *   implicit implementation defined timeout is chosen with the same behaviour as
-     *   above
+     * @param timeout Specify an explicit timeout in milliseconds to limit response delay. After
+     *   timing out, the incomplete list of project data fetched so far will be returned. Projects
+     *   still being fetched when the timeout occurred are listed in the "unavailable" attribute of
+     *   the response. If not specified, an implicit implementation defined timeout is chosen with
+     *   the same behaviour as above
      */
-    fun listSharedProjects(clientConfig: ClientConfig, cursor: String? = null, limit: Long? = null, search: String? = null, timeout: Long? = null, options: RequestOptions? = null): ListSharedProjectsResponse {
+    fun listSharedProjects(
+        clientConfig: ClientConfig,
+        cursor: String? = null,
+        limit: Long? = null,
+        search: String? = null,
+        timeout: Long? = null,
+        options: RequestOptions? = null,
+    ): ListSharedProjectsResponse {
         if (limit != null) {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 400.0))
-}
+        }
 
         if (timeout != null) {
-            Validation.validateRange("timeout", timeout, Validation.RangeOpts(min = 100.0, max = 30000.0))
-}
+            Validation.validateRange(
+                "timeout",
+                timeout,
+                Validation.RangeOpts(min = 100.0, max = 30000.0),
+            )
+        }
 
-        return SdkClient.request<ListSharedProjectsResponse>(SdkClient.RequestSpec("GET", "/projects/shared", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true), "search" to SdkClient.queryValue(search, "form", true), "timeout" to SdkClient.queryValue(timeout, "form", true)), operationId = "listSharedProjects", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ListSharedProjectsResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/shared",
+                    config = clientConfig,
+                    query =
+                        mapOf(
+                            "cursor" to SdkClient.queryValue(cursor, "form", true),
+                            "limit" to SdkClient.queryValue(limit, "form", true),
+                            "search" to SdkClient.queryValue(search, "form", true),
+                            "timeout" to SdkClient.queryValue(timeout, "form", true),
+                        ),
+                    operationId = "listSharedProjects",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsGetProjectOperation {
     /**
-     * Retrieves information about the specified project. Returned details include the project settings, compute configuration, history retention, owner information, and current usage metrics.
+     * Retrieves information about the specified project. Returned details include the project
+     * settings, compute configuration, history retention, owner information, and current usage
+     * metrics.
      *
      * @param projectId The Neon project ID
      */
-    fun getProject(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ProjectResponse {
+    fun getProject(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): ProjectResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ProjectResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}", config = clientConfig, operationId = "getProject", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}",
+                    config = clientConfig,
+                    operationId = "getProject",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsUpdateProjectOperation {
     /**
-     * Updates configurable properties of a Neon project, including its name, project settings, default endpoint settings, and history retention period. Supply the required `project` object and include only the properties you want to change. The response includes the updated project and any operations associated with the update.
+     * Updates configurable properties of a Neon project, including its name, project settings,
+     * default endpoint settings, and history retention period. Supply the required `project` object
+     * and include only the properties you want to change. The response includes the updated project
+     * and any operations associated with the update.
      *
-     * Updates the specified project. Configurable properties include the project name, default compute settings, history retention period, and IP allowlist.
+     * Updates the specified project. Configurable properties include the project name, default
+     * compute settings, history retention period, and IP allowlist.
      *
      * @param projectId The Neon project ID
      * @param project Required object value serialized in the `project` wire field.
      */
-    fun updateProject(clientConfig: ClientConfig, projectId: String, project: ProjectMethods.ProjectUpdateRequestProject, options: RequestOptions? = null): UpdateProjectResponse {
+    fun updateProject(
+        clientConfig: ClientConfig,
+        projectId: String,
+        project: ProjectMethods.ProjectUpdateRequestProject,
+        options: RequestOptions? = null,
+    ): UpdateProjectResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<UpdateProjectResponse>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}", config = clientConfig, body = SdkClient.bodyMap("project" to (project)), operationId = "updateProject", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<UpdateProjectResponse>(
+                SdkClient.RequestSpec(
+                    "PATCH",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}",
+                    config = clientConfig,
+                    body = SdkClient.bodyMap("project" to (project)),
+                    operationId = "updateProject",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsDeleteProjectOperation {
     /**
-     * Deletes the specified project and all its endpoints, branches, databases, and users. Deleted projects can be recovered within 7 days using `POST /projects/{project_id}/recover`. To list recoverable projects, use `GET /projects?recoverable=true`.
+     * Deletes the specified project and all its endpoints, branches, databases, and users. Deleted
+     * projects can be recovered within 7 days using `POST /projects/{project_id}/recover`. To list
+     * recoverable projects, use `GET /projects?recoverable=true`.
      *
      * @param projectId The Neon project ID
      */
-    fun deleteProject(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ProjectResponse {
+    fun deleteProject(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): ProjectResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ProjectResponse>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}", config = clientConfig, operationId = "deleteProject", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectResponse>(
+                SdkClient.RequestSpec(
+                    "DELETE",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}",
+                    config = clientConfig,
+                    operationId = "deleteProject",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsRecoverProjectOperation {
     /**
-     * Recovers a deleted project within the 7-day deletion recovery period. Restores branches, endpoints, settings, and connection strings. Some integrations require manual reconfiguration after recovery. To list recoverable projects, use `GET /projects?recoverable=true`.
+     * Recovers a deleted project within the 7-day deletion recovery period. Restores branches,
+     * endpoints, settings, and connection strings. Some integrations require manual reconfiguration
+     * after recovery. To list recoverable projects, use `GET /projects?recoverable=true`.
      *
      * @param projectId The Neon project ID
      */
-    fun recoverProject(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ProjectRecoverResponse {
+    fun recoverProject(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): ProjectRecoverResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ProjectRecoverResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/recover", config = clientConfig, operationId = "recoverProject", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectRecoverResponse>(
+                SdkClient.RequestSpec(
+                    "POST",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/recover",
+                    config = clientConfig,
+                    operationId = "recoverProject",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsListProjectPermissionsOperation {
     /**
-     * Lists users who have access to a project, including each permission ID, the granted-to email address, and the grant date. Use the permission ID to identify a specific project access grant when you need to revoke it.
+     * Lists users who have access to a project, including each permission ID, the granted-to email
+     * address, and the grant date. Use the permission ID to identify a specific project access
+     * grant when you need to revoke it.
      *
-     * Retrieves details about users who have access to the project, including the permission `id`, the granted-to email address, and the date project access was granted.
+     * Retrieves details about users who have access to the project, including the permission `id`,
+     * the granted-to email address, and the date project access was granted.
      */
-    fun listProjectPermissions(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ProjectPermissions {
+    fun listProjectPermissions(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): ProjectPermissions {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ProjectPermissions>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/permissions", config = clientConfig, operationId = "listProjectPermissions", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectPermissions>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/permissions",
+                    config = clientConfig,
+                    operationId = "listProjectPermissions",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsGrantProjectPermissionOperation {
     /**
-     * Grants project access to the account associated with an email address. Supply the recipient's `email` in the request body to create a project permission. The response includes the new permission's identifier and grant details.
+     * Grants project access to the account associated with an email address. Supply the recipient's
+     * `email` in the request body to create a project permission. The response includes the new
+     * permission's identifier and grant details.
      *
      * Grants project access to the account associated with the specified email address.
      *
      * @param email Email address of the user to grant project access to.
      */
-    fun grantProjectPermission(clientConfig: ClientConfig, projectId: String, email: String, options: RequestOptions? = null): ProjectPermission {
+    fun grantProjectPermission(
+        clientConfig: ClientConfig,
+        projectId: String,
+        email: String,
+        options: RequestOptions? = null,
+    ): ProjectPermission {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateLength("email", email, Validation.LengthOpts(min = 1, max = 256))
         Validation.validateEmail("email", email)
 
-        return SdkClient.request<ProjectPermission>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/permissions", config = clientConfig, body = SdkClient.bodyMap("email" to (email)), operationId = "grantProjectPermission", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectPermission>(
+                SdkClient.RequestSpec(
+                    "POST",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/permissions",
+                    config = clientConfig,
+                    body = SdkClient.bodyMap("email" to (email)),
+                    operationId = "grantProjectPermission",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsListProjectMembersOperation {
     /**
-     * Lists organization members and their project roles for an organization-owned project. The members shown depend on the authenticated user's access: VIEWER and EDITOR see members with effective project access, while ADMIN also sees unassigned organization members. Use `limit` and the response's `pagination.next` cursor to retrieve subsequent pages.
+     * Lists organization members and their project roles for an organization-owned project. The
+     * members shown depend on the authenticated user's access: VIEWER and EDITOR see members with
+     * effective project access, while ADMIN also sees unassigned organization members. Use `limit`
+     * and the response's `pagination.next` cursor to retrieve subsequent pages.
      *
-     * Lists organization members and their per-project roles for an org-owned project. Returns 404 when the project is not org-owned, per-project role management is disabled, or the caller has no access. Callers with VIEWER or EDITOR see members with effective project access. Callers with ADMIN also see unassigned org members.
+     * Lists organization members and their per-project roles for an org-owned project. Returns 404
+     * when the project is not org-owned, per-project role management is disabled, or the caller has
+     * no access. Callers with VIEWER or EDITOR see members with effective project access. Callers
+     * with ADMIN also see unassigned org members.
      *
-     * @param cursor A cursor to use in pagination. A cursor defines your place in
-     *   the data list. Include `response.pagination.next` in subsequent API calls to
-     *   fetch next page of the list.
+     * @param cursor A cursor to use in pagination. A cursor defines your place in the data list.
+     *   Include `response.pagination.next` in subsequent API calls to fetch next page of the list.
      * @param limit The maximum number of members to return in the response
      */
-    fun listProjectMembers(clientConfig: ClientConfig, projectId: String, cursor: String? = null, limit: Long? = null, options: RequestOptions? = null): ProjectMembers {
+    fun listProjectMembers(
+        clientConfig: ClientConfig,
+        projectId: String,
+        cursor: String? = null,
+        limit: Long? = null,
+        options: RequestOptions? = null,
+    ): ProjectMembers {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         if (limit != null) {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 500.0))
-}
+        }
 
-        return SdkClient.request<ProjectMembers>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/members", config = clientConfig, query = mapOf("cursor" to SdkClient.queryValue(cursor, "form", true), "limit" to SdkClient.queryValue(limit, "form", true)), operationId = "listProjectMembers", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectMembers>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/members",
+                    config = clientConfig,
+                    query =
+                        mapOf(
+                            "cursor" to SdkClient.queryValue(cursor, "form", true),
+                            "limit" to SdkClient.queryValue(limit, "form", true),
+                        ),
+                    operationId = "listProjectMembers",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsSetProjectMemberRoleOperation {
     /**
-     * Sets or updates an organization's member's explicit role on a project. Provide `role` as `viewer`, `editor`, or `admin` to set the corresponding project permission. If the authenticated user is demoting themself, set `confirm_self_demotion` to true.
+     * Sets or updates an organization's member's explicit role on a project. Provide `role` as
+     * `viewer`, `editor`, or `admin` to set the corresponding project permission. If the
+     * authenticated user is demoting themself, set `confirm_self_demotion` to true.
      *
-     * Idempotently sets or updates the explicit project grant of the specified org member. Self-demotion requires `confirm_self_demotion=true`.
+     * Idempotently sets or updates the explicit project grant of the specified org member.
+     * Self-demotion requires `confirm_self_demotion=true`.
      *
-     * @param role Per-project role. `viewer` maps to `VIEWER`, `editor` maps to
-     *   `EDITOR`, and `admin` maps to `ADMIN`.
+     * @param role Per-project role. `viewer` maps to `VIEWER`, `editor` maps to `EDITOR`, and
+     *   `admin` maps to `ADMIN`.
      */
-    fun setProjectMemberRole(clientConfig: ClientConfig, projectId: String, memberId: String, role: ProjectRole, confirmSelfDemotion: Boolean? = null, options: RequestOptions? = null): ProjectMemberRoleResponse {
+    fun setProjectMemberRole(
+        clientConfig: ClientConfig,
+        projectId: String,
+        memberId: String,
+        role: ProjectRole,
+        confirmSelfDemotion: Boolean? = null,
+        options: RequestOptions? = null,
+    ): ProjectMemberRoleResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateUuid("member_id", memberId)
 
-        return SdkClient.request<ProjectMemberRoleResponse>(SdkClient.RequestSpec("PUT", "/projects/${SdkClient.encodePathSegment(projectId)}/members/${SdkClient.encodePathSegment(memberId)}/role", config = clientConfig, query = mapOf("confirm_self_demotion" to
-    SdkClient.queryValue(confirmSelfDemotion, "form", true)), body = SdkClient.bodyMap("role" to (role)), operationId = "setProjectMemberRole", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectMemberRoleResponse>(
+                SdkClient.RequestSpec(
+                    "PUT",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/members/${SdkClient.encodePathSegment(memberId)}/role",
+                    config = clientConfig,
+                    query =
+                        mapOf(
+                            "confirm_self_demotion" to
+                                SdkClient.queryValue(confirmSelfDemotion, "form", true)
+                        ),
+                    body = SdkClient.bodyMap("role" to (role)),
+                    operationId = "setProjectMemberRole",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsRemoveProjectMemberRoleOperation {
     /**
-     * Removes an organization's member's explicit role on a project. The member's organization-role default project permission continues to apply, and the operation is a no-op if no explicit role exists. If removing your own role would remove your effective management access, confirm the change with `confirm_self_lockout`.
+     * Removes an organization's member's explicit role on a project. The member's organization-role
+     * default project permission continues to apply, and the operation is a no-op if no explicit
+     * role exists. If removing your own role would remove your effective management access, confirm
+     * the change with `confirm_self_lockout`.
      *
-     * Idempotently removes the explicit project grant. The member's organization-role default project permission still applies. Self-DELETE requires `confirm_self_lockout=true` when effective manage access would be lost.
+     * Idempotently removes the explicit project grant. The member's organization-role default
+     * project permission still applies. Self-DELETE requires `confirm_self_lockout=true` when
+     * effective manage access would be lost.
      */
-    fun removeProjectMemberRole(clientConfig: ClientConfig, projectId: String, memberId: String, confirmSelfLockout: Boolean? = null, options: RequestOptions? = null): ProjectMemberRoleResponse {
+    fun removeProjectMemberRole(
+        clientConfig: ClientConfig,
+        projectId: String,
+        memberId: String,
+        confirmSelfLockout: Boolean? = null,
+        options: RequestOptions? = null,
+    ): ProjectMemberRoleResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateUuid("member_id", memberId)
 
-        return SdkClient.request<ProjectMemberRoleResponse>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/members/${SdkClient.encodePathSegment(memberId)}/role", config = clientConfig, query = mapOf("confirm_self_lockout" to
-    SdkClient.queryValue(confirmSelfLockout, "form", true)), operationId = "removeProjectMemberRole", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectMemberRoleResponse>(
+                SdkClient.RequestSpec(
+                    "DELETE",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/members/${SdkClient.encodePathSegment(memberId)}/role",
+                    config = clientConfig,
+                    query =
+                        mapOf(
+                            "confirm_self_lockout" to
+                                SdkClient.queryValue(confirmSelfLockout, "form", true)
+                        ),
+                    operationId = "removeProjectMemberRole",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsRevokeProjectPermissionOperation {
     /**
-     * Revokes a user's access to a project using the ID of the access permission. Retrieve the permission ID by listing project access, then provide it with the project identifier. The response includes the permission's grant and revocation details.
+     * Revokes a user's access to a project using the ID of the access permission. Retrieve the
+     * permission ID by listing project access, then provide it with the project identifier. The
+     * response includes the permission's grant and revocation details.
      *
-     * Revokes project access from the user associated with the specified permission `id`. You can retrieve a user's permission `id` by listing project access.
+     * Revokes project access from the user associated with the specified permission `id`. You can
+     * retrieve a user's permission `id` by listing project access.
      */
-    fun revokeProjectPermission(clientConfig: ClientConfig, projectId: String, permissionId: String, options: RequestOptions? = null): ProjectPermission {
+    fun revokeProjectPermission(
+        clientConfig: ClientConfig,
+        projectId: String,
+        permissionId: String,
+        options: RequestOptions? = null,
+    ): ProjectPermission {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ProjectPermission>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/permissions/${SdkClient.encodePathSegment(permissionId)}", config = clientConfig, operationId = "revokeProjectPermission", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectPermission>(
+                SdkClient.RequestSpec(
+                    "DELETE",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/permissions/${SdkClient.encodePathSegment(permissionId)}",
+                    config = clientConfig,
+                    operationId = "revokeProjectPermission",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsGetAvailablePreloadLibrariesOperation {
     /**
-     * Lists the shared preload libraries available for the specified project's Postgres version. Use the list to choose libraries for the project's `settings.preload_libraries` configuration; activating these libraries requires a compute restart.
+     * Lists the shared preload libraries available for the specified project's Postgres version.
+     * Use the list to choose libraries for the project's `settings.preload_libraries`
+     * configuration; activating these libraries requires a compute restart.
      *
-     * Returns the shared preload libraries available for the specified project's Postgres version. Shared preload libraries are Postgres extensions that require the `shared_preload_libraries` setting and a compute restart to activate. Use this list to determine which libraries can be enabled in the project's `settings.preload_libraries` configuration.
+     * Returns the shared preload libraries available for the specified project's Postgres version.
+     * Shared preload libraries are Postgres extensions that require the `shared_preload_libraries`
+     * setting and a compute restart to activate. Use this list to determine which libraries can be
+     * enabled in the project's `settings.preload_libraries` configuration.
      */
-    fun getAvailablePreloadLibraries(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): AvailablePreloadLibraries {
+    fun getAvailablePreloadLibraries(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): AvailablePreloadLibraries {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<AvailablePreloadLibraries>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/available_preload_libraries", config = clientConfig, operationId = "getAvailablePreloadLibraries", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<AvailablePreloadLibraries>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/available_preload_libraries",
+                    config = clientConfig,
+                    operationId = "getAvailablePreloadLibraries",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsCreateProjectTransferRequestOperation {
     /**
-     * Creates a transfer request for the specified project. The request expires after a set period. To accept the request, the recipient calls `PUT /projects/{project_id}/transfer_requests/{request_id}` or uses the Neon Console claim link. The optional `ru` parameter redirects the recipient after acceptance.
+     * Creates a transfer request for the specified project. The request expires after a set period.
+     * To accept the request, the recipient calls `PUT
+     * /projects/{project_id}/transfer_requests/{request_id}` or uses the Neon Console claim link.
+     * The optional `ru` parameter redirects the recipient after acceptance.
      *
      * @param projectId The Neon project ID
-     * @param ttlSeconds Number of seconds the transfer request stays valid before it
-     *   expires. Defaults to 86400 (24 hours).
+     * @param ttlSeconds Number of seconds the transfer request stays valid before it expires.
+     *   Defaults to 86400 (24 hours).
      */
-    fun createProjectTransferRequest(clientConfig: ClientConfig, projectId: String, ttlSeconds: Long? = null, options: RequestOptions? = null): ProjectTransferRequestResponse {
+    fun createProjectTransferRequest(
+        clientConfig: ClientConfig,
+        projectId: String,
+        ttlSeconds: Long? = null,
+        options: RequestOptions? = null,
+    ): ProjectTransferRequestResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ProjectTransferRequestResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/transfer_requests", config = clientConfig, body = SdkClient.bodyMap("ttl_seconds" to (SdkClient.omitIfNull(ttlSeconds))), operationId = "createProjectTransferRequest", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectTransferRequestResponse>(
+                SdkClient.RequestSpec(
+                    "POST",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/transfer_requests",
+                    config = clientConfig,
+                    body = SdkClient.bodyMap("ttl_seconds" to (SdkClient.omitIfNull(ttlSeconds))),
+                    operationId = "createProjectTransferRequest",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsAcceptProjectTransferRequestOperation {
     /**
-     * Accepts a transfer request for the specified project, transferring it to the specified organization or user. If org_id is not passed, the project will be transferred to the current user or organization account.
+     * Accepts a transfer request for the specified project, transferring it to the specified
+     * organization or user. If org_id is not passed, the project will be transferred to the current
+     * user or organization account.
      *
      * @param projectId The Neon project ID
      * @param requestId The Neon project transfer request ID
-     * @param orgId The Neon organization ID to transfer the project to. If not
-     *   provided, the project will be transferred to the current user or organization
-     *   account.
+     * @param orgId The Neon organization ID to transfer the project to. If not provided, the
+     *   project will be transferred to the current user or organization account.
      */
-    fun acceptProjectTransferRequest(clientConfig: ClientConfig, projectId: String, requestId: String, orgId: String? = null, options: RequestOptions? = null): Unit {
+    fun acceptProjectTransferRequest(
+        clientConfig: ClientConfig,
+        projectId: String,
+        requestId: String,
+        orgId: String? = null,
+        options: RequestOptions? = null,
+    ): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("request_id", requestId, "^[a-z0-9-]{1,60}$")
 
         if (orgId != null) {
             Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
-}
+        }
 
-        SdkClient.request<Unit>(SdkClient.RequestSpec("PUT", "/projects/${SdkClient.encodePathSegment(projectId)}/transfer_requests/${SdkClient.encodePathSegment(requestId)}", config = clientConfig, body = SdkClient.bodyMap("org_id" to (SdkClient.omitIfNull(orgId))), operationId = "acceptProjectTransferRequest", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("406" to AcceptProjectTransferRequestSatisfiesPlanError::class.java, "default" to GeneralError::class.java)))
+        SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "PUT",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/transfer_requests/${SdkClient.encodePathSegment(requestId)}",
+                config = clientConfig,
+                body = SdkClient.bodyMap("org_id" to (SdkClient.omitIfNull(orgId))),
+                operationId = "acceptProjectTransferRequest",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors =
+                    mapOf(
+                        "406" to AcceptProjectTransferRequestSatisfiesPlanError::class.java,
+                        "default" to GeneralError::class.java,
+                    ),
+            )
+        )
     }
 }
 
 internal object ProjectMethodsGetProjectJWKSOperation {
     /**
-     * Returns the JWKS URLs available for verifying JWTs used as the authentication mechanism for the specified project.
+     * Returns the JWKS URLs available for verifying JWTs used as the authentication mechanism for
+     * the specified project.
      *
      * @param projectId The Neon project ID
      */
-    fun getProjectJwks(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ProjectJWKSResponse {
+    fun getProjectJwks(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): ProjectJWKSResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ProjectJWKSResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/jwks", config = clientConfig, operationId = "getProjectJwks", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectJWKSResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/jwks",
+                    config = clientConfig,
+                    operationId = "getProjectJwks",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsAddProjectJWKSOperation {
     /**
-     * Adds a JWKS URL to the specified project for verifying JWTs used as the authentication mechanism. The URL must be a valid HTTPS URL that returns a JSON Web Key Set. The `provider_name` field allows you to specify which authentication provider you're using (e.g., Clerk, Auth0, AWS Cognito). The `branch_id` scopes the JWKS URL to specific branches; if not specified, it applies to all branches. The `role_names` scopes the URL to specific roles; if not specified, default roles…
+     * Adds a JWKS URL to the specified project for verifying JWTs used as the authentication
+     * mechanism. The URL must be a valid HTTPS URL that returns a JSON Web Key Set. The
+     * `provider_name` field allows you to specify which authentication provider you're using (e.g.,
+     * Clerk, Auth0, AWS Cognito). The `branch_id` scopes the JWKS URL to specific branches; if not
+     * specified, it applies to all branches. The `role_names` scopes the URL to specific roles; if
+     * not specified, default roles…
      *
      * @param projectId The Neon project ID
      * @param jwksUrl URL of the provider's JWKS endpoint used to verify JWTs.
-     * @param providerName The name of the authentication provider (e.g., Clerk,
-     *   Stytch, Auth0)
+     * @param providerName The name of the authentication provider (e.g., Clerk, Stytch, Auth0)
      * @param branchId The Neon branch ID. Returned as `id` from `GET
      *   /projects/{project_id}/branches`.
-     * @param jwtAudience Expected `aud` claim in incoming JWTs. When set, tokens
-     *   with a different audience are rejected; tokens with no audience are still
-     *   accepted. Omit to skip audience validation.
-     * @param roleNames Deprecated. The roles the JWKS should be mapped to. By
-     *   default, the JWKS is mapped to the `authenticator`, `authenticated`, and
-     *   `anonymous` roles.
-     * @param skipRoleCreation Deprecated. Only used with Neon RLS. If true, role
-     *   creation is skipped.
+     * @param jwtAudience Expected `aud` claim in incoming JWTs. When set, tokens with a different
+     *   audience are rejected; tokens with no audience are still accepted. Omit to skip audience
+     *   validation.
+     * @param roleNames Deprecated. The roles the JWKS should be mapped to. By default, the JWKS is
+     *   mapped to the `authenticator`, `authenticated`, and `anonymous` roles.
+     * @param skipRoleCreation Deprecated. Only used with Neon RLS. If true, role creation is
+     *   skipped.
      */
-    fun addProjectJwks(clientConfig: ClientConfig, request: ProjectMethods.AddProjectJwksRequest, options: RequestOptions? = null): JWKSCreationOperation {
+    fun addProjectJwks(
+        clientConfig: ClientConfig,
+        request: ProjectMethods.AddProjectJwksRequest,
+        options: RequestOptions? = null,
+    ): JWKSCreationOperation {
         validateAddProjectJwksRequest(request)
 
-        return SdkClient.request<JWKSCreationOperation>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(request.projectId)}/jwks", config = clientConfig, body = SdkClient.bodyMap("jwks_url" to (request.jwksUrl), "provider_name" to (request.providerName), "branch_id" to (SdkClient.omitIfNull(request.branchId)), "jwt_audience" to
-    (SdkClient.omitIfNull(request.jwtAudience)), "role_names" to (SdkClient.omitIfNull(request.roleNames)), "skip_role_creation" to
-    (SdkClient.omitIfNull(request.skipRoleCreation))), operationId = "addProjectJwks", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<JWKSCreationOperation>(
+                SdkClient.RequestSpec(
+                    "POST",
+                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/jwks",
+                    config = clientConfig,
+                    body =
+                        SdkClient.bodyMap(
+                            "jwks_url" to (request.jwksUrl),
+                            "provider_name" to (request.providerName),
+                            "branch_id" to (SdkClient.omitIfNull(request.branchId)),
+                            "jwt_audience" to (SdkClient.omitIfNull(request.jwtAudience)),
+                            "role_names" to (SdkClient.omitIfNull(request.roleNames)),
+                            "skip_role_creation" to
+                                (SdkClient.omitIfNull(request.skipRoleCreation)),
+                        ),
+                    operationId = "addProjectJwks",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
-
 
     private fun validateAddProjectJwksRequest(request: ProjectMethods.AddProjectJwksRequest) {
         Validation.validatePattern("project_id", request.projectId, "^[a-z0-9-]{1,60}$")
 
         if (request.branchId != null) {
             Validation.validatePattern("branch_id", request.branchId, "^[a-z0-9-]{1,60}$")
-}
+        }
 
         if (request.roleNames != null) {
-            Validation.validateItems("role_names", request.roleNames, Validation.LengthOpts(min = 0, max = 10))
-}
+            Validation.validateItems(
+                "role_names",
+                request.roleNames,
+                Validation.LengthOpts(min = 0, max = 10),
+            )
+        }
     }
 }
 
 internal object ProjectMethodsDeleteProjectJWKSOperation {
     /**
-     * Removes the specified JWKS URL from the project. JWTs signed by keys from the removed URL can no longer authenticate to the project's endpoints.
+     * Removes the specified JWKS URL from the project. JWTs signed by keys from the removed URL can
+     * no longer authenticate to the project's endpoints.
      *
      * @param projectId The Neon project ID
      * @param jwksId The JWKS ID
      */
-    fun deleteProjectJwks(clientConfig: ClientConfig, projectId: String, jwksId: String, options: RequestOptions? = null): JWKS {
+    fun deleteProjectJwks(
+        clientConfig: ClientConfig,
+        projectId: String,
+        jwksId: String,
+        options: RequestOptions? = null,
+    ): JWKS {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<JWKS>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/jwks/${SdkClient.encodePathSegment(jwksId)}", config = clientConfig, operationId = "deleteProjectJwks", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<JWKS>(
+                SdkClient.RequestSpec(
+                    "DELETE",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/jwks/${SdkClient.encodePathSegment(jwksId)}",
+                    config = clientConfig,
+                    operationId = "deleteProjectJwks",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsGetConnectionURIOperation {
     /**
-     * Retrieves a connection URI for the specified database. The URI uses the standard PostgreSQL connection string format. Set `pooled=true` to include the `-pooler` suffix for a connection pooler URI.
+     * Retrieves a connection URI for the specified database. The URI uses the standard PostgreSQL
+     * connection string format. Set `pooled=true` to include the `-pooler` suffix for a connection
+     * pooler URI.
      *
      * @param projectId The Neon project ID
      * @param databaseName The database name
      * @param roleName The role name
-     * @param branchId The branch ID. Defaults to your project's default `branch_id`
-     *   if not specified.
-     * @param endpointId The endpoint ID. Defaults to the read-write `endpoint_id`
-     *   associated with the `branch_id` if not specified.
-     * @param pooled Adds the `-pooler` option to the connection URI when set to
-     *   `true`, creating a pooled connection URI.
+     * @param branchId The branch ID. Defaults to your project's default `branch_id` if not
+     *   specified.
+     * @param endpointId The endpoint ID. Defaults to the read-write `endpoint_id` associated with
+     *   the `branch_id` if not specified.
+     * @param pooled Adds the `-pooler` option to the connection URI when set to `true`, creating a
+     *   pooled connection URI.
      */
-    fun getConnectionUri(clientConfig: ClientConfig, request: ProjectMethods.GetConnectionUriRequest, options: RequestOptions? = null): ConnectionURIResponse {
+    fun getConnectionUri(
+        clientConfig: ClientConfig,
+        request: ProjectMethods.GetConnectionUriRequest,
+        options: RequestOptions? = null,
+    ): ConnectionURIResponse {
         validateGetConnectionUriRequest(request)
 
-        return SdkClient.request<ConnectionURIResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(request.projectId)}/connection_uri", config = clientConfig, query = mapOf("database_name" to
-    SdkClient.queryValue(request.databaseName, "form", true), "role_name" to
-    SdkClient.queryValue(request.roleName, "form", true), "branch_id" to
-    SdkClient.queryValue(request.branchId, "form", true), "endpoint_id" to
-    SdkClient.queryValue(request.endpointId, "form", true), "pooled" to
-    SdkClient.queryValue(request.pooled, "form", true)), operationId = "getConnectionUri", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<ConnectionURIResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/connection_uri",
+                    config = clientConfig,
+                    query =
+                        mapOf(
+                            "database_name" to
+                                SdkClient.queryValue(request.databaseName, "form", true),
+                            "role_name" to SdkClient.queryValue(request.roleName, "form", true),
+                            "branch_id" to SdkClient.queryValue(request.branchId, "form", true),
+                            "endpoint_id" to SdkClient.queryValue(request.endpointId, "form", true),
+                            "pooled" to SdkClient.queryValue(request.pooled, "form", true),
+                        ),
+                    operationId = "getConnectionUri",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
-
 
     private fun validateGetConnectionUriRequest(request: ProjectMethods.GetConnectionUriRequest) {
         Validation.validatePattern("project_id", request.projectId, "^[a-z0-9-]{1,60}$")
 
         if (request.branchId != null) {
             Validation.validatePattern("branch_id", request.branchId, "^[a-z0-9-]{1,60}$")
-}
+        }
 
         if (request.endpointId != null) {
             Validation.validatePattern("endpoint_id", request.endpointId, "^[a-z0-9-]{1,60}$")
-}
+        }
     }
 }
 
@@ -465,26 +917,61 @@ internal object ProjectMethodsListProjectVPCEndpointsOperation {
      *
      * @param projectId The Neon project ID
      */
-    fun listProjectVpcEndpoints(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): VPCEndpointsResponse {
+    fun listProjectVpcEndpoints(
+        clientConfig: ClientConfig,
+        projectId: String,
+        options: RequestOptions? = null,
+    ): VPCEndpointsResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<VPCEndpointsResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/vpc_endpoints", config = clientConfig, operationId = "listProjectVpcEndpoints", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<VPCEndpointsResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/vpc_endpoints",
+                    config = clientConfig,
+                    operationId = "listProjectVpcEndpoints",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors = mapOf("default" to GeneralError::class.java),
+                )
+            )
+            .data
     }
 }
 
 internal object ProjectMethodsAssignProjectVPCEndpointOperation {
     /**
-     * Sets or updates a VPC endpoint restriction for a Neon project. When a VPC endpoint restriction is set, the project only accepts connections from the specified VPC. A VPC endpoint can be set as a restriction only after it is assigned to the parent organization of the Neon project.
+     * Sets or updates a VPC endpoint restriction for a Neon project. When a VPC endpoint
+     * restriction is set, the project only accepts connections from the specified VPC. A VPC
+     * endpoint can be set as a restriction only after it is assigned to the parent organization of
+     * the Neon project.
      *
      * @param projectId The Neon project ID
      * @param vpcEndpointId The VPC endpoint ID
-     * @param label Human-readable name for the VPC endpoint assignment, used to
-     *   identify it within the organization.
+     * @param label Human-readable name for the VPC endpoint assignment, used to identify it within
+     *   the organization.
      */
-    fun assignProjectVpcEndpoint(clientConfig: ClientConfig, projectId: String, vpcEndpointId: String, label: String, options: RequestOptions? = null): Unit {
+    fun assignProjectVpcEndpoint(
+        clientConfig: ClientConfig,
+        projectId: String,
+        vpcEndpointId: String,
+        label: String,
+        options: RequestOptions? = null,
+    ): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        SdkClient.request<Unit>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/vpc_endpoints/${SdkClient.encodePathSegment(vpcEndpointId)}", config = clientConfig, body = SdkClient.bodyMap("label" to (label)), operationId = "assignProjectVpcEndpoint", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "POST",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/vpc_endpoints/${SdkClient.encodePathSegment(vpcEndpointId)}",
+                config = clientConfig,
+                body = SdkClient.bodyMap("label" to (label)),
+                operationId = "assignProjectVpcEndpoint",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 }
 
@@ -495,9 +982,24 @@ internal object ProjectMethodsDeleteProjectVPCEndpointOperation {
      * @param projectId The Neon project ID
      * @param vpcEndpointId The VPC endpoint ID
      */
-    fun deleteProjectVpcEndpoint(clientConfig: ClientConfig, projectId: String, vpcEndpointId: String, options: RequestOptions? = null): Unit {
+    fun deleteProjectVpcEndpoint(
+        clientConfig: ClientConfig,
+        projectId: String,
+        vpcEndpointId: String,
+        options: RequestOptions? = null,
+    ): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/vpc_endpoints/${SdkClient.encodePathSegment(vpcEndpointId)}", config = clientConfig, operationId = "deleteProjectVpcEndpoint", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "DELETE",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/vpc_endpoints/${SdkClient.encodePathSegment(vpcEndpointId)}",
+                config = clientConfig,
+                operationId = "deleteProjectVpcEndpoint",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 }

@@ -3,12 +3,8 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `RolePasswordResponse` API schema.
- */
+/** Typed representation of the `RolePasswordResponse` API schema. */
 data class RolePasswordResponse(
-    /**
-     * The role password
-     */
+    /** The role password */
     val password: String
 )
