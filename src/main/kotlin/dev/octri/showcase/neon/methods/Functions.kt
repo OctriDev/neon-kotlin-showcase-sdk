@@ -256,7 +256,7 @@ object Functions {
      * @param branchId The Neon branch ID
      * @param triggerId The opaque, project-wide trigger ID
      */
-    fun updateFunctionsTrigger(clientConfig: ClientConfig, projectId: String, branchId: String, triggerId: TriggerID, body: TriggerUpdateRequest, options: RequestOptions? = null): TriggerResponse {
+    fun updateFunctionTrigger(clientConfig: ClientConfig, projectId: String, branchId: String, triggerId: TriggerID, body: TriggerUpdateRequest, options: RequestOptions? = null): TriggerResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
@@ -264,7 +264,7 @@ object Functions {
         Validation.validateLength("trigger_id", triggerId, Validation.LengthOpts(min = 1, max = 128))
         Validation.validatePattern("trigger_id", triggerId, "^[A-Za-z0-9][A-Za-z0-9_.\\-]{0,127}$")
 
-        return SdkClient.request<TriggerResponse>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers/${SdkClient.encodePathSegment(triggerId)}", config = clientConfig, body = body, operationId = "updateFunctionsTrigger", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
+        return SdkClient.request<TriggerResponse>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers/${SdkClient.encodePathSegment(triggerId)}", config = clientConfig, body = body, operationId = "updateFunctionTrigger", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
 

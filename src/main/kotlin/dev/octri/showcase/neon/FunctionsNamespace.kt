@@ -71,7 +71,7 @@ class FunctionsNamespace(private val clientConfig: ClientConfig) {
      * Applies a partial update. The required `type` discriminator must identify the existing trigger kind. The supported types are `schedule` and `storage_object_created`. Editing an inherited trigger creates a child-local shadow with the same `trigger_id`; it remains disabled unless this request explicitly enables it. For a schedule trigger, updating the schedule or enabled state increments `version` and recomputes `next_run_at`. Disabling stops future scheduling but does not…
      */
     fun updateTrigger(projectId: String, branchId: String, triggerId: TriggerID, body: TriggerUpdateRequest, options: RequestOptions? = null): TriggerResponse {
-        return dev.octri.showcase.neon.methods.Functions.updateFunctionsTrigger(clientConfig, projectId, branchId, triggerId, body, options)
+        return dev.octri.showcase.neon.methods.Functions.updateFunctionTrigger(clientConfig, projectId, branchId, triggerId, body, options)
     }
 
     /**
