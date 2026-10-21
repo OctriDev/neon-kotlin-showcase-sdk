@@ -3,26 +3,16 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Properties of the role to create.
- */
+/** Properties of the role to create. */
 data class RoleCreateRequestRole(
-    /**
-     * The role name. Cannot exceed 63 bytes in length.
-     */
+    /** The role name. Cannot exceed 63 bytes in length. */
     val name: String,
-    /**
-     * Whether to create a role that cannot login.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("no_login") val noLogin: Boolean? = null
+    /** Whether to create a role that cannot login. */
+    @com.fasterxml.jackson.annotation.JsonProperty("no_login") val noLogin: Boolean? = null,
 )
 
-/**
- * Typed representation of the `RoleCreateRequest` API schema.
- */
+/** Typed representation of the `RoleCreateRequest` API schema. */
 data class RoleCreateRequest(
-    /**
-     * Properties of the role to create.
-     */
+    /** Properties of the role to create. */
     val role: RoleCreateRequestRole
 )

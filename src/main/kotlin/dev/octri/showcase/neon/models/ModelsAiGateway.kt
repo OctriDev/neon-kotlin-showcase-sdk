@@ -3,34 +3,30 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `BranchAiGateway` API schema.
- */
+/** Typed representation of the `BranchAiGateway` API schema. */
 data class BranchAiGateway(
     /**
-     * Always `true` in 200 responses. Present for forward compatibility, mirroring BranchStorage.enabled.
+     * Always `true` in 200 responses. Present for forward compatibility, mirroring
+     * BranchStorage.enabled.
      */
     val enabled: Boolean,
     /**
-     * The AI-gateway endpoint root for this branch — an OpenAI-compatible base URL. No dialect path is included; clients append the route (e.g. `/ai-gateway/openai/v1/responses`) themselves.
+     * The AI-gateway endpoint root for this branch — an OpenAI-compatible base URL. No dialect path
+     * is included; clients append the route (e.g. `/ai-gateway/openai/v1/responses`) themselves.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("base_url") val baseUrl: String
+    @com.fasterxml.jackson.annotation.JsonProperty("base_url") val baseUrl: String,
 )
 
-/**
- * Typed representation of the `BranchAiGatewayNotEnabled` API schema.
- */
+/** Typed representation of the `BranchAiGatewayNotEnabled` API schema. */
 data class BranchAiGatewayNotEnabled(
-    /**
-     * Required `string` value serialized in the `code` wire field.
-     */
+    /** Required `string` value serialized in the `code` wire field. */
     val code: String,
-    /**
-     * Required `string` value serialized in the `message` wire field.
-     */
+    /** Required `string` value serialized in the `message` wire field. */
     val message: String,
     /**
-     * Machine-readable reason why the AI gateway is unavailable: - `ai_gateway_unavailable`: the project's region/cell has no AI gateway configured. - `branch_not_found`: the project or branch does not exist, or the caller does not have access to it.
+     * Machine-readable reason why the AI gateway is unavailable: - `ai_gateway_unavailable`: the
+     * project's region/cell has no AI gateway configured. - `branch_not_found`: the project or
+     * branch does not exist, or the caller does not have access to it.
      */
-    val reason: BranchAiGatewayNotEnabledReasonEnum
+    val reason: BranchAiGatewayNotEnabledReasonEnum,
 ) : dev.octri.showcase.neon.ErrorBody

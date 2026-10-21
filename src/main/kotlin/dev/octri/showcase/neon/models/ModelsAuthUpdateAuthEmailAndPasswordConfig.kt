@@ -3,36 +3,35 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `NeonAuthEmailAndPasswordConfigUpdate` API schema.
- */
+/** Typed representation of the `NeonAuthEmailAndPasswordConfigUpdate` API schema. */
 data class NeonAuthEmailAndPasswordConfigUpdate(
     /**
-     * Controls whether email and password authentication is enabled for this project. When omitted from an update request, the current value is unchanged.
+     * Controls whether email and password authentication is enabled for this project. When omitted
+     * from an update request, the current value is unchanged.
      */
     val enabled: Boolean? = null,
     /**
-     * Email verification method. `link`: sends a verification link. `otp`: sends a one-time password.
+     * Email verification method. `link`: sends a verification link. `otp`: sends a one-time
+     * password.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("email_verification_method") val emailVerificationMethod: NeonAuthEmailVerificationMethod? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("email_verification_method")
+    val emailVerificationMethod: NeonAuthEmailVerificationMethod? = null,
     /**
-     * When true, users must verify their email address before they can sign in. Omitting this field from an update request leaves the current value unchanged.
+     * When true, users must verify their email address before they can sign in. Omitting this field
+     * from an update request leaves the current value unchanged.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("require_email_verification") val requireEmailVerification: Boolean? = null,
-    /**
-     * Whether users are automatically signed in after verifying their email
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("auto_sign_in_after_verification") val autoSignInAfterVerification: Boolean? = null,
-    /**
-     * Whether to send a verification email when users sign up.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("send_verification_email_on_sign_up") val sendVerificationEmailOnSignUp: Boolean? = null,
-    /**
-     * Whether to send a verification email when a user with an unverified email signs in.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("send_verification_email_on_sign_in") val sendVerificationEmailOnSignIn: Boolean? = null,
-    /**
-     * Whether to disable new user sign ups. When omitted, the current setting is not changed.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("disable_sign_up") val disableSignUp: Boolean? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("require_email_verification")
+    val requireEmailVerification: Boolean? = null,
+    /** Whether users are automatically signed in after verifying their email */
+    @com.fasterxml.jackson.annotation.JsonProperty("auto_sign_in_after_verification")
+    val autoSignInAfterVerification: Boolean? = null,
+    /** Whether to send a verification email when users sign up. */
+    @com.fasterxml.jackson.annotation.JsonProperty("send_verification_email_on_sign_up")
+    val sendVerificationEmailOnSignUp: Boolean? = null,
+    /** Whether to send a verification email when a user with an unverified email signs in. */
+    @com.fasterxml.jackson.annotation.JsonProperty("send_verification_email_on_sign_in")
+    val sendVerificationEmailOnSignIn: Boolean? = null,
+    /** Whether to disable new user sign ups. When omitted, the current setting is not changed. */
+    @com.fasterxml.jackson.annotation.JsonProperty("disable_sign_up")
+    val disableSignUp: Boolean? = null,
 )

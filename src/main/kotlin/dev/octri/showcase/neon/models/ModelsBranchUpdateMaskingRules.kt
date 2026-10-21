@@ -3,12 +3,12 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `MaskingRulesUpdateRequest` API schema.
- */
+/** Typed representation of the `MaskingRulesUpdateRequest` API schema. */
 data class MaskingRulesUpdateRequest(
     /**
-     * List of masking rules to apply to the branch. This will replace all existing masking rules for the branch.
+     * List of masking rules to apply to the branch. This will replace all existing masking rules
+     * for the branch.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("masking_rules") val maskingRules: List<MaskingRule>
+    @com.fasterxml.jackson.annotation.JsonProperty("masking_rules")
+    val maskingRules: List<MaskingRule>
 )

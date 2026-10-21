@@ -6,12 +6,12 @@ package dev.octri.showcase.neon.methods
 import dev.octri.showcase.neon.ClientConfig
 import dev.octri.showcase.neon.GeneralError
 import dev.octri.showcase.neon.ProjectBranchLogDuration
-import dev.octri.showcase.neon.ProjectBranchLogFieldsResponse
 import dev.octri.showcase.neon.ProjectBranchLogFieldValuesResponse
+import dev.octri.showcase.neon.ProjectBranchLogFieldsResponse
 import dev.octri.showcase.neon.ProjectBranchLogSeverity
+import dev.octri.showcase.neon.ProjectBranchLogSource
 import dev.octri.showcase.neon.ProjectBranchLogsInvalidQuery
 import dev.octri.showcase.neon.ProjectBranchLogsNotAvailable
-import dev.octri.showcase.neon.ProjectBranchLogSource
 import dev.octri.showcase.neon.ProjectBranchLogsQueryRequestSortOrderEnum
 import dev.octri.showcase.neon.ProjectBranchLogsQueryResponse
 import dev.octri.showcase.neon.RequestOptions
@@ -20,7 +20,6 @@ import dev.octri.showcase.neon.Validation
 import java.time.OffsetDateTime
 
 object Logs {
-
 
     /** Parameters for [queryLogs]. */
     data class QueryLogsRequest(
@@ -39,61 +38,79 @@ object Logs {
         val severityText: String? = null,
         val bodyContains: String? = null,
         val traceId: String? = null,
-        val logql: String? = null
+        val logql: String? = null,
     )
 
     /**
-     * Returns logs emitted by services running on the specified branch, ordered by timestamp according to `sort_order`. All supplied filters are combined with `AND`: a record is returned only when it matches every filter. `minimum_severity` and `severity_text` are independent filters, so setting both requires a record to clear the severity floor *and* match the exact severity text. Supply `logql` instead of the structured filters to run a raw LogQL expression. Combining it with…
+     * Returns logs emitted by services running on the specified branch, ordered by timestamp
+     * according to `sort_order`. All supplied filters are combined with `AND`: a record is returned
+     * only when it matches every filter. `minimum_severity` and `severity_text` are independent
+     * filters, so setting both requires a record to clear the severity floor *and* match the exact
+     * severity text. Supply `logql` instead of the structured filters to run a raw LogQL
+     * expression. Combining it with…
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
-     * @param since Length of the query window, ending at `end_time` or at the
-     *   current time when `end_time` is omitted. Mutually exclusive with `start_time`.
-     *   Prefer this over computing absolute bounds when the caller only means "the
-     *   last hour".
-     * @param startTime Inclusive beginning of the query window. Mutually exclusive
-     *   with `since`. Defaults to one hour before `end_time`, or one hour before the
-     *   current time when both bounds are omitted.
-     * @param endTime Exclusive end of the query window. Defaults to the current
-     *   time.
+     * @param since Length of the query window, ending at `end_time` or at the current time when
+     *   `end_time` is omitted. Mutually exclusive with `start_time`. Prefer this over computing
+     *   absolute bounds when the caller only means "the last hour".
+     * @param startTime Inclusive beginning of the query window. Mutually exclusive with `since`.
+     *   Defaults to one hour before `end_time`, or one hour before the current time when both
+     *   bounds are omitted.
+     * @param endTime Exclusive end of the query window. Defaults to the current time.
      * @param limit Maximum number of log records to return per page.
-     * @param cursor Opaque pagination cursor returned as `next_cursor` by a previous
-     *   call. Resume the query after the last record of the previous page, repeating
-     *   the time range and every filter unchanged.
-     * @param sortOrder Order matching records by timestamp. `desc`, the default,
-     *   returns the newest records first.
+     * @param cursor Opaque pagination cursor returned as `next_cursor` by a previous call. Resume
+     *   the query after the last record of the previous page, repeating the time range and every
+     *   filter unchanged.
+     * @param sortOrder Order matching records by timestamp. `desc`, the default, returns the newest
+     *   records first.
      * @param source The Neon service that emitted the log record.
-     * @param serviceName Match the OpenTelemetry `service.name` resource attribute
-     *   exactly.
+     * @param serviceName Match the OpenTelemetry `service.name` resource attribute exactly.
      * @param scopeName Match the OpenTelemetry instrumentation scope name exactly.
-     * @param minimumSeverity An OpenTelemetry severity level. A minimum severity
-     *   includes every higher level in this order: `trace`, `debug`, `info`, `warn`,
-     *   `error`, `fatal`.
+     * @param minimumSeverity An OpenTelemetry severity level. A minimum severity includes every
+     *   higher level in this order: `trace`, `debug`, `info`, `warn`, `error`, `fatal`.
      * @param severityText Match the OpenTelemetry severity text exactly.
-     * @param bodyContains Match records whose rendered `message` contains this
-     *   case-sensitive substring. Records with a structured body are matched against
-     *   their JSON rendering, so the substring meets JSON syntax rather than prose: a
-     *   bare key name such as `operation` matches every record carrying that key, and
-     *   `http_status: 200` matches none, because the rendering contains
-     *   `"http_status":200` with no space.
-     * @param traceId Match records associated with this OpenTelemetry trace ID. W3C
-     *   Trace Context defines a trace ID as 32 lowercase hex digits, and that is what
-     *   is stored, so an uppercase value is rejected rather than silently matching
-     *   nothing.
-     * @param logql Escape hatch for selections the structured filters cannot
-     *   express: a raw LogQL expression, evaluated against this branch's log stream.
-     *   Only stream selectors and line filters are accepted — no aggregations and no
-     *   parser stages. Supplying this alongside any structured filter is rejected with
-     *   `conflicting_filters` rather than silently ignoring one of them. `limit`,
-     *   `sort_order`, and the time window still apply. This field passes the
+     * @param bodyContains Match records whose rendered `message` contains this case-sensitive
+     *   substring. Records with a structured body are matched against their JSON rendering, so the
+     *   substring meets JSON syntax rather than prose: a bare key name such as `operation` matches
+     *   every record carrying that key, and `http_status: 200` matches none, because the rendering
+     *   contains `"http_status":200` with no space.
+     * @param traceId Match records associated with this OpenTelemetry trace ID. W3C Trace Context
+     *   defines a trace ID as 32 lowercase hex digits, and that is what is stored, so an uppercase
+     *   value is rejected rather than silently matching nothing.
+     * @param logql Escape hatch for selections the structured filters cannot express: a raw LogQL
+     *   expression, evaluated against this branch's log stream. Only stream selectors and line
+     *   filters are accepted — no aggregations and no parser stages. Supplying this alongside any
+     *   structured filter is rejected with `conflicting_filters` rather than silently ignoring one
+     *   of them. `limit`, `sort_order`, and the time window still apply. This field passes the
      *   underlying query language through to the…
      */
-    fun queryLogs(clientConfig: ClientConfig, request: QueryLogsRequest, options: RequestOptions? = null): ProjectBranchLogsQueryResponse {
+    fun queryLogs(
+        clientConfig: ClientConfig,
+        request: QueryLogsRequest,
+        options: RequestOptions? = null,
+    ): ProjectBranchLogsQueryResponse {
         validateQueryLogsRequest(request)
 
-        return SdkClient.request<ProjectBranchLogsQueryResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/logs/query", config = clientConfig, body = buildQueryLogsBody(request), operationId = "queryLogs", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("400" to ProjectBranchLogsInvalidQuery::class.java, "404" to ProjectBranchLogsNotAvailable::class.java, "default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectBranchLogsQueryResponse>(
+                SdkClient.RequestSpec(
+                    "POST",
+                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/logs/query",
+                    config = clientConfig,
+                    body = buildQueryLogsBody(request),
+                    operationId = "queryLogs",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors =
+                        mapOf(
+                            "400" to ProjectBranchLogsInvalidQuery::class.java,
+                            "404" to ProjectBranchLogsNotAvailable::class.java,
+                            "default" to GeneralError::class.java,
+                        ),
+                )
+            )
+            .data
     }
-
 
     private fun validateQueryLogsRequest(request: QueryLogsRequest) {
         validateQueryLogsRequestPart1(request)
@@ -108,52 +125,69 @@ object Logs {
 
         if (request.startTime != null) {
             Validation.validateDateTime("start_time", request.startTime)
-}
+        }
 
         if (request.endTime != null) {
             Validation.validateDateTime("end_time", request.endTime)
-}
+        }
 
         if (request.limit != null) {
-            Validation.validateRange("limit", request.limit, Validation.RangeOpts(min = 1.0, max = 1000.0))
-}
+            Validation.validateRange(
+                "limit",
+                request.limit,
+                Validation.RangeOpts(min = 1.0, max = 1000.0),
+            )
+        }
     }
 
     private fun validateQueryLogsRequestPart2(request: QueryLogsRequest) {
         if (request.serviceName != null) {
-            Validation.validateLength("service_name", request.serviceName, Validation.LengthOpts(min = 1))
-}
+            Validation.validateLength(
+                "service_name",
+                request.serviceName,
+                Validation.LengthOpts(min = 1),
+            )
+        }
 
         if (request.scopeName != null) {
-            Validation.validateLength("scope_name", request.scopeName, Validation.LengthOpts(min = 1))
-}
+            Validation.validateLength(
+                "scope_name",
+                request.scopeName,
+                Validation.LengthOpts(min = 1),
+            )
+        }
 
         if (request.severityText != null) {
-            Validation.validateLength("severity_text", request.severityText, Validation.LengthOpts(min = 1))
-}
+            Validation.validateLength(
+                "severity_text",
+                request.severityText,
+                Validation.LengthOpts(min = 1),
+            )
+        }
 
         if (request.bodyContains != null) {
-            Validation.validateLength("body_contains", request.bodyContains, Validation.LengthOpts(min = 1))
-}
+            Validation.validateLength(
+                "body_contains",
+                request.bodyContains,
+                Validation.LengthOpts(min = 1),
+            )
+        }
 
         if (request.traceId != null) {
             Validation.validatePattern("trace_id", request.traceId, "^[0-9a-f]{32}$")
-}
+        }
     }
 
     private fun validateQueryLogsRequestPart3(request: QueryLogsRequest) {
         if (request.logql != null) {
             Validation.validateLength("logql", request.logql, Validation.LengthOpts(min = 1))
-}
+        }
     }
 
-
-
-    private fun buildQueryLogsBody(request: QueryLogsRequest): Map<String, Any?> =
-        buildMap {
-            putAll(buildQueryLogsBodyPart1(request))
-            putAll(buildQueryLogsBodyPart2(request))
-        }
+    private fun buildQueryLogsBody(request: QueryLogsRequest): Map<String, Any?> = buildMap {
+        putAll(buildQueryLogsBodyPart1(request))
+        putAll(buildQueryLogsBodyPart2(request))
+    }
 
     private fun buildQueryLogsBodyPart1(request: QueryLogsRequest): Map<String, Any?> =
         SdkClient.bodyMap(
@@ -164,15 +198,11 @@ object Logs {
             "cursor" to (SdkClient.omitIfNull(request.cursor)),
             "sort_order" to (SdkClient.omitIfNull(request.sortOrder)),
             "source" to (SdkClient.omitIfNull(request.source)),
-            "service_name" to
-    (SdkClient.omitIfNull(request.serviceName)),
+            "service_name" to (SdkClient.omitIfNull(request.serviceName)),
             "scope_name" to (SdkClient.omitIfNull(request.scopeName)),
-            "minimum_severity" to
-    (SdkClient.omitIfNull(request.minimumSeverity)),
-            "severity_text" to
-    (SdkClient.omitIfNull(request.severityText)),
-            "body_contains" to
-    (SdkClient.omitIfNull(request.bodyContains)),
+            "minimum_severity" to (SdkClient.omitIfNull(request.minimumSeverity)),
+            "severity_text" to (SdkClient.omitIfNull(request.severityText)),
+            "body_contains" to (SdkClient.omitIfNull(request.bodyContains)),
         )
 
     private fun buildQueryLogsBodyPart2(request: QueryLogsRequest): Map<String, Any?> =
@@ -181,28 +211,43 @@ object Logs {
             "logql" to (SdkClient.omitIfNull(request.logql)),
         )
 
-
-
-
     /**
-     * Lists the low-cardinality log fields observed on this branch whose distinct values can be discovered with the log field-values endpoint. The set is computed per branch and grows as new fields are observed, so treat it as data rather than a fixed list: discover a field here, then pass it as `field_name` to the field-values endpoint. **Note**: This endpoint is currently in Private Beta.
+     * Lists the low-cardinality log fields observed on this branch whose distinct values can be
+     * discovered with the log field-values endpoint. The set is computed per branch and grows as
+     * new fields are observed, so treat it as data rather than a fixed list: discover a field here,
+     * then pass it as `field_name` to the field-values endpoint. **Note**: This endpoint is
+     * currently in Private Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      */
-    fun listLogsFields(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): ProjectBranchLogFieldsResponse {
+    fun listLogsFields(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): ProjectBranchLogFieldsResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ProjectBranchLogFieldsResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/logs/fields", config = clientConfig, operationId = "listLogsFields", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("404" to ProjectBranchLogsNotAvailable::class.java, "default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectBranchLogFieldsResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/logs/fields",
+                    config = clientConfig,
+                    operationId = "listLogsFields",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors =
+                        mapOf(
+                            "404" to ProjectBranchLogsNotAvailable::class.java,
+                            "default" to GeneralError::class.java,
+                        ),
+                )
+            )
+            .data
     }
-
-
-
-
-
-
 
     /** Parameters for [listLogsFieldValues]. */
     data class ListLogsFieldValuesRequest(
@@ -213,37 +258,64 @@ object Logs {
         val startTime: OffsetDateTime? = null,
         val endTime: OffsetDateTime? = null,
         val source: ProjectBranchLogSource? = null,
-        val limit: Long? = null
+        val limit: Long? = null,
     )
 
     /**
-     * Lists the distinct values observed for a low-cardinality log field in the requested time range. Call the log fields endpoint first to learn which `field_name` values this branch supports; a field that branch has never emitted is rejected with `unknown_field`. Give the window either as `since` or as an explicit `start_time`; supplying both is rejected. If neither is given, the previous six hours are used. The maximum supported time range is seven days. **Note**: This endpoint…
+     * Lists the distinct values observed for a low-cardinality log field in the requested time
+     * range. Call the log fields endpoint first to learn which `field_name` values this branch
+     * supports; a field that branch has never emitted is rejected with `unknown_field`. Give the
+     * window either as `since` or as an explicit `start_time`; supplying both is rejected. If
+     * neither is given, the previous six hours are used. The maximum supported time range is seven
+     * days. **Note**: This endpoint…
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
-     * @param fieldName The log field whose distinct values should be returned. Must
-     *   be one of the names returned by the log fields endpoint for this branch.
-     * @param since Length of the lookup window, ending at `end_time` or at the
-     *   current time when `end_time` is omitted. Mutually exclusive with `start_time`.
-     *   Defaults to six hours.
-     * @param startTime Inclusive beginning of the lookup window. Mutually exclusive
-     *   with `since`.
-     * @param endTime Exclusive end of the lookup window. Defaults to the current
-     *   time.
+     * @param fieldName The log field whose distinct values should be returned. Must be one of the
+     *   names returned by the log fields endpoint for this branch.
+     * @param since Length of the lookup window, ending at `end_time` or at the current time when
+     *   `end_time` is omitted. Mutually exclusive with `start_time`. Defaults to six hours.
+     * @param startTime Inclusive beginning of the lookup window. Mutually exclusive with `since`.
+     * @param endTime Exclusive end of the lookup window. Defaults to the current time.
      * @param source Only consider records emitted by this Neon service.
-     * @param limit Maximum number of distinct values to return. The response sets
-     *   `is_truncated` when this bound, or the server's own scan cap, cut the list
-     *   short.
+     * @param limit Maximum number of distinct values to return. The response sets `is_truncated`
+     *   when this bound, or the server's own scan cap, cut the list short.
      */
-    fun listLogsFieldValues(clientConfig: ClientConfig, request: ListLogsFieldValuesRequest, options: RequestOptions? = null): ProjectBranchLogFieldValuesResponse {
+    fun listLogsFieldValues(
+        clientConfig: ClientConfig,
+        request: ListLogsFieldValuesRequest,
+        options: RequestOptions? = null,
+    ): ProjectBranchLogFieldValuesResponse {
         validateListLogsFieldValuesRequest(request)
 
-        return SdkClient.request<ProjectBranchLogFieldValuesResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/logs/fields/${SdkClient.encodePathSegment(request.fieldName)}/values", config = clientConfig, query = mapOf("since" to SdkClient.queryValue(request.since, "form", true), "start_time" to
-    SdkClient.queryValue(request.startTime, "form", true, "date-time"), "end_time" to
-    SdkClient.queryValue(request.endTime, "form", true, "date-time"), "source" to
-    SdkClient.queryValue(request.source, "form", true), "limit" to SdkClient.queryValue(request.limit, "form", true)), operationId = "listLogsFieldValues", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("400" to ProjectBranchLogsInvalidQuery::class.java, "404" to ProjectBranchLogsNotAvailable::class.java, "default" to GeneralError::class.java))).data
+        return SdkClient.request<ProjectBranchLogFieldValuesResponse>(
+                SdkClient.RequestSpec(
+                    "GET",
+                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/logs/fields/${SdkClient.encodePathSegment(request.fieldName)}/values",
+                    config = clientConfig,
+                    query =
+                        mapOf(
+                            "since" to SdkClient.queryValue(request.since, "form", true),
+                            "start_time" to
+                                SdkClient.queryValue(request.startTime, "form", true, "date-time"),
+                            "end_time" to
+                                SdkClient.queryValue(request.endTime, "form", true, "date-time"),
+                            "source" to SdkClient.queryValue(request.source, "form", true),
+                            "limit" to SdkClient.queryValue(request.limit, "form", true),
+                        ),
+                    operationId = "listLogsFieldValues",
+                    decoder = SdkClient.ResponseDecoder.JSON,
+                    options = options,
+                    errors =
+                        mapOf(
+                            "400" to ProjectBranchLogsInvalidQuery::class.java,
+                            "404" to ProjectBranchLogsNotAvailable::class.java,
+                            "default" to GeneralError::class.java,
+                        ),
+                )
+            )
+            .data
     }
-
 
     private fun validateListLogsFieldValuesRequest(request: ListLogsFieldValuesRequest) {
         validateListLogsFieldValuesRequestPart1(request)
@@ -259,26 +331,24 @@ object Logs {
 
         if (request.since != null) {
             Validation.validatePattern("since", request.since, "^[0-9]{1,6}(ms|s|m|h|d)$")
-}
+        }
 
         if (request.startTime != null) {
             Validation.validateDateTime("start_time", request.startTime)
-}
+        }
     }
 
     private fun validateListLogsFieldValuesRequestPart2(request: ListLogsFieldValuesRequest) {
         if (request.endTime != null) {
             Validation.validateDateTime("end_time", request.endTime)
-}
+        }
 
         if (request.limit != null) {
-            Validation.validateRange("limit", request.limit, Validation.RangeOpts(min = 1.0, max = 1000.0))
-}
+            Validation.validateRange(
+                "limit",
+                request.limit,
+                Validation.RangeOpts(min = 1.0, max = 1000.0),
+            )
+        }
     }
-
-
-
-
-
-
 }

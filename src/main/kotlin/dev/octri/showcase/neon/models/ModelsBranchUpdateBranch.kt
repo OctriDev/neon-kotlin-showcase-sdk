@@ -6,29 +6,35 @@ package dev.octri.showcase.neon.models
 import java.time.OffsetDateTime
 
 /**
- * Branch attributes to update. Supply only the fields you want to change, for example `name` or `protected`.
+ * Branch attributes to update. Supply only the fields you want to change, for example `name` or
+ * `protected`.
  */
 data class BranchUpdateRequestBranch(
-    /**
-     * New display name for the branch.
-     */
+    /** New display name for the branch. */
     val name: String? = null,
     /**
-     * Whether the branch is protected. Protected branches (and their computes) cannot be deleted, archived, or reset, and block deletion of the project. Can be gated by `protected_branches_only` in the IP allowlist. Paid plans only.
+     * Whether the branch is protected. Protected branches (and their computes) cannot be deleted,
+     * archived, or reset, and block deletion of the project. Can be gated by
+     * `protected_branches_only` in the IP allowlist. Paid plans only.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("protected") val `protected`: Boolean? = null,
     /**
-     * The timestamp when the branch is scheduled to expire and be automatically deleted. Must be set by the client following the RFC 3339, section 5.6 format with precision up to seconds (such as 2025-06-09T18:02:16Z). Deletion is performed by a background job and may not occur exactly at the specified time. If this field is set to null, the expiration timestamp is removed. Access to this feature is currently limited to participants in the Early Access Program.
+     * The timestamp when the branch is scheduled to expire and be automatically deleted. Must be
+     * set by the client following the RFC 3339, section 5.6 format with precision up to seconds
+     * (such as 2025-06-09T18:02:16Z). Deletion is performed by a background job and may not occur
+     * exactly at the specified time. If this field is set to null, the expiration timestamp is
+     * removed. Access to this feature is currently limited to participants in the Early Access
+     * Program.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("expires_at") val expiresAt: OffsetDateTime? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("expires_at")
+    val expiresAt: OffsetDateTime? = null,
 )
 
-/**
- * Typed representation of the `BranchUpdateRequest` API schema.
- */
+/** Typed representation of the `BranchUpdateRequest` API schema. */
 data class BranchUpdateRequest(
     /**
-     * Branch attributes to update. Supply only the fields you want to change, for example `name` or `protected`.
+     * Branch attributes to update. Supply only the fields you want to change, for example `name` or
+     * `protected`.
      */
     val branch: BranchUpdateRequestBranch
 )

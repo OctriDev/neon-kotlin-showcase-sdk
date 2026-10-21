@@ -3,16 +3,10 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `ProjectRecoverResponse` API schema.
- */
+/** Typed representation of the `ProjectRecoverResponse` API schema. */
 data class ProjectRecoverResponse(
-    /**
-     * Full details of the project, including configuration, consumption metrics, and ownership.
-     */
+    /** Full details of the project, including configuration, consumption metrics, and ownership. */
     val project: Project,
-    /**
-     * Branches in the project. Each includes `id`, `name`, `current_state`, and `created_at`.
-     */
-    val branches: List<Branch>
+    /** Branches in the project. Each includes `id`, `name`, `current_state`, and `created_at`. */
+    val branches: List<Branch>,
 )

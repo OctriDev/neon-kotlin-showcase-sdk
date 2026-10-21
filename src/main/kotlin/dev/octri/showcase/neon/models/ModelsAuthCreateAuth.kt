@@ -3,16 +3,20 @@
 
 package dev.octri.showcase.neon.models
 
-/**
- * Typed representation of the `EnableNeonAuthIntegrationRequest` API schema.
- */
+/** Typed representation of the `EnableNeonAuthIntegrationRequest` API schema. */
 data class EnableNeonAuthIntegrationRequest(
     /**
-     * Authentication provider integrated with this Neon Auth configuration. `better_auth` integrates with Better Auth (the current, recommended provider). `stack` integrates with Stack Auth (deprecated). `mock` is a simulated provider for local development and testing only.
+     * Authentication provider integrated with this Neon Auth configuration. `better_auth`
+     * integrates with Better Auth (the current, recommended provider). `stack` integrates with
+     * Stack Auth (deprecated). `mock` is a simulated provider for local development and testing
+     * only.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider") val authProvider: NeonAuthSupportedAuthProvider,
+    @com.fasterxml.jackson.annotation.JsonProperty("auth_provider")
+    val authProvider: NeonAuthSupportedAuthProvider,
     /**
-     * Name of the database to enable Neon Auth on. When omitted, the integration uses the project's default database.
+     * Name of the database to enable Neon Auth on. When omitted, the integration uses the project's
+     * default database.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("database_name") val databaseName: String? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("database_name")
+    val databaseName: String? = null,
 )

@@ -5,92 +5,94 @@ package dev.octri.showcase.neon.models
 
 import dev.octri.showcase.neon.models.branch.AnnotationValueData
 
-/**
- * Configuration for the initial branch created with the project.
- */
+/** Configuration for the initial branch created with the project. */
 data class ProjectCreateRequestProjectBranch(
-    /**
-     * The default branch name. If not specified, the default branch name, `main`, will be used.
-     */
+    /** The default branch name. If not specified, the default branch name, `main`, will be used. */
     val name: String? = null,
     /**
-     * The role name. If not specified, the default role name, `{database_name}_owner`, will be used.
+     * The role name. If not specified, the default role name, `{database_name}_owner`, will be
+     * used.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("role_name") val roleName: String? = null,
-    /**
-     * The database name. If not specified, the default database name, `neondb`, will be used.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("database_name") val databaseName: String? = null,
-    /**
-     * Arbitrary key-value metadata to attach to the branch.
-     */
-    val annotations: AnnotationValueData? = null
+    /** The database name. If not specified, the default database name, `neondb`, will be used. */
+    @com.fasterxml.jackson.annotation.JsonProperty("database_name")
+    val databaseName: String? = null,
+    /** Arbitrary key-value metadata to attach to the branch. */
+    val annotations: AnnotationValueData? = null,
 )
 
 /**
- * Configuration for the new project, including name, region, and Postgres compute and storage settings.
+ * Configuration for the new project, including name, region, and Postgres compute and storage
+ * settings.
  */
 data class ProjectCreateRequestProject(
-    /**
-     * Project-level settings applied at creation.
-     */
+    /** Project-level settings applied at creation. */
     val settings: ProjectSettingsData? = null,
     /**
      * The project name. If not specified, the name will be identical to the generated project ID
      */
     val name: String? = null,
-    /**
-     * Enable Realtime for the default branch with these options.
-     */
+    /** Enable Realtime for the default branch with these options. */
     val realtime: RealtimeOptions? = null,
-    /**
-     * Configuration for the initial branch created with the project.
-     */
+    /** Configuration for the initial branch created with the project. */
     val branch: ProjectCreateRequestProjectBranch? = null,
     /**
-     * Deprecated. Use `default_endpoint_settings.autoscaling_limit_min_cu` instead. The minimum number of Compute Units. The minimum value is `0.25`. See Compute size and Autoscaling configuration for more information.
+     * Deprecated. Use `default_endpoint_settings.autoscaling_limit_min_cu` instead. The minimum
+     * number of Compute Units. The minimum value is `0.25`. See Compute size and Autoscaling
+     * configuration for more information.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_min_cu") val autoscalingLimitMinCu: ComputeUnit? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_min_cu")
+    val autoscalingLimitMinCu: ComputeUnit? = null,
     /**
-     * Deprecated. Use `default_endpoint_settings.autoscaling_limit_max_cu` instead. The maximum number of Compute Units. See Compute size and Autoscaling configuration for more information.
+     * Deprecated. Use `default_endpoint_settings.autoscaling_limit_max_cu` instead. The maximum
+     * number of Compute Units. See Compute size and Autoscaling configuration for more information.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_max_cu") val autoscalingLimitMaxCu: ComputeUnit? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_max_cu")
+    val autoscalingLimitMaxCu: ComputeUnit? = null,
     /**
-     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size compute. Also `docker` and `serverless-platform`.
+     * Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size
+     * compute. Also `docker` and `serverless-platform`.
      */
     val provisioner: Provisioner? = null,
     /**
-     * The region identifier. Refer to our Regions documentation for supported regions. Values are specified in this format: `aws-us-east-1`
+     * The region identifier. Refer to our Regions documentation for supported regions. Values are
+     * specified in this format: `aws-us-east-1`
      */
     @com.fasterxml.jackson.annotation.JsonProperty("region_id") val regionId: String? = null,
+    /** A collection of settings for a Neon endpoint */
+    @com.fasterxml.jackson.annotation.JsonProperty("default_endpoint_settings")
+    val defaultEndpointSettings: DefaultEndpointSettings? = null,
     /**
-     * A collection of settings for a Neon endpoint
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("default_endpoint_settings") val defaultEndpointSettings: DefaultEndpointSettings? = null,
-    /**
-     * The major Postgres version number. Supported versions are `14`, `15`, `16`, `17`, and `18`. `19` is rolling out and is accepted only in regions where it is enabled; requesting it elsewhere returns an error.
+     * The major Postgres version number. Supported versions are `14`, `15`, `16`, `17`, and `18`.
+     * `19` is rolling out and is accepted only in regions where it is enabled; requesting it
+     * elsewhere returns an error.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("pg_version") val pgVersion: PgVersion? = null,
     /**
-     * Whether or not passwords are stored for roles in the Neon project. Storing passwords facilitates access to Neon features that require authorization.
+     * Whether or not passwords are stored for roles in the Neon project. Storing passwords
+     * facilitates access to Neon features that require authorization.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("store_passwords") val storePasswords: Boolean? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("store_passwords")
+    val storePasswords: Boolean? = null,
     /**
-     * History window (point-in-time restore range) for all branches, in seconds. `0` disables it. Default 1 day (Free: 6 hours). Maximum depends on plan: Free 6 hours (21600), Launch 7 days (604800), Scale 30 days (2592000).
+     * History window (point-in-time restore range) for all branches, in seconds. `0` disables it.
+     * Default 1 day (Free: 6 hours). Maximum depends on plan: Free 6 hours (21600), Launch 7 days
+     * (604800), Scale 30 days (2592000).
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("history_retention_seconds") val historyRetentionSeconds: Int? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("history_retention_seconds")
+    val historyRetentionSeconds: Int? = null,
     /**
-     * ID of the organization that will own the project. If omitted when using an organization API key, it is inferred from the key.
+     * ID of the organization that will own the project. If omitted when using an organization API
+     * key, it is inferred from the key.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("org_id") val orgId: String? = null
+    @com.fasterxml.jackson.annotation.JsonProperty("org_id") val orgId: String? = null,
 )
 
-/**
- * Typed representation of the `ProjectCreateRequest` API schema.
- */
+/** Typed representation of the `ProjectCreateRequest` API schema. */
 data class ProjectCreateRequest(
     /**
-     * Configuration for the new project, including name, region, and Postgres compute and storage settings.
+     * Configuration for the new project, including name, region, and Postgres compute and storage
+     * settings.
      */
     val project: ProjectCreateRequestProject
 )
