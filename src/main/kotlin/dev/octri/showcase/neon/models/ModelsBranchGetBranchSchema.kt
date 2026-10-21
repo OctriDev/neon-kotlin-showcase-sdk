@@ -3,66 +3,110 @@
 
 package dev.octri.showcase.neon.models
 
-/** Required object value serialized in the `columns[]` wire field. */
+/**
+ * Required object value serialized in the `columns[]` wire field.
+ */
 data class BranchSchemaJSONTablesItemColumnsItem(
-    /** Name of the column. */
+    /**
+     * Name of the column.
+     */
     val name: String,
-    /** Postgres data type of the column, for example "integer" or "text". */
+    /**
+     * Postgres data type of the column, for example "integer" or "text".
+     */
     val type: String,
-    /** Whether the column allows NULL values */
+    /**
+     * Whether the column allows NULL values
+     */
     val nullable: Boolean? = null,
-    /** Whether the column is a generated (computed) column */
-    val generated: Boolean? = null,
+    /**
+     * Whether the column is a generated (computed) column
+     */
+    val generated: Boolean? = null
 )
 
-/** For foreign keys - the referenced table information */
+/**
+ * For foreign keys - the referenced table information
+ */
 data class BranchSchemaJSONTablesItemConstraintsItemReferencedTable(
-    /** Schema of the referenced table */
+    /**
+     * Schema of the referenced table
+     */
     val schema: String,
-    /** Name of the referenced table */
+    /**
+     * Name of the referenced table
+     */
     val table: String,
-    /** Names of the referenced columns */
-    val columns: List<String>,
+    /**
+     * Names of the referenced columns
+     */
+    val columns: List<String>
 )
 
-/** Required object value serialized in the `constraints[]` wire field. */
+/**
+ * Required object value serialized in the `constraints[]` wire field.
+ */
 data class BranchSchemaJSONTablesItemConstraintsItem(
-    /** Type of constraint. Possible values: `primary_key`, `unique`, `foreign_key` */
+    /**
+     * Type of constraint. Possible values: `primary_key`, `unique`, `foreign_key`
+     */
     val type: String,
-    /** Column names participating in this constraint */
+    /**
+     * Column names participating in this constraint
+     */
     val columns: List<String>,
-    /** Optional name of the constraint */
+    /**
+     * Optional name of the constraint
+     */
     val name: String? = null,
-    /** For foreign keys - the referenced table information */
-    @com.fasterxml.jackson.annotation.JsonProperty("referenced_table")
-    val referencedTable: BranchSchemaJSONTablesItemConstraintsItemReferencedTable? = null,
+    /**
+     * For foreign keys - the referenced table information
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("referenced_table") val referencedTable: BranchSchemaJSONTablesItemConstraintsItemReferencedTable? = null
 )
 
-/** Required object value serialized in the `tables[]` wire field. */
+/**
+ * Required object value serialized in the `tables[]` wire field.
+ */
 data class BranchSchemaJSONTablesItem(
-    /** Postgres schema (namespace) that contains the table, for example `public`. */
+    /**
+     * Postgres schema (namespace) that contains the table, for example `public`.
+     */
     val schema: String,
-    /** Name of the table within the schema. */
+    /**
+     * Name of the table within the schema.
+     */
     val name: String,
-    /** Columns belonging to this table, each describing a column's name and attributes. */
+    /**
+     * Columns belonging to this table, each describing a column's name and attributes.
+     */
     val columns: List<BranchSchemaJSONTablesItemColumnsItem>,
     /**
-     * Table constraints defined in the branch schema, such as primary key, foreign key, unique, and
-     * check constraints.
+     * Table constraints defined in the branch schema, such as primary key, foreign key, unique, and check constraints.
      */
-    val constraints: List<BranchSchemaJSONTablesItemConstraintsItem>? = null,
+    val constraints: List<BranchSchemaJSONTablesItemConstraintsItem>? = null
 )
 
-/** Typed representation of the `BranchSchemaJSON` API schema. */
+/**
+ * Typed representation of the `BranchSchemaJSON` API schema.
+ */
 data class BranchSchemaJSON(
-    /** Tables present in the branch schema. */
+    /**
+     * Tables present in the branch schema.
+     */
     val tables: List<BranchSchemaJSONTablesItem>
 )
 
-/** Typed representation of the `BranchSchemaResponse` API schema. */
+/**
+ * Typed representation of the `BranchSchemaResponse` API schema.
+ */
 data class BranchSchemaResponse(
-    /** Branch schema expressed as SQL DDL statements. */
+    /**
+     * Branch schema expressed as SQL DDL statements.
+     */
     val sql: String? = null,
-    /** Branch schema represented as a structured JSON object, parallel to the SQL DDL in `sql`. */
-    val json: BranchSchemaJSON? = null,
+    /**
+     * Branch schema represented as a structured JSON object, parallel to the SQL DDL in `sql`.
+     */
+    val json: BranchSchemaJSON? = null
 )

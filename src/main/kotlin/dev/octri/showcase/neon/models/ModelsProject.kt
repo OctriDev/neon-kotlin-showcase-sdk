@@ -5,209 +5,264 @@ package dev.octri.showcase.neon.models
 
 import java.time.OffsetDateTime
 
-/** Required object value serialized in the `reasons[]` wire field. */
+/**
+ * Required object value serialized in the `reasons[]` wire field.
+ */
 data class AcceptProjectTransferRequestSatisfiesPlanErrorReasonsItem(
-    /** Description of why the plan is not satisfied */
+    /**
+     * Description of why the plan is not satisfied
+     */
     val message: String,
-    /** A short code identifying the reason */
-    val code: String,
+    /**
+     * A short code identifying the reason
+     */
+    val code: String
 )
 
-/** Typed representation of the `AcceptProjectTransferRequestSatisfiesPlanError` API schema. */
+/**
+ * Typed representation of the `AcceptProjectTransferRequestSatisfiesPlanError` API schema.
+ */
 data class AcceptProjectTransferRequestSatisfiesPlanError(
     /**
-     * List of reasons why the target account's plan cannot satisfy the transfer requirements. Each
-     * item contains a `code` identifying the constraint and a `message` with a human-readable
-     * explanation.
+     * List of reasons why the target account's plan cannot satisfy the transfer requirements. Each item contains a `code` identifying the constraint and a `message` with a human-readable explanation.
      */
     val reasons: List<AcceptProjectTransferRequestSatisfiesPlanErrorReasonsItem>
 ) : dev.octri.showcase.neon.ErrorBody
 
-/** Add a new JWKS to a specific endpoint of a project */
+/**
+ * Add a new JWKS to a specific endpoint of a project
+ */
 data class AddProjectJWKSRequest(
-    /** URL of the provider's JWKS endpoint used to verify JWTs. */
+    /**
+     * URL of the provider's JWKS endpoint used to verify JWTs.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("jwks_url") val jwksUrl: String,
-    /** The name of the authentication provider (e.g., Clerk, Stytch, Auth0) */
+    /**
+     * The name of the authentication provider (e.g., Clerk, Stytch, Auth0)
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("provider_name") val providerName: String,
-    /** The Neon branch ID. Returned as `id` from `GET /projects/{project_id}/branches`. */
+    /**
+     * The Neon branch ID. Returned as `id` from `GET /projects/{project_id}/branches`.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("branch_id") val branchId: String? = null,
     /**
-     * Expected `aud` claim in incoming JWTs. When set, tokens with a different audience are
-     * rejected; tokens with no audience are still accepted. Omit to skip audience validation.
+     * Expected `aud` claim in incoming JWTs. When set, tokens with a different audience are rejected; tokens with no audience are still accepted. Omit to skip audience validation.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("jwt_audience") val jwtAudience: String? = null,
     /**
-     * Deprecated. The roles the JWKS should be mapped to. By default, the JWKS is mapped to the
-     * `authenticator`, `authenticated`, and `anonymous` roles.
+     * Deprecated. The roles the JWKS should be mapped to. By default, the JWKS is mapped to the `authenticator`, `authenticated`, and `anonymous` roles.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("role_names")
-    val roleNames: List<String>? = null,
-    /** Deprecated. Only used with Neon RLS. If true, role creation is skipped. */
-    @com.fasterxml.jackson.annotation.JsonProperty("skip_role_creation")
-    val skipRoleCreation: Boolean? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("role_names") val roleNames: List<String>? = null,
+    /**
+     * Deprecated. Only used with Neon RLS. If true, role creation is skipped.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("skip_role_creation") val skipRoleCreation: Boolean? = null
 )
 
 /**
- * A list of IP addresses that are allowed to connect to the compute endpoint. If the list is empty
- * or not set, all IP addresses are allowed. If protected_branches_only is true, the list will be
- * applied only to protected branches.
+ * A list of IP addresses that are allowed to connect to the compute endpoint. If the list is empty or not set, all IP addresses are allowed. If protected_branches_only is true, the list will be applied only to protected branches.
  */
 data class AllowedIps(
-    /** A list of IP addresses that are allowed to connect to the endpoint. */
+    /**
+     * A list of IP addresses that are allowed to connect to the endpoint.
+     */
     val ips: List<String>? = null,
-    /** If true, the list will be applied only to protected branches. */
-    @com.fasterxml.jackson.annotation.JsonProperty("protected_branches_only")
-    val protectedBranchesOnly: Boolean? = null,
+    /**
+     * If true, the list will be applied only to protected branches.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("protected_branches_only") val protectedBranchesOnly: Boolean? = null
 )
 
-/** Typed representation of the `CreateProjectResponse` API schema. */
+/**
+ * Typed representation of the `CreateProjectResponse` API schema.
+ */
 data class CreateProjectResponse(
-    /** Full details of the project, including configuration, consumption metrics, and ownership. */
+    /**
+     * Full details of the project, including configuration, consumption metrics, and ownership.
+     */
     val project: Project,
     /**
-     * Connection URIs for the project. Each entry contains credentials and should be treated as
-     * sensitive.
+     * Connection URIs for the project. Each entry contains credentials and should be treated as sensitive.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("connection_uris")
-    val connectionUris: List<ConnectionDetails>,
+    @com.fasterxml.jackson.annotation.JsonProperty("connection_uris") val connectionUris: List<ConnectionDetails>,
     /**
-     * Roles belonging to the branch. Each role includes fields such as `branch_id`, `name`,
-     * `protected`, `created_at`, and `updated_at`.
+     * Roles belonging to the branch. Each role includes fields such as `branch_id`, `name`, `protected`, `created_at`, and `updated_at`.
      */
     val roles: List<Role>,
-    /** Databases on the branch. Each includes `id`, `name`, `owner_name`, and `created_at`. */
+    /**
+     * Databases on the branch. Each includes `id`, `name`, `owner_name`, and `created_at`.
+     */
     val databases: List<Database>,
-    /** Required array value serialized in the `operations` wire field. */
+    /**
+     * Required array value serialized in the `operations` wire field.
+     */
     val operations: List<Operation>,
-    /** Branch returned by the request. */
+    /**
+     * Branch returned by the request.
+     */
     val branch: Branch,
-    /** Compute endpoints in the project. Each includes `id`, `branch_id`, `host`, and `type`. */
-    val endpoints: List<Endpoint>,
+    /**
+     * Compute endpoints in the project. Each includes `id`, `branch_id`, `host`, and `type`.
+     */
+    val endpoints: List<Endpoint>
 )
 
-/** A collection of settings for a Neon endpoint */
+/**
+ * A collection of settings for a Neon endpoint
+ */
 data class DefaultEndpointSettings(
-    /** A raw representation of Postgres settings */
-    @com.fasterxml.jackson.annotation.JsonProperty("pg_settings")
-    val pgSettings: PgSettingsData? = null,
     /**
-     * Deprecated. Use the endpoint-level connection pooler configuration instead. Removal scheduled
-     * for June 20, 2026.
+     * A raw representation of Postgres settings
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("pgbouncer_settings")
-    val pgbouncerSettings: PgbouncerSettingsData? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("pg_settings") val pgSettings: PgSettingsData? = null,
     /**
-     * Minimum number of Compute Units for this endpoint. At least 0.25 and no greater than
-     * `autoscaling_limit_max_cu`.
+     * Deprecated. Use the endpoint-level connection pooler configuration instead. Removal scheduled for June 20, 2026.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_min_cu")
-    val autoscalingLimitMinCu: ComputeUnit? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("pgbouncer_settings") val pgbouncerSettings: PgbouncerSettingsData? = null,
     /**
-     * Default maximum number of Compute Units for endpoints created under this account. At least
-     * 0.25.
+     * Minimum number of Compute Units for this endpoint. At least 0.25 and no greater than `autoscaling_limit_max_cu`.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_max_cu")
-    val autoscalingLimitMaxCu: ComputeUnit? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_min_cu") val autoscalingLimitMinCu: ComputeUnit? = null,
     /**
-     * Scale-to-zero idle timeout, in seconds, before the compute suspends. `0` uses the plan
-     * default; `-1` disables scale-to-zero (never suspends). Minimum is plan-dependent (Scale: 60);
-     * maximum 604800 (one week). Free cannot change it; Launch can only enable or disable; Scale
-     * can set any value.
+     * Default maximum number of Compute Units for endpoints created under this account. At least 0.25.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("suspend_timeout_seconds")
-    val suspendTimeoutSeconds: SuspendTimeoutSeconds? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("autoscaling_limit_max_cu") val autoscalingLimitMaxCu: ComputeUnit? = null,
+    /**
+     * Scale-to-zero idle timeout, in seconds, before the compute suspends. `0` uses the plan default; `-1` disables scale-to-zero (never suspends). Minimum is plan-dependent (Scale: 60); maximum 604800 (one week). Free cannot change it; Launch can only enable or disable; Scale can set any value.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("suspend_timeout_seconds") val suspendTimeoutSeconds: SuspendTimeoutSeconds? = null
 )
 
-/** Typed representation of the `GrantPermissionToProjectRequest` API schema. */
+/**
+ * Typed representation of the `GrantPermissionToProjectRequest` API schema.
+ */
 data class GrantPermissionToProjectRequest(
-    /** Email address of the user to grant project access to. */
+    /**
+     * Email address of the user to grant project access to.
+     */
     val email: String
 )
 
-/** Typed representation of the `JWKS` API schema. */
+/**
+ * Typed representation of the `JWKS` API schema.
+ */
 data class JWKS(
-    /** The JWKS configuration's ID. */
+    /**
+     * The JWKS configuration's ID.
+     */
     val id: String,
-    /** The Neon project ID. Returned as `id` from `GET /projects`. */
+    /**
+     * The Neon project ID. Returned as `id` from `GET /projects`.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("project_id") val projectId: String,
-    /** URL of the provider's JWKS endpoint used to verify JWTs. */
+    /**
+     * URL of the provider's JWKS endpoint used to verify JWTs.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("jwks_url") val jwksUrl: String,
-    /** The name of the authentication provider (e.g., Clerk, Stytch, Auth0) */
+    /**
+     * The name of the authentication provider (e.g., Clerk, Stytch, Auth0)
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("provider_name") val providerName: String,
-    /** The date and time when the JWKS was created */
+    /**
+     * The date and time when the JWKS was created
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: OffsetDateTime,
-    /** The date and time when the JWKS was last modified */
+    /**
+     * The date and time when the JWKS was last modified
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at") val updatedAt: OffsetDateTime,
-    /** The Neon branch ID. Returned as `id` from `GET /projects/{project_id}/branches`. */
+    /**
+     * The Neon branch ID. Returned as `id` from `GET /projects/{project_id}/branches`.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("branch_id") val branchId: String? = null,
-    /** Expected JWT `aud` claim value configured for this JWKS. */
+    /**
+     * Expected JWT `aud` claim value configured for this JWKS.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("jwt_audience") val jwtAudience: String? = null,
-    /** Database role names that are permitted to authenticate using this JWKS configuration. */
-    @com.fasterxml.jackson.annotation.JsonProperty("role_names")
-    val roleNames: List<String>? = null,
+    /**
+     * Database role names that are permitted to authenticate using this JWKS configuration.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("role_names") val roleNames: List<String>? = null
 )
 
-/** Typed representation of the `JWKSCreationOperation` API schema. */
+/**
+ * Typed representation of the `JWKSCreationOperation` API schema.
+ */
 data class JWKSCreationOperation(
-    /** JWKS configuration associated with the project. */
+    /**
+     * JWKS configuration associated with the project.
+     */
     val jwks: JWKS,
-    /** Required array value serialized in the `operations` wire field. */
-    val operations: List<Operation>,
+    /**
+     * Required array value serialized in the `operations` wire field.
+     */
+    val operations: List<Operation>
 )
 
-/** Typed representation of the `JWKSResponse` API schema. */
+/**
+ * Typed representation of the `JWKSResponse` API schema.
+ */
 data class JWKSResponse(
-    /** JWKS configuration associated with the project. */
+    /**
+     * JWKS configuration associated with the project.
+     */
     val jwks: JWKS
 )
 
 /**
- * A maintenance window is a time period during which Neon may perform maintenance on the project's
- * infrastructure. During this time, the project's compute endpoints may be unavailable and existing
- * connections can be interrupted.
+ * A maintenance window is a time period during which Neon may perform maintenance on the project's infrastructure. During this time, the project's compute endpoints may be unavailable and existing connections can be interrupted.
  */
 data class MaintenanceWindow(
     /**
-     * A list of weekdays when the maintenance window is active. Encoded as ints, where 1 - Monday,
-     * and 7 - Sunday.
+     * A list of weekdays when the maintenance window is active. Encoded as ints, where 1 - Monday, and 7 - Sunday.
      */
     val weekdays: List<Long>,
-    /** Start time of the maintenance window, in the format of "HH:MM". Uses UTC. */
+    /**
+     * Start time of the maintenance window, in the format of "HH:MM". Uses UTC.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("start_time") val startTime: String,
-    /** End time of the maintenance window, in the format of "HH:MM". Uses UTC. */
-    @com.fasterxml.jackson.annotation.JsonProperty("end_time") val endTime: String,
+    /**
+     * End time of the maintenance window, in the format of "HH:MM". Uses UTC.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("end_time") val endTime: String
 )
 
 typealias PgVersion = Long
 
-/** Typed representation of the `ProjectsResponse` API schema. */
+/**
+ * Typed representation of the `ProjectsResponse` API schema.
+ */
 data class ProjectsResponse(
     /**
-     * List of projects accessible to the caller. Projects that exist but could not be retrieved are
-     * identified in `unavailable_project_ids`.
+     * List of projects accessible to the caller. Projects that exist but could not be retrieved are identified in `unavailable_project_ids`.
      */
     val projects: List<ProjectListItem>,
     /**
-     * A list of project IDs indicating which projects are known to exist, but whose details could
-     * not be fetched within the requested (or implicit) time limit
+     * A list of project IDs indicating which projects are known to exist, but whose details could not be fetched within the requested (or implicit) time limit
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("unavailable_project_ids")
-    val unavailableProjectIds: List<String>? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("unavailable_project_ids") val unavailableProjectIds: List<String>? = null
 )
 
-/** Typed representation of the `SetProjectMemberRoleRequest` API schema. */
+/**
+ * Typed representation of the `SetProjectMemberRoleRequest` API schema.
+ */
 data class SetProjectMemberRoleRequest(
     /**
-     * Per-project role. `viewer` maps to `VIEWER`, `editor` maps to `EDITOR`, and `admin` maps to
-     * `ADMIN`.
+     * Per-project role. `viewer` maps to `VIEWER`, `editor` maps to `EDITOR`, and `admin` maps to `ADMIN`.
      */
     val role: ProjectRole
 )
 
-/** Typed representation of the `UpdateProjectResponse` API schema. */
+/**
+ * Typed representation of the `UpdateProjectResponse` API schema.
+ */
 data class UpdateProjectResponse(
-    /** Full details of the project, including configuration, consumption metrics, and ownership. */
+    /**
+     * Full details of the project, including configuration, consumption metrics, and ownership.
+     */
     val project: Project,
-    /** Required array value serialized in the `operations` wire field. */
-    val operations: List<Operation>,
+    /**
+     * Required array value serialized in the `operations` wire field.
+     */
+    val operations: List<Operation>
 )

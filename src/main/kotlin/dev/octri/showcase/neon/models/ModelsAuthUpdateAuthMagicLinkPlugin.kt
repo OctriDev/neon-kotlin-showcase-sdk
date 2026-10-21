@@ -3,13 +3,20 @@
 
 package dev.octri.showcase.neon.models
 
-/** Typed representation of the `NeonAuthMagicLinkConfigUpdate` API schema. */
+/**
+ * Typed representation of the `NeonAuthMagicLinkConfigUpdate` API schema.
+ */
 data class NeonAuthMagicLinkConfigUpdate(
-    /** Whether to enable the magic link plugin. */
+    /**
+     * Whether to enable the magic link plugin.
+     */
     val enabled: Boolean? = null,
-    /** Minutes until the magic link expires. */
+    /**
+     * Minutes until the magic link expires.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("expires_in") val expiresIn: Int? = null,
-    /** When true, sign-up via magic link is disabled. */
-    @com.fasterxml.jackson.annotation.JsonProperty("disable_sign_up")
-    val disableSignUp: Boolean? = null,
+    /**
+     * When true, sign-up via magic link is disabled.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("disable_sign_up") val disableSignUp: Boolean? = null
 )

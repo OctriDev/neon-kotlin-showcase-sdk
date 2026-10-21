@@ -12,38 +12,19 @@ import dev.octri.showcase.neon.Validation
 
 internal object AuthUpdateAuthConfigOperation {
     /**
-     * Updates the auth configuration for the branch. Currently supports updating the application
-     * name used in auth emails.
+     * Updates the auth configuration for the branch. Currently supports updating the application name used in auth emails.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param name The application name used in auth emails and communications.
      */
-    fun updateAuthConfig(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        name: String,
-        options: RequestOptions? = null,
-    ): NeonAuthConfigResponse {
+    fun updateAuthConfig(clientConfig: ClientConfig, projectId: String, branchId: String, name: String, options: RequestOptions? = null): NeonAuthConfigResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateLength("name", name, Validation.LengthOpts(min = 1, max = 256))
 
-        return SdkClient.request<NeonAuthConfigResponse>(
-                SdkClient.RequestSpec(
-                    "PATCH",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/config",
-                    config = clientConfig,
-                    body = SdkClient.bodyMap("name" to (name)),
-                    operationId = "updateAuthConfig",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthConfigResponse>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/config", config = clientConfig, body = SdkClient.bodyMap("name" to (name)), operationId = "updateAuthConfig", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }

@@ -12,71 +12,33 @@ import dev.octri.showcase.neon.Validation
 
 internal object AuthGetAuthAllowLocalhostOperation {
     /**
-     * Retrieves the localhost allow setting for the specified branch's Neon Auth integration. When
-     * enabled, authentication flows work from `localhost` without adding it to the redirect URI
-     * whitelist.
+     * Retrieves the localhost allow setting for the specified branch's Neon Auth integration. When enabled, authentication flows work from `localhost` without adding it to the redirect URI whitelist.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      */
-    fun getAuthAllowLocalhost(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        options: RequestOptions? = null,
-    ): NeonAuthAllowLocalhostResponse {
+    fun getAuthAllowLocalhost(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): NeonAuthAllowLocalhostResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthAllowLocalhostResponse>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/allow_localhost",
-                    config = clientConfig,
-                    operationId = "getAuthAllowLocalhost",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthAllowLocalhostResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/allow_localhost", config = clientConfig, operationId = "getAuthAllowLocalhost", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 
 internal object AuthUpdateAuthAllowLocalhostOperation {
     /**
-     * Updates the localhost allow setting for the specified branch's Neon Auth integration. When
-     * enabled, authentication flows work from `localhost` without adding it to the redirect URI
-     * whitelist.
+     * Updates the localhost allow setting for the specified branch's Neon Auth integration. When enabled, authentication flows work from `localhost` without adding it to the redirect URI whitelist.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param allowLocalhost Whether to allow localhost connections
      */
-    fun updateAuthAllowLocalhost(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        allowLocalhost: Boolean,
-        options: RequestOptions? = null,
-    ): NeonAuthAllowLocalhostResponse {
+    fun updateAuthAllowLocalhost(clientConfig: ClientConfig, projectId: String, branchId: String, allowLocalhost: Boolean, options: RequestOptions? = null): NeonAuthAllowLocalhostResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthAllowLocalhostResponse>(
-                SdkClient.RequestSpec(
-                    "PATCH",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/allow_localhost",
-                    config = clientConfig,
-                    body = SdkClient.bodyMap("allow_localhost" to (allowLocalhost)),
-                    operationId = "updateAuthAllowLocalhost",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthAllowLocalhostResponse>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/allow_localhost", config = clientConfig, body = SdkClient.bodyMap("allow_localhost" to (allowLocalhost)), operationId = "updateAuthAllowLocalhost", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }

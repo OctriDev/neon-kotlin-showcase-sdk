@@ -5,22 +5,21 @@ package dev.octri.showcase.neon.models
 
 import dev.octri.showcase.neon.models.branch.AnnotationValueData
 
-/** Typed representation of the `BranchAnonymizedCreateRequest` API schema. */
+/**
+ * Typed representation of the `BranchAnonymizedCreateRequest` API schema.
+ */
 data class BranchAnonymizedCreateRequest(
     /**
-     * A free-form map of string key-value pairs for attaching metadata to a resource (for example,
-     * a git commit reference). Maximum 50 entries.
+     * A free-form map of string key-value pairs for attaching metadata to a resource (for example, a git commit reference). Maximum 50 entries.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("annotation_value")
-    val annotationValue: AnnotationValueData? = null,
-    @com.fasterxml.jackson.annotation.JsonProperty("branch_create")
-    val branchCreate: BranchCreateRequest? = null,
-    /** List of masking rules to apply to the branch. */
-    @com.fasterxml.jackson.annotation.JsonProperty("masking_rules")
-    val maskingRules: List<MaskingRule>? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("annotation_value") val annotationValue: AnnotationValueData? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("branch_create") val branchCreate: BranchCreateRequest? = null,
+    /**
+     * List of masking rules to apply to the branch.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("masking_rules") val maskingRules: List<MaskingRule>? = null,
     /**
      * If true, automatically start anonymization after the branch is created. Defaults to false.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("start_anonymization")
-    val startAnonymization: Boolean? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("start_anonymization") val startAnonymization: Boolean? = null
 )

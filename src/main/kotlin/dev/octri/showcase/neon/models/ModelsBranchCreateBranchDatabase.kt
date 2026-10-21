@@ -3,16 +3,26 @@
 
 package dev.octri.showcase.neon.models
 
-/** Configuration for the new Postgres database. */
+/**
+ * Configuration for the new Postgres database.
+ */
 data class DatabaseCreateRequestDatabase(
-    /** Name of the database to create. */
+    /**
+     * Name of the database to create.
+     */
     val name: String,
-    /** The name of the role that owns the database */
-    @com.fasterxml.jackson.annotation.JsonProperty("owner_name") val ownerName: String,
+    /**
+     * The name of the role that owns the database
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("owner_name") val ownerName: String
 )
 
-/** Typed representation of the `DatabaseCreateRequest` API schema. */
+/**
+ * Typed representation of the `DatabaseCreateRequest` API schema.
+ */
 data class DatabaseCreateRequest(
-    /** Configuration for the new Postgres database. */
+    /**
+     * Configuration for the new Postgres database.
+     */
     val database: DatabaseCreateRequestDatabase
 )

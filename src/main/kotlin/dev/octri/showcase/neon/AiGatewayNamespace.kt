@@ -3,19 +3,13 @@
 
 package dev.octri.showcase.neon
 
+
 class AiGatewayNamespace(private val clientConfig: ClientConfig) {
     /**
-     * Returns the AI Gateway endpoint host for the specified branch, used to render code-snippet
-     * base URLs. A 200 response means the branch is registered and this region serves the AI
-     * gateway. A 404 response includes a `reason` field indicating why the gateway is unavailable.
-     * **Note**: This endpoint is currently in Beta.
+     * Returns the AI Gateway endpoint host for the specified branch, used to render code-snippet base URLs. A 200 response means the branch is registered and this region serves the AI gateway. A 404 response includes a `reason` field indicating why the gateway is unavailable. **Note**: This endpoint is currently in Beta.
      */
     fun get(projectId: String, branchId: String, options: RequestOptions? = null): BranchAiGateway {
-        return dev.octri.showcase.neon.methods.AiGateway.getAiGateway(
-            clientConfig,
-            projectId,
-            branchId,
-            options,
-        )
+        return dev.octri.showcase.neon.methods.AiGateway.getAiGateway(clientConfig, projectId, branchId, options)
     }
+
 }

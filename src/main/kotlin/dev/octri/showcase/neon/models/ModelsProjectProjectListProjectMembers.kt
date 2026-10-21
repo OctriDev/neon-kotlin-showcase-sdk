@@ -3,61 +3,62 @@
 
 package dev.octri.showcase.neon.models
 
-/** Typed representation of the `ProjectMember` API schema. */
+/**
+ * Typed representation of the `ProjectMember` API schema.
+ */
 data class ProjectMember(
-    /** The organization member ID. */
+    /**
+     * The organization member ID.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("member_id") val memberId: String,
-    /** The user ID for the organization member. */
+    /**
+     * The user ID for the organization member.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("user_id") val userId: String,
-    /** Organization-level role used by project member role management. */
+    /**
+     * Organization-level role used by project member role management.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("org_role") val orgRole: ProjectMemberOrgRole,
-    /** Email address of the user who has been granted access to the project. */
+    /**
+     * Email address of the user who has been granted access to the project.
+     */
     val email: String? = null,
-    /** The user's display name. */
+    /**
+     * The user's display name.
+     */
     val name: String? = null,
     /**
-     * Per-project role. `viewer` maps to `VIEWER`, `editor` maps to `EDITOR`, and `admin` maps to
-     * `ADMIN`.
+     * Per-project role. `viewer` maps to `VIEWER`, `editor` maps to `EDITOR`, and `admin` maps to `ADMIN`.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("project_role")
-    val projectRole: ProjectRole? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("project_role") val projectRole: ProjectRole? = null,
     /**
-     * The caller's effective permission for a project when per-project permissions are enabled.
-     * `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management.
-     * Omitted for personal projects, flag-off organizations, and non-user subjects.
+     * The caller's effective permission for a project when per-project permissions are enabled. `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management. Omitted for personal projects, flag-off organizations, and non-user subjects.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("org_default_project_permission")
-    val orgDefaultProjectPermission: ProjectPermissionLevel? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("org_default_project_permission") val orgDefaultProjectPermission: ProjectPermissionLevel? = null,
     /**
-     * The caller's effective permission for a project when per-project permissions are enabled.
-     * `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management.
-     * Omitted for personal projects, flag-off organizations, and non-user subjects.
+     * The caller's effective permission for a project when per-project permissions are enabled. `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management. Omitted for personal projects, flag-off organizations, and non-user subjects.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("explicit_project_permission")
-    val explicitProjectPermission: ProjectPermissionLevel? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("explicit_project_permission") val explicitProjectPermission: ProjectPermissionLevel? = null,
     /**
-     * The caller's effective permission for a project when per-project permissions are enabled.
-     * `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management.
-     * Omitted for personal projects, flag-off organizations, and non-user subjects.
+     * The caller's effective permission for a project when per-project permissions are enabled. `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management. Omitted for personal projects, flag-off organizations, and non-user subjects.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("effective_project_permission")
-    val effectiveProjectPermission: ProjectPermissionLevel? = null,
-    /** How a member's project access is granted. */
-    @com.fasterxml.jackson.annotation.JsonProperty("grant_source")
-    val grantSource: ProjectMemberGrantSource? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("effective_project_permission") val effectiveProjectPermission: ProjectPermissionLevel? = null,
+    /**
+     * How a member's project access is granted.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("grant_source") val grantSource: ProjectMemberGrantSource? = null
 )
 
-/** Typed representation of the `ProjectMembers` API schema. */
+/**
+ * Typed representation of the `ProjectMembers` API schema.
+ */
 data class ProjectMembers(
-    /** Required array value serialized in the `project_members` wire field. */
-    @com.fasterxml.jackson.annotation.JsonProperty("project_members")
-    val projectMembers: List<ProjectMember>,
     /**
-     * To paginate the response, issue an initial request with `limit` value. Then, add the value
-     * returned in the response `.pagination.next` attribute into the request under the `cursor`
-     * query parameter to the subsequent request to retrieve next page in pagination. The contents
-     * on cursor `next` are opaque, clients are not expected to make any assumptions on the format
-     * of the data inside the cursor.
+     * Required array value serialized in the `project_members` wire field.
      */
-    val pagination: CursorPagination? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("project_members") val projectMembers: List<ProjectMember>,
+    /**
+     * To paginate the response, issue an initial request with `limit` value. Then, add the value returned in the response `.pagination.next` attribute into the request under the `cursor` query parameter to the subsequent request to retrieve next page in pagination. The contents on cursor `next` are opaque, clients are not expected to make any assumptions on the format of the data inside the cursor.
+     */
+    val pagination: CursorPagination? = null
 )

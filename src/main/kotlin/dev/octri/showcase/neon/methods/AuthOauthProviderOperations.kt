@@ -15,82 +15,42 @@ import dev.octri.showcase.neon.Validation
 
 internal object AuthListAuthOAuthClientsOperation {
     /**
-     * Lists the OAuth clients registered for the branch's Neon Auth OAuth provider. Client secrets
-     * are never returned.
+     * Lists the OAuth clients registered for the branch's Neon Auth OAuth provider. Client secrets are never returned.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      */
-    fun listAuthOAuthClients(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        options: RequestOptions? = null,
-    ): ListNeonAuthOAuthClientsResponse {
+    fun listAuthOAuthClients(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): ListNeonAuthOAuthClientsResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ListNeonAuthOAuthClientsResponse>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/oauth-provider/clients",
-                    config = clientConfig,
-                    operationId = "listAuthOAuthClients",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<ListNeonAuthOAuthClientsResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/oauth-provider/clients", config = clientConfig, operationId = "listAuthOAuthClients", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 
 internal object AuthCreateAuthOAuthClientOperation {
     /**
-     * Registers an OAuth client with the branch's Neon Auth OAuth provider. For `confidential`
-     * clients the response includes the `client_secret`, which is shown only once. Every entry in
-     * `resources` must be configured on the OAuth provider plugin.
+     * Registers an OAuth client with the branch's Neon Auth OAuth provider. For `confidential` clients the response includes the `client_secret`, which is shown only once. Every entry in `resources` must be configured on the OAuth provider plugin.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param name Display name of the client.
-     * @param redirectUris Redirect URIs the client may use. Must be https, or http on loopback
-     *   hosts when localhost is allowed.
-     * @param type Confidential clients authenticate with a client secret. Public clients have no
-     *   secret.
-     * @param resources Identifiers of the protected resources to link the client to. Each must be
-     *   configured on the OAuth provider plugin.
+     * @param redirectUris Redirect URIs the client may use. Must be https, or http
+     *   on loopback hosts when localhost is allowed.
+     * @param type Confidential clients authenticate with a client secret. Public
+     *   clients have no secret.
+     * @param resources Identifiers of the protected resources to link the client to.
+     *   Each must be configured on the OAuth provider plugin.
      * @param skipConsent Whether to skip the consent prompt for this client.
      */
-    fun createAuthOAuthClient(
-        clientConfig: ClientConfig,
-        request: Auth.CreateAuthOAuthClientRequest,
-        options: RequestOptions? = null,
-    ): NeonAuthOAuthClientCreated {
+    fun createAuthOAuthClient(clientConfig: ClientConfig, request: Auth.CreateAuthOAuthClientRequest, options: RequestOptions? = null): NeonAuthOAuthClientCreated {
         validateCreateAuthOAuthClientRequest(request)
 
-        return SdkClient.request<NeonAuthOAuthClientCreated>(
-                SdkClient.RequestSpec(
-                    "POST",
-                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/auth/oauth-provider/clients",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "name" to (request.name),
-                            "redirect_uris" to (request.redirectUris),
-                            "type" to (request.type),
-                            "resources" to (request.resources),
-                            "skip_consent" to (SdkClient.omitIfNull(request.skipConsent)),
-                        ),
-                    operationId = "createAuthOAuthClient",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthOAuthClientCreated>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/auth/oauth-provider/clients", config = clientConfig, body = SdkClient.bodyMap("name" to (request.name), "redirect_uris" to (request.redirectUris), "type" to (request.type), "resources" to (request.resources), "skip_consent" to
+    (SdkClient.omitIfNull(request.skipConsent))), operationId = "createAuthOAuthClient", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
+
 
     private fun validateCreateAuthOAuthClientRequest(request: Auth.CreateAuthOAuthClientRequest) {
         Validation.validatePattern("project_id", request.projectId, "^[a-z0-9-]{1,60}$")
@@ -99,36 +59,21 @@ internal object AuthCreateAuthOAuthClientOperation {
 
         Validation.validateLength("name", request.name, Validation.LengthOpts(min = 1, max = 100))
 
-        Validation.validateItems(
-            "redirect_uris",
-            request.redirectUris,
-            Validation.LengthOpts(min = 1, max = 10),
-        )
+        Validation.validateItems("redirect_uris", request.redirectUris, Validation.LengthOpts(min = 1, max = 10))
 
-        Validation.validateItems(
-            "resources",
-            request.resources,
-            Validation.LengthOpts(min = 1, max = 11),
-        )
+        Validation.validateItems("resources", request.resources, Validation.LengthOpts(min = 1, max = 11))
     }
 }
 
 internal object AuthGetAuthOAuthClientOperation {
     /**
-     * Returns an OAuth client registered with the branch's Neon Auth OAuth provider. The client
-     * secret is never returned.
+     * Returns an OAuth client registered with the branch's Neon Auth OAuth provider. The client secret is never returned.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param clientId The OAuth client ID
      */
-    fun getAuthOAuthClient(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        clientId: String,
-        options: RequestOptions? = null,
-    ): NeonAuthOAuthClient {
+    fun getAuthOAuthClient(clientConfig: ClientConfig, projectId: String, branchId: String, clientId: String, options: RequestOptions? = null): NeonAuthOAuthClient {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
@@ -136,74 +81,40 @@ internal object AuthGetAuthOAuthClientOperation {
         Validation.validateLength("client_id", clientId, Validation.LengthOpts(max = 64))
         Validation.validatePattern("client_id", clientId, "^[A-Za-z0-9]+$")
 
-        return SdkClient.request<NeonAuthOAuthClient>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/oauth-provider/clients/${SdkClient.encodePathSegment(clientId)}",
-                    config = clientConfig,
-                    operationId = "getAuthOAuthClient",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthOAuthClient>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/oauth-provider/clients/${SdkClient.encodePathSegment(clientId)}", config = clientConfig, operationId = "getAuthOAuthClient", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 
 internal object AuthUpdateAuthOAuthClientOperation {
     /**
-     * Updates an OAuth client. Only the fields provided in the request body are updated. A provided
-     * `resources` list replaces the client's stored list. The client `type` cannot be changed.
+     * Updates an OAuth client. Only the fields provided in the request body are updated. A provided `resources` list replaces the client's stored list. The client `type` cannot be changed.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param clientId The OAuth client ID
      * @param name Display name of the client.
-     * @param redirectUris Redirect URIs the client may use. When provided, replaces the stored
-     *   list.
+     * @param redirectUris Redirect URIs the client may use. When provided, replaces
+     *   the stored list.
      * @param skipConsent Whether to skip the consent prompt for this client.
      * @param disabled Whether the client is disabled.
-     * @param resources Identifiers of the protected resources to link the client to. When provided,
-     *   replaces the stored list.
+     * @param resources Identifiers of the protected resources to link the client to.
+     *   When provided, replaces the stored list.
      */
-    fun updateAuthOAuthClient(
-        clientConfig: ClientConfig,
-        request: Auth.UpdateAuthOAuthClientRequest,
-        options: RequestOptions? = null,
-    ): NeonAuthOAuthClient {
+    fun updateAuthOAuthClient(clientConfig: ClientConfig, request: Auth.UpdateAuthOAuthClientRequest, options: RequestOptions? = null): NeonAuthOAuthClient {
         validateUpdateAuthOAuthClientRequest(request)
 
-        return SdkClient.request<NeonAuthOAuthClient>(
-                SdkClient.RequestSpec(
-                    "PATCH",
-                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/auth/oauth-provider/clients/${SdkClient.encodePathSegment(request.clientId)}",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "name" to (SdkClient.omitIfNull(request.name)),
-                            "redirect_uris" to (SdkClient.omitIfNull(request.redirectUris)),
-                            "skip_consent" to (SdkClient.omitIfNull(request.skipConsent)),
-                            "disabled" to (SdkClient.omitIfNull(request.disabled)),
-                            "resources" to (SdkClient.omitIfNull(request.resources)),
-                        ),
-                    operationId = "updateAuthOAuthClient",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthOAuthClient>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/auth/oauth-provider/clients/${SdkClient.encodePathSegment(request.clientId)}", config = clientConfig, body = SdkClient.bodyMap("name" to (SdkClient.omitIfNull(request.name)), "redirect_uris" to
+    (SdkClient.omitIfNull(request.redirectUris)), "skip_consent" to
+    (SdkClient.omitIfNull(request.skipConsent)), "disabled" to (SdkClient.omitIfNull(request.disabled)), "resources" to (SdkClient.omitIfNull(request.resources))), operationId = "updateAuthOAuthClient", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
+
 
     private fun validateUpdateAuthOAuthClientRequest(request: Auth.UpdateAuthOAuthClientRequest) {
         validateUpdateAuthOAuthClientRequestPart1(request)
         validateUpdateAuthOAuthClientRequestPart2(request)
     }
 
-    private fun validateUpdateAuthOAuthClientRequestPart1(
-        request: Auth.UpdateAuthOAuthClientRequest
-    ) {
+    private fun validateUpdateAuthOAuthClientRequestPart1(request: Auth.UpdateAuthOAuthClientRequest) {
         Validation.validatePattern("project_id", request.projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", request.branchId, "^[a-z0-9-]{1,60}$")
@@ -212,32 +123,18 @@ internal object AuthUpdateAuthOAuthClientOperation {
         Validation.validatePattern("client_id", request.clientId, "^[A-Za-z0-9]+$")
 
         if (request.name != null) {
-            Validation.validateLength(
-                "name",
-                request.name,
-                Validation.LengthOpts(min = 1, max = 100),
-            )
-        }
+            Validation.validateLength("name", request.name, Validation.LengthOpts(min = 1, max = 100))
+}
 
         if (request.redirectUris != null) {
-            Validation.validateItems(
-                "redirect_uris",
-                request.redirectUris,
-                Validation.LengthOpts(max = 10),
-            )
-        }
+            Validation.validateItems("redirect_uris", request.redirectUris, Validation.LengthOpts(max = 10))
+}
     }
 
-    private fun validateUpdateAuthOAuthClientRequestPart2(
-        request: Auth.UpdateAuthOAuthClientRequest
-    ) {
+    private fun validateUpdateAuthOAuthClientRequestPart2(request: Auth.UpdateAuthOAuthClientRequest) {
         if (request.resources != null) {
-            Validation.validateItems(
-                "resources",
-                request.resources,
-                Validation.LengthOpts(max = 11),
-            )
-        }
+            Validation.validateItems("resources", request.resources, Validation.LengthOpts(max = 11))
+}
     }
 }
 
@@ -249,13 +146,7 @@ internal object AuthDeleteAuthOAuthClientOperation {
      * @param branchId The Neon branch ID
      * @param clientId The OAuth client ID
      */
-    fun deleteAuthOAuthClient(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        clientId: String,
-        options: RequestOptions? = null,
-    ): Unit {
+    fun deleteAuthOAuthClient(clientConfig: ClientConfig, projectId: String, branchId: String, clientId: String, options: RequestOptions? = null): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
@@ -263,36 +154,19 @@ internal object AuthDeleteAuthOAuthClientOperation {
         Validation.validateLength("client_id", clientId, Validation.LengthOpts(max = 64))
         Validation.validatePattern("client_id", clientId, "^[A-Za-z0-9]+$")
 
-        SdkClient.request<Unit>(
-            SdkClient.RequestSpec(
-                "DELETE",
-                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/oauth-provider/clients/${SdkClient.encodePathSegment(clientId)}",
-                config = clientConfig,
-                operationId = "deleteAuthOAuthClient",
-                decoder = SdkClient.ResponseDecoder.EMPTY,
-                options = options,
-                errors = mapOf("default" to GeneralError::class.java),
-            )
-        )
+        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/oauth-provider/clients/${SdkClient.encodePathSegment(clientId)}", config = clientConfig, operationId = "deleteAuthOAuthClient", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
     }
 }
 
 internal object AuthRotateAuthOAuthClientSecretOperation {
     /**
-     * Generates a new secret for a confidential OAuth client and invalidates the previous one. The
-     * new secret is shown only once.
+     * Generates a new secret for a confidential OAuth client and invalidates the previous one. The new secret is shown only once.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param clientId The OAuth client ID
      */
-    fun rotateAuthOAuthClientSecret(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        clientId: String,
-        options: RequestOptions? = null,
-    ): NeonAuthOAuthClientSecret {
+    fun rotateAuthOAuthClientSecret(clientConfig: ClientConfig, projectId: String, branchId: String, clientId: String, options: RequestOptions? = null): NeonAuthOAuthClientSecret {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
@@ -300,17 +174,6 @@ internal object AuthRotateAuthOAuthClientSecretOperation {
         Validation.validateLength("client_id", clientId, Validation.LengthOpts(max = 64))
         Validation.validatePattern("client_id", clientId, "^[A-Za-z0-9]+$")
 
-        return SdkClient.request<NeonAuthOAuthClientSecret>(
-                SdkClient.RequestSpec(
-                    "POST",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/oauth-provider/clients/${SdkClient.encodePathSegment(clientId)}/rotate_secret",
-                    config = clientConfig,
-                    operationId = "rotateAuthOAuthClientSecret",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthOAuthClientSecret>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/oauth-provider/clients/${SdkClient.encodePathSegment(clientId)}/rotate_secret", config = clientConfig, operationId = "rotateAuthOAuthClientSecret", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }

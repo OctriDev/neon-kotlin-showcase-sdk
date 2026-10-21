@@ -3,14 +3,16 @@
 
 package dev.octri.showcase.neon.models
 
-/** Typed representation of the `CustomDomain` API schema. */
+/**
+ * Typed representation of the `CustomDomain` API schema.
+ */
 data class CustomDomain(
-    /** The registered custom domain (normalized, lowercase). */
+    /**
+     * The registered custom domain (normalized, lowercase).
+     */
     val domain: String,
     /**
-     * The kind of branch entity the domain targets. Possible values: `function` (v1 supports only
-     * `function`). Not an `enum`: new values may ship in later spec versions — treat any
-     * undocumented value as unknown.
+     * The kind of branch entity the domain targets. Possible values: `function` (v1 supports only `function`). Not an `enum`: new values may ship in later spec versions — treat any undocumented value as unknown.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("entity_type") val entityType: String,
     /**
@@ -18,539 +20,522 @@ data class CustomDomain(
      */
     @com.fasterxml.jackson.annotation.JsonProperty("entity_id") val entityId: String,
     /**
-     * The hostname the customer must point their custom domain at with a CNAME record. Empty when
-     * the serving region has no custom-domains front door configured. This is the activation input:
-     * point DNS here and the domain goes live (see `status`) once a certificate is issued on the
-     * first request.
+     * The hostname the customer must point their custom domain at with a CNAME record. Empty when the serving region has no custom-domains front door configured. This is the activation input: point DNS here and the domain goes live (see `status`) once a certificate is issued on the first request.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("cname_target") val cnameTarget: String,
     /**
-     * The domain's current validity, computed by a background check: `pending` (still converging —
-     * point your CNAME at `cname_target` and wait), `active` (live: DNS resolves to the edge, the
-     * CA is authorized, and routing is published), or `error` (a fixable problem — see
-     * `status_reason`). Not an `enum`: treat any undocumented value as unknown. May be absent
-     * briefly right after registration.
+     * The domain's current validity, computed by a background check: `pending` (still converging — point your CNAME at `cname_target` and wait), `active` (live: DNS resolves to the edge, the CA is authorized, and routing is published), or `error` (a fixable problem — see `status_reason`). Not an `enum`: treat any undocumented value as unknown. May be absent briefly right after registration.
      */
     val status: String? = null,
     /**
-     * The DNS + CAA portion of the check: `pending` (no records yet), `ok` (resolves to our edge
-     * and the CA is authorized), `misconfigured` (your CNAME does not resolve to our edge), or
-     * `caa_blocked` (your CAA records forbid Let's Encrypt). Not an `enum`.
+     * The DNS + CAA portion of the check: `pending` (no records yet), `ok` (resolves to our edge and the CA is authorized), `misconfigured` (your CNAME does not resolve to our edge), or `caa_blocked` (your CAA records forbid Let's Encrypt). Not an `enum`.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("dns_status") val dnsStatus: String? = null,
     /**
-     * Whether Neon's internal routing for the domain is published: `pending`, `present`, or
-     * `missing`. `missing` is an internal fault surfaced for support. Not an `enum`.
+     * Whether Neon's internal routing for the domain is published: `pending`, `present`, or `missing`. `missing` is an internal fault surfaced for support. Not an `enum`.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("binding_status")
-    val bindingStatus: String? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("binding_status") val bindingStatus: String? = null,
     /**
-     * A short, stable machine-readable reason for a non-active `status` (e.g.
-     * `cname-not-pointing-at-edge`, `caa-blocks-lets-encrypt`, `binding-missing`), suitable for
-     * keying an actionable hint. Empty when active or pending.
+     * A short, stable machine-readable reason for a non-active `status` (e.g. `cname-not-pointing-at-edge`, `caa-blocks-lets-encrypt`, `binding-missing`), suitable for keying an actionable hint. Empty when active or pending.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("status_reason")
-    val statusReason: String? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("status_reason") val statusReason: String? = null
 )
 
-/** Typed representation of the `CustomDomainRegisterRequest` API schema. */
+/**
+ * Typed representation of the `CustomDomainRegisterRequest` API schema.
+ */
 data class CustomDomainRegisterRequest(
     /**
-     * The custom domain to register (for example `dashboard.acme.com`). Case-insensitive;
-     * normalized to lowercase (a trailing root dot is stripped, so the 254-char bound admits a
-     * fully-qualified name whose normalized form is 253 chars). Neon-managed and internal hostnames
-     * are rejected.
+     * The custom domain to register (for example `dashboard.acme.com`). Case-insensitive; normalized to lowercase (a trailing root dot is stripped, so the 254-char bound admits a fully-qualified name whose normalized form is 253 chars). Neon-managed and internal hostnames are rejected.
      */
     val domain: String,
     /**
-     * The kind of branch entity to point the domain at. v1 supports only `function`; any other
-     * value is rejected with `invalid_entity_type`.
+     * The kind of branch entity to point the domain at. v1 supports only `function`; any other value is rejected with `invalid_entity_type`.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("entity_type") val entityType: String,
     /**
-     * The target entity's identifier within the branch. For `function` this is the function slug
-     * (which must already exist on the branch).
+     * The target entity's identifier within the branch. For `function` this is the function slug (which must already exist on the branch).
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("entity_id") val entityId: String,
+    @com.fasterxml.jackson.annotation.JsonProperty("entity_id") val entityId: String
 )
 
-/** Typed representation of the `CustomDomainsListResponse` API schema. */
+/**
+ * Typed representation of the `CustomDomainsListResponse` API schema.
+ */
 data class CustomDomainsListResponse(
-    /** Required array value serialized in the `custom_domains` wire field. */
-    @com.fasterxml.jackson.annotation.JsonProperty("custom_domains")
-    val customDomains: List<CustomDomain>
+    /**
+     * Required array value serialized in the `custom_domains` wire field.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("custom_domains") val customDomains: List<CustomDomain>
 )
 
-/** Typed representation of the `FunctionDeployRequest` API schema. */
+/**
+ * Typed representation of the `FunctionDeployRequest` API schema.
+ */
 data class FunctionDeployRequest(
     /**
-     * Optional ZIP archive of the function source code. Omit to reuse the latest version's bundle
-     * (a config-only change). Required for the first deployment of a function. Place `index.mjs` or
-     * `index.js` at the archive root, without a containing directory. If both exist, `index.mjs` is
-     * loaded. Export a request handler function or an object with a `fetch` method. Use `export
-     * default` for ESM or `module.exports` for CommonJS; prefer `index.mjs` for ESM. Upload
-     * JavaScript ready to run…
+     * Optional ZIP archive of the function source code. Omit to reuse the latest version's bundle (a config-only change). Required for the first deployment of a function. Place `index.mjs` or `index.js` at the archive root, without a containing directory. If both exist, `index.mjs` is loaded. Export a request handler function or an object with a `fetch` method. Use `export default` for ESM or `module.exports` for CommonJS; prefer `index.mjs` for ESM. Upload JavaScript ready to run…
      */
     val zip: ByteArray? = null,
-    /** Optional enumerated value serialized in the `runtime` wire field. */
+    /**
+     * Optional enumerated value serialized in the `runtime` wire field.
+     */
     val runtime: FunctionDeployRequestRuntimeEnum? = null,
     /**
-     * Optional JSON object (a string-to-string map) of environment variables for the deployment,
-     * e.g. {"KEY":"VALUE"}. Carried as a JSON-encoded string because multipart form data does not
-     * support typed object parts. Values are write-only: they are encrypted at rest, and responses
-     * carry only the variable names (the `environment` array), never the values.
+     * Optional JSON object (a string-to-string map) of environment variables for the deployment, e.g. {"KEY":"VALUE"}. Carried as a JSON-encoded string because multipart form data does not support typed object parts. Values are write-only: they are encrypted at rest, and responses carry only the variable names (the `environment` array), never the values.
      */
-    val environment: String? = null,
+    val environment: String? = null
 )
 
-/** A numeric five-field cron schedule interpreted in UTC. */
+/**
+ * A numeric five-field cron schedule interpreted in UTC.
+ */
 data class FunctionTriggerSchedule(
-    /** Numeric five-field cron expression (minute through day-of-week), interpreted in UTC. */
+    /**
+     * Numeric five-field cron expression (minute through day-of-week), interpreted in UTC.
+     */
     val cron: String
 )
 
 /**
- * Matches successful uploads to one exact bucket and, when configured, an object-key prefix. The
- * Function receives a JSON request body with `type` set to `storage_object_created` and a `data`
- * object containing exactly `bucket_name` and `object_key`.
+ * Matches successful uploads to one exact bucket and, when configured, an object-key prefix. The Function receives a JSON request body with `type` set to `storage_object_created` and a `data` object containing exactly `bucket_name` and `object_key`.
  */
 data class FunctionTriggerStorageObjectCreated(
-    /** The exact object-storage bucket name to watch. */
+    /**
+     * The exact object-storage bucket name to watch.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("bucket_name") val bucketName: String,
     /**
-     * Optional object-key prefix of at most 1024 UTF-8 bytes. When omitted, every key in the bucket
-     * matches. When present, the full object key must start with these exact bytes; matching is
-     * case-sensitive and does not normalize paths or require a path-segment boundary. Match-all
-     * responses omit this field rather than returning an empty string.
+     * Optional object-key prefix of at most 1024 UTF-8 bytes. When omitted, every key in the bucket matches. When present, the full object key must start with these exact bytes; matching is case-sensitive and does not normalize paths or require a path-segment boundary. Match-all responses omit this field rather than returning an empty string.
      */
-    val prefix: String? = null,
+    val prefix: String? = null
 )
 
-/** Typed representation of the `ListFunctionsCustomDomainsResponse` API schema. */
+/**
+ * Typed representation of the `ListFunctionsCustomDomainsResponse` API schema.
+ */
 data class ListFunctionsCustomDomainsResponse(
-    /** Required array value serialized in the `custom_domains` wire field. */
-    @com.fasterxml.jackson.annotation.JsonProperty("custom_domains")
-    val customDomains: List<CustomDomain>,
     /**
-     * To paginate the response, issue an initial request with `limit` value. Then, add the value
-     * returned in the response `.pagination.next` attribute into the request under the `cursor`
-     * query parameter to the subsequent request to retrieve next page in pagination. The contents
-     * on cursor `next` are opaque, clients are not expected to make any assumptions on the format
-     * of the data inside the cursor.
+     * Required array value serialized in the `custom_domains` wire field.
      */
-    val pagination: CursorPagination? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("custom_domains") val customDomains: List<CustomDomain>,
+    /**
+     * To paginate the response, issue an initial request with `limit` value. Then, add the value returned in the response `.pagination.next` attribute into the request under the `cursor` query parameter to the subsequent request to retrieve next page in pagination. The contents on cursor `next` are opaque, clients are not expected to make any assumptions on the format of the data inside the cursor.
+     */
+    val pagination: CursorPagination? = null
 )
 
-/** Typed representation of the `ListFunctionsResponse` API schema. */
+/**
+ * Typed representation of the `ListFunctionsResponse` API schema.
+ */
 data class ListFunctionsResponse(
-    /** Required array value serialized in the `functions` wire field. */
+    /**
+     * Required array value serialized in the `functions` wire field.
+     */
     val functions: List<NeonFunction>,
     /**
-     * To paginate the response, issue an initial request with `limit` value. Then, add the value
-     * returned in the response `.pagination.next` attribute into the request under the `cursor`
-     * query parameter to the subsequent request to retrieve next page in pagination. The contents
-     * on cursor `next` are opaque, clients are not expected to make any assumptions on the format
-     * of the data inside the cursor.
+     * To paginate the response, issue an initial request with `limit` value. Then, add the value returned in the response `.pagination.next` attribute into the request under the `cursor` query parameter to the subsequent request to retrieve next page in pagination. The contents on cursor `next` are opaque, clients are not expected to make any assumptions on the format of the data inside the cursor.
      */
-    val pagination: CursorPagination? = null,
+    val pagination: CursorPagination? = null
 )
 
-/** Typed representation of the `NeonFunction` API schema. */
+/**
+ * Typed representation of the `NeonFunction` API schema.
+ */
 data class NeonFunction(
-    /** Opaque, stable function identifier. */
+    /**
+     * Opaque, stable function identifier.
+     */
     val id: String,
     /**
-     * Branch-unique, lowercase DNS-label. Forms the invocation URL's host together with the branch
-     * id. Immutable.
+     * Branch-unique, lowercase DNS-label. Forms the invocation URL's host together with the branch id. Immutable.
      */
     val slug: String,
-    /** Free-form display name. */
+    /**
+     * Free-form display name.
+     */
     val name: String,
     /**
-     * URL at which the function is invoked. The host carries `<branch_id>-<slug>` as its first DNS
-     * label under a Neon-managed functions domain, and the URL ends with a trailing slash so paths
-     * concatenate onto it. Empty string when the function has no servable invoke host (e.g. a
-     * deployment without an invocation front-door).
+     * URL at which the function is invoked. The host carries `<branch_id>-<slug>` as its first DNS label under a Neon-managed functions domain, and the URL ends with a trailing slash so paths concatenate onto it. Empty string when the function has no servable invoke host (e.g. a deployment without an invocation front-door).
      */
     @com.fasterxml.jackson.annotation.JsonProperty("invocation_url") val invocationUrl: String,
-    /** Required `string` value serialized in the `created_at` wire field. */
+    /**
+     * Required `string` value serialized in the `created_at` wire field.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: String,
     /**
-     * The most recent deployment, regardless of build status. It may still be building or it may
-     * have failed. Omitted until the first deployment is created.
+     * The most recent deployment, regardless of build status. It may still be building or it may have failed. Omitted until the first deployment is created.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("current_deployment")
-    val currentDeployment: NeonFunctionDeployment? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("current_deployment") val currentDeployment: NeonFunctionDeployment? = null,
     /**
-     * The most recent deployment whose build completed successfully. This is the deployment that
-     * serves invocations. Omitted until a deployment succeeds.
+     * The most recent deployment whose build completed successfully. This is the deployment that serves invocations. Omitted until a deployment succeeds.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("active_deployment")
-    val activeDeployment: NeonFunctionDeployment? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("active_deployment") val activeDeployment: NeonFunctionDeployment? = null
 )
 
-/** Typed representation of the `NeonFunctionDeployment` API schema. */
+/**
+ * Typed representation of the `NeonFunctionDeployment` API schema.
+ */
 data class NeonFunctionDeployment(
-    /** The deployment id, which is the platform version number (monotonic per function). */
+    /**
+     * The deployment id, which is the platform version number (monotonic per function).
+     */
     val id: Int,
-    /** Build lifecycle status of the deployment. */
+    /**
+     * Build lifecycle status of the deployment.
+     */
     val status: NeonFunctionDeploymentStatusEnum,
-    /** Required `int32`-formatted value serialized in the `memory_mib` wire field. */
+    /**
+     * Required `int32`-formatted value serialized in the `memory_mib` wire field.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("memory_mib") val memoryMib: Int,
-    /** Required `string` value serialized in the `runtime` wire field. */
+    /**
+     * Required `string` value serialized in the `runtime` wire field.
+     */
     val runtime: String,
-    /** Required `string` value serialized in the `created_at` wire field. */
+    /**
+     * Required `string` value serialized in the `created_at` wire field.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("created_at") val createdAt: String,
     /**
-     * The NAMES of the deployment's environment variables, sorted. Values are encrypted at rest and
-     * are never returned — they are write-only. To change a value, deploy the variable with the new
-     * value; to remove a variable, deploy it with an empty value.
+     * The NAMES of the deployment's environment variables, sorted. Values are encrypted at rest and are never returned — they are write-only. To change a value, deploy the variable with the new value; to remove a variable, deploy it with an empty value.
      */
     val environment: List<String>? = null,
     /**
      * Human-readable reason the deployment build failed. Present only when `status` is `failed`.
      */
-    val error: String? = null,
+    val error: String? = null
 )
 
-/** Typed representation of the `NeonFunctionDeploymentResponse` API schema. */
+/**
+ * Typed representation of the `NeonFunctionDeploymentResponse` API schema.
+ */
 data class NeonFunctionDeploymentResponse(
-    /** Required object value serialized in the `deployment` wire field. */
+    /**
+     * Required object value serialized in the `deployment` wire field.
+     */
     val deployment: NeonFunctionDeployment
 )
 
-/** Typed representation of the `NeonFunctionResponse` API schema. */
+/**
+ * Typed representation of the `NeonFunctionResponse` API schema.
+ */
 data class NeonFunctionResponse(
-    /** Required object value serialized in the `function` wire field. */
+    /**
+     * Required object value serialized in the `function` wire field.
+     */
     val function: NeonFunction
 )
 
-/** Typed representation of the `NeonFunctionsListResponse` API schema. */
+/**
+ * Typed representation of the `NeonFunctionsListResponse` API schema.
+ */
 data class NeonFunctionsListResponse(
-    /** Required array value serialized in the `functions` wire field. */
+    /**
+     * Required array value serialized in the `functions` wire field.
+     */
     val functions: List<NeonFunction>
 )
 
-/** Typed representation of the `NeonFunctionUpdateRequest` API schema. */
+/**
+ * Typed representation of the `NeonFunctionUpdateRequest` API schema.
+ */
 data class NeonFunctionUpdateRequest(
     /**
-     * New display name for the function. `null` clears the display name; the function's `name` then
-     * falls back to its slug. Leading and trailing whitespace is trimmed; a whitespace-only name is
-     * rejected.
+     * New display name for the function. `null` clears the display name; the function's `name` then falls back to its slug. Leading and trailing whitespace is trimmed; a whitespace-only name is rejected.
      */
     @com.fasterxml.jackson.annotation.JsonProperty("name", required = true) val name: String?
 )
 
-/** A branch-effective schedule trigger for a Function. */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
-)
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
-)
+/**
+ * A branch-effective schedule trigger for a Function.
+ */
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None::class) @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE)
 data class ScheduleTrigger(
-    /** Trigger type discriminator. */
+    /**
+     * Trigger type discriminator.
+     */
     val type: ScheduleTriggerTypeEnum,
-    /** Opaque, server-minted project-wide trigger identifier. */
+    /**
+     * Opaque, server-minted project-wide trigger identifier.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("trigger_id") val triggerId: TriggerID,
-    /** The branch-local Function slug resolved when an occurrence is consumed. */
+    /**
+     * The branch-local Function slug resolved when an occurrence is consumed.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("function_slug") val functionSlug: String,
-    /** Human-readable trigger name. */
+    /**
+     * Human-readable trigger name.
+     */
     val name: String,
-    /** Path passed to the target Function. */
+    /**
+     * Path passed to the target Function.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("function_path") val functionPath: String,
-    /** A numeric five-field cron schedule interpreted in UTC. */
+    /**
+     * A numeric five-field cron schedule interpreted in UTC.
+     */
     val schedule: FunctionTriggerSchedule,
-    /** Required `boolean` value serialized in the `enabled` wire field. */
+    /**
+     * Required `boolean` value serialized in the `enabled` wire field.
+     */
     val enabled: Boolean,
-    /** Monotonic configuration version. */
+    /**
+     * Monotonic configuration version.
+     */
     val version: Long,
     /**
-     * Next scheduled occurrence as an RFC 3339 UTC timestamp, or null while disabled or inherited
-     * and not explicitly enabled on this branch.
+     * Next scheduled occurrence as an RFC 3339 UTC timestamp, or null while disabled or inherited and not explicitly enabled on this branch.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("next_run_at", required = true)
-    val nextRunAt: String?,
-    /** True when the effective configuration was authored on an ancestor branch. */
-    val inherited: Boolean,
+    @com.fasterxml.jackson.annotation.JsonProperty("next_run_at", required = true) val nextRunAt: String?,
+    /**
+     * True when the effective configuration was authored on an ancestor branch.
+     */
+    val inherited: Boolean
 ) : Trigger
 
-/** Typed representation of the `ScheduleTriggerCreateRequest` API schema. */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
-)
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
-)
+/**
+ * Typed representation of the `ScheduleTriggerCreateRequest` API schema.
+ */
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None::class) @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE)
 data class ScheduleTriggerCreateRequest(
-    /** Trigger type discriminator. */
+    /**
+     * Trigger type discriminator.
+     */
     val type: ScheduleTriggerCreateRequestTypeEnum,
-    /** The branch-local Function slug to invoke. */
+    /**
+     * The branch-local Function slug to invoke.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("function_slug") val functionSlug: String,
-    /** Human-readable name, unique among triggers visible on the branch. */
+    /**
+     * Human-readable name, unique among triggers visible on the branch.
+     */
     val name: String,
-    /** A numeric five-field cron schedule interpreted in UTC. */
+    /**
+     * A numeric five-field cron schedule interpreted in UTC.
+     */
     val schedule: FunctionTriggerSchedule,
-    /** Path passed to the target Function. Defaults to `/`. */
-    @com.fasterxml.jackson.annotation.JsonProperty("function_path")
-    val functionPath: String? = null,
-    /** Whether future occurrences should be scheduled. */
-    val enabled: Boolean? = null,
+    /**
+     * Path passed to the target Function. Defaults to `/`.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("function_path") val functionPath: String? = null,
+    /**
+     * Whether future occurrences should be scheduled.
+     */
+    val enabled: Boolean? = null
 ) : TriggerCreateRequest
 
-/** Typed representation of the `ScheduleTriggerUpdateRequest` API schema. */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
-)
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
-)
+/**
+ * Typed representation of the `ScheduleTriggerUpdateRequest` API schema.
+ */
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None::class) @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE)
 data class ScheduleTriggerUpdateRequest(
-    /** Trigger type discriminator; it does not change the trigger type. */
+    /**
+     * Trigger type discriminator; it does not change the trigger type.
+     */
     val type: ScheduleTriggerUpdateRequestTypeEnum,
-    /** Replacement branch-local Function slug. */
-    @com.fasterxml.jackson.annotation.JsonProperty("function_slug")
-    val functionSlug: String? = null,
-    /** Optional `string` value serialized in the `name` wire field. */
+    /**
+     * Replacement branch-local Function slug.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("function_slug") val functionSlug: String? = null,
+    /**
+     * Optional `string` value serialized in the `name` wire field.
+     */
     val name: String? = null,
-    /** Optional `string` value serialized in the `function_path` wire field. */
-    @com.fasterxml.jackson.annotation.JsonProperty("function_path")
-    val functionPath: String? = null,
-    /** A numeric five-field cron schedule interpreted in UTC. */
+    /**
+     * Optional `string` value serialized in the `function_path` wire field.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("function_path") val functionPath: String? = null,
+    /**
+     * A numeric five-field cron schedule interpreted in UTC.
+     */
     val schedule: FunctionTriggerSchedule? = null,
-    /** True enables and false disables future scheduling. */
-    val enabled: Boolean? = null,
+    /**
+     * True enables and false disables future scheduling.
+     */
+    val enabled: Boolean? = null
 ) : TriggerUpdateRequest
 
 /**
- * A branch-effective trigger that invokes a Function after a successful upload matching its exact
- * bucket and optional object-key prefix.
+ * A branch-effective trigger that invokes a Function after a successful upload matching its exact bucket and optional object-key prefix.
  */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
-)
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
-)
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None::class) @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE)
 data class StorageObjectCreatedTrigger(
-    /** Trigger type discriminator. */
+    /**
+     * Trigger type discriminator.
+     */
     val type: StorageObjectCreatedTriggerTypeEnum,
-    /** Opaque, server-minted project-wide trigger identifier. */
+    /**
+     * Opaque, server-minted project-wide trigger identifier.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("trigger_id") val triggerId: TriggerID,
-    /** The branch-local Function slug resolved when an invocation is consumed. */
+    /**
+     * The branch-local Function slug resolved when an invocation is consumed.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("function_slug") val functionSlug: String,
-    /** Human-readable trigger name. */
+    /**
+     * Human-readable trigger name.
+     */
     val name: String,
-    /** Path passed to the target Function. */
+    /**
+     * Path passed to the target Function.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("function_path") val functionPath: String,
     /**
-     * Matches successful uploads to one exact bucket and, when configured, an object-key prefix.
-     * The Function receives a JSON request body with `type` set to `storage_object_created` and a
-     * `data` object containing exactly `bucket_name` and `object_key`.
+     * Matches successful uploads to one exact bucket and, when configured, an object-key prefix. The Function receives a JSON request body with `type` set to `storage_object_created` and a `data` object containing exactly `bucket_name` and `object_key`.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("storage_object_created")
-    val storageObjectCreated: FunctionTriggerStorageObjectCreated,
-    /** Required `boolean` value serialized in the `enabled` wire field. */
+    @com.fasterxml.jackson.annotation.JsonProperty("storage_object_created") val storageObjectCreated: FunctionTriggerStorageObjectCreated,
+    /**
+     * Required `boolean` value serialized in the `enabled` wire field.
+     */
     val enabled: Boolean,
-    /** Monotonic configuration version. */
+    /**
+     * Monotonic configuration version.
+     */
     val version: Long,
-    /** True when the effective configuration was authored on an ancestor branch. */
-    val inherited: Boolean,
+    /**
+     * True when the effective configuration was authored on an ancestor branch.
+     */
+    val inherited: Boolean
 ) : Trigger
 
-/** Typed representation of the `StorageObjectCreatedTriggerCreateRequest` API schema. */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
-)
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
-)
+/**
+ * Typed representation of the `StorageObjectCreatedTriggerCreateRequest` API schema.
+ */
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None::class) @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE)
 data class StorageObjectCreatedTriggerCreateRequest(
-    /** Trigger type discriminator. */
+    /**
+     * Trigger type discriminator.
+     */
     val type: StorageObjectCreatedTriggerCreateRequestTypeEnum,
-    /** The branch-local Function slug to invoke. */
+    /**
+     * The branch-local Function slug to invoke.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("function_slug") val functionSlug: String,
-    /** Human-readable name, unique among triggers visible on the branch. */
+    /**
+     * Human-readable name, unique among triggers visible on the branch.
+     */
     val name: String,
     /**
-     * Matches successful uploads to one exact bucket and, when configured, an object-key prefix.
-     * The Function receives a JSON request body with `type` set to `storage_object_created` and a
-     * `data` object containing exactly `bucket_name` and `object_key`.
+     * Matches successful uploads to one exact bucket and, when configured, an object-key prefix. The Function receives a JSON request body with `type` set to `storage_object_created` and a `data` object containing exactly `bucket_name` and `object_key`.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("storage_object_created")
-    val storageObjectCreated: FunctionTriggerStorageObjectCreated,
-    /** Path passed to the target Function. Defaults to `/`. */
-    @com.fasterxml.jackson.annotation.JsonProperty("function_path")
-    val functionPath: String? = null,
-    /** Whether successful matching uploads should invoke the Function. */
-    val enabled: Boolean? = null,
+    @com.fasterxml.jackson.annotation.JsonProperty("storage_object_created") val storageObjectCreated: FunctionTriggerStorageObjectCreated,
+    /**
+     * Path passed to the target Function. Defaults to `/`.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("function_path") val functionPath: String? = null,
+    /**
+     * Whether successful matching uploads should invoke the Function.
+     */
+    val enabled: Boolean? = null
 ) : TriggerCreateRequest
 
-/** Typed representation of the `StorageObjectCreatedTriggerUpdateRequest` API schema. */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
-)
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
-)
+/**
+ * Typed representation of the `StorageObjectCreatedTriggerUpdateRequest` API schema.
+ */
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None::class) @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE)
 data class StorageObjectCreatedTriggerUpdateRequest(
-    /** Trigger type discriminator; it does not change the trigger type. */
-    val type: StorageObjectCreatedTriggerUpdateRequestTypeEnum,
-    /** Replacement branch-local Function slug. */
-    @com.fasterxml.jackson.annotation.JsonProperty("function_slug")
-    val functionSlug: String? = null,
-    /** Optional `string` value serialized in the `name` wire field. */
-    val name: String? = null,
-    /** Optional `string` value serialized in the `function_path` wire field. */
-    @com.fasterxml.jackson.annotation.JsonProperty("function_path")
-    val functionPath: String? = null,
     /**
-     * Matches successful uploads to one exact bucket and, when configured, an object-key prefix.
-     * The Function receives a JSON request body with `type` set to `storage_object_created` and a
-     * `data` object containing exactly `bucket_name` and `object_key`.
+     * Trigger type discriminator; it does not change the trigger type.
      */
-    @com.fasterxml.jackson.annotation.JsonProperty("storage_object_created")
-    val storageObjectCreated: FunctionTriggerStorageObjectCreated? = null,
-    /** True enables and false disables future matching uploads. */
-    val enabled: Boolean? = null,
+    val type: StorageObjectCreatedTriggerUpdateRequestTypeEnum,
+    /**
+     * Replacement branch-local Function slug.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("function_slug") val functionSlug: String? = null,
+    /**
+     * Optional `string` value serialized in the `name` wire field.
+     */
+    val name: String? = null,
+    /**
+     * Optional `string` value serialized in the `function_path` wire field.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("function_path") val functionPath: String? = null,
+    /**
+     * Matches successful uploads to one exact bucket and, when configured, an object-key prefix. The Function receives a JSON request body with `type` set to `storage_object_created` and a `data` object containing exactly `bucket_name` and `object_key`.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("storage_object_created") val storageObjectCreated: FunctionTriggerStorageObjectCreated? = null,
+    /**
+     * True enables and false disables future matching uploads.
+     */
+    val enabled: Boolean? = null
 ) : TriggerUpdateRequest
 
 /**
- * A branch-effective trigger discriminated by `type`. The supported trigger types are `schedule`
- * and `storage_object_created`.
+ * A branch-effective trigger discriminated by `type`. The supported trigger types are `schedule` and `storage_object_created`.
  */
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME,
-    property = "type",
-    visible = true,
-    defaultImpl = UnknownTrigger::class,
-)
+@com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME, property = "type", visible = true, defaultImpl = UnknownTrigger::class)
 @com.fasterxml.jackson.annotation.JsonSubTypes(
-    com.fasterxml.jackson.annotation.JsonSubTypes.Type(
-        value = ScheduleTrigger::class,
-        name = "schedule",
-    ),
-    com.fasterxml.jackson.annotation.JsonSubTypes.Type(
-        value = StorageObjectCreatedTrigger::class,
-        name = "storage_object_created",
-    ),
+    com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = ScheduleTrigger::class, name = "schedule"),
+    com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = StorageObjectCreatedTrigger::class, name = "storage_object_created")
 )
 sealed interface Trigger
 
 /** A [Trigger] whose `type` names no branch this SDK knows, kept as received. */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
-)
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
-)
-data class UnknownTrigger
-@com.fasterxml.jackson.annotation.JsonCreator(
-    mode = com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING
-)
-constructor(
-    @get:com.fasterxml.jackson.annotation.JsonValue val raw: com.fasterxml.jackson.databind.JsonNode
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None::class) @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE)
+data class UnknownTrigger @com.fasterxml.jackson.annotation.JsonCreator(mode = com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING) constructor(
+    @get:com.fasterxml.jackson.annotation.JsonValue val raw: com.fasterxml.jackson.databind.JsonNode,
 ) : Trigger {
     /** The tag the server sent. */
-    val tag: String
-        get() = raw.path("type").asText()
+    val tag: String get() = raw.path("type").asText()
 }
 
 /**
- * Trigger creation payload discriminated by `type`. The supported trigger types are `schedule` and
- * `storage_object_created`.
+ * Trigger creation payload discriminated by `type`. The supported trigger types are `schedule` and `storage_object_created`.
  */
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME,
-    property = "type",
-    visible = true,
-    defaultImpl = UnknownTriggerCreateRequest::class,
-)
+@com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME, property = "type", visible = true, defaultImpl = UnknownTriggerCreateRequest::class)
 @com.fasterxml.jackson.annotation.JsonSubTypes(
-    com.fasterxml.jackson.annotation.JsonSubTypes.Type(
-        value = ScheduleTriggerCreateRequest::class,
-        name = "schedule",
-    ),
-    com.fasterxml.jackson.annotation.JsonSubTypes.Type(
-        value = StorageObjectCreatedTriggerCreateRequest::class,
-        name = "storage_object_created",
-    ),
+    com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = ScheduleTriggerCreateRequest::class, name = "schedule"),
+    com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = StorageObjectCreatedTriggerCreateRequest::class, name = "storage_object_created")
 )
 sealed interface TriggerCreateRequest
 
 /** A [TriggerCreateRequest] whose `type` names no branch this SDK knows, kept as received. */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
-)
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
-)
-data class UnknownTriggerCreateRequest
-@com.fasterxml.jackson.annotation.JsonCreator(
-    mode = com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING
-)
-constructor(
-    @get:com.fasterxml.jackson.annotation.JsonValue val raw: com.fasterxml.jackson.databind.JsonNode
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None::class) @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE)
+data class UnknownTriggerCreateRequest @com.fasterxml.jackson.annotation.JsonCreator(mode = com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING) constructor(
+    @get:com.fasterxml.jackson.annotation.JsonValue val raw: com.fasterxml.jackson.databind.JsonNode,
 ) : TriggerCreateRequest {
     /** The tag the server sent. */
-    val tag: String
-        get() = raw.path("type").asText()
+    val tag: String get() = raw.path("type").asText()
 }
 
 typealias TriggerID = String
 
-/** Typed representation of the `TriggerResponse` API schema. */
+/**
+ * Typed representation of the `TriggerResponse` API schema.
+ */
 data class TriggerResponse(
     /**
-     * A branch-effective trigger discriminated by `type`. The supported trigger types are
-     * `schedule` and `storage_object_created`.
+     * A branch-effective trigger discriminated by `type`. The supported trigger types are `schedule` and `storage_object_created`.
      */
     val trigger: Trigger
 )
 
-/** Typed representation of the `TriggersListResponse` API schema. */
+/**
+ * Typed representation of the `TriggersListResponse` API schema.
+ */
 data class TriggersListResponse(
-    /** Required array value serialized in the `triggers` wire field. */
+    /**
+     * Required array value serialized in the `triggers` wire field.
+     */
     val triggers: List<Trigger>
 )
 
 /**
- * Partial trigger update discriminated by `type`. The supported trigger types are `schedule` and
- * `storage_object_created`.
+ * Partial trigger update discriminated by `type`. The supported trigger types are `schedule` and `storage_object_created`.
  */
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME,
-    property = "type",
-    visible = true,
-    defaultImpl = UnknownTriggerUpdateRequest::class,
-)
+@com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME, property = "type", visible = true, defaultImpl = UnknownTriggerUpdateRequest::class)
 @com.fasterxml.jackson.annotation.JsonSubTypes(
-    com.fasterxml.jackson.annotation.JsonSubTypes.Type(
-        value = ScheduleTriggerUpdateRequest::class,
-        name = "schedule",
-    ),
-    com.fasterxml.jackson.annotation.JsonSubTypes.Type(
-        value = StorageObjectCreatedTriggerUpdateRequest::class,
-        name = "storage_object_created",
-    ),
+    com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = ScheduleTriggerUpdateRequest::class, name = "schedule"),
+    com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = StorageObjectCreatedTriggerUpdateRequest::class, name = "storage_object_created")
 )
 sealed interface TriggerUpdateRequest
 
 /** A [TriggerUpdateRequest] whose `type` names no branch this SDK knows, kept as received. */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    using = com.fasterxml.jackson.databind.JsonDeserializer.None::class
-)
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-    use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE
-)
-data class UnknownTriggerUpdateRequest
-@com.fasterxml.jackson.annotation.JsonCreator(
-    mode = com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING
-)
-constructor(
-    @get:com.fasterxml.jackson.annotation.JsonValue val raw: com.fasterxml.jackson.databind.JsonNode
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None::class) @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE)
+data class UnknownTriggerUpdateRequest @com.fasterxml.jackson.annotation.JsonCreator(mode = com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING) constructor(
+    @get:com.fasterxml.jackson.annotation.JsonValue val raw: com.fasterxml.jackson.databind.JsonNode,
 ) : TriggerUpdateRequest {
     /** The tag the server sent. */
-    val tag: String
-        get() = raw.path("type").asText()
+    val tag: String get() = raw.path("type").asText()
 }

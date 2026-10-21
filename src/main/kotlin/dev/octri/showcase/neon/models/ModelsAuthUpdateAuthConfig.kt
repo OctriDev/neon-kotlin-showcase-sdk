@@ -3,14 +3,22 @@
 
 package dev.octri.showcase.neon.models
 
-/** Typed representation of the `NeonAuthConfigResponse` API schema. */
+/**
+ * Typed representation of the `NeonAuthConfigResponse` API schema.
+ */
 data class NeonAuthConfigResponse(
-    /** The application name used in auth emails and communications. */
+    /**
+     * The application name used in auth emails and communications.
+     */
     val name: String
 )
 
-/** Typed representation of the `NeonAuthConfigUpdate` API schema. */
+/**
+ * Typed representation of the `NeonAuthConfigUpdate` API schema.
+ */
 data class NeonAuthConfigUpdate(
-    /** The application name used in auth emails and communications. */
+    /**
+     * The application name used in auth emails and communications.
+     */
     val name: String
 )

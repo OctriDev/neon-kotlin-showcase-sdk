@@ -5,21 +5,20 @@ package dev.octri.showcase.neon.models
 
 import dev.octri.showcase.neon.models.branch.AnnotationData
 
-/** Typed representation of the `ListBranchResponse` API schema. */
+/**
+ * Typed representation of the `ListBranchResponse` API schema.
+ */
 data class ListBranchResponse(
-    /** Branches in the project. Each includes `id`, `name`, `current_state`, and `created_at`. */
+    /**
+     * Branches in the project. Each includes `id`, `name`, `current_state`, and `created_at`.
+     */
     val branches: List<Branch>,
     /**
-     * Map of annotations keyed by resource identifier, where each value contains the annotation
-     * data for that resource.
+     * Map of annotations keyed by resource identifier, where each value contains the annotation data for that resource.
      */
     val annotations: Map<String, AnnotationData>,
     /**
-     * To paginate the response, issue an initial request with `limit` value. Then, add the value
-     * returned in the response `.pagination.next` attribute into the request under the `cursor`
-     * query parameter to the subsequent request to retrieve next page in pagination. The contents
-     * on cursor `next` are opaque, clients are not expected to make any assumptions on the format
-     * of the data inside the cursor.
+     * To paginate the response, issue an initial request with `limit` value. Then, add the value returned in the response `.pagination.next` attribute into the request under the `cursor` query parameter to the subsequent request to retrieve next page in pagination. The contents on cursor `next` are opaque, clients are not expected to make any assumptions on the format of the data inside the cursor.
      */
-    val pagination: CursorPagination? = null,
+    val pagination: CursorPagination? = null
 )

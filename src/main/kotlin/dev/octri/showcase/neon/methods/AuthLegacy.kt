@@ -23,220 +23,145 @@ import dev.octri.showcase.neon.Validation
 
 object AuthLegacy {
 
+
     /**
-     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth` instead. Removal scheduled
-     * for March 1, 2026. Use this endpoint if the frontend integration flow can't be used.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth` instead. Removal scheduled for March 1, 2026. Use this endpoint if the frontend integration flow can't be used.
      *
-     * @param authProvider Authentication provider integrated with this Neon Auth configuration.
-     *   `better_auth` integrates with Better Auth (the current, recommended provider). `stack`
-     *   integrates with Stack Auth (deprecated). `mock` is a simulated provider for local
-     *   development and testing only.
+     * @param authProvider Authentication provider integrated with this Neon Auth
+     *   configuration. `better_auth` integrates with Better Auth (the current,
+     *   recommended provider). `stack` integrates with Stack Auth (deprecated). `mock`
+     *   is a simulated provider for local development and testing only.
      * @param projectId The Neon project ID. Returned as `id` from `GET /projects`.
      * @param branchId The Neon branch ID. Returned as `id` from `GET
      *   /projects/{project_id}/branches`.
-     * @param databaseName Name of the database to associate with the Neon Auth integration. When
-     *   omitted, the integration uses the project's default database.
-     * @param roleName Deprecated. The database role for the auth integration. Omit this field; it
-     *   is ignored.
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @param databaseName Name of the database to associate with the Neon Auth
+     *   integration. When omitted, the integration uses the project's default
+     *   database.
+     * @param roleName Deprecated. The database role for the auth integration. Omit
+     *   this field; it is ignored.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun createAuthLegacyIntegration(
-        clientConfig: ClientConfig,
-        authProvider: NeonAuthSupportedAuthProvider,
-        projectId: String,
-        branchId: String,
-        databaseName: String? = null,
-        roleName: String? = null,
-        options: RequestOptions? = null,
-    ): NeonAuthCreateIntegrationResponse {
+    fun createAuthLegacyIntegration(clientConfig: ClientConfig, authProvider: NeonAuthSupportedAuthProvider, projectId: String, branchId: String, databaseName: String? = null, roleName: String? = null, options: RequestOptions? = null): NeonAuthCreateIntegrationResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthCreateIntegrationResponse>(
-                SdkClient.RequestSpec(
-                    "POST",
-                    "/projects/auth/create",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "auth_provider" to (authProvider),
-                            "project_id" to (projectId),
-                            "branch_id" to (branchId),
-                            "database_name" to (SdkClient.omitIfNull(databaseName)),
-                            "role_name" to (SdkClient.omitIfNull(roleName)),
-                        ),
-                    operationId = "createAuthLegacyIntegration",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthCreateIntegrationResponse>(SdkClient.RequestSpec("POST", "/projects/auth/create", config = clientConfig, body = SdkClient.bodyMap("auth_provider" to (authProvider), "project_id" to (projectId), "branch_id" to (branchId), "database_name" to (SdkClient.omitIfNull(databaseName)), "role_name" to (SdkClient.omitIfNull(roleName))), operationId = "createAuthLegacyIntegration", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/domains` instead. Removal
-     * scheduled for March 1, 2026.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/domains` instead. Removal scheduled for March 1, 2026.
      *
      * @param projectId The Neon project ID
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun listAuthLegacyRedirectUriWhitelistDomains(
-        clientConfig: ClientConfig,
-        projectId: String,
-        options: RequestOptions? = null,
-    ): NeonAuthRedirectURIWhitelistResponse {
+    fun listAuthLegacyRedirectUriWhitelistDomains(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): NeonAuthRedirectURIWhitelistResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthRedirectURIWhitelistResponse>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/auth/domains",
-                    config = clientConfig,
-                    operationId = "listAuthLegacyRedirectUriWhitelistDomains",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthRedirectURIWhitelistResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/auth/domains", config = clientConfig, operationId = "listAuthLegacyRedirectUriWhitelistDomains", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/domains` instead. Removal
-     * scheduled for March 1, 2026.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/domains` instead. Removal scheduled for March 1, 2026.
      *
      * @param projectId The Neon project ID
      * @param domain URI to add to the redirect URI allowlist for the auth provider.
-     * @param authProvider Authentication provider integrated with this Neon Auth configuration.
-     *   `better_auth` integrates with Better Auth (the current, recommended provider). `stack`
-     *   integrates with Stack Auth (deprecated). `mock` is a simulated provider for local
-     *   development and testing only.
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @param authProvider Authentication provider integrated with this Neon Auth
+     *   configuration. `better_auth` integrates with Better Auth (the current,
+     *   recommended provider). `stack` integrates with Stack Auth (deprecated). `mock`
+     *   is a simulated provider for local development and testing only.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun addAuthLegacyDomainToRedirectUriWhitelist(
-        clientConfig: ClientConfig,
-        projectId: String,
-        domain: String,
-        authProvider: NeonAuthSupportedAuthProvider,
-        options: RequestOptions? = null,
-    ): Unit {
+    fun addAuthLegacyDomainToRedirectUriWhitelist(clientConfig: ClientConfig, projectId: String, domain: String, authProvider: NeonAuthSupportedAuthProvider, options: RequestOptions? = null): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateUri("domain", domain)
 
-        SdkClient.request<Unit>(
-            SdkClient.RequestSpec(
-                "POST",
-                "/projects/${SdkClient.encodePathSegment(projectId)}/auth/domains",
-                config = clientConfig,
-                body = SdkClient.bodyMap("domain" to (domain), "auth_provider" to (authProvider)),
-                operationId = "addAuthLegacyDomainToRedirectUriWhitelist",
-                decoder = SdkClient.ResponseDecoder.EMPTY,
-                options = options,
-                errors = mapOf("default" to GeneralError::class.java),
-            )
-        )
+        SdkClient.request<Unit>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/auth/domains", config = clientConfig, body = SdkClient.bodyMap("domain" to (domain), "auth_provider" to (authProvider)), operationId = "addAuthLegacyDomainToRedirectUriWhitelist", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
     }
 
+
+
+
+
+
+
     /**
-     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/domains` instead. Removal
-     * scheduled for March 1, 2026.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/domains` instead. Removal scheduled for March 1, 2026.
      *
      * @param projectId The Neon project ID
-     * @param authProvider Authentication provider integrated with this Neon Auth configuration.
-     *   `better_auth` integrates with Better Auth (the current, recommended provider). `stack`
-     *   integrates with Stack Auth (deprecated). `mock` is a simulated provider for local
-     *   development and testing only.
-     * @param domains Domain names to remove from the redirect URI whitelist for the specified auth
-     *   provider.
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @param authProvider Authentication provider integrated with this Neon Auth
+     *   configuration. `better_auth` integrates with Better Auth (the current,
+     *   recommended provider). `stack` integrates with Stack Auth (deprecated). `mock`
+     *   is a simulated provider for local development and testing only.
+     * @param domains Domain names to remove from the redirect URI whitelist for the
+     *   specified auth provider.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun deleteAuthLegacyDomainFromRedirectUriWhitelist(
-        clientConfig: ClientConfig,
-        projectId: String,
-        authProvider: NeonAuthSupportedAuthProvider,
-        domains: List<NeonAuthDeleteDomainFromRedirectURIWhitelistItem>,
-        options: RequestOptions? = null,
-    ): Unit {
+    fun deleteAuthLegacyDomainFromRedirectUriWhitelist(clientConfig: ClientConfig, projectId: String, authProvider: NeonAuthSupportedAuthProvider, domains: List<NeonAuthDeleteDomainFromRedirectURIWhitelistItem>, options: RequestOptions? = null): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        SdkClient.request<Unit>(
-            SdkClient.RequestSpec(
-                "DELETE",
-                "/projects/${SdkClient.encodePathSegment(projectId)}/auth/domains",
-                config = clientConfig,
-                body = SdkClient.bodyMap("auth_provider" to (authProvider), "domains" to (domains)),
-                operationId = "deleteAuthLegacyDomainFromRedirectUriWhitelist",
-                decoder = SdkClient.ResponseDecoder.EMPTY,
-                options = options,
-                errors = mapOf("default" to GeneralError::class.java),
-            )
-        )
+        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/auth/domains", config = clientConfig, body = SdkClient.bodyMap("auth_provider" to (authProvider), "domains" to (domains)), operationId = "deleteAuthLegacyDomainFromRedirectUriWhitelist", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
     }
 
+
+
+
+
+
+
     /**
-     * Generates SDK or API Keys for the auth provider. These might be called different things
-     * depending on the auth provider you're using, but are generally used for setting up the
-     * frontend and backend SDKs.
+     * Generates SDK or API Keys for the auth provider. These might be called different things depending on the auth provider you're using, but are generally used for setting up the frontend and backend SDKs.
      *
      * @param projectId The Neon project ID. Returned as `id` from `GET /projects`.
-     * @param authProvider Authentication provider integrated with this Neon Auth configuration.
-     *   `better_auth` integrates with Better Auth (the current, recommended provider). `stack`
-     *   integrates with Stack Auth (deprecated). `mock` is a simulated provider for local
-     *   development and testing only.
+     * @param authProvider Authentication provider integrated with this Neon Auth
+     *   configuration. `better_auth` integrates with Better Auth (the current,
+     *   recommended provider). `stack` integrates with Stack Auth (deprecated). `mock`
+     *   is a simulated provider for local development and testing only.
      */
-    fun createAuthLegacyProviderSdkKeys(
-        clientConfig: ClientConfig,
-        projectId: String,
-        authProvider: NeonAuthSupportedAuthProvider,
-        options: RequestOptions? = null,
-    ): NeonAuthCreateIntegrationResponse {
+    fun createAuthLegacyProviderSdkKeys(clientConfig: ClientConfig, projectId: String, authProvider: NeonAuthSupportedAuthProvider, options: RequestOptions? = null): NeonAuthCreateIntegrationResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthCreateIntegrationResponse>(
-                SdkClient.RequestSpec(
-                    "POST",
-                    "/projects/auth/keys",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "project_id" to (projectId),
-                            "auth_provider" to (authProvider),
-                        ),
-                    operationId = "createAuthLegacyProviderSdkKeys",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthCreateIntegrationResponse>(SdkClient.RequestSpec("POST", "/projects/auth/keys", config = clientConfig, body = SdkClient.bodyMap("project_id" to (projectId), "auth_provider" to (authProvider)), operationId = "createAuthLegacyProviderSdkKeys", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/users` instead. Removal
-     * scheduled for March 1, 2026. The user will be created in your neon_auth.users_sync table and
-     * automatically propagated to your auth project, whether Neon-managed or provider-owned.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/users` instead. Removal scheduled for March 1, 2026. The user will be created in your neon_auth.users_sync table and automatically propagated to your auth project, whether Neon-managed or provider-owned.
      *
      * @param projectId The Neon project ID. Returned as `id` from `GET /projects`.
-     * @param authProvider Authentication provider integrated with this Neon Auth configuration.
-     *   `better_auth` integrates with Better Auth (the current, recommended provider). `stack`
-     *   integrates with Stack Auth (deprecated). `mock` is a simulated provider for local
-     *   development and testing only.
+     * @param authProvider Authentication provider integrated with this Neon Auth
+     *   configuration. `better_auth` integrates with Better Auth (the current,
+     *   recommended provider). `stack` integrates with Stack Auth (deprecated). `mock`
+     *   is a simulated provider for local development and testing only.
      * @param email Email address of the new user.
-     * @param name Display name for the new user. When omitted, the created user has no display
-     *   name.
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @param name Display name for the new user. When omitted, the created user has
+     *   no display name.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun createAuthLegacyUser(
-        clientConfig: ClientConfig,
-        projectId: String,
-        authProvider: NeonAuthSupportedAuthProvider,
-        email: String,
-        name: String? = null,
-        options: RequestOptions? = null,
-    ): NeonAuthCreateNewUserResponse {
+    fun createAuthLegacyUser(clientConfig: ClientConfig, projectId: String, authProvider: NeonAuthSupportedAuthProvider, email: String, name: String? = null, options: RequestOptions? = null): NeonAuthCreateNewUserResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateLength("email", email, Validation.LengthOpts(min = 1, max = 256))
@@ -244,363 +169,231 @@ object AuthLegacy {
 
         if (name != null) {
             Validation.validateLength("name", name, Validation.LengthOpts(min = 1, max = 255))
-        }
+}
 
-        return SdkClient.request<NeonAuthCreateNewUserResponse>(
-                SdkClient.RequestSpec(
-                    "POST",
-                    "/projects/auth/user",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "project_id" to (projectId),
-                            "auth_provider" to (authProvider),
-                            "email" to (email),
-                            "name" to (SdkClient.omitIfNull(name)),
-                        ),
-                    operationId = "createAuthLegacyUser",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthCreateNewUserResponse>(SdkClient.RequestSpec("POST", "/projects/auth/user", config = clientConfig, body = SdkClient.bodyMap("project_id" to (projectId), "auth_provider" to (authProvider), "email" to (email), "name" to (SdkClient.omitIfNull(name))), operationId = "createAuthLegacyUser", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/users/{auth_user_id}`
-     * instead. Removal scheduled for March 1, 2026.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/users/{auth_user_id}` instead. Removal scheduled for March 1, 2026.
      *
      * @param projectId The Neon project ID
      * @param authUserId The Neon user ID
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun deleteAuthLegacyUser(
-        clientConfig: ClientConfig,
-        projectId: String,
-        authUserId: String,
-        options: RequestOptions? = null,
-    ): Unit {
+    fun deleteAuthLegacyUser(clientConfig: ClientConfig, projectId: String, authUserId: String, options: RequestOptions? = null): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        SdkClient.request<Unit>(
-            SdkClient.RequestSpec(
-                "DELETE",
-                "/projects/${SdkClient.encodePathSegment(projectId)}/auth/users/${SdkClient.encodePathSegment(authUserId)}",
-                config = clientConfig,
-                operationId = "deleteAuthLegacyUser",
-                decoder = SdkClient.ResponseDecoder.EMPTY,
-                options = options,
-                errors = mapOf("default" to GeneralError::class.java),
-            )
-        )
+        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/auth/users/${SdkClient.encodePathSegment(authUserId)}", config = clientConfig, operationId = "deleteAuthLegacyUser", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
     }
+
+
+
+
+
+
 
     /**
      * Transfers ownership of your Neon-managed auth project to your own auth provider account.
      *
      * @param projectId The Neon project ID. Returned as `id` from `GET /projects`.
-     * @param authProvider Authentication provider integrated with this Neon Auth configuration.
-     *   `better_auth` integrates with Better Auth (the current, recommended provider). `stack`
-     *   integrates with Stack Auth (deprecated). `mock` is a simulated provider for local
-     *   development and testing only.
+     * @param authProvider Authentication provider integrated with this Neon Auth
+     *   configuration. `better_auth` integrates with Better Auth (the current,
+     *   recommended provider). `stack` integrates with Stack Auth (deprecated). `mock`
+     *   is a simulated provider for local development and testing only.
      */
-    fun transferAuthLegacyProvider(
-        clientConfig: ClientConfig,
-        projectId: String,
-        authProvider: NeonAuthSupportedAuthProvider,
-        options: RequestOptions? = null,
-    ): NeonAuthTransferAuthProviderProjectResponse {
+    fun transferAuthLegacyProvider(clientConfig: ClientConfig, projectId: String, authProvider: NeonAuthSupportedAuthProvider, options: RequestOptions? = null): NeonAuthTransferAuthProviderProjectResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthTransferAuthProviderProjectResponse>(
-                SdkClient.RequestSpec(
-                    "POST",
-                    "/projects/auth/transfer_ownership",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "project_id" to (projectId),
-                            "auth_provider" to (authProvider),
-                        ),
-                    operationId = "transferAuthLegacyProvider",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthTransferAuthProviderProjectResponse>(SdkClient.RequestSpec("POST", "/projects/auth/transfer_ownership", config = clientConfig, body = SdkClient.bodyMap("project_id" to (projectId), "auth_provider" to (authProvider)), operationId = "transferAuthLegacyProvider", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth` instead. Removal scheduled
-     * for March 1, 2026.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth` instead. Removal scheduled for March 1, 2026.
      *
      * @param projectId The Neon project ID
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun listAuthLegacyIntegrations(
-        clientConfig: ClientConfig,
-        projectId: String,
-        options: RequestOptions? = null,
-    ): ListNeonAuthIntegrationsResponse {
+    fun listAuthLegacyIntegrations(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ListNeonAuthIntegrationsResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ListNeonAuthIntegrationsResponse>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/auth/integrations",
-                    config = clientConfig,
-                    operationId = "listAuthLegacyIntegrations",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<ListNeonAuthIntegrationsResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/auth/integrations", config = clientConfig, operationId = "listAuthLegacyIntegrations", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/oauth_providers` instead.
-     * Removal scheduled for March 1, 2026.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/oauth_providers` instead. Removal scheduled for March 1, 2026.
      *
      * @param projectId The Neon project ID
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun listAuthLegacyOauthProviders(
-        clientConfig: ClientConfig,
-        projectId: String,
-        options: RequestOptions? = null,
-    ): ListNeonAuthOauthProvidersResponse {
+    fun listAuthLegacyOauthProviders(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): ListNeonAuthOauthProvidersResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ListNeonAuthOauthProvidersResponse>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/auth/oauth_providers",
-                    config = clientConfig,
-                    operationId = "listAuthLegacyOauthProviders",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<ListNeonAuthOauthProvidersResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/auth/oauth_providers", config = clientConfig, operationId = "listAuthLegacyOauthProviders", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/oauth_providers` instead.
-     * Removal scheduled for March 1, 2026.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/oauth_providers` instead. Removal scheduled for March 1, 2026.
      *
      * @param projectId The Neon project ID
-     * @param id OAuth provider to configure for Neon Auth. Known values: `google`, `github`,
-     *   `microsoft`, `vercel`.
-     * @param clientId The client ID issued by the OAuth provider for your application. Used to
-     *   identify the application during the OAuth flow.
+     * @param id OAuth provider to configure for Neon Auth. Known values: `google`,
+     *   `github`, `microsoft`, `vercel`.
+     * @param clientId The client ID issued by the OAuth provider for your
+     *   application. Used to identify the application during the OAuth flow.
      * @param clientSecret OAuth client secret for the provider.
-     * @param microsoftTenantId Tenant ID for the Microsoft OAuth provider. Only relevant when the
-     *   OAuth provider is Microsoft; omit or leave blank for other providers.
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @param microsoftTenantId Tenant ID for the Microsoft OAuth provider. Only
+     *   relevant when the OAuth provider is Microsoft; omit or leave blank for other
+     *   providers.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun addAuthLegacyOauthProvider(
-        clientConfig: ClientConfig,
-        projectId: String,
-        id: NeonAuthOauthProviderId,
-        clientId: String? = null,
-        clientSecret: String? = null,
-        microsoftTenantId: String? = null,
-        options: RequestOptions? = null,
-    ): NeonAuthOauthProvider {
+    fun addAuthLegacyOauthProvider(clientConfig: ClientConfig, projectId: String, id: NeonAuthOauthProviderId, clientId: String? = null, clientSecret: String? = null, microsoftTenantId: String? = null, options: RequestOptions? = null): NeonAuthOauthProvider {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthOauthProvider>(
-                SdkClient.RequestSpec(
-                    "POST",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/auth/oauth_providers",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "id" to (id),
-                            "client_id" to (SdkClient.omitIfNull(clientId)),
-                            "client_secret" to (SdkClient.omitIfNull(clientSecret)),
-                            "microsoft_tenant_id" to (SdkClient.omitIfNull(microsoftTenantId)),
-                        ),
-                    operationId = "addAuthLegacyOauthProvider",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthOauthProvider>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/auth/oauth_providers", config = clientConfig, body = SdkClient.bodyMap("id" to (id), "client_id" to (SdkClient.omitIfNull(clientId)), "client_secret" to (SdkClient.omitIfNull(clientSecret)), "microsoft_tenant_id" to
+    (SdkClient.omitIfNull(microsoftTenantId))), operationId = "addAuthLegacyOauthProvider", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Deprecated. Use
-     * `/projects/{project_id}/branches/{branch_id}/auth/oauth_providers/{oauth_provider_id}`
-     * instead. Removal scheduled for March 1, 2026.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/oauth_providers/{oauth_provider_id}` instead. Removal scheduled for March 1, 2026.
      *
      * @param projectId The Neon project ID
      * @param oauthProviderId The OAuth provider ID
-     * @param clientId The OAuth client ID registered with the provider. Omit to keep the currently
-     *   configured value.
-     * @param clientSecret OAuth client secret for the provider. Omit to leave the existing secret
-     *   unchanged.
-     * @param microsoftTenantId The tenant ID scoping the Microsoft OAuth provider. Supply this
-     *   field when the provider type is microsoft; it has no effect for other provider types.
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @param clientId The OAuth client ID registered with the provider. Omit to keep
+     *   the currently configured value.
+     * @param clientSecret OAuth client secret for the provider. Omit to leave the
+     *   existing secret unchanged.
+     * @param microsoftTenantId The tenant ID scoping the Microsoft OAuth provider.
+     *   Supply this field when the provider type is microsoft; it has no effect for
+     *   other provider types.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun updateAuthLegacyOauthProvider(
-        clientConfig: ClientConfig,
-        projectId: String,
-        oauthProviderId: NeonAuthOauthProviderId,
-        clientId: String? = null,
-        clientSecret: String? = null,
-        microsoftTenantId: String? = null,
-        options: RequestOptions? = null,
-    ): NeonAuthOauthProvider {
+    fun updateAuthLegacyOauthProvider(clientConfig: ClientConfig, projectId: String, oauthProviderId: NeonAuthOauthProviderId, clientId: String? = null, clientSecret: String? = null, microsoftTenantId: String? = null, options: RequestOptions? = null): NeonAuthOauthProvider {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthOauthProvider>(
-                SdkClient.RequestSpec(
-                    "PATCH",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/auth/oauth_providers/${SdkClient.encodePathSegment(oauthProviderId)}",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "client_id" to (SdkClient.omitIfNull(clientId)),
-                            "client_secret" to (SdkClient.omitIfNull(clientSecret)),
-                            "microsoft_tenant_id" to (SdkClient.omitIfNull(microsoftTenantId)),
-                        ),
-                    operationId = "updateAuthLegacyOauthProvider",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthOauthProvider>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}/auth/oauth_providers/${SdkClient.encodePathSegment(oauthProviderId)}", config = clientConfig, body = SdkClient.bodyMap("client_id" to (SdkClient.omitIfNull(clientId)), "client_secret" to (SdkClient.omitIfNull(clientSecret)), "microsoft_tenant_id" to
+    (SdkClient.omitIfNull(microsoftTenantId))), operationId = "updateAuthLegacyOauthProvider", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Deprecated. Use
-     * `/projects/{project_id}/branches/{branch_id}/auth/oauth_providers/{oauth_provider_id}`
-     * instead. Removal scheduled for March 1, 2026.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/oauth_providers/{oauth_provider_id}` instead. Removal scheduled for March 1, 2026.
      *
      * @param projectId The Neon project ID
      * @param oauthProviderId The OAuth provider ID
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun deleteAuthLegacyOauthProvider(
-        clientConfig: ClientConfig,
-        projectId: String,
-        oauthProviderId: NeonAuthOauthProviderId,
-        options: RequestOptions? = null,
-    ): Unit {
+    fun deleteAuthLegacyOauthProvider(clientConfig: ClientConfig, projectId: String, oauthProviderId: NeonAuthOauthProviderId, options: RequestOptions? = null): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        SdkClient.request<Unit>(
-            SdkClient.RequestSpec(
-                "DELETE",
-                "/projects/${SdkClient.encodePathSegment(projectId)}/auth/oauth_providers/${SdkClient.encodePathSegment(oauthProviderId)}",
-                config = clientConfig,
-                operationId = "deleteAuthLegacyOauthProvider",
-                decoder = SdkClient.ResponseDecoder.EMPTY,
-                options = options,
-                errors = mapOf("default" to GeneralError::class.java),
-            )
-        )
+        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/auth/oauth_providers/${SdkClient.encodePathSegment(oauthProviderId)}", config = clientConfig, operationId = "deleteAuthLegacyOauthProvider", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
     }
 
+
+
+
+
+
+
     /**
-     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/email_provider` instead.
-     * Removal scheduled for March 1, 2026.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/email_provider` instead. Removal scheduled for March 1, 2026.
      *
      * @param projectId The Neon project ID
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun getAuthLegacyEmailServer(
-        clientConfig: ClientConfig,
-        projectId: String,
-        options: RequestOptions? = null,
-    ): NeonAuthEmailServerConfigResponse {
+    fun getAuthLegacyEmailServer(clientConfig: ClientConfig, projectId: String, options: RequestOptions? = null): NeonAuthEmailServerConfigResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthEmailServerConfigResponse>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/auth/email_server",
-                    config = clientConfig,
-                    operationId = "getAuthLegacyEmailServer",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthEmailServerConfigResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/auth/email_server", config = clientConfig, operationId = "getAuthLegacyEmailServer", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Updates the email server configuration for a Neon project. This operation is closing down and
-     * will be removed on March 1, 2026. Use `PATCH
-     * /projects/{project_id}/branches/{branch_id}/auth/email_provider` instead.
+     * Updates the email server configuration for a Neon project. This operation is closing down and will be removed on March 1, 2026. Use `PATCH /projects/{project_id}/branches/{branch_id}/auth/email_provider` instead.
      *
-     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/email_provider` instead.
-     * Removal scheduled for March 1, 2026.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth/email_provider` instead. Removal scheduled for March 1, 2026.
      *
      * @param projectId The Neon project ID
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun updateAuthLegacyEmailServer(
-        clientConfig: ClientConfig,
-        projectId: String,
-        body: NeonAuthEmailServerConfig,
-        options: RequestOptions? = null,
-    ): NeonAuthEmailServerConfigResponse {
+    fun updateAuthLegacyEmailServer(clientConfig: ClientConfig, projectId: String, body: NeonAuthEmailServerConfig, options: RequestOptions? = null): NeonAuthEmailServerConfigResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthEmailServerConfigResponse>(
-                SdkClient.RequestSpec(
-                    "PATCH",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/auth/email_server",
-                    config = clientConfig,
-                    body = body,
-                    operationId = "updateAuthLegacyEmailServer",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthEmailServerConfigResponse>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}/auth/email_server", config = clientConfig, body = body, operationId = "updateAuthLegacyEmailServer", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth` instead. Removal scheduled
-     * for March 1, 2026.
+     * Deprecated. Use `/projects/{project_id}/branches/{branch_id}/auth` instead. Removal scheduled for March 1, 2026.
      *
      * @param projectId The Neon project ID
      * @param authProvider The authentication provider name
      * @param deleteData If true, deletes the `neon_auth` schema from the database
-     * @deprecated This operation is deprecated and may be removed in a future release.
+     * @deprecated This operation is deprecated and may be removed in a future
+     *   release.
      */
-    fun deleteAuthLegacyIntegration(
-        clientConfig: ClientConfig,
-        projectId: String,
-        authProvider: NeonAuthSupportedAuthProvider,
-        deleteData: Boolean? = null,
-        options: RequestOptions? = null,
-    ): Unit {
+    fun deleteAuthLegacyIntegration(clientConfig: ClientConfig, projectId: String, authProvider: NeonAuthSupportedAuthProvider, deleteData: Boolean? = null, options: RequestOptions? = null): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
-        SdkClient.request<Unit>(
-            SdkClient.RequestSpec(
-                "DELETE",
-                "/projects/${SdkClient.encodePathSegment(projectId)}/auth/integration/${SdkClient.encodePathSegment(authProvider)}",
-                config = clientConfig,
-                body = SdkClient.bodyMap("delete_data" to (SdkClient.omitIfNull(deleteData))),
-                operationId = "deleteAuthLegacyIntegration",
-                decoder = SdkClient.ResponseDecoder.EMPTY,
-                options = options,
-                errors = mapOf("default" to GeneralError::class.java),
-            )
-        )
+        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/auth/integration/${SdkClient.encodePathSegment(authProvider)}", config = clientConfig, body = SdkClient.bodyMap("delete_data" to (SdkClient.omitIfNull(deleteData))), operationId = "deleteAuthLegacyIntegration", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
     }
+
+
+
+
+
+
+
 }

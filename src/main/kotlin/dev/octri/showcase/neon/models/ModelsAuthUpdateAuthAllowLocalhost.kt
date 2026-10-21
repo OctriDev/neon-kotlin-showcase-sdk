@@ -3,8 +3,12 @@
 
 package dev.octri.showcase.neon.models
 
-/** Typed representation of the `UpdateNeonAuthAllowLocalhostRequest` API schema. */
+/**
+ * Typed representation of the `UpdateNeonAuthAllowLocalhostRequest` API schema.
+ */
 data class UpdateNeonAuthAllowLocalhostRequest(
-    /** Whether to allow localhost connections */
+    /**
+     * Whether to allow localhost connections
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("allow_localhost") val allowLocalhost: Boolean
 )

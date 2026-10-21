@@ -4,10 +4,11 @@
 package dev.octri.showcase.neon.models
 
 /**
- * Request to test the branch's saved email provider. Only the recipient is supplied; the stored
- * SMTP settings and password are used server-side.
+ * Request to test the branch's saved email provider. Only the recipient is supplied; the stored SMTP settings and password are used server-side.
  */
 data class SendNeonAuthEmailProviderTestRequest(
-    /** The email address to send the test email to. */
+    /**
+     * The email address to send the test email to.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("recipient_email") val recipientEmail: String
 )

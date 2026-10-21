@@ -3,16 +3,26 @@
 
 package dev.octri.showcase.neon.models
 
-/** Properties to update on the database. */
+/**
+ * Properties to update on the database.
+ */
 data class DatabaseUpdateRequestDatabase(
-    /** Name of the database to update. */
+    /**
+     * Name of the database to update.
+     */
     val name: String? = null,
-    /** The name of the role that owns the database */
-    @com.fasterxml.jackson.annotation.JsonProperty("owner_name") val ownerName: String? = null,
+    /**
+     * The name of the role that owns the database
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("owner_name") val ownerName: String? = null
 )
 
-/** Typed representation of the `DatabaseUpdateRequest` API schema. */
+/**
+ * Typed representation of the `DatabaseUpdateRequest` API schema.
+ */
 data class DatabaseUpdateRequest(
-    /** Properties to update on the database. */
+    /**
+     * Properties to update on the database.
+     */
     val database: DatabaseUpdateRequestDatabase
 )

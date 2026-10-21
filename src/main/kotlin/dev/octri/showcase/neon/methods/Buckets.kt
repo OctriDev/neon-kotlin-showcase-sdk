@@ -19,123 +19,75 @@ import dev.octri.showcase.neon.Validation
 
 object Buckets {
 
+
     /**
-     * Creates a new branchable object storage bucket on the specified branch. Buckets are managed
-     * by the Neon Platform branchable object storage service. **Note**: This endpoint is currently
-     * in Beta.
+     * Creates a new branchable object storage bucket on the specified branch. Buckets are managed by the Neon Platform branchable object storage service. **Note**: This endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param name The bucket name.
-     * @param accessLevel Access level for the bucket. Defaults to `private`. Set to `public_read`
-     *   to allow anonymous `GetObject`/`HeadObject` on objects in this bucket.
+     * @param accessLevel Access level for the bucket. Defaults to `private`. Set to
+     *   `public_read` to allow anonymous `GetObject`/`HeadObject` on objects in this
+     *   bucket.
      */
-    fun createBuckets(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        name: String,
-        accessLevel: BucketCreateRequestAccessLevelEnum? = null,
-        options: RequestOptions? = null,
-    ): BucketResponse {
+    fun createBuckets(clientConfig: ClientConfig, projectId: String, branchId: String, name: String, accessLevel: BucketCreateRequestAccessLevelEnum? = null, options: RequestOptions? = null): BucketResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateLength("name", name, Validation.LengthOpts(min = 1, max = 255))
 
-        return SdkClient.request<BucketResponse>(
-                SdkClient.RequestSpec(
-                    "POST",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/buckets",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "name" to (name),
-                            "access_level" to (SdkClient.omitIfNull(accessLevel)),
-                        ),
-                    operationId = "createBuckets",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors =
-                        mapOf(
-                            "410" to GeneralError::class.java,
-                            "default" to GeneralError::class.java,
-                        ),
-                )
-            )
-            .data
+        return SdkClient.request<BucketResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/buckets", config = clientConfig, body = SdkClient.bodyMap("name" to (name), "access_level" to (SdkClient.omitIfNull(accessLevel))), operationId = "createBuckets", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("410" to GeneralError::class.java, "default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Lists branchable object storage buckets visible on the specified branch, including those
-     * inherited from ancestor branches. **Note**: This endpoint is currently in Beta.
+     * Lists branchable object storage buckets visible on the specified branch, including those inherited from ancestor branches. **Note**: This endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      */
-    fun listBuckets(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        options: RequestOptions? = null,
-    ): BucketsListResponse {
+    fun listBuckets(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): BucketsListResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<BucketsListResponse>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/buckets",
-                    config = clientConfig,
-                    operationId = "listBuckets",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<BucketsListResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/buckets", config = clientConfig, operationId = "listBuckets", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Deletes the named bucket from the specified branch. **Note**: This endpoint is currently in
-     * Beta.
+     * Deletes the named bucket from the specified branch. **Note**: This endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param bucketName The bucket name
      */
-    fun deleteBuckets(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        bucketName: String,
-        options: RequestOptions? = null,
-    ): Unit {
+    fun deleteBuckets(clientConfig: ClientConfig, projectId: String, branchId: String, bucketName: String, options: RequestOptions? = null): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        Validation.validateLength(
-            "bucket_name",
-            bucketName,
-            Validation.LengthOpts(min = 1, max = 255),
-        )
+        Validation.validateLength("bucket_name", bucketName, Validation.LengthOpts(min = 1, max = 255))
 
-        SdkClient.request<Unit>(
-            SdkClient.RequestSpec(
-                "DELETE",
-                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/buckets/${SdkClient.encodePathSegment(bucketName)}",
-                config = clientConfig,
-                operationId = "deleteBuckets",
-                decoder = SdkClient.ResponseDecoder.EMPTY,
-                options = options,
-                errors =
-                    mapOf("404" to GeneralError::class.java, "default" to GeneralError::class.java),
-            )
-        )
+        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/buckets/${SdkClient.encodePathSegment(bucketName)}", config = clientConfig, operationId = "deleteBuckets", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("404" to GeneralError::class.java, "default" to GeneralError::class.java)))
     }
+
+
+
+
+
+
 
     /** Parameters for [listBucketsObjects]. */
     data class ListBucketsObjectsRequest(
@@ -145,99 +97,62 @@ object Buckets {
         val prefix: String? = null,
         val delimiter: String? = null,
         val cursor: String? = null,
-        val limit: Int? = null,
+        val limit: Int? = null
     )
 
     /**
-     * Lists objects visible in the named bucket on the specified branch, including those inherited
-     * from ancestor branches. Listing is served by the user's session (no customer S3 credentials
-     * required). When `delimiter` is supplied (typically `/`), keys are collapsed into common
-     * prefixes (`folders`) so callers can render a folder-style browser; keys that do not contain
-     * the delimiter after `prefix` are returned as `objects`. **Note**: This endpoint is currently
-     * in Beta.
+     * Lists objects visible in the named bucket on the specified branch, including those inherited from ancestor branches. Listing is served by the user's session (no customer S3 credentials required). When `delimiter` is supplied (typically `/`), keys are collapsed into common prefixes (`folders`) so callers can render a folder-style browser; keys that do not contain the delimiter after `prefix` are returned as `objects`. **Note**: This endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param bucketName The bucket name
      * @param prefix Only list objects whose key starts with this prefix.
-     * @param delimiter Collapse keys sharing a common prefix up to the first occurrence of this
-     *   delimiter (typically `/`) into the `folders` array.
-     * @param cursor Opaque pagination cursor returned as `next_cursor` by a previous call. Resume
-     *   listing after the last item of the previous page.
+     * @param delimiter Collapse keys sharing a common prefix up to the first
+     *   occurrence of this delimiter (typically `/`) into the `folders` array.
+     * @param cursor Opaque pagination cursor returned as `next_cursor` by a previous
+     *   call. Resume listing after the last item of the previous page.
      * @param limit Maximum number of items (objects + folders) to return.
      */
-    fun listBucketsObjects(
-        clientConfig: ClientConfig,
-        request: ListBucketsObjectsRequest,
-        options: RequestOptions? = null,
-    ): BucketObjectsListResponse {
+    fun listBucketsObjects(clientConfig: ClientConfig, request: ListBucketsObjectsRequest, options: RequestOptions? = null): BucketObjectsListResponse {
         validateListBucketsObjectsRequest(request)
 
-        return SdkClient.request<BucketObjectsListResponse>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/buckets/${SdkClient.encodePathSegment(request.bucketName)}/objects",
-                    config = clientConfig,
-                    query =
-                        mapOf(
-                            "prefix" to SdkClient.queryValue(request.prefix, "form", true),
-                            "delimiter" to SdkClient.queryValue(request.delimiter, "form", true),
-                            "cursor" to SdkClient.queryValue(request.cursor, "form", true),
-                            "limit" to SdkClient.queryValue(request.limit, "form", true),
-                        ),
-                    operationId = "listBucketsObjects",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<BucketObjectsListResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/buckets/${SdkClient.encodePathSegment(request.bucketName)}/objects", config = clientConfig, query = mapOf("prefix" to
+    SdkClient.queryValue(request.prefix, "form", true), "delimiter" to
+    SdkClient.queryValue(request.delimiter, "form", true), "cursor" to
+    SdkClient.queryValue(request.cursor, "form", true), "limit" to SdkClient.queryValue(request.limit, "form", true)), operationId = "listBucketsObjects", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
+
 
     private fun validateListBucketsObjectsRequest(request: ListBucketsObjectsRequest) {
         Validation.validatePattern("project_id", request.projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", request.branchId, "^[a-z0-9-]{1,60}$")
 
-        Validation.validateLength(
-            "bucket_name",
-            request.bucketName,
-            Validation.LengthOpts(min = 1, max = 255),
-        )
+        Validation.validateLength("bucket_name", request.bucketName, Validation.LengthOpts(min = 1, max = 255))
 
         if (request.limit != null) {
-            Validation.validateRange(
-                "limit",
-                request.limit,
-                Validation.RangeOpts(min = 1.0, max = 1000.0),
-            )
-        }
+            Validation.validateRange("limit", request.limit, Validation.RangeOpts(min = 1.0, max = 1000.0))
+}
     }
 
+
+
+
+
     /**
-     * Lists objects visible in the named bucket on the specified branch, including those inherited
-     * from ancestor branches. Listing is served by the user's session (no customer S3 credentials
-     * required). When `delimiter` is supplied (typically `/`), keys are collapsed into common
-     * prefixes (`folders`) so callers can render a folder-style browser; keys that do not contain
-     * the delimiter after `prefix` are returned as `objects`. **Note**: This endpoint is currently
-     * in Beta.
+     * Lists objects visible in the named bucket on the specified branch, including those inherited from ancestor branches. Listing is served by the user's session (no customer S3 credentials required). When `delimiter` is supplied (typically `/`), keys are collapsed into common prefixes (`folders`) so callers can render a folder-style browser; keys that do not contain the delimiter after `prefix` are returned as `objects`. **Note**: This endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param bucketName The bucket name
      * @param prefix Only list objects whose key starts with this prefix.
-     * @param delimiter Collapse keys sharing a common prefix up to the first occurrence of this
-     *   delimiter (typically `/`) into the `folders` array.
-     * @param cursor Opaque pagination cursor returned as `next_cursor` by a previous call. Resume
-     *   listing after the last item of the previous page.
+     * @param delimiter Collapse keys sharing a common prefix up to the first
+     *   occurrence of this delimiter (typically `/`) into the `folders` array.
+     * @param cursor Opaque pagination cursor returned as `next_cursor` by a previous
+     *   call. Resume listing after the last item of the previous page.
      * @param limit Maximum number of items (objects + folders) to return.
      */
-    fun listBucketsObjectsPaginated(
-        clientConfig: ClientConfig,
-        request: ListBucketsObjectsRequest,
-        options: RequestOptions? = null,
-        yieldFn: (BucketObject) -> Boolean,
-    ) {
+    fun listBucketsObjectsPaginated(clientConfig: ClientConfig, request: ListBucketsObjectsRequest, options: RequestOptions? = null, yieldFn: (BucketObject) -> Boolean) {
         var cursor = request.cursor
         while (true) {
             val page = listBucketsObjects(clientConfig, request.copy(cursor = cursor), options)
@@ -258,12 +173,7 @@ object Buckets {
         val hasMore: Boolean,
     )
 
-    fun listBucketsObjectsPages(
-        clientConfig: ClientConfig,
-        request: ListBucketsObjectsRequest,
-        options: RequestOptions? = null,
-        yieldPage: (ListBucketsObjectsPage) -> Boolean,
-    ) {
+    fun listBucketsObjectsPages(clientConfig: ClientConfig, request: ListBucketsObjectsRequest, options: RequestOptions? = null, yieldPage: (ListBucketsObjectsPage) -> Boolean) {
         var cursor = request.cursor
         while (true) {
             val page = listBucketsObjects(clientConfig, request.copy(cursor = cursor), options)
@@ -277,162 +187,89 @@ object Buckets {
         }
     }
 
+
+
     /**
-     * Deletes the named object from the bucket on the specified branch. Served by the user's
-     * session (no customer S3 credentials required). **Note**: This endpoint is currently in Beta.
+     * Deletes the named object from the bucket on the specified branch. Served by the user's session (no customer S3 credentials required). **Note**: This endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param bucketName The bucket name
-     * @param objectKey The object key. Keys may contain `/`; the `/` characters of nested keys must
-     *   be percent-encoded (`%2F`) in the path segment.
+     * @param objectKey The object key. Keys may contain `/`; the `/` characters of
+     *   nested keys must be percent-encoded (`%2F`) in the path segment.
      */
-    fun deleteBucketsObject(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        bucketName: String,
-        objectKey: String,
-        options: RequestOptions? = null,
-    ): Unit {
+    fun deleteBucketsObject(clientConfig: ClientConfig, projectId: String, branchId: String, bucketName: String, objectKey: String, options: RequestOptions? = null): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        Validation.validateLength(
-            "bucket_name",
-            bucketName,
-            Validation.LengthOpts(min = 1, max = 255),
-        )
+        Validation.validateLength("bucket_name", bucketName, Validation.LengthOpts(min = 1, max = 255))
 
-        Validation.validateLength(
-            "object_key",
-            objectKey,
-            Validation.LengthOpts(min = 1, max = 1024),
-        )
+        Validation.validateLength("object_key", objectKey, Validation.LengthOpts(min = 1, max = 1024))
 
-        SdkClient.request<Unit>(
-            SdkClient.RequestSpec(
-                "DELETE",
-                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/buckets/${SdkClient.encodePathSegment(bucketName)}/objects/${SdkClient.encodePathSegment(objectKey)}",
-                config = clientConfig,
-                operationId = "deleteBucketsObject",
-                decoder = SdkClient.ResponseDecoder.EMPTY,
-                options = options,
-                errors =
-                    mapOf("404" to GeneralError::class.java, "default" to GeneralError::class.java),
-            )
-        )
+        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/buckets/${SdkClient.encodePathSegment(bucketName)}/objects/${SdkClient.encodePathSegment(objectKey)}", config = clientConfig, operationId = "deleteBucketsObject", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("404" to GeneralError::class.java, "default" to GeneralError::class.java)))
     }
 
+
+
+
+
+
+
     /**
-     * Streams the raw bytes of the named object from the bucket on the specified branch, including
-     * objects inherited from ancestor branches. Served by the user's session (no customer S3
-     * credentials required). The body is returned as `application/octet-stream` so a browser treats
-     * it as a download; the `Content-Length` and `ETag` response headers echo the stored object
-     * metadata. BINARY-STREAM EXCEPTION TO THE BUILD-GENERATED-TYPES RULE (#7029): the successful
-     * 200 body is the raw…
+     * Streams the raw bytes of the named object from the bucket on the specified branch, including objects inherited from ancestor branches. Served by the user's session (no customer S3 credentials required). The body is returned as `application/octet-stream` so a browser treats it as a download; the `Content-Length` and `ETag` response headers echo the stored object metadata. BINARY-STREAM EXCEPTION TO THE BUILD-GENERATED-TYPES RULE (#7029): the successful 200 body is the raw…
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param bucketName The bucket name
-     * @param objectKey The object key. Keys may contain `/`; the `/` characters of nested keys must
-     *   be percent-encoded (`%2F`) in the path segment.
+     * @param objectKey The object key. Keys may contain `/`; the `/` characters of
+     *   nested keys must be percent-encoded (`%2F`) in the path segment.
      */
-    fun getBucketsObject(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        bucketName: String,
-        objectKey: String,
-        options: RequestOptions? = null,
-    ): ByteArray {
+    fun getBucketsObject(clientConfig: ClientConfig, projectId: String, branchId: String, bucketName: String, objectKey: String, options: RequestOptions? = null): ByteArray {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        Validation.validateLength(
-            "bucket_name",
-            bucketName,
-            Validation.LengthOpts(min = 1, max = 255),
-        )
+        Validation.validateLength("bucket_name", bucketName, Validation.LengthOpts(min = 1, max = 255))
 
-        Validation.validateLength(
-            "object_key",
-            objectKey,
-            Validation.LengthOpts(min = 1, max = 1024),
-        )
+        Validation.validateLength("object_key", objectKey, Validation.LengthOpts(min = 1, max = 1024))
 
-        return SdkClient.request<ByteArray>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/buckets/${SdkClient.encodePathSegment(bucketName)}/objects/${SdkClient.encodePathSegment(objectKey)}/download",
-                    config = clientConfig,
-                    operationId = "getBucketsObject",
-                    decoder = SdkClient.ResponseDecoder.BYTES,
-                    options = options,
-                    errors =
-                        mapOf(
-                            "404" to GeneralError::class.java,
-                            "default" to GeneralError::class.java,
-                        ),
-                )
-            )
-            .data
+        return SdkClient.request<ByteArray>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/buckets/${SdkClient.encodePathSegment(bucketName)}/objects/${SdkClient.encodePathSegment(objectKey)}/download", config = clientConfig, operationId = "getBucketsObject", decoder = SdkClient.ResponseDecoder.BYTES, options = options, errors = mapOf("404" to GeneralError::class.java, "default" to GeneralError::class.java))).data
     }
 
+
+
+
+
+
+
     /**
-     * Soft-deletes every object on the specified branch whose key starts with `prefix`, in a single
-     * call. Intended to back a "delete folder" action in an object browser: a `prefix` of
-     * `app/avatars/` removes every object beneath that folder. Served by the user's session (no
-     * customer S3 credentials required). `prefix` must be non-empty, end with `/`, be at most 1024
-     * bytes, and contain no control characters - a partial-segment prefix cannot accidentally
-     * delete sibling keys. Returns…
+     * Soft-deletes every object on the specified branch whose key starts with `prefix`, in a single call. Intended to back a "delete folder" action in an object browser: a `prefix` of `app/avatars/` removes every object beneath that folder. Served by the user's session (no customer S3 credentials required). `prefix` must be non-empty, end with `/`, be at most 1024 bytes, and contain no control characters - a partial-segment prefix cannot accidentally delete sibling keys. Returns…
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param bucketName The bucket name
-     * @param prefix The key prefix (folder) to delete. Must be non-empty and end with `/`. Every
-     *   object on this branch whose key starts with this prefix is soft-deleted.
+     * @param prefix The key prefix (folder) to delete. Must be non-empty and end
+     *   with `/`. Every object on this branch whose key starts with this prefix is
+     *   soft-deleted.
      */
-    fun deleteBucketsObjectsByPrefix(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        bucketName: String,
-        prefix: String,
-        options: RequestOptions? = null,
-    ): BucketObjectsDeletePrefixResponse {
+    fun deleteBucketsObjectsByPrefix(clientConfig: ClientConfig, projectId: String, branchId: String, bucketName: String, prefix: String, options: RequestOptions? = null): BucketObjectsDeletePrefixResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        Validation.validateLength(
-            "bucket_name",
-            bucketName,
-            Validation.LengthOpts(min = 1, max = 255),
-        )
+        Validation.validateLength("bucket_name", bucketName, Validation.LengthOpts(min = 1, max = 255))
 
         Validation.validateLength("prefix", prefix, Validation.LengthOpts(min = 1, max = 1024))
 
-        return SdkClient.request<BucketObjectsDeletePrefixResponse>(
-                SdkClient.RequestSpec(
-                    "DELETE",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/buckets/${SdkClient.encodePathSegment(bucketName)}/objects-by-prefix",
-                    config = clientConfig,
-                    query = mapOf("prefix" to SdkClient.queryValue(prefix, "form", true)),
-                    operationId = "deleteBucketsObjectsByPrefix",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors =
-                        mapOf(
-                            "404" to GeneralError::class.java,
-                            "default" to GeneralError::class.java,
-                        ),
-                )
-            )
-            .data
+        return SdkClient.request<BucketObjectsDeletePrefixResponse>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/buckets/${SdkClient.encodePathSegment(bucketName)}/objects-by-prefix", config = clientConfig, query = mapOf("prefix" to SdkClient.queryValue(prefix, "form", true)), operationId = "deleteBucketsObjectsByPrefix", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("404" to GeneralError::class.java, "default" to GeneralError::class.java))).data
     }
+
+
+
+
+
+
 
     /** Parameters for [presignBucketsObject]. */
     data class PresignBucketsObjectRequest(
@@ -442,85 +279,52 @@ object Buckets {
         val objectKey: String,
         val operation: PresignRequestOperationEnum,
         val contentType: String? = null,
-        val expiresInSeconds: Long? = null,
+        val expiresInSeconds: Long? = null
     )
 
     /**
-     * Returns a presigned URL that transfers bytes directly to or from the object's bucket on the
-     * specified branch, without the caller ever handling S3 credentials. The `operation` field
-     * selects the direction: - `upload` returns a presigned `PUT` URL (the caller `PUT`s the file
-     * bytes straight to `url` with the returned `headers`). Authorized with project write access. -
-     * `download` returns a presigned `GET` URL (the caller `GET`s the bytes straight from `url`).
-     * Authorized with…
+     * Returns a presigned URL that transfers bytes directly to or from the object's bucket on the specified branch, without the caller ever handling S3 credentials. The `operation` field selects the direction: - `upload` returns a presigned `PUT` URL (the caller `PUT`s the file bytes straight to `url` with the returned `headers`). Authorized with project write access. - `download` returns a presigned `GET` URL (the caller `GET`s the bytes straight from `url`). Authorized with…
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param bucketName The bucket name
-     * @param objectKey The object key. Keys may contain `/`; the `/` characters of nested keys must
-     *   be percent-encoded (`%2F`) in the path segment.
-     * @param operation The transfer direction. `upload` returns a presigned `PUT` URL; `download`
-     *   returns a presigned `GET` URL.
-     * @param contentType The `Content-Type` to bind into the signed request. Only meaningful for
-     *   `upload`: when set, the caller MUST send the same `Content-Type` header on the `PUT`, and
-     *   the value is echoed back in the response `headers`. Ignored for `download`.
-     * @param expiresInSeconds How long the presigned URL stays valid, in seconds. Defaults to 900
-     *   (15 minutes); capped at 604800 (7 days).
+     * @param objectKey The object key. Keys may contain `/`; the `/` characters of
+     *   nested keys must be percent-encoded (`%2F`) in the path segment.
+     * @param operation The transfer direction. `upload` returns a presigned `PUT`
+     *   URL; `download` returns a presigned `GET` URL.
+     * @param contentType The `Content-Type` to bind into the signed request. Only
+     *   meaningful for `upload`: when set, the caller MUST send the same
+     *   `Content-Type` header on the `PUT`, and the value is echoed back in the
+     *   response `headers`. Ignored for `download`.
+     * @param expiresInSeconds How long the presigned URL stays valid, in seconds.
+     *   Defaults to 900 (15 minutes); capped at 604800 (7 days).
      */
-    fun presignBucketsObject(
-        clientConfig: ClientConfig,
-        request: PresignBucketsObjectRequest,
-        options: RequestOptions? = null,
-    ): PresignResponse {
+    fun presignBucketsObject(clientConfig: ClientConfig, request: PresignBucketsObjectRequest, options: RequestOptions? = null): PresignResponse {
         validatePresignBucketsObjectRequest(request)
 
-        return SdkClient.request<PresignResponse>(
-                SdkClient.RequestSpec(
-                    "POST",
-                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/buckets/${SdkClient.encodePathSegment(request.bucketName)}/objects/${SdkClient.encodePathSegment(request.objectKey)}/presign",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "operation" to (request.operation),
-                            "content_type" to (SdkClient.omitIfNull(request.contentType)),
-                            "expires_in_seconds" to
-                                (SdkClient.omitIfNull(request.expiresInSeconds)),
-                        ),
-                    operationId = "presignBucketsObject",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors =
-                        mapOf(
-                            "404" to GeneralError::class.java,
-                            "default" to GeneralError::class.java,
-                        ),
-                )
-            )
-            .data
+        return SdkClient.request<PresignResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/buckets/${SdkClient.encodePathSegment(request.bucketName)}/objects/${SdkClient.encodePathSegment(request.objectKey)}/presign", config = clientConfig, body = SdkClient.bodyMap("operation" to (request.operation), "content_type" to
+    (SdkClient.omitIfNull(request.contentType)), "expires_in_seconds" to
+    (SdkClient.omitIfNull(request.expiresInSeconds))), operationId = "presignBucketsObject", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("404" to GeneralError::class.java, "default" to GeneralError::class.java))).data
     }
+
 
     private fun validatePresignBucketsObjectRequest(request: PresignBucketsObjectRequest) {
         Validation.validatePattern("project_id", request.projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", request.branchId, "^[a-z0-9-]{1,60}$")
 
-        Validation.validateLength(
-            "bucket_name",
-            request.bucketName,
-            Validation.LengthOpts(min = 1, max = 255),
-        )
+        Validation.validateLength("bucket_name", request.bucketName, Validation.LengthOpts(min = 1, max = 255))
 
-        Validation.validateLength(
-            "object_key",
-            request.objectKey,
-            Validation.LengthOpts(min = 1, max = 1024),
-        )
+        Validation.validateLength("object_key", request.objectKey, Validation.LengthOpts(min = 1, max = 1024))
 
         if (request.expiresInSeconds != null) {
-            Validation.validateRange(
-                "expires_in_seconds",
-                request.expiresInSeconds,
-                Validation.RangeOpts(min = 1.0, max = 604800.0),
-            )
-        }
+            Validation.validateRange("expires_in_seconds", request.expiresInSeconds, Validation.RangeOpts(min = 1.0, max = 604800.0))
+}
     }
+
+
+
+
+
+
 }

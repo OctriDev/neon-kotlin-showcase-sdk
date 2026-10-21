@@ -19,74 +19,38 @@ internal object AuthListAuthOauthProvidersOperation {
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      */
-    fun listAuthOauthProviders(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        options: RequestOptions? = null,
-    ): ListNeonAuthOauthProvidersResponse {
+    fun listAuthOauthProviders(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): ListNeonAuthOauthProvidersResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<ListNeonAuthOauthProvidersResponse>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/oauth_providers",
-                    config = clientConfig,
-                    operationId = "listAuthOauthProviders",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<ListNeonAuthOauthProvidersResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/oauth_providers", config = clientConfig, operationId = "listAuthOauthProviders", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 
 internal object AuthAddAuthOauthProviderOperation {
     /**
-     * Adds an OAuth provider configuration to the specified branch's Neon Auth integration. After
-     * adding, users can authenticate using the configured provider.
+     * Adds an OAuth provider configuration to the specified branch's Neon Auth integration. After adding, users can authenticate using the configured provider.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
-     * @param id OAuth provider to configure for Neon Auth. Known values: `google`, `github`,
-     *   `microsoft`, `vercel`.
-     * @param clientId The client ID issued by the OAuth provider for your application. Used to
-     *   identify the application during the OAuth flow.
+     * @param id OAuth provider to configure for Neon Auth. Known values: `google`,
+     *   `github`, `microsoft`, `vercel`.
+     * @param clientId The client ID issued by the OAuth provider for your
+     *   application. Used to identify the application during the OAuth flow.
      * @param clientSecret OAuth client secret for the provider.
-     * @param microsoftTenantId Tenant ID for the Microsoft OAuth provider. Only relevant when the
-     *   OAuth provider is Microsoft; omit or leave blank for other providers.
+     * @param microsoftTenantId Tenant ID for the Microsoft OAuth provider. Only
+     *   relevant when the OAuth provider is Microsoft; omit or leave blank for other
+     *   providers.
      */
-    fun addAuthOauthProvider(
-        clientConfig: ClientConfig,
-        request: Auth.AddAuthOauthProviderRequest,
-        options: RequestOptions? = null,
-    ): NeonAuthOauthProvider {
+    fun addAuthOauthProvider(clientConfig: ClientConfig, request: Auth.AddAuthOauthProviderRequest, options: RequestOptions? = null): NeonAuthOauthProvider {
         validateAddAuthOauthProviderRequest(request)
 
-        return SdkClient.request<NeonAuthOauthProvider>(
-                SdkClient.RequestSpec(
-                    "POST",
-                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/auth/oauth_providers",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "id" to (request.id),
-                            "client_id" to (SdkClient.omitIfNull(request.clientId)),
-                            "client_secret" to (SdkClient.omitIfNull(request.clientSecret)),
-                            "microsoft_tenant_id" to
-                                (SdkClient.omitIfNull(request.microsoftTenantId)),
-                        ),
-                    operationId = "addAuthOauthProvider",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthOauthProvider>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/auth/oauth_providers", config = clientConfig, body = SdkClient.bodyMap("id" to (request.id), "client_id" to (SdkClient.omitIfNull(request.clientId)), "client_secret" to
+    (SdkClient.omitIfNull(request.clientSecret)), "microsoft_tenant_id" to
+    (SdkClient.omitIfNull(request.microsoftTenantId))), operationId = "addAuthOauthProvider", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
+
 
     private fun validateAddAuthOauthProviderRequest(request: Auth.AddAuthOauthProviderRequest) {
         Validation.validatePattern("project_id", request.projectId, "^[a-z0-9-]{1,60}$")
@@ -102,44 +66,24 @@ internal object AuthUpdateAuthOauthProviderOperation {
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param oauthProviderId The OAuth provider ID
-     * @param clientId The OAuth client ID registered with the provider. Omit to keep the currently
-     *   configured value.
-     * @param clientSecret OAuth client secret for the provider. Omit to leave the existing secret
-     *   unchanged.
-     * @param microsoftTenantId The tenant ID scoping the Microsoft OAuth provider. Supply this
-     *   field when the provider type is microsoft; it has no effect for other provider types.
+     * @param clientId The OAuth client ID registered with the provider. Omit to keep
+     *   the currently configured value.
+     * @param clientSecret OAuth client secret for the provider. Omit to leave the
+     *   existing secret unchanged.
+     * @param microsoftTenantId The tenant ID scoping the Microsoft OAuth provider.
+     *   Supply this field when the provider type is microsoft; it has no effect for
+     *   other provider types.
      */
-    fun updateAuthOauthProvider(
-        clientConfig: ClientConfig,
-        request: Auth.UpdateAuthOauthProviderRequest,
-        options: RequestOptions? = null,
-    ): NeonAuthOauthProvider {
+    fun updateAuthOauthProvider(clientConfig: ClientConfig, request: Auth.UpdateAuthOauthProviderRequest, options: RequestOptions? = null): NeonAuthOauthProvider {
         validateUpdateAuthOauthProviderRequest(request)
 
-        return SdkClient.request<NeonAuthOauthProvider>(
-                SdkClient.RequestSpec(
-                    "PATCH",
-                    "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/auth/oauth_providers/${SdkClient.encodePathSegment(request.oauthProviderId)}",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "client_id" to (SdkClient.omitIfNull(request.clientId)),
-                            "client_secret" to (SdkClient.omitIfNull(request.clientSecret)),
-                            "microsoft_tenant_id" to
-                                (SdkClient.omitIfNull(request.microsoftTenantId)),
-                        ),
-                    operationId = "updateAuthOauthProvider",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthOauthProvider>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/auth/oauth_providers/${SdkClient.encodePathSegment(request.oauthProviderId)}", config = clientConfig, body = SdkClient.bodyMap("client_id" to (SdkClient.omitIfNull(request.clientId)), "client_secret" to
+    (SdkClient.omitIfNull(request.clientSecret)), "microsoft_tenant_id" to
+    (SdkClient.omitIfNull(request.microsoftTenantId))), operationId = "updateAuthOauthProvider", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 
-    private fun validateUpdateAuthOauthProviderRequest(
-        request: Auth.UpdateAuthOauthProviderRequest
-    ) {
+
+    private fun validateUpdateAuthOauthProviderRequest(request: Auth.UpdateAuthOauthProviderRequest) {
         Validation.validatePattern("project_id", request.projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", request.branchId, "^[a-z0-9-]{1,60}$")
@@ -154,27 +98,11 @@ internal object AuthDeleteAuthOauthProviderOperation {
      * @param branchId The Neon branch ID
      * @param oauthProviderId The OAuth provider ID
      */
-    fun deleteAuthOauthProvider(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        oauthProviderId: NeonAuthOauthProviderId,
-        options: RequestOptions? = null,
-    ): Unit {
+    fun deleteAuthOauthProvider(clientConfig: ClientConfig, projectId: String, branchId: String, oauthProviderId: NeonAuthOauthProviderId, options: RequestOptions? = null): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        SdkClient.request<Unit>(
-            SdkClient.RequestSpec(
-                "DELETE",
-                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/oauth_providers/${SdkClient.encodePathSegment(oauthProviderId)}",
-                config = clientConfig,
-                operationId = "deleteAuthOauthProvider",
-                decoder = SdkClient.ResponseDecoder.EMPTY,
-                options = options,
-                errors = mapOf("default" to GeneralError::class.java),
-            )
-        )
+        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/oauth_providers/${SdkClient.encodePathSegment(oauthProviderId)}", config = clientConfig, operationId = "deleteAuthOauthProvider", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
     }
 }

@@ -14,117 +14,55 @@ import dev.octri.showcase.neon.Validation
 
 internal object AuthGetAuthOperation {
     /**
-     * Retrieves the Neon Auth integration details for the specified branch, including the auth
-     * provider type and integration status.
+     * Retrieves the Neon Auth integration details for the specified branch, including the auth provider type and integration status.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      */
-    fun getAuth(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        options: RequestOptions? = null,
-    ): NeonAuthIntegration {
+    fun getAuth(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): NeonAuthIntegration {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthIntegration>(
-                SdkClient.RequestSpec(
-                    "GET",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth",
-                    config = clientConfig,
-                    operationId = "getAuth",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthIntegration>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth", config = clientConfig, operationId = "getAuth", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 
 internal object AuthCreateAuthOperation {
     /**
-     * Enables Neon Auth for the specified branch by connecting it to an authentication provider.
-     * Creating the integration provisions the `neon_auth` schema in the branch database, which
-     * stores user identity data synchronized from the provider.
+     * Enables Neon Auth for the specified branch by connecting it to an authentication provider. Creating the integration provisions the `neon_auth` schema in the branch database, which stores user identity data synchronized from the provider.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
-     * @param authProvider Authentication provider integrated with this Neon Auth configuration.
-     *   `better_auth` integrates with Better Auth (the current, recommended provider). `stack`
-     *   integrates with Stack Auth (deprecated). `mock` is a simulated provider for local
-     *   development and testing only.
-     * @param databaseName Name of the database to enable Neon Auth on. When omitted, the
-     *   integration uses the project's default database.
+     * @param authProvider Authentication provider integrated with this Neon Auth
+     *   configuration. `better_auth` integrates with Better Auth (the current,
+     *   recommended provider). `stack` integrates with Stack Auth (deprecated). `mock`
+     *   is a simulated provider for local development and testing only.
+     * @param databaseName Name of the database to enable Neon Auth on. When omitted,
+     *   the integration uses the project's default database.
      */
-    fun createAuth(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        authProvider: NeonAuthSupportedAuthProvider,
-        databaseName: String? = null,
-        options: RequestOptions? = null,
-    ): NeonAuthCreateIntegrationResponse {
+    fun createAuth(clientConfig: ClientConfig, projectId: String, branchId: String, authProvider: NeonAuthSupportedAuthProvider, databaseName: String? = null, options: RequestOptions? = null): NeonAuthCreateIntegrationResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthCreateIntegrationResponse>(
-                SdkClient.RequestSpec(
-                    "POST",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "auth_provider" to (authProvider),
-                            "database_name" to (SdkClient.omitIfNull(databaseName)),
-                        ),
-                    operationId = "createAuth",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthCreateIntegrationResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth", config = clientConfig, body = SdkClient.bodyMap("auth_provider" to (authProvider), "database_name" to (SdkClient.omitIfNull(databaseName))), operationId = "createAuth", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 
 internal object AuthDisableAuthOperation {
     /**
-     * Disables the Neon Auth integration for the specified branch, removing the connection to the
-     * authentication provider. If `delete_data` is `true`, also deletes the `neon_auth` schema and
-     * all associated tables from the branch database. The integration can be re-enabled by calling
-     * `POST /projects/{project_id}/branches/{branch_id}/auth`.
+     * Disables the Neon Auth integration for the specified branch, removing the connection to the authentication provider. If `delete_data` is `true`, also deletes the `neon_auth` schema and all associated tables from the branch database. The integration can be re-enabled by calling `POST /projects/{project_id}/branches/{branch_id}/auth`.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param deleteData If true, deletes the `neon_auth` schema from the database
      */
-    fun disableAuth(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        deleteData: Boolean? = null,
-        options: RequestOptions? = null,
-    ): Unit {
+    fun disableAuth(clientConfig: ClientConfig, projectId: String, branchId: String, deleteData: Boolean? = null, options: RequestOptions? = null): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        SdkClient.request<Unit>(
-            SdkClient.RequestSpec(
-                "DELETE",
-                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth",
-                config = clientConfig,
-                body = SdkClient.bodyMap("delete_data" to (SdkClient.omitIfNull(deleteData))),
-                operationId = "disableAuth",
-                decoder = SdkClient.ResponseDecoder.EMPTY,
-                options = options,
-                errors = mapOf("default" to GeneralError::class.java),
-            )
-        )
+        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth", config = clientConfig, body = SdkClient.bodyMap("delete_data" to (SdkClient.omitIfNull(deleteData))), operationId = "disableAuth", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
     }
 }

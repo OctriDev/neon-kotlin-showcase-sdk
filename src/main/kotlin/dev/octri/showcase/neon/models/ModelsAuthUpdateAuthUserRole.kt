@@ -3,17 +3,22 @@
 
 package dev.octri.showcase.neon.models
 
-/** Typed representation of the `UpdateNeonAuthUserRoleRequest` API schema. */
+/**
+ * Typed representation of the `UpdateNeonAuthUserRoleRequest` API schema.
+ */
 data class UpdateNeonAuthUserRoleRequest(
     /**
-     * Roles to assign to the user in the Neon Auth (Better Auth) directory. `user` and `admin` are
-     * the built-in roles; custom role strings are also supported.
+     * Roles to assign to the user in the Neon Auth (Better Auth) directory. `user` and `admin` are the built-in roles; custom role strings are also supported.
      */
     val roles: List<String>
 )
 
-/** Typed representation of the `UpdateNeonAuthUserRoleResponse` API schema. */
+/**
+ * Typed representation of the `UpdateNeonAuthUserRoleResponse` API schema.
+ */
 data class UpdateNeonAuthUserRoleResponse(
-    /** ID of the updated user */
+    /**
+     * ID of the updated user
+     */
     val id: String
 )

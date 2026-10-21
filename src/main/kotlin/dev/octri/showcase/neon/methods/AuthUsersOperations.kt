@@ -13,24 +13,15 @@ import dev.octri.showcase.neon.Validation
 
 internal object AuthCreateAuthUserOperation {
     /**
-     * Creates a new user in the Neon Auth user directory for the specified branch. The user is
-     * created in the `neon_auth.users_sync` table and can immediately authenticate using the
-     * branch's configured auth providers.
+     * Creates a new user in the Neon Auth user directory for the specified branch. The user is created in the `neon_auth.users_sync` table and can immediately authenticate using the branch's configured auth providers.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param email Email address of the new Neon Auth user to create.
-     * @param name Display name for the new user. Optional. Pair with the required email field when
-     *   creating a new user.
+     * @param name Display name for the new user. Optional. Pair with the required
+     *   email field when creating a new user.
      */
-    fun createAuthUser(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        email: String,
-        name: String? = null,
-        options: RequestOptions? = null,
-    ): NeonAuthCreateNewUserResponse {
+    fun createAuthUser(clientConfig: ClientConfig, projectId: String, branchId: String, email: String, name: String? = null, options: RequestOptions? = null): NeonAuthCreateNewUserResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
@@ -40,99 +31,47 @@ internal object AuthCreateAuthUserOperation {
 
         if (name != null) {
             Validation.validateLength("name", name, Validation.LengthOpts(min = 1, max = 255))
-        }
+}
 
-        return SdkClient.request<NeonAuthCreateNewUserResponse>(
-                SdkClient.RequestSpec(
-                    "POST",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/users",
-                    config = clientConfig,
-                    body =
-                        SdkClient.bodyMap(
-                            "email" to (email),
-                            "name" to (SdkClient.omitIfNull(name)),
-                        ),
-                    operationId = "createAuthUser",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<NeonAuthCreateNewUserResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/users", config = clientConfig, body = SdkClient.bodyMap("email" to (email), "name" to (SdkClient.omitIfNull(name))), operationId = "createAuthUser", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }
 
 internal object AuthDeleteAuthUserOperation {
     /**
-     * Deletes the specified user from the Neon Auth user directory for the specified branch.
-     * Removes the user record from `neon_auth.users_sync`. This action cannot be undone.
+     * Deletes the specified user from the Neon Auth user directory for the specified branch. Removes the user record from `neon_auth.users_sync`. This action cannot be undone.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param authUserId The Neon user ID
      */
-    fun deleteAuthUser(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        authUserId: String,
-        options: RequestOptions? = null,
-    ): Unit {
+    fun deleteAuthUser(clientConfig: ClientConfig, projectId: String, branchId: String, authUserId: String, options: RequestOptions? = null): Unit {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        SdkClient.request<Unit>(
-            SdkClient.RequestSpec(
-                "DELETE",
-                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/users/${SdkClient.encodePathSegment(authUserId)}",
-                config = clientConfig,
-                operationId = "deleteAuthUser",
-                decoder = SdkClient.ResponseDecoder.EMPTY,
-                options = options,
-                errors = mapOf("default" to GeneralError::class.java),
-            )
-        )
+        SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/users/${SdkClient.encodePathSegment(authUserId)}", config = clientConfig, operationId = "deleteAuthUser", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
     }
 }
 
 internal object AuthUpdateAuthUserRoleOperation {
     /**
-     * Updates the role of a user in the Neon Auth user directory for the specified branch. The role
-     * controls the user's level of access within the Neon Auth integration.
+     * Updates the role of a user in the Neon Auth user directory for the specified branch. The role controls the user's level of access within the Neon Auth integration.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param authUserId The Neon user ID
-     * @param roles Roles to assign to the user in the Neon Auth (Better Auth) directory. `user` and
-     *   `admin` are the built-in roles; custom role strings are also supported.
+     * @param roles Roles to assign to the user in the Neon Auth (Better Auth)
+     *   directory. `user` and `admin` are the built-in roles; custom role strings are
+     *   also supported.
      */
-    fun updateAuthUserRole(
-        clientConfig: ClientConfig,
-        projectId: String,
-        branchId: String,
-        authUserId: String,
-        roles: List<String>,
-        options: RequestOptions? = null,
-    ): UpdateNeonAuthUserRoleResponse {
+    fun updateAuthUserRole(clientConfig: ClientConfig, projectId: String, branchId: String, authUserId: String, roles: List<String>, options: RequestOptions? = null): UpdateNeonAuthUserRoleResponse {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateItems("roles", roles, Validation.LengthOpts(min = 1))
 
-        return SdkClient.request<UpdateNeonAuthUserRoleResponse>(
-                SdkClient.RequestSpec(
-                    "PUT",
-                    "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/users/${SdkClient.encodePathSegment(authUserId)}/role",
-                    config = clientConfig,
-                    body = SdkClient.bodyMap("roles" to (roles)),
-                    operationId = "updateAuthUserRole",
-                    decoder = SdkClient.ResponseDecoder.JSON,
-                    options = options,
-                    errors = mapOf("default" to GeneralError::class.java),
-                )
-            )
-            .data
+        return SdkClient.request<UpdateNeonAuthUserRoleResponse>(SdkClient.RequestSpec("PUT", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/users/${SdkClient.encodePathSegment(authUserId)}/role", config = clientConfig, body = SdkClient.bodyMap("roles" to (roles)), operationId = "updateAuthUserRole", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java))).data
     }
 }

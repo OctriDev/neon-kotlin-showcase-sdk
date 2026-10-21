@@ -3,20 +3,28 @@
 
 package dev.octri.showcase.neon.models
 
-/** At least one field must be provided. */
+/**
+ * At least one field must be provided.
+ */
 data class NeonAuthOAuthClientUpdateRequest(
-    /** Display name of the client. */
+    /**
+     * Display name of the client.
+     */
     val name: String? = null,
-    /** Redirect URIs the client may use. When provided, replaces the stored list. */
-    @com.fasterxml.jackson.annotation.JsonProperty("redirect_uris")
-    val redirectUris: List<String>? = null,
-    /** Whether to skip the consent prompt for this client. */
+    /**
+     * Redirect URIs the client may use. When provided, replaces the stored list.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("redirect_uris") val redirectUris: List<String>? = null,
+    /**
+     * Whether to skip the consent prompt for this client.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("skip_consent") val skipConsent: Boolean? = null,
-    /** Whether the client is disabled. */
+    /**
+     * Whether the client is disabled.
+     */
     val disabled: Boolean? = null,
     /**
-     * Identifiers of the protected resources to link the client to. When provided, replaces the
-     * stored list.
+     * Identifiers of the protected resources to link the client to. When provided, replaces the stored list.
      */
-    val resources: List<String>? = null,
+    val resources: List<String>? = null
 )

@@ -3,20 +3,36 @@
 
 package dev.octri.showcase.neon.models
 
-/** Typed representation of the `SendNeonAuthTestEmailRequest` API schema. */
+/**
+ * Typed representation of the `SendNeonAuthTestEmailRequest` API schema.
+ */
 data class SendNeonAuthTestEmailRequest(
-    /** Hostname of the email server. */
+    /**
+     * Hostname of the email server.
+     */
     val host: String,
-    /** TCP port of the SMTP server. Common values: 25 (SMTP), 465 (SMTPS), 587 (submission). */
+    /**
+     * TCP port of the SMTP server. Common values: 25 (SMTP), 465 (SMTPS), 587 (submission).
+     */
     val port: Long,
-    /** Username for authenticating with the SMTP server. */
+    /**
+     * Username for authenticating with the SMTP server.
+     */
     val username: String,
-    /** Password for authenticating with the SMTP server. */
+    /**
+     * Password for authenticating with the SMTP server.
+     */
     val password: String,
-    /** Email address used as the From address on outgoing auth emails. */
+    /**
+     * Email address used as the From address on outgoing auth emails.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("sender_email") val senderEmail: String,
-    /** Display name shown as the sender in outgoing emails. */
+    /**
+     * Display name shown as the sender in outgoing emails.
+     */
     @com.fasterxml.jackson.annotation.JsonProperty("sender_name") val senderName: String,
-    /** The email address to send the test email to. */
-    @com.fasterxml.jackson.annotation.JsonProperty("recipient_email") val recipientEmail: String,
+    /**
+     * The email address to send the test email to.
+     */
+    @com.fasterxml.jackson.annotation.JsonProperty("recipient_email") val recipientEmail: String
 )

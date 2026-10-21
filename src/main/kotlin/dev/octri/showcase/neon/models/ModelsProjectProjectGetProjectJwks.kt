@@ -3,8 +3,12 @@
 
 package dev.octri.showcase.neon.models
 
-/** The list of configured JWKS definitions for a project */
+/**
+ * The list of configured JWKS definitions for a project
+ */
 data class ProjectJWKSResponse(
-    /** JWKS configurations associated with the project. */
+    /**
+     * JWKS configurations associated with the project.
+     */
     val jwks: List<JWKS>
 )
