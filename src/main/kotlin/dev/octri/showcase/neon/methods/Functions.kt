@@ -390,7 +390,7 @@ object Functions {
      * @param branchId The Neon branch ID
      * @param triggerId The opaque, project-wide trigger ID
      */
-    fun updateFunctionsTrigger(
+    fun updateFunctionTrigger(
         clientConfig: ClientConfig,
         projectId: String,
         branchId: String,
@@ -415,7 +415,7 @@ object Functions {
                     "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/triggers/${SdkClient.encodePathSegment(triggerId)}",
                     config = clientConfig,
                     body = body,
-                    operationId = "updateFunctionsTrigger",
+                    operationId = "updateFunctionTrigger",
                     decoder = SdkClient.ResponseDecoder.JSON,
                     options = options,
                     errors = mapOf("default" to GeneralError::class.java),

@@ -193,7 +193,7 @@ class FunctionsNamespace(private val clientConfig: ClientConfig) {
         body: TriggerUpdateRequest,
         options: RequestOptions? = null,
     ): TriggerResponse {
-        return dev.octri.showcase.neon.methods.Functions.updateFunctionsTrigger(
+        return dev.octri.showcase.neon.methods.Functions.updateFunctionTrigger(
             clientConfig,
             projectId,
             branchId,
