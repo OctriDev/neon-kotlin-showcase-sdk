@@ -18,34 +18,36 @@ import dev.octri.showcase.neon.Validation
 object DataApi {
 
     /**
-     * Creates a new instance of Neon Data API in the specified branch. The Data API exposes a REST interface over the branch database. The `database_name` path parameter determines which database the API serves.
+     * Creates a new instance of Neon Data API in the specified branch. The Data API exposes a REST
+     * interface over the branch database. The `database_name` path parameter determines which
+     * database the API serves.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param databaseName The database name
-     * @param authProvider Authentication provider for the Neon Data API.
-     *   `neon_auth`: use Neon's built-in managed authentication (no JWKS configuration
-     *   required). `external`: use an external JWT provider, which requires
-     *   `jwks_url`. When omitted, no auth provider is configured (existing setup is
-     *   kept).
-     * @param jwksUrl URL of the JWKS endpoint used to verify JWTs for this Data API.
-     *   Required when configuring JWT-based authentication; omit when using a non-JWT
-     *   auth provider.
-     * @param providerName Display name for the authentication provider. Accepted
-     *   values include "Clerk", "Stytch", and "Auth0", but any non-empty string is
-     *   valid. Optional field.
-     * @param jwtAudience Expected `aud` claim in incoming JWTs. When set, tokens
-     *   with a different audience are rejected; tokens with no audience are still
-     *   accepted. Omit to skip audience validation.
-     * @param addDefaultGrants Grant all permissions to the tables in the public
-     *   schema to authenticated users
+     * @param authProvider Authentication provider for the Neon Data API. `neon_auth`: use Neon's
+     *   built-in managed authentication (no JWKS configuration required). `external`: use an
+     *   external JWT provider, which requires `jwks_url`. When omitted, no auth provider is
+     *   configured (existing setup is kept).
+     * @param jwksUrl URL of the JWKS endpoint used to verify JWTs for this Data API. Required when
+     *   configuring JWT-based authentication; omit when using a non-JWT auth provider.
+     * @param providerName Display name for the authentication provider. Accepted values include
+     *   "Clerk", "Stytch", and "Auth0", but any non-empty string is valid. Optional field.
+     * @param jwtAudience Expected `aud` claim in incoming JWTs. When set, tokens with a different
+     *   audience are rejected; tokens with no audience are still accepted. Omit to skip audience
+     *   validation.
+     * @param addDefaultGrants Grant all permissions to the tables in the public schema to
+     *   authenticated users
      * @param skipAuthSchema Skip creating the auth schema and RLS functions
      * @param settings Auth and schema configuration for the Data API.
      */
-    fun createDataApi(clientConfig: ClientConfig, request: CreateDataApiRequest, options: RequestOptions? = null): DataAPICreateResponse {
+    fun createDataApi(
+        clientConfig: ClientConfig,
+        request: CreateDataApiRequest,
+        options: RequestOptions? = null,
+    ): DataAPICreateResponse {
         return createDataApiWithRawResponse(clientConfig, request, options).data
     }
-
 
     /** Parameters for [createDataApi]. */
     data class CreateDataApiRequest(
@@ -58,21 +60,42 @@ object DataApi {
         val jwtAudience: String? = null,
         val addDefaultGrants: Boolean? = null,
         val skipAuthSchema: Boolean? = null,
-        val settings: DataAPISettings? = null
+        val settings: DataAPISettings? = null,
     )
 
-    /** [createDataApi], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun createDataApiWithRawResponse(clientConfig: ClientConfig, request: CreateDataApiRequest, options: RequestOptions? = null): SdkResponse<DataAPICreateResponse> {
+    /**
+     * [createDataApi], returning the [SdkResponse] envelope: status code, headers, request ID and
+     * latency.
+     */
+    fun createDataApiWithRawResponse(
+        clientConfig: ClientConfig,
+        request: CreateDataApiRequest,
+        options: RequestOptions? = null,
+    ): SdkResponse<DataAPICreateResponse> {
         validateCreateDataApiRequest(request)
 
-        return SdkClient.request<DataAPICreateResponse>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/data-api/${SdkClient.encodePathSegment(request.databaseName)}", config = clientConfig, body = SdkClient.bodyMap("auth_provider" to
-    (SdkClient.omitIfNull(request.authProvider)), "jwks_url" to (SdkClient.omitIfNull(request.jwksUrl)), "provider_name" to
-    (SdkClient.omitIfNull(request.providerName)), "jwt_audience" to
-    (SdkClient.omitIfNull(request.jwtAudience)), "add_default_grants" to
-    (SdkClient.omitIfNull(request.addDefaultGrants)), "skip_auth_schema" to
-    (SdkClient.omitIfNull(request.skipAuthSchema)), "settings" to (SdkClient.omitIfNull(request.settings))), operationId = "createDataApi", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<DataAPICreateResponse>(
+            SdkClient.RequestSpec(
+                "POST",
+                "/projects/${SdkClient.encodePathSegment(request.projectId)}/branches/${SdkClient.encodePathSegment(request.branchId)}/data-api/${SdkClient.encodePathSegment(request.databaseName)}",
+                config = clientConfig,
+                body =
+                    SdkClient.bodyMap(
+                        "auth_provider" to (SdkClient.omitIfNull(request.authProvider)),
+                        "jwks_url" to (SdkClient.omitIfNull(request.jwksUrl)),
+                        "provider_name" to (SdkClient.omitIfNull(request.providerName)),
+                        "jwt_audience" to (SdkClient.omitIfNull(request.jwtAudience)),
+                        "add_default_grants" to (SdkClient.omitIfNull(request.addDefaultGrants)),
+                        "skip_auth_schema" to (SdkClient.omitIfNull(request.skipAuthSchema)),
+                        "settings" to (SdkClient.omitIfNull(request.settings)),
+                    ),
+                operationId = "createDataApi",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
 
     private fun validateCreateDataApiRequest(request: CreateDataApiRequest) {
         Validation.validatePattern("project_id", request.projectId, "^[a-z0-9-]{1,60}$")
@@ -81,91 +104,165 @@ object DataApi {
 
         if (request.jwksUrl != null) {
             Validation.validateUri("jwks_url", request.jwksUrl)
-}
+        }
     }
 
-
-
-
-
     /**
-     * Updates the Neon Data API configuration for the specified branch. You can optionally provide settings to update the Data API configuration. The schema cache is always refreshed as part of this operation.
+     * Updates the Neon Data API configuration for the specified branch. You can optionally provide
+     * settings to update the Data API configuration. The schema cache is always refreshed as part
+     * of this operation.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param databaseName The database name
      * @param settings Configuration settings for the Neon Data API.
      */
-    fun updateDataApi(clientConfig: ClientConfig, projectId: String, branchId: String, databaseName: String, settings: DataAPISettings? = null, options: RequestOptions? = null): EmptyResponse {
-        return updateDataApiWithRawResponse(clientConfig, projectId, branchId, databaseName, settings, options).data
+    fun updateDataApi(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        databaseName: String,
+        settings: DataAPISettings? = null,
+        options: RequestOptions? = null,
+    ): EmptyResponse {
+        return updateDataApiWithRawResponse(
+                clientConfig,
+                projectId,
+                branchId,
+                databaseName,
+                settings,
+                options,
+            )
+            .data
     }
 
-
-    /** [updateDataApi], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun updateDataApiWithRawResponse(clientConfig: ClientConfig, projectId: String, branchId: String, databaseName: String, settings: DataAPISettings? = null, options: RequestOptions? = null): SdkResponse<EmptyResponse> {
+    /**
+     * [updateDataApi], returning the [SdkResponse] envelope: status code, headers, request ID and
+     * latency.
+     */
+    fun updateDataApiWithRawResponse(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        databaseName: String,
+        settings: DataAPISettings? = null,
+        options: RequestOptions? = null,
+    ): SdkResponse<EmptyResponse> {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<EmptyResponse>(SdkClient.RequestSpec("PATCH", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/data-api/${SdkClient.encodePathSegment(databaseName)}", config = clientConfig, body = SdkClient.bodyMap("settings" to (SdkClient.omitIfNull(settings))), operationId = "updateDataApi", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<EmptyResponse>(
+            SdkClient.RequestSpec(
+                "PATCH",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/data-api/${SdkClient.encodePathSegment(databaseName)}",
+                config = clientConfig,
+                body = SdkClient.bodyMap("settings" to (SdkClient.omitIfNull(settings))),
+                operationId = "updateDataApi",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Deletes the Neon Data API for the specified branch. Existing connections using the Data API endpoint will fail after deletion.
+     * Deletes the Neon Data API for the specified branch. Existing connections using the Data API
+     * endpoint will fail after deletion.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param databaseName The database name
      */
-    fun deleteDataApi(clientConfig: ClientConfig, projectId: String, branchId: String, databaseName: String, options: RequestOptions? = null): EmptyResponse {
-        return deleteDataApiWithRawResponse(clientConfig, projectId, branchId, databaseName, options).data
+    fun deleteDataApi(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        databaseName: String,
+        options: RequestOptions? = null,
+    ): EmptyResponse {
+        return deleteDataApiWithRawResponse(
+                clientConfig,
+                projectId,
+                branchId,
+                databaseName,
+                options,
+            )
+            .data
     }
 
-
-    /** [deleteDataApi], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun deleteDataApiWithRawResponse(clientConfig: ClientConfig, projectId: String, branchId: String, databaseName: String, options: RequestOptions? = null): SdkResponse<EmptyResponse> {
+    /**
+     * [deleteDataApi], returning the [SdkResponse] envelope: status code, headers, request ID and
+     * latency.
+     */
+    fun deleteDataApiWithRawResponse(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        databaseName: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<EmptyResponse> {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<EmptyResponse>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/data-api/${SdkClient.encodePathSegment(databaseName)}", config = clientConfig, operationId = "deleteDataApi", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<EmptyResponse>(
+            SdkClient.RequestSpec(
+                "DELETE",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/data-api/${SdkClient.encodePathSegment(databaseName)}",
+                config = clientConfig,
+                operationId = "deleteDataApi",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Retrieves the Neon Data API configuration for the specified branch, including endpoint URL, enabled state, and database settings.
+     * Retrieves the Neon Data API configuration for the specified branch, including endpoint URL,
+     * enabled state, and database settings.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param databaseName The database name
      */
-    fun getDataApi(clientConfig: ClientConfig, projectId: String, branchId: String, databaseName: String, options: RequestOptions? = null): DataAPIReponse {
-        return getDataApiWithRawResponse(clientConfig, projectId, branchId, databaseName, options).data
+    fun getDataApi(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        databaseName: String,
+        options: RequestOptions? = null,
+    ): DataAPIReponse {
+        return getDataApiWithRawResponse(clientConfig, projectId, branchId, databaseName, options)
+            .data
     }
 
-
-    /** [getDataApi], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun getDataApiWithRawResponse(clientConfig: ClientConfig, projectId: String, branchId: String, databaseName: String, options: RequestOptions? = null): SdkResponse<DataAPIReponse> {
+    /**
+     * [getDataApi], returning the [SdkResponse] envelope: status code, headers, request ID and
+     * latency.
+     */
+    fun getDataApiWithRawResponse(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        databaseName: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<DataAPIReponse> {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<DataAPIReponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/data-api/${SdkClient.encodePathSegment(databaseName)}", config = clientConfig, operationId = "getDataApi", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<DataAPIReponse>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/data-api/${SdkClient.encodePathSegment(databaseName)}",
+                config = clientConfig,
+                operationId = "getDataApi",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
-
-
 }

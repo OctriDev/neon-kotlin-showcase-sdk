@@ -5,16 +5,10 @@ package dev.octri.showcase.neon.models
 
 import dev.octri.showcase.neon.SdkResource
 
-/**
- * Typed representation of the `NeonAuthPhoneNumberConfigUpdate` API schema.
- */
+/** Typed representation of the `NeonAuthPhoneNumberConfigUpdate` API schema. */
 data class NeonAuthPhoneNumberConfigUpdate(
-    /**
-     * Whether the phone number plugin is enabled.
-     */
+    /** Whether the phone number plugin is enabled. */
     val enabled: Boolean? = null,
-    /**
-     * Time in seconds before the OTP expires
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("otp_expires_in") val otpExpiresIn: Long? = null
+    /** Time in seconds before the OTP expires */
+    @com.fasterxml.jackson.annotation.JsonProperty("otp_expires_in") val otpExpiresIn: Long? = null,
 ) : SdkResource()

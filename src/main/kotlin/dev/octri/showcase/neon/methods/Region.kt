@@ -14,29 +14,45 @@ import dev.octri.showcase.neon.Validation
 object Region {
 
     /**
-     * Lists supported Neon regions. **Note:** Not all regions are available to all organizations. Pass the `org_id` parameter to get an accurate list of regions available to your organization.
+     * Lists supported Neon regions. **Note:** Not all regions are available to all organizations.
+     * Pass the `org_id` parameter to get an accurate list of regions available to your
+     * organization.
      *
-     * @param orgId Organization ID. When provided, returns only regions available to
-     *   this organization. Recommended for accurate region availability.
+     * @param orgId Organization ID. When provided, returns only regions available to this
+     *   organization. Recommended for accurate region availability.
      */
-    fun getActiveRegions(clientConfig: ClientConfig, orgId: String? = null, options: RequestOptions? = null): ActiveRegionsResponse {
+    fun getActiveRegions(
+        clientConfig: ClientConfig,
+        orgId: String? = null,
+        options: RequestOptions? = null,
+    ): ActiveRegionsResponse {
         return getActiveRegionsWithRawResponse(clientConfig, orgId, options).data
     }
 
-
-    /** [getActiveRegions], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun getActiveRegionsWithRawResponse(clientConfig: ClientConfig, orgId: String? = null, options: RequestOptions? = null): SdkResponse<ActiveRegionsResponse> {
+    /**
+     * [getActiveRegions], returning the [SdkResponse] envelope: status code, headers, request ID
+     * and latency.
+     */
+    fun getActiveRegionsWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String? = null,
+        options: RequestOptions? = null,
+    ): SdkResponse<ActiveRegionsResponse> {
         if (orgId != null) {
             Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
-}
+        }
 
-        return SdkClient.request<ActiveRegionsResponse>(SdkClient.RequestSpec("GET", "/regions", config = clientConfig, query = mapOf("org_id" to SdkClient.queryValue(orgId, "form", true)), operationId = "getActiveRegions", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<ActiveRegionsResponse>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/regions",
+                config = clientConfig,
+                query = mapOf("org_id" to SdkClient.queryValue(orgId, "form", true)),
+                operationId = "getActiveRegions",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
-
-
 }

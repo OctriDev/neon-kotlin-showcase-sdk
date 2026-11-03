@@ -15,29 +15,51 @@ import dev.octri.showcase.neon.Validation
 object AiGateway {
 
     /**
-     * Returns the AI Gateway endpoint host for the specified branch, used to render code-snippet base URLs. A 200 response means the branch is registered and this region serves the AI gateway. A 404 response includes a `reason` field indicating why the gateway is unavailable. **Note**: This endpoint is currently in Beta.
+     * Returns the AI Gateway endpoint host for the specified branch, used to render code-snippet
+     * base URLs. A 200 response means the branch is registered and this region serves the AI
+     * gateway. A 404 response includes a `reason` field indicating why the gateway is unavailable.
+     * **Note**: This endpoint is currently in Beta.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      */
-    fun getAiGateway(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): BranchAiGateway {
+    fun getAiGateway(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): BranchAiGateway {
         return getAiGatewayWithRawResponse(clientConfig, projectId, branchId, options).data
     }
 
-
-    /** [getAiGateway], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun getAiGatewayWithRawResponse(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): SdkResponse<BranchAiGateway> {
+    /**
+     * [getAiGateway], returning the [SdkResponse] envelope: status code, headers, request ID and
+     * latency.
+     */
+    fun getAiGatewayWithRawResponse(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<BranchAiGateway> {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<BranchAiGateway>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/ai_gateway", config = clientConfig, operationId = "getAiGateway", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("404" to BranchAiGatewayNotEnabled::class.java, "default" to GeneralError::class.java)))
+        return SdkClient.request<BranchAiGateway>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/ai_gateway",
+                config = clientConfig,
+                operationId = "getAiGateway",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors =
+                    mapOf(
+                        "404" to BranchAiGatewayNotEnabled::class.java,
+                        "default" to GeneralError::class.java,
+                    ),
+            )
+        )
     }
-
-
-
-
-
-
-
 }

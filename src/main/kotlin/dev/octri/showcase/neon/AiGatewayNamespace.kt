@@ -3,26 +3,50 @@
 
 package dev.octri.showcase.neon
 
-
 class AiGatewayNamespace(private val clientConfig: ClientConfig) {
     /**
-     * Returns the AI Gateway endpoint host for the specified branch, used to render code-snippet base URLs. A 200 response means the branch is registered and this region serves the AI gateway. A 404 response includes a `reason` field indicating why the gateway is unavailable. **Note**: This endpoint is currently in Beta.
+     * Returns the AI Gateway endpoint host for the specified branch, used to render code-snippet
+     * base URLs. A 200 response means the branch is registered and this region serves the AI
+     * gateway. A 404 response includes a `reason` field indicating why the gateway is unavailable.
+     * **Note**: This endpoint is currently in Beta.
      */
     fun get(projectId: String, branchId: String, options: RequestOptions? = null): BranchAiGateway {
-        return dev.octri.showcase.neon.methods.AiGateway.getAiGateway(clientConfig, projectId, branchId, options)
+        return dev.octri.showcase.neon.methods.AiGateway.getAiGateway(
+            clientConfig,
+            projectId,
+            branchId,
+            options,
+        )
     }
 
-    /** These operations, each returning its [SdkResponse] envelope: status code, headers, request ID and latency. */
+    /**
+     * These operations, each returning its [SdkResponse] envelope: status code, headers, request ID
+     * and latency.
+     */
     fun withRawResponse(): WithRawResponse = WithRawResponse(clientConfig)
 
-    /** The operations of [AiGatewayNamespace], returning the [SdkResponse] envelope around each result. */
+    /**
+     * The operations of [AiGatewayNamespace], returning the [SdkResponse] envelope around each
+     * result.
+     */
     class WithRawResponse internal constructor(private val clientConfig: ClientConfig) {
         /**
-         * Returns the AI Gateway endpoint host for the specified branch, used to render code-snippet base URLs. A 200 response means the branch is registered and this region serves the AI gateway. A 404 response includes a `reason` field indicating why the gateway is unavailable. **Note**: This endpoint is currently in Beta.
+         * Returns the AI Gateway endpoint host for the specified branch, used to render
+         * code-snippet base URLs. A 200 response means the branch is registered and this region
+         * serves the AI gateway. A 404 response includes a `reason` field indicating why the
+         * gateway is unavailable. **Note**: This endpoint is currently in Beta.
          */
-        fun get(projectId: String, branchId: String, options: RequestOptions? = null): SdkResponse<BranchAiGateway> {
-            return dev.octri.showcase.neon.methods.AiGateway.getAiGatewayWithRawResponse(clientConfig, projectId, branchId, options)
+        fun get(
+            projectId: String,
+            branchId: String,
+            options: RequestOptions? = null,
+        ): SdkResponse<BranchAiGateway> {
+            return dev.octri.showcase.neon.methods.AiGateway.getAiGatewayWithRawResponse(
+                clientConfig,
+                projectId,
+                branchId,
+                options,
+            )
         }
-
     }
 }

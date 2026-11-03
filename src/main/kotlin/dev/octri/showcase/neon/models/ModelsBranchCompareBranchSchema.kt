@@ -5,12 +5,8 @@ package dev.octri.showcase.neon.models
 
 import dev.octri.showcase.neon.SdkResource
 
-/**
- * Typed representation of the `BranchSchemaCompareResponse` API schema.
- */
+/** Typed representation of the `BranchSchemaCompareResponse` API schema. */
 data class BranchSchemaCompareResponse(
-    /**
-     * Unified diff of the SQL schema changes between the compared branches.
-     */
+    /** Unified diff of the SQL schema changes between the compared branches. */
     val diff: String? = null
 ) : SdkResource()

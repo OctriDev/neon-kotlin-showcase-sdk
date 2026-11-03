@@ -15,136 +15,243 @@ import dev.octri.showcase.neon.Validation
 object RealtimeMethods {
 
     /**
-     * Retrieves whether Realtime is enabled for the branch, whether a change is still being applied, and, once provisioned, its invocation URL and allowed origins. The shared secret is returned by `GET /projects/{project_id}/branches/{branch_id}/realtime/secret`.
+     * Retrieves whether Realtime is enabled for the branch, whether a change is still being
+     * applied, and, once provisioned, its invocation URL and allowed origins. The shared secret is
+     * returned by `GET /projects/{project_id}/branches/{branch_id}/realtime/secret`.
      *
      * @param projectId The project ID
      * @param branchId The branch ID
      */
-    fun getRealtime(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): Realtime {
+    fun getRealtime(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): Realtime {
         return getRealtimeWithRawResponse(clientConfig, projectId, branchId, options).data
     }
 
-
-    /** [getRealtime], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun getRealtimeWithRawResponse(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): SdkResponse<Realtime> {
+    /**
+     * [getRealtime], returning the [SdkResponse] envelope: status code, headers, request ID and
+     * latency.
+     */
+    fun getRealtimeWithRawResponse(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<Realtime> {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<Realtime>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/realtime", config = clientConfig, operationId = "getRealtime", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<Realtime>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/realtime",
+                config = clientConfig,
+                operationId = "getRealtime",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Enables Realtime for the branch, or applies new options to an enabled branch. Provisioning is asynchronous; poll the Realtime state until it is no longer pending.
+     * Enables Realtime for the branch, or applies new options to an enabled branch. Provisioning is
+     * asynchronous; poll the Realtime state until it is no longer pending.
      *
      * @param projectId The project ID
      * @param branchId The branch ID
-     * @param allowedOrigins The browser origins allowed to connect, each `http` or
-     *   `https` with a host and optional port and no path. An empty list, or `*`
-     *   alone, allows any origin. Omitted keeps the current or inherited value.
+     * @param allowedOrigins The browser origins allowed to connect, each `http` or `https` with a
+     *   host and optional port and no path. An empty list, or `*` alone, allows any origin. Omitted
+     *   keeps the current or inherited value.
      */
-    fun enableRealtime(clientConfig: ClientConfig, projectId: String, branchId: String, allowedOrigins: List<String>? = null, options: RequestOptions? = null): Unit {
-        return enableRealtimeWithRawResponse(clientConfig, projectId, branchId, allowedOrigins, options).data
+    fun enableRealtime(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        allowedOrigins: List<String>? = null,
+        options: RequestOptions? = null,
+    ): Unit {
+        return enableRealtimeWithRawResponse(
+                clientConfig,
+                projectId,
+                branchId,
+                allowedOrigins,
+                options,
+            )
+            .data
     }
 
-
-    /** [enableRealtime], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun enableRealtimeWithRawResponse(clientConfig: ClientConfig, projectId: String, branchId: String, allowedOrigins: List<String>? = null, options: RequestOptions? = null): SdkResponse<Unit> {
+    /**
+     * [enableRealtime], returning the [SdkResponse] envelope: status code, headers, request ID and
+     * latency.
+     */
+    fun enableRealtimeWithRawResponse(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        allowedOrigins: List<String>? = null,
+        options: RequestOptions? = null,
+    ): SdkResponse<Unit> {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
         if (allowedOrigins != null) {
-            Validation.validateItems("allowed_origins", allowedOrigins, Validation.LengthOpts(max = 16))
-}
+            Validation.validateItems(
+                "allowed_origins",
+                allowedOrigins,
+                Validation.LengthOpts(max = 16),
+            )
+        }
 
-        return SdkClient.request<Unit>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/realtime", config = clientConfig, body = SdkClient.bodyMap("allowed_origins" to (SdkClient.omitIfNull(allowedOrigins))), operationId = "enableRealtime", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "POST",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/realtime",
+                config = clientConfig,
+                body =
+                    SdkClient.bodyMap("allowed_origins" to (SdkClient.omitIfNull(allowedOrigins))),
+                operationId = "enableRealtime",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Disables Realtime for the branch and discards its shared secret. Deprovisioning is asynchronous.
+     * Disables Realtime for the branch and discards its shared secret. Deprovisioning is
+     * asynchronous.
      *
      * @param projectId The project ID
      * @param branchId The branch ID
      */
-    fun disableRealtime(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): Unit {
+    fun disableRealtime(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): Unit {
         return disableRealtimeWithRawResponse(clientConfig, projectId, branchId, options).data
     }
 
-
-    /** [disableRealtime], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun disableRealtimeWithRawResponse(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): SdkResponse<Unit> {
+    /**
+     * [disableRealtime], returning the [SdkResponse] envelope: status code, headers, request ID and
+     * latency.
+     */
+    fun disableRealtimeWithRawResponse(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<Unit> {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/realtime", config = clientConfig, operationId = "disableRealtime", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "DELETE",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/realtime",
+                config = clientConfig,
+                operationId = "disableRealtime",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Retrieves the secret the application backend issues Realtime tokens with. Requires permission to read the project's credentials. Returns 404 while Realtime is disabled or before the secret is provisioned. After a rotation, this returns the previous secret until `pending` is false.
+     * Retrieves the secret the application backend issues Realtime tokens with. Requires permission
+     * to read the project's credentials. Returns 404 while Realtime is disabled or before the
+     * secret is provisioned. After a rotation, this returns the previous secret until `pending` is
+     * false.
      *
      * @param projectId The project ID
      * @param branchId The branch ID
      */
-    fun getRealtimeSecret(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): RealtimeSecret {
+    fun getRealtimeSecret(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): RealtimeSecret {
         return getRealtimeSecretWithRawResponse(clientConfig, projectId, branchId, options).data
     }
 
-
-    /** [getRealtimeSecret], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun getRealtimeSecretWithRawResponse(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): SdkResponse<RealtimeSecret> {
+    /**
+     * [getRealtimeSecret], returning the [SdkResponse] envelope: status code, headers, request ID
+     * and latency.
+     */
+    fun getRealtimeSecretWithRawResponse(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<RealtimeSecret> {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<RealtimeSecret>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/realtime/secret", config = clientConfig, operationId = "getRealtimeSecret", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<RealtimeSecret>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/realtime/secret",
+                config = clientConfig,
+                operationId = "getRealtimeSecret",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Replaces the branch's Realtime shared secret. Rotation is asynchronous: once the Realtime state is no longer pending, the previous secret stops working and `GET /projects/{project_id}/branches/{branch_id}/realtime/secret` returns the new one.
+     * Replaces the branch's Realtime shared secret. Rotation is asynchronous: once the Realtime
+     * state is no longer pending, the previous secret stops working and `GET
+     * /projects/{project_id}/branches/{branch_id}/realtime/secret` returns the new one.
      *
      * @param projectId The project ID
      * @param branchId The branch ID
      */
-    fun rotateRealtimeSecret(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): Unit {
+    fun rotateRealtimeSecret(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): Unit {
         return rotateRealtimeSecretWithRawResponse(clientConfig, projectId, branchId, options).data
     }
 
-
-    /** [rotateRealtimeSecret], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun rotateRealtimeSecretWithRawResponse(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): SdkResponse<Unit> {
+    /**
+     * [rotateRealtimeSecret], returning the [SdkResponse] envelope: status code, headers, request
+     * ID and latency.
+     */
+    fun rotateRealtimeSecretWithRawResponse(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<Unit> {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<Unit>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/realtime/rotate_secret", config = clientConfig, operationId = "rotateRealtimeSecret", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "POST",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/realtime/rotate_secret",
+                config = clientConfig,
+                operationId = "rotateRealtimeSecret",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
-
-
 }

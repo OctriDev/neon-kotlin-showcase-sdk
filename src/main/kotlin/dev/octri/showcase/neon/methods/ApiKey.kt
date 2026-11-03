@@ -16,65 +16,114 @@ import dev.octri.showcase.neon.Validation
 object ApiKey {
 
     /**
-     * Retrieves the API keys for your Neon account. The response does not include API key tokens. A token is only provided when creating an API key. API keys can also be managed in the Neon Console. For more information, see Manage API keys.
+     * Retrieves the API keys for your Neon account. The response does not include API key tokens. A
+     * token is only provided when creating an API key. API keys can also be managed in the Neon
+     * Console. For more information, see Manage API keys.
      */
-    fun listApiKey(clientConfig: ClientConfig, options: RequestOptions? = null): List<ApiKeysListResponseItem> {
+    fun listApiKey(
+        clientConfig: ClientConfig,
+        options: RequestOptions? = null,
+    ): List<ApiKeysListResponseItem> {
         return listApiKeyWithRawResponse(clientConfig, options).data
     }
 
-
-    /** [listApiKey], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun listApiKeyWithRawResponse(clientConfig: ClientConfig, options: RequestOptions? = null): SdkResponse<List<ApiKeysListResponseItem>> {
-        return SdkClient.request<List<ApiKeysListResponseItem>>(SdkClient.RequestSpec("GET", "/api_keys", config = clientConfig, operationId = "listApiKey", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+    /**
+     * [listApiKey], returning the [SdkResponse] envelope: status code, headers, request ID and
+     * latency.
+     */
+    fun listApiKeyWithRawResponse(
+        clientConfig: ClientConfig,
+        options: RequestOptions? = null,
+    ): SdkResponse<List<ApiKeysListResponseItem>> {
+        return SdkClient.request<List<ApiKeysListResponseItem>>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/api_keys",
+                config = clientConfig,
+                operationId = "listApiKey",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Creates an API key. The `key_name` is a user-specified name for the key. Returns an `id` and `key`; the `key` is a randomly generated, 64-bit token required to access the Neon API. Store the key securely — it is only returned once. API keys can also be managed in the Neon Console. See Manage API keys.
+     * Creates an API key. The `key_name` is a user-specified name for the key. Returns an `id` and
+     * `key`; the `key` is a randomly generated, 64-bit token required to access the Neon API. Store
+     * the key securely — it is only returned once. API keys can also be managed in the Neon
+     * Console. See Manage API keys.
      *
-     * @param keyName A user-specified API key name. This value is required when
-     *   creating an API key.
+     * @param keyName A user-specified API key name. This value is required when creating an API
+     *   key.
      */
-    fun createApiKey(clientConfig: ClientConfig, keyName: String, options: RequestOptions? = null): ApiKeyCreateResponse {
+    fun createApiKey(
+        clientConfig: ClientConfig,
+        keyName: String,
+        options: RequestOptions? = null,
+    ): ApiKeyCreateResponse {
         return createApiKeyWithRawResponse(clientConfig, keyName, options).data
     }
 
-
-    /** [createApiKey], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun createApiKeyWithRawResponse(clientConfig: ClientConfig, keyName: String, options: RequestOptions? = null): SdkResponse<ApiKeyCreateResponse> {
+    /**
+     * [createApiKey], returning the [SdkResponse] envelope: status code, headers, request ID and
+     * latency.
+     */
+    fun createApiKeyWithRawResponse(
+        clientConfig: ClientConfig,
+        keyName: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<ApiKeyCreateResponse> {
         Validation.validateLength("key_name", keyName, Validation.LengthOpts(max = 64))
 
-        return SdkClient.request<ApiKeyCreateResponse>(SdkClient.RequestSpec("POST", "/api_keys", config = clientConfig, body = SdkClient.bodyMap("key_name" to (keyName)), operationId = "createApiKey", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<ApiKeyCreateResponse>(
+            SdkClient.RequestSpec(
+                "POST",
+                "/api_keys",
+                config = clientConfig,
+                body = SdkClient.bodyMap("key_name" to (keyName)),
+                operationId = "createApiKey",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Revokes the specified API key. An API key that is no longer needed can be revoked. This action cannot be reversed. API keys can also be managed in the Neon Console. See Manage API keys.
+     * Revokes the specified API key. An API key that is no longer needed can be revoked. This
+     * action cannot be reversed. API keys can also be managed in the Neon Console. See Manage API
+     * keys.
      *
      * @param keyId The API key ID
      */
-    fun revokeApiKey(clientConfig: ClientConfig, keyId: Long, options: RequestOptions? = null): ApiKeyRevokeResponse {
+    fun revokeApiKey(
+        clientConfig: ClientConfig,
+        keyId: Long,
+        options: RequestOptions? = null,
+    ): ApiKeyRevokeResponse {
         return revokeApiKeyWithRawResponse(clientConfig, keyId, options).data
     }
 
-
-    /** [revokeApiKey], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun revokeApiKeyWithRawResponse(clientConfig: ClientConfig, keyId: Long, options: RequestOptions? = null): SdkResponse<ApiKeyRevokeResponse> {
-        return SdkClient.request<ApiKeyRevokeResponse>(SdkClient.RequestSpec("DELETE", "/api_keys/${SdkClient.encodePathSegment(keyId)}", config = clientConfig, operationId = "revokeApiKey", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+    /**
+     * [revokeApiKey], returning the [SdkResponse] envelope: status code, headers, request ID and
+     * latency.
+     */
+    fun revokeApiKeyWithRawResponse(
+        clientConfig: ClientConfig,
+        keyId: Long,
+        options: RequestOptions? = null,
+    ): SdkResponse<ApiKeyRevokeResponse> {
+        return SdkClient.request<ApiKeyRevokeResponse>(
+            SdkClient.RequestSpec(
+                "DELETE",
+                "/api_keys/${SdkClient.encodePathSegment(keyId)}",
+                config = clientConfig,
+                operationId = "revokeApiKey",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
-
-
 }

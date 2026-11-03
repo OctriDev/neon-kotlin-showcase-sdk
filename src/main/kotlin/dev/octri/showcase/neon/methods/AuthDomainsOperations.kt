@@ -15,79 +15,175 @@ import dev.octri.showcase.neon.Validation
 
 internal object AuthListAuthTrustedDomainsOperation {
     /**
-     * Lists the trusted domains in the redirect URI whitelist for the specified branch. Only domains in this list are permitted as redirect targets after authentication.
+     * Lists the trusted domains in the redirect URI whitelist for the specified branch. Only
+     * domains in this list are permitted as redirect targets after authentication.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      */
-    fun listAuthTrustedDomains(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): NeonAuthRedirectURIWhitelistResponse {
-        return listAuthTrustedDomainsWithRawResponse(clientConfig, projectId, branchId, options).data
+    fun listAuthTrustedDomains(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): NeonAuthRedirectURIWhitelistResponse {
+        return listAuthTrustedDomainsWithRawResponse(clientConfig, projectId, branchId, options)
+            .data
     }
 
-
-    /** [listAuthTrustedDomains], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun listAuthTrustedDomainsWithRawResponse(clientConfig: ClientConfig, projectId: String, branchId: String, options: RequestOptions? = null): SdkResponse<NeonAuthRedirectURIWhitelistResponse> {
+    /**
+     * [listAuthTrustedDomains], returning the [SdkResponse] envelope: status code, headers, request
+     * ID and latency.
+     */
+    fun listAuthTrustedDomainsWithRawResponse(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<NeonAuthRedirectURIWhitelistResponse> {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<NeonAuthRedirectURIWhitelistResponse>(SdkClient.RequestSpec("GET", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/domains", config = clientConfig, operationId = "listAuthTrustedDomains", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<NeonAuthRedirectURIWhitelistResponse>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/domains",
+                config = clientConfig,
+                operationId = "listAuthTrustedDomains",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 }
 
 internal object AuthAddAuthTrustedDomainOperation {
     /**
-     * Adds a domain to the redirect URI whitelist for the specified branch. Only domains in this list are permitted as redirect targets after authentication.
+     * Adds a domain to the redirect URI whitelist for the specified branch. Only domains in this
+     * list are permitted as redirect targets after authentication.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
      * @param domain URI to add to the redirect URI allowlist for the auth provider.
-     * @param authProvider Authentication provider integrated with this Neon Auth
-     *   configuration. `better_auth` integrates with Better Auth (the current,
-     *   recommended provider). `stack` integrates with Stack Auth (deprecated). `mock`
-     *   is a simulated provider for local development and testing only.
+     * @param authProvider Authentication provider integrated with this Neon Auth configuration.
+     *   `better_auth` integrates with Better Auth (the current, recommended provider). `stack`
+     *   integrates with Stack Auth (deprecated). `mock` is a simulated provider for local
+     *   development and testing only.
      */
-    fun addAuthTrustedDomain(clientConfig: ClientConfig, projectId: String, branchId: String, domain: String, authProvider: NeonAuthSupportedAuthProvider, options: RequestOptions? = null): Unit {
-        return addAuthTrustedDomainWithRawResponse(clientConfig, projectId, branchId, domain, authProvider, options).data
+    fun addAuthTrustedDomain(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        domain: String,
+        authProvider: NeonAuthSupportedAuthProvider,
+        options: RequestOptions? = null,
+    ): Unit {
+        return addAuthTrustedDomainWithRawResponse(
+                clientConfig,
+                projectId,
+                branchId,
+                domain,
+                authProvider,
+                options,
+            )
+            .data
     }
 
-
-    /** [addAuthTrustedDomain], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun addAuthTrustedDomainWithRawResponse(clientConfig: ClientConfig, projectId: String, branchId: String, domain: String, authProvider: NeonAuthSupportedAuthProvider, options: RequestOptions? = null): SdkResponse<Unit> {
+    /**
+     * [addAuthTrustedDomain], returning the [SdkResponse] envelope: status code, headers, request
+     * ID and latency.
+     */
+    fun addAuthTrustedDomainWithRawResponse(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        domain: String,
+        authProvider: NeonAuthSupportedAuthProvider,
+        options: RequestOptions? = null,
+    ): SdkResponse<Unit> {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateUri("domain", domain)
 
-        return SdkClient.request<Unit>(SdkClient.RequestSpec("POST", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/domains", config = clientConfig, body = SdkClient.bodyMap("domain" to (domain), "auth_provider" to (authProvider)), operationId = "addAuthTrustedDomain", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "POST",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/domains",
+                config = clientConfig,
+                body = SdkClient.bodyMap("domain" to (domain), "auth_provider" to (authProvider)),
+                operationId = "addAuthTrustedDomain",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 }
 
 internal object AuthDeleteAuthTrustedDomainOperation {
     /**
-     * Removes a domain from the redirect URI whitelist for the specified branch. After removal, the domain can no longer be used as a redirect target after authentication.
+     * Removes a domain from the redirect URI whitelist for the specified branch. After removal, the
+     * domain can no longer be used as a redirect target after authentication.
      *
      * @param projectId The Neon project ID
      * @param branchId The Neon branch ID
-     * @param authProvider Authentication provider integrated with this Neon Auth
-     *   configuration. `better_auth` integrates with Better Auth (the current,
-     *   recommended provider). `stack` integrates with Stack Auth (deprecated). `mock`
-     *   is a simulated provider for local development and testing only.
-     * @param domains Domain names to remove from the redirect URI whitelist for the
-     *   specified auth provider.
+     * @param authProvider Authentication provider integrated with this Neon Auth configuration.
+     *   `better_auth` integrates with Better Auth (the current, recommended provider). `stack`
+     *   integrates with Stack Auth (deprecated). `mock` is a simulated provider for local
+     *   development and testing only.
+     * @param domains Domain names to remove from the redirect URI whitelist for the specified auth
+     *   provider.
      */
-    fun deleteAuthTrustedDomain(clientConfig: ClientConfig, projectId: String, branchId: String, authProvider: NeonAuthSupportedAuthProvider, domains: List<NeonAuthDeleteDomainFromRedirectURIWhitelistItem>, options: RequestOptions? = null): Unit {
-        return deleteAuthTrustedDomainWithRawResponse(clientConfig, projectId, branchId, authProvider, domains, options).data
+    fun deleteAuthTrustedDomain(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        authProvider: NeonAuthSupportedAuthProvider,
+        domains: List<NeonAuthDeleteDomainFromRedirectURIWhitelistItem>,
+        options: RequestOptions? = null,
+    ): Unit {
+        return deleteAuthTrustedDomainWithRawResponse(
+                clientConfig,
+                projectId,
+                branchId,
+                authProvider,
+                domains,
+                options,
+            )
+            .data
     }
 
-
-    /** [deleteAuthTrustedDomain], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun deleteAuthTrustedDomainWithRawResponse(clientConfig: ClientConfig, projectId: String, branchId: String, authProvider: NeonAuthSupportedAuthProvider, domains: List<NeonAuthDeleteDomainFromRedirectURIWhitelistItem>, options: RequestOptions? = null): SdkResponse<Unit> {
+    /**
+     * [deleteAuthTrustedDomain], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun deleteAuthTrustedDomainWithRawResponse(
+        clientConfig: ClientConfig,
+        projectId: String,
+        branchId: String,
+        authProvider: NeonAuthSupportedAuthProvider,
+        domains: List<NeonAuthDeleteDomainFromRedirectURIWhitelistItem>,
+        options: RequestOptions? = null,
+    ): SdkResponse<Unit> {
         Validation.validatePattern("project_id", projectId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("branch_id", branchId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/domains", config = clientConfig, body = SdkClient.bodyMap("auth_provider" to (authProvider), "domains" to (domains)), operationId = "deleteAuthTrustedDomain", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "DELETE",
+                "/projects/${SdkClient.encodePathSegment(projectId)}/branches/${SdkClient.encodePathSegment(branchId)}/auth/domains",
+                config = clientConfig,
+                body = SdkClient.bodyMap("auth_provider" to (authProvider), "domains" to (domains)),
+                operationId = "deleteAuthTrustedDomain",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 }

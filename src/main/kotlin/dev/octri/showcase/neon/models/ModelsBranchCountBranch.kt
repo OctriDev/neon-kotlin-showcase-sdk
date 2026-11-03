@@ -5,12 +5,8 @@ package dev.octri.showcase.neon.models
 
 import dev.octri.showcase.neon.SdkResource
 
-/**
- * Typed representation of the `BranchesCountResponse` API schema.
- */
+/** Typed representation of the `BranchesCountResponse` API schema. */
 data class BranchesCountResponse(
-    /**
-     * Total number of branches in the project.
-     */
+    /** Total number of branches in the project. */
     val count: Long
 ) : SdkResource()

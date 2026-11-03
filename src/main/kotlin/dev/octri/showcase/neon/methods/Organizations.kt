@@ -11,222 +11,395 @@ import dev.octri.showcase.neon.ListOrganizationsMembersParameterEnum
 import dev.octri.showcase.neon.ListOrganizationsMembersResponse
 import dev.octri.showcase.neon.Member
 import dev.octri.showcase.neon.MemberRole
-import dev.octri.showcase.neon.Organization
-import dev.octri.showcase.neon.OrganizationInvitationsResponse
-import dev.octri.showcase.neon.OrganizationInviteCreateRequest
 import dev.octri.showcase.neon.OrgApiKeyCreateRequest
 import dev.octri.showcase.neon.OrgApiKeyCreateResponse
 import dev.octri.showcase.neon.OrgApiKeyRevokeResponse
 import dev.octri.showcase.neon.OrgApiKeysListResponseItem
+import dev.octri.showcase.neon.Organization
+import dev.octri.showcase.neon.OrganizationInvitationsResponse
+import dev.octri.showcase.neon.OrganizationInviteCreateRequest
 import dev.octri.showcase.neon.ProjectsWithIntegrationResponse
 import dev.octri.showcase.neon.RequestOptions
 import dev.octri.showcase.neon.SchemaSchemaEnum
 import dev.octri.showcase.neon.SdkClient
 import dev.octri.showcase.neon.SdkResponse
 import dev.octri.showcase.neon.SpendingLimitResponse
-import dev.octri.showcase.neon.Validation
 import dev.octri.showcase.neon.VPCEndpointDetails
 import dev.octri.showcase.neon.VPCEndpointsResponse
 import dev.octri.showcase.neon.VPCEndpointsWithRegionResponse
+import dev.octri.showcase.neon.Validation
 
 object Organizations {
 
     /**
-     * Retrieves details for the specified organization, including its name, plan, and configuration.
+     * Retrieves details for the specified organization, including its name, plan, and
+     * configuration.
      *
      * @param orgId The Neon organization ID
      */
-    fun getOrganization(clientConfig: ClientConfig, orgId: String, options: RequestOptions? = null): Organization {
+    fun getOrganization(
+        clientConfig: ClientConfig,
+        orgId: String,
+        options: RequestOptions? = null,
+    ): Organization {
         return getOrganizationWithRawResponse(clientConfig, orgId, options).data
     }
 
-
-    /** [getOrganization], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun getOrganizationWithRawResponse(clientConfig: ClientConfig, orgId: String, options: RequestOptions? = null): SdkResponse<Organization> {
+    /**
+     * [getOrganization], returning the [SdkResponse] envelope: status code, headers, request ID and
+     * latency.
+     */
+    fun getOrganizationWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<Organization> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<Organization>(SdkClient.RequestSpec("GET", "/organizations/${SdkClient.encodePathSegment(orgId)}", config = clientConfig, operationId = "getOrganization", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<Organization>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}",
+                config = clientConfig,
+                operationId = "getOrganization",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Retrieves the API keys for the specified organization. The response does not include API key tokens. A token is only provided when creating an API key. API keys can also be managed in the Neon Console. For more information, see Manage API keys.
+     * Retrieves the API keys for the specified organization. The response does not include API key
+     * tokens. A token is only provided when creating an API key. API keys can also be managed in
+     * the Neon Console. For more information, see Manage API keys.
      *
      * @param orgId The Neon organization ID
      */
-    fun listOrganizationsApiKeys(clientConfig: ClientConfig, orgId: String, options: RequestOptions? = null): List<OrgApiKeysListResponseItem> {
+    fun listOrganizationsApiKeys(
+        clientConfig: ClientConfig,
+        orgId: String,
+        options: RequestOptions? = null,
+    ): List<OrgApiKeysListResponseItem> {
         return listOrganizationsApiKeysWithRawResponse(clientConfig, orgId, options).data
     }
 
-
-    /** [listOrganizationsApiKeys], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun listOrganizationsApiKeysWithRawResponse(clientConfig: ClientConfig, orgId: String, options: RequestOptions? = null): SdkResponse<List<OrgApiKeysListResponseItem>> {
+    /**
+     * [listOrganizationsApiKeys], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun listOrganizationsApiKeysWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<List<OrgApiKeysListResponseItem>> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<List<OrgApiKeysListResponseItem>>(SdkClient.RequestSpec("GET", "/organizations/${SdkClient.encodePathSegment(orgId)}/api_keys", config = clientConfig, operationId = "listOrganizationsApiKeys", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<List<OrgApiKeysListResponseItem>>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/api_keys",
+                config = clientConfig,
+                operationId = "listOrganizationsApiKeys",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Creates an API key for the specified organization. The `key_name` is a user-specified name for the key. Returns an `id` and `key`; the `key` is a randomly generated, 64-bit token required to access the Neon API. Store the key securely — it is only returned once. API keys can also be managed in the Neon Console. See Manage API keys.
+     * Creates an API key for the specified organization. The `key_name` is a user-specified name
+     * for the key. Returns an `id` and `key`; the `key` is a randomly generated, 64-bit token
+     * required to access the Neon API. Store the key securely — it is only returned once. API keys
+     * can also be managed in the Neon Console. See Manage API keys.
      *
      * @param orgId The Neon organization ID
      */
-    fun createOrganizationsApiKey(clientConfig: ClientConfig, orgId: String, body: OrgApiKeyCreateRequest, options: RequestOptions? = null): OrgApiKeyCreateResponse {
+    fun createOrganizationsApiKey(
+        clientConfig: ClientConfig,
+        orgId: String,
+        body: OrgApiKeyCreateRequest,
+        options: RequestOptions? = null,
+    ): OrgApiKeyCreateResponse {
         return createOrganizationsApiKeyWithRawResponse(clientConfig, orgId, body, options).data
     }
 
-
-    /** [createOrganizationsApiKey], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun createOrganizationsApiKeyWithRawResponse(clientConfig: ClientConfig, orgId: String, body: OrgApiKeyCreateRequest, options: RequestOptions? = null): SdkResponse<OrgApiKeyCreateResponse> {
+    /**
+     * [createOrganizationsApiKey], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun createOrganizationsApiKeyWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        body: OrgApiKeyCreateRequest,
+        options: RequestOptions? = null,
+    ): SdkResponse<OrgApiKeyCreateResponse> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<OrgApiKeyCreateResponse>(SdkClient.RequestSpec("POST", "/organizations/${SdkClient.encodePathSegment(orgId)}/api_keys", config = clientConfig, body = body, operationId = "createOrganizationsApiKey", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<OrgApiKeyCreateResponse>(
+            SdkClient.RequestSpec(
+                "POST",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/api_keys",
+                config = clientConfig,
+                body = body,
+                operationId = "createOrganizationsApiKey",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Revokes the specified organization API key. An API key that is no longer needed can be revoked. This action cannot be reversed. API keys can also be managed in the Neon Console. See Manage API keys.
+     * Revokes the specified organization API key. An API key that is no longer needed can be
+     * revoked. This action cannot be reversed. API keys can also be managed in the Neon Console.
+     * See Manage API keys.
      *
      * @param orgId The Neon organization ID
      * @param keyId The API key ID
      */
-    fun revokeOrganizationsApiKey(clientConfig: ClientConfig, orgId: String, keyId: Long, options: RequestOptions? = null): OrgApiKeyRevokeResponse {
+    fun revokeOrganizationsApiKey(
+        clientConfig: ClientConfig,
+        orgId: String,
+        keyId: Long,
+        options: RequestOptions? = null,
+    ): OrgApiKeyRevokeResponse {
         return revokeOrganizationsApiKeyWithRawResponse(clientConfig, orgId, keyId, options).data
     }
 
-
-    /** [revokeOrganizationsApiKey], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun revokeOrganizationsApiKeyWithRawResponse(clientConfig: ClientConfig, orgId: String, keyId: Long, options: RequestOptions? = null): SdkResponse<OrgApiKeyRevokeResponse> {
+    /**
+     * [revokeOrganizationsApiKey], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun revokeOrganizationsApiKeyWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        keyId: Long,
+        options: RequestOptions? = null,
+    ): SdkResponse<OrgApiKeyRevokeResponse> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<OrgApiKeyRevokeResponse>(SdkClient.RequestSpec("DELETE", "/organizations/${SdkClient.encodePathSegment(orgId)}/api_keys/${SdkClient.encodePathSegment(keyId)}", config = clientConfig, operationId = "revokeOrganizationsApiKey", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<OrgApiKeyRevokeResponse>(
+            SdkClient.RequestSpec(
+                "DELETE",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/api_keys/${SdkClient.encodePathSegment(keyId)}",
+                config = clientConfig,
+                operationId = "revokeOrganizationsApiKey",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Returns the configured monthly spending limit for the specified organization. `spending_limit_cents: null` indicates that no limit is currently set. Available to organization members with read access on Launch and Scale plans only.
+     * Returns the configured monthly spending limit for the specified organization.
+     * `spending_limit_cents: null` indicates that no limit is currently set. Available to
+     * organization members with read access on Launch and Scale plans only.
      *
      * @param orgId The Neon organization ID
      */
-    fun getOrganizationSpendingLimit(clientConfig: ClientConfig, orgId: String, options: RequestOptions? = null): SpendingLimitResponse {
+    fun getOrganizationSpendingLimit(
+        clientConfig: ClientConfig,
+        orgId: String,
+        options: RequestOptions? = null,
+    ): SpendingLimitResponse {
         return getOrganizationSpendingLimitWithRawResponse(clientConfig, orgId, options).data
     }
 
-
-    /** [getOrganizationSpendingLimit], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun getOrganizationSpendingLimitWithRawResponse(clientConfig: ClientConfig, orgId: String, options: RequestOptions? = null): SdkResponse<SpendingLimitResponse> {
+    /**
+     * [getOrganizationSpendingLimit], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun getOrganizationSpendingLimitWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<SpendingLimitResponse> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<SpendingLimitResponse>(SdkClient.RequestSpec("GET", "/organizations/${SdkClient.encodePathSegment(orgId)}/billing/spending_limit", config = clientConfig, operationId = "getOrganizationSpendingLimit", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<SpendingLimitResponse>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/billing/spending_limit",
+                config = clientConfig,
+                operationId = "getOrganizationSpendingLimit",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
 
     /**
-     * Sets the monthly spending limit for the specified organization. To remove a previously configured limit, send a DELETE request to this endpoint. When a limit is configured, email notifications are sent at 80% and 100% of the limit. Computes are not suspended when the limit is reached. Available to organization admins on Launch and Scale plans only.
+     * Sets the monthly spending limit for the specified organization. To remove a previously
+     * configured limit, send a DELETE request to this endpoint. When a limit is configured, email
+     * notifications are sent at 80% and 100% of the limit. Computes are not suspended when the
+     * limit is reached. Available to organization admins on Launch and Scale plans only.
      *
      * @param orgId The Neon organization ID
-     * @param spendingLimitCents Monthly spending cap in cents. Must be positive. To
-     *   remove a previously configured limit, send a DELETE request to the
-     *   spending_limit endpoint — `0` and `null` are rejected here. The cap is
-     *   alert-only: notifications fire at 80% and 100%, but computes are not
-     *   suspended. Setting a cap below the period's already-accrued spend is permitted
-     *   and will trigger the over-limit notification on the next worker run.
+     * @param spendingLimitCents Monthly spending cap in cents. Must be positive. To remove a
+     *   previously configured limit, send a DELETE request to the spending_limit endpoint — `0` and
+     *   `null` are rejected here. The cap is alert-only: notifications fire at 80% and 100%, but
+     *   computes are not suspended. Setting a cap below the period's already-accrued spend is
+     *   permitted and will trigger the over-limit notification on the next worker run.
      */
-    fun setOrganizationSpendingLimit(clientConfig: ClientConfig, orgId: String, spendingLimitCents: Long, options: RequestOptions? = null): SpendingLimitResponse {
-        return setOrganizationSpendingLimitWithRawResponse(clientConfig, orgId, spendingLimitCents, options).data
+    fun setOrganizationSpendingLimit(
+        clientConfig: ClientConfig,
+        orgId: String,
+        spendingLimitCents: Long,
+        options: RequestOptions? = null,
+    ): SpendingLimitResponse {
+        return setOrganizationSpendingLimitWithRawResponse(
+                clientConfig,
+                orgId,
+                spendingLimitCents,
+                options,
+            )
+            .data
     }
 
-
-    /** [setOrganizationSpendingLimit], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun setOrganizationSpendingLimitWithRawResponse(clientConfig: ClientConfig, orgId: String, spendingLimitCents: Long, options: RequestOptions? = null): SdkResponse<SpendingLimitResponse> {
+    /**
+     * [setOrganizationSpendingLimit], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun setOrganizationSpendingLimitWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        spendingLimitCents: Long,
+        options: RequestOptions? = null,
+    ): SdkResponse<SpendingLimitResponse> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
-        Validation.validateRange("spending_limit_cents", spendingLimitCents, Validation.RangeOpts(min = 1.0))
+        Validation.validateRange(
+            "spending_limit_cents",
+            spendingLimitCents,
+            Validation.RangeOpts(min = 1.0),
+        )
 
-        return SdkClient.request<SpendingLimitResponse>(SdkClient.RequestSpec("PUT", "/organizations/${SdkClient.encodePathSegment(orgId)}/billing/spending_limit", config = clientConfig, body = SdkClient.bodyMap("spending_limit_cents" to (spendingLimitCents)), operationId = "setOrganizationSpendingLimit", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<SpendingLimitResponse>(
+            SdkClient.RequestSpec(
+                "PUT",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/billing/spending_limit",
+                config = clientConfig,
+                body = SdkClient.bodyMap("spending_limit_cents" to (spendingLimitCents)),
+                operationId = "setOrganizationSpendingLimit",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Removes the configured monthly spending limit for the specified organization. Idempotent — removing an already-unset limit still succeeds. Available to organization admins on Launch and Scale plans only.
+     * Removes the configured monthly spending limit for the specified organization. Idempotent —
+     * removing an already-unset limit still succeeds. Available to organization admins on Launch
+     * and Scale plans only.
      *
      * @param orgId The Neon organization ID
      */
-    fun deleteOrganizationSpendingLimit(clientConfig: ClientConfig, orgId: String, options: RequestOptions? = null): EmptyResponse {
+    fun deleteOrganizationSpendingLimit(
+        clientConfig: ClientConfig,
+        orgId: String,
+        options: RequestOptions? = null,
+    ): EmptyResponse {
         return deleteOrganizationSpendingLimitWithRawResponse(clientConfig, orgId, options).data
     }
 
-
-    /** [deleteOrganizationSpendingLimit], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun deleteOrganizationSpendingLimitWithRawResponse(clientConfig: ClientConfig, orgId: String, options: RequestOptions? = null): SdkResponse<EmptyResponse> {
+    /**
+     * [deleteOrganizationSpendingLimit], returning the [SdkResponse] envelope: status code,
+     * headers, request ID and latency.
+     */
+    fun deleteOrganizationSpendingLimitWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<EmptyResponse> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<EmptyResponse>(SdkClient.RequestSpec("DELETE", "/organizations/${SdkClient.encodePathSegment(orgId)}/billing/spending_limit", config = clientConfig, operationId = "deleteOrganizationSpendingLimit", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<EmptyResponse>(
+            SdkClient.RequestSpec(
+                "DELETE",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/billing/spending_limit",
+                config = clientConfig,
+                operationId = "deleteOrganizationSpendingLimit",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
 
     /**
      * Retrieves a paginated list of members for the specified organization.
      *
      * @param orgId The Neon organization ID
-     * @param sortBy Sort the members by the specified field. Defaults to
-     *   `joined_at`.
-     * @param cursor A cursor to use in pagination. A cursor defines your place in
-     *   the data list. Include `response.pagination.next` in subsequent API calls to
-     *   fetch next page of the list.
+     * @param sortBy Sort the members by the specified field. Defaults to `joined_at`.
+     * @param cursor A cursor to use in pagination. A cursor defines your place in the data list.
+     *   Include `response.pagination.next` in subsequent API calls to fetch next page of the list.
      * @param sortOrder Defines the sorting order of entities.
      * @param limit The maximum number of members to return in the response
      */
-    fun listOrganizationsMembers(clientConfig: ClientConfig, orgId: String, sortBy: ListOrganizationsMembersParameterEnum? = null, cursor: String? = null, sortOrder: SchemaSchemaEnum? = null, limit: Long? = null, options: RequestOptions? = null): ListOrganizationsMembersResponse {
-        return listOrganizationsMembersWithRawResponse(clientConfig, orgId, sortBy, cursor, sortOrder, limit, options).data
+    fun listOrganizationsMembers(
+        clientConfig: ClientConfig,
+        orgId: String,
+        sortBy: ListOrganizationsMembersParameterEnum? = null,
+        cursor: String? = null,
+        sortOrder: SchemaSchemaEnum? = null,
+        limit: Long? = null,
+        options: RequestOptions? = null,
+    ): ListOrganizationsMembersResponse {
+        return listOrganizationsMembersWithRawResponse(
+                clientConfig,
+                orgId,
+                sortBy,
+                cursor,
+                sortOrder,
+                limit,
+                options,
+            )
+            .data
     }
 
-
-    /** [listOrganizationsMembers], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun listOrganizationsMembersWithRawResponse(clientConfig: ClientConfig, orgId: String, sortBy: ListOrganizationsMembersParameterEnum? = null, cursor: String? = null, sortOrder: SchemaSchemaEnum? = null, limit: Long? = null, options: RequestOptions? = null): SdkResponse<ListOrganizationsMembersResponse> {
+    /**
+     * [listOrganizationsMembers], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun listOrganizationsMembersWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        sortBy: ListOrganizationsMembersParameterEnum? = null,
+        cursor: String? = null,
+        sortOrder: SchemaSchemaEnum? = null,
+        limit: Long? = null,
+        options: RequestOptions? = null,
+    ): SdkResponse<ListOrganizationsMembersResponse> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
         if (limit != null) {
             Validation.validateRange("limit", limit, Validation.RangeOpts(min = 1.0, max = 500.0))
-}
+        }
 
-        return SdkClient.request<ListOrganizationsMembersResponse>(SdkClient.RequestSpec("GET", "/organizations/${SdkClient.encodePathSegment(orgId)}/members", config = clientConfig, query = mapOf("sort_by" to SdkClient.queryValue(sortBy, "form", true), "cursor" to SdkClient.queryValue(cursor, "form", true), "sort_order" to
-    SdkClient.queryValue(sortOrder, "form", true), "limit" to SdkClient.queryValue(limit, "form", true)), operationId = "listOrganizationsMembers", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<ListOrganizationsMembersResponse>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/members",
+                config = clientConfig,
+                query =
+                    mapOf(
+                        "sort_by" to SdkClient.queryValue(sortBy, "form", true),
+                        "cursor" to SdkClient.queryValue(cursor, "form", true),
+                        "sort_order" to SdkClient.queryValue(sortOrder, "form", true),
+                        "limit" to SdkClient.queryValue(limit, "form", true),
+                    ),
+                operationId = "listOrganizationsMembers",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
 
     /**
      * Retrieves information about the specified organization member.
@@ -234,175 +407,329 @@ object Organizations {
      * @param orgId The Neon organization ID
      * @param memberId The Neon organization member ID
      */
-    fun getOrganizationMember(clientConfig: ClientConfig, orgId: String, memberId: String, options: RequestOptions? = null): Member {
+    fun getOrganizationMember(
+        clientConfig: ClientConfig,
+        orgId: String,
+        memberId: String,
+        options: RequestOptions? = null,
+    ): Member {
         return getOrganizationMemberWithRawResponse(clientConfig, orgId, memberId, options).data
     }
 
-
-    /** [getOrganizationMember], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun getOrganizationMemberWithRawResponse(clientConfig: ClientConfig, orgId: String, memberId: String, options: RequestOptions? = null): SdkResponse<Member> {
+    /**
+     * [getOrganizationMember], returning the [SdkResponse] envelope: status code, headers, request
+     * ID and latency.
+     */
+    fun getOrganizationMemberWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        memberId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<Member> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateUuid("member_id", memberId)
 
-        return SdkClient.request<Member>(SdkClient.RequestSpec("GET", "/organizations/${SdkClient.encodePathSegment(orgId)}/members/${SdkClient.encodePathSegment(memberId)}", config = clientConfig, operationId = "getOrganizationMember", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<Member>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/members/${SdkClient.encodePathSegment(memberId)}",
+                config = clientConfig,
+                operationId = "getOrganizationMember",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Updates the role of an existing member in the specified organization. The requested role must be valid for the organization. Only organization admins can call this endpoint.
+     * Updates the role of an existing member in the specified organization. The requested role must
+     * be valid for the organization. Only organization admins can call this endpoint.
      *
      * @param orgId The Neon organization ID
      * @param memberId The Neon organization member ID
-     * @param role Organization member's role. `admin`: full administrative access.
-     *   `editor` (and its legacy alias `member`): standard access governed by project
-     *   permissions. `viewer` and `collaborator`: additional scoped project roles.
-     *   Some values may not be available for all organizations.
+     * @param role Organization member's role. `admin`: full administrative access. `editor` (and
+     *   its legacy alias `member`): standard access governed by project permissions. `viewer` and
+     *   `collaborator`: additional scoped project roles. Some values may not be available for all
+     *   organizations.
      */
-    fun updateOrganizationMember(clientConfig: ClientConfig, orgId: String, memberId: String, role: MemberRole, options: RequestOptions? = null): Member {
-        return updateOrganizationMemberWithRawResponse(clientConfig, orgId, memberId, role, options).data
+    fun updateOrganizationMember(
+        clientConfig: ClientConfig,
+        orgId: String,
+        memberId: String,
+        role: MemberRole,
+        options: RequestOptions? = null,
+    ): Member {
+        return updateOrganizationMemberWithRawResponse(clientConfig, orgId, memberId, role, options)
+            .data
     }
 
-
-    /** [updateOrganizationMember], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun updateOrganizationMemberWithRawResponse(clientConfig: ClientConfig, orgId: String, memberId: String, role: MemberRole, options: RequestOptions? = null): SdkResponse<Member> {
+    /**
+     * [updateOrganizationMember], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun updateOrganizationMemberWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        memberId: String,
+        role: MemberRole,
+        options: RequestOptions? = null,
+    ): SdkResponse<Member> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateUuid("member_id", memberId)
 
-        return SdkClient.request<Member>(SdkClient.RequestSpec("PATCH", "/organizations/${SdkClient.encodePathSegment(orgId)}/members/${SdkClient.encodePathSegment(memberId)}", config = clientConfig, body = SdkClient.bodyMap("role" to (role)), operationId = "updateOrganizationMember", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<Member>(
+            SdkClient.RequestSpec(
+                "PATCH",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/members/${SdkClient.encodePathSegment(memberId)}",
+                config = clientConfig,
+                body = SdkClient.bodyMap("role" to (role)),
+                operationId = "updateOrganizationMember",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Removes the specified member from the organization. Only organization admins can perform this action. The last admin in an organization cannot be removed.
+     * Removes the specified member from the organization. Only organization admins can perform this
+     * action. The last admin in an organization cannot be removed.
      *
      * @param orgId The Neon organization ID
      * @param memberId The Neon organization member ID
      */
-    fun removeOrganizationMember(clientConfig: ClientConfig, orgId: String, memberId: String, options: RequestOptions? = null): EmptyResponse {
+    fun removeOrganizationMember(
+        clientConfig: ClientConfig,
+        orgId: String,
+        memberId: String,
+        options: RequestOptions? = null,
+    ): EmptyResponse {
         return removeOrganizationMemberWithRawResponse(clientConfig, orgId, memberId, options).data
     }
 
-
-    /** [removeOrganizationMember], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun removeOrganizationMemberWithRawResponse(clientConfig: ClientConfig, orgId: String, memberId: String, options: RequestOptions? = null): SdkResponse<EmptyResponse> {
+    /**
+     * [removeOrganizationMember], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun removeOrganizationMemberWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        memberId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<EmptyResponse> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
         Validation.validateUuid("member_id", memberId)
 
-        return SdkClient.request<EmptyResponse>(SdkClient.RequestSpec("DELETE", "/organizations/${SdkClient.encodePathSegment(orgId)}/members/${SdkClient.encodePathSegment(memberId)}", config = clientConfig, operationId = "removeOrganizationMember", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<EmptyResponse>(
+            SdkClient.RequestSpec(
+                "DELETE",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/members/${SdkClient.encodePathSegment(memberId)}",
+                config = clientConfig,
+                operationId = "removeOrganizationMember",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
 
     /**
      * Retrieves pending and accepted invitations for the specified organization.
      *
      * @param orgId The Neon organization ID
      */
-    fun listOrganizationsInvitations(clientConfig: ClientConfig, orgId: String, options: RequestOptions? = null): OrganizationInvitationsResponse {
+    fun listOrganizationsInvitations(
+        clientConfig: ClientConfig,
+        orgId: String,
+        options: RequestOptions? = null,
+    ): OrganizationInvitationsResponse {
         return listOrganizationsInvitationsWithRawResponse(clientConfig, orgId, options).data
     }
 
-
-    /** [listOrganizationsInvitations], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun listOrganizationsInvitationsWithRawResponse(clientConfig: ClientConfig, orgId: String, options: RequestOptions? = null): SdkResponse<OrganizationInvitationsResponse> {
+    /**
+     * [listOrganizationsInvitations], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun listOrganizationsInvitationsWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<OrganizationInvitationsResponse> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<OrganizationInvitationsResponse>(SdkClient.RequestSpec("GET", "/organizations/${SdkClient.encodePathSegment(orgId)}/invitations", config = clientConfig, operationId = "listOrganizationsInvitations", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<OrganizationInvitationsResponse>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/invitations",
+                config = clientConfig,
+                operationId = "listOrganizationsInvitations",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
-
-
-
-
-
     /**
-     * Creates invitations for a specific organization. If the invited user has an existing account, they automatically join as a member. If they don't yet have an account, they are invited to create one, after which they become a member. Each invited user receives an email notification.
+     * Creates invitations for a specific organization. If the invited user has an existing account,
+     * they automatically join as a member. If they don't yet have an account, they are invited to
+     * create one, after which they become a member. Each invited user receives an email
+     * notification.
      *
      * @param orgId The Neon organization ID
      * @param invitations Invitations to create for the organization.
      */
-    fun createOrganizationInvitations(clientConfig: ClientConfig, orgId: String, invitations: List<OrganizationInviteCreateRequest>, options: RequestOptions? = null): OrganizationInvitationsResponse {
-        return createOrganizationInvitationsWithRawResponse(clientConfig, orgId, invitations, options).data
+    fun createOrganizationInvitations(
+        clientConfig: ClientConfig,
+        orgId: String,
+        invitations: List<OrganizationInviteCreateRequest>,
+        options: RequestOptions? = null,
+    ): OrganizationInvitationsResponse {
+        return createOrganizationInvitationsWithRawResponse(
+                clientConfig,
+                orgId,
+                invitations,
+                options,
+            )
+            .data
     }
-
-
-    /** [createOrganizationInvitations], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun createOrganizationInvitationsWithRawResponse(clientConfig: ClientConfig, orgId: String, invitations: List<OrganizationInviteCreateRequest>, options: RequestOptions? = null): SdkResponse<OrganizationInvitationsResponse> {
-        Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
-
-        return SdkClient.request<OrganizationInvitationsResponse>(SdkClient.RequestSpec("POST", "/organizations/${SdkClient.encodePathSegment(orgId)}/invitations", config = clientConfig, body = SdkClient.bodyMap("invitations" to (invitations)), operationId = "createOrganizationInvitations", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
-    }
-
-
-
-
-
 
     /**
-     * Transfers selected projects, identified by their IDs, from your organization to another specified organization.
-     *
-     * @param sourceOrgId The Neon organization ID (source org, which currently owns
-     *   the project)
-     * @param destinationOrgId The destination organization identifier
-     * @param projectIds The list of projects ids to transfer. Maximum of 400 project
-     *   ids
+     * [createOrganizationInvitations], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
      */
-    fun transferOrganizationsProjects(clientConfig: ClientConfig, sourceOrgId: String, destinationOrgId: String, projectIds: List<String>, options: RequestOptions? = null): EmptyResponse {
-        return transferOrganizationsProjectsWithRawResponse(clientConfig, sourceOrgId, destinationOrgId, projectIds, options).data
+    fun createOrganizationInvitationsWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        invitations: List<OrganizationInviteCreateRequest>,
+        options: RequestOptions? = null,
+    ): SdkResponse<OrganizationInvitationsResponse> {
+        Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
+
+        return SdkClient.request<OrganizationInvitationsResponse>(
+            SdkClient.RequestSpec(
+                "POST",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/invitations",
+                config = clientConfig,
+                body = SdkClient.bodyMap("invitations" to (invitations)),
+                operationId = "createOrganizationInvitations",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
 
+    /**
+     * Transfers selected projects, identified by their IDs, from your organization to another
+     * specified organization.
+     *
+     * @param sourceOrgId The Neon organization ID (source org, which currently owns the project)
+     * @param destinationOrgId The destination organization identifier
+     * @param projectIds The list of projects ids to transfer. Maximum of 400 project ids
+     */
+    fun transferOrganizationsProjects(
+        clientConfig: ClientConfig,
+        sourceOrgId: String,
+        destinationOrgId: String,
+        projectIds: List<String>,
+        options: RequestOptions? = null,
+    ): EmptyResponse {
+        return transferOrganizationsProjectsWithRawResponse(
+                clientConfig,
+                sourceOrgId,
+                destinationOrgId,
+                projectIds,
+                options,
+            )
+            .data
+    }
 
-    /** [transferOrganizationsProjects], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun transferOrganizationsProjectsWithRawResponse(clientConfig: ClientConfig, sourceOrgId: String, destinationOrgId: String, projectIds: List<String>, options: RequestOptions? = null): SdkResponse<EmptyResponse> {
+    /**
+     * [transferOrganizationsProjects], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun transferOrganizationsProjectsWithRawResponse(
+        clientConfig: ClientConfig,
+        sourceOrgId: String,
+        destinationOrgId: String,
+        projectIds: List<String>,
+        options: RequestOptions? = null,
+    ): SdkResponse<EmptyResponse> {
         Validation.validatePattern("source_org_id", sourceOrgId, "^[a-z0-9-]{1,60}$")
 
         Validation.validatePattern("destination_org_id", destinationOrgId, "^[a-z0-9-]{1,60}$")
 
-        Validation.validateItems("project_ids", projectIds, Validation.LengthOpts(min = 1, max = 400))
+        Validation.validateItems(
+            "project_ids",
+            projectIds,
+            Validation.LengthOpts(min = 1, max = 400),
+        )
 
-        return SdkClient.request<EmptyResponse>(SdkClient.RequestSpec("POST", "/organizations/${SdkClient.encodePathSegment(sourceOrgId)}/projects/transfer", config = clientConfig, body = SdkClient.bodyMap("destination_org_id" to (destinationOrgId), "project_ids" to (projectIds)), operationId = "transferOrganizationsProjects", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("406" to LimitsUnsatisfiedResponse::class.java, "422" to ProjectsWithIntegrationResponse::class.java, "default" to GeneralError::class.java)))
+        return SdkClient.request<EmptyResponse>(
+            SdkClient.RequestSpec(
+                "POST",
+                "/organizations/${SdkClient.encodePathSegment(sourceOrgId)}/projects/transfer",
+                config = clientConfig,
+                body =
+                    SdkClient.bodyMap(
+                        "destination_org_id" to (destinationOrgId),
+                        "project_ids" to (projectIds),
+                    ),
+                operationId = "transferOrganizationsProjects",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors =
+                    mapOf(
+                        "406" to LimitsUnsatisfiedResponse::class.java,
+                        "422" to ProjectsWithIntegrationResponse::class.java,
+                        "default" to GeneralError::class.java,
+                    ),
+            )
+        )
     }
-
-
-
-
-
 
     /**
      * Retrieves the list of VPC endpoints for the specified Neon organization across all regions.
      *
      * @param orgId The Neon organization ID
      */
-    fun listOrganizationVpcEndpointsAllRegions(clientConfig: ClientConfig, orgId: String, options: RequestOptions? = null): VPCEndpointsWithRegionResponse {
-        return listOrganizationVpcEndpointsAllRegionsWithRawResponse(clientConfig, orgId, options).data
+    fun listOrganizationVpcEndpointsAllRegions(
+        clientConfig: ClientConfig,
+        orgId: String,
+        options: RequestOptions? = null,
+    ): VPCEndpointsWithRegionResponse {
+        return listOrganizationVpcEndpointsAllRegionsWithRawResponse(clientConfig, orgId, options)
+            .data
     }
 
-
-    /** [listOrganizationVpcEndpointsAllRegions], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun listOrganizationVpcEndpointsAllRegionsWithRawResponse(clientConfig: ClientConfig, orgId: String, options: RequestOptions? = null): SdkResponse<VPCEndpointsWithRegionResponse> {
+    /**
+     * [listOrganizationVpcEndpointsAllRegions], returning the [SdkResponse] envelope: status code,
+     * headers, request ID and latency.
+     */
+    fun listOrganizationVpcEndpointsAllRegionsWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<VPCEndpointsWithRegionResponse> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<VPCEndpointsWithRegionResponse>(SdkClient.RequestSpec("GET", "/organizations/${SdkClient.encodePathSegment(orgId)}/vpc/vpc_endpoints", config = clientConfig, operationId = "listOrganizationVpcEndpointsAllRegions", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<VPCEndpointsWithRegionResponse>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/vpc/vpc_endpoints",
+                config = clientConfig,
+                operationId = "listOrganizationVpcEndpointsAllRegions",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
 
     /**
      * Retrieves the list of VPC endpoints for the specified Neon organization.
@@ -410,22 +737,40 @@ object Organizations {
      * @param orgId The Neon organization ID
      * @param regionId The Neon region ID
      */
-    fun listOrganizationVpcEndpoints(clientConfig: ClientConfig, orgId: String, regionId: String, options: RequestOptions? = null): VPCEndpointsResponse {
-        return listOrganizationVpcEndpointsWithRawResponse(clientConfig, orgId, regionId, options).data
+    fun listOrganizationVpcEndpoints(
+        clientConfig: ClientConfig,
+        orgId: String,
+        regionId: String,
+        options: RequestOptions? = null,
+    ): VPCEndpointsResponse {
+        return listOrganizationVpcEndpointsWithRawResponse(clientConfig, orgId, regionId, options)
+            .data
     }
 
-
-    /** [listOrganizationVpcEndpoints], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun listOrganizationVpcEndpointsWithRawResponse(clientConfig: ClientConfig, orgId: String, regionId: String, options: RequestOptions? = null): SdkResponse<VPCEndpointsResponse> {
+    /**
+     * [listOrganizationVpcEndpoints], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun listOrganizationVpcEndpointsWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        regionId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<VPCEndpointsResponse> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<VPCEndpointsResponse>(SdkClient.RequestSpec("GET", "/organizations/${SdkClient.encodePathSegment(orgId)}/vpc/region/${SdkClient.encodePathSegment(regionId)}/vpc_endpoints", config = clientConfig, operationId = "listOrganizationVpcEndpoints", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<VPCEndpointsResponse>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/vpc/region/${SdkClient.encodePathSegment(regionId)}/vpc_endpoints",
+                config = clientConfig,
+                operationId = "listOrganizationVpcEndpoints",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
 
     /**
      * Retrieves the current state and configuration details of a specified VPC endpoint.
@@ -434,22 +779,48 @@ object Organizations {
      * @param regionId The Neon region ID. Azure regions are currently not supported.
      * @param vpcEndpointId The VPC endpoint ID
      */
-    fun getOrganizationsVpcEndpoint(clientConfig: ClientConfig, orgId: String, regionId: String, vpcEndpointId: String, options: RequestOptions? = null): VPCEndpointDetails {
-        return getOrganizationsVpcEndpointWithRawResponse(clientConfig, orgId, regionId, vpcEndpointId, options).data
+    fun getOrganizationsVpcEndpoint(
+        clientConfig: ClientConfig,
+        orgId: String,
+        regionId: String,
+        vpcEndpointId: String,
+        options: RequestOptions? = null,
+    ): VPCEndpointDetails {
+        return getOrganizationsVpcEndpointWithRawResponse(
+                clientConfig,
+                orgId,
+                regionId,
+                vpcEndpointId,
+                options,
+            )
+            .data
     }
 
-
-    /** [getOrganizationsVpcEndpoint], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun getOrganizationsVpcEndpointWithRawResponse(clientConfig: ClientConfig, orgId: String, regionId: String, vpcEndpointId: String, options: RequestOptions? = null): SdkResponse<VPCEndpointDetails> {
+    /**
+     * [getOrganizationsVpcEndpoint], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun getOrganizationsVpcEndpointWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        regionId: String,
+        vpcEndpointId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<VPCEndpointDetails> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<VPCEndpointDetails>(SdkClient.RequestSpec("GET", "/organizations/${SdkClient.encodePathSegment(orgId)}/vpc/region/${SdkClient.encodePathSegment(regionId)}/vpc_endpoints/${SdkClient.encodePathSegment(vpcEndpointId)}", config = clientConfig, operationId = "getOrganizationsVpcEndpoint", decoder = SdkClient.ResponseDecoder.JSON, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<VPCEndpointDetails>(
+            SdkClient.RequestSpec(
+                "GET",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/vpc/region/${SdkClient.encodePathSegment(regionId)}/vpc_endpoints/${SdkClient.encodePathSegment(vpcEndpointId)}",
+                config = clientConfig,
+                operationId = "getOrganizationsVpcEndpoint",
+                decoder = SdkClient.ResponseDecoder.JSON,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
 
     /**
      * Assigns a VPC endpoint to a Neon organization or updates its existing assignment.
@@ -457,49 +828,104 @@ object Organizations {
      * @param orgId The Neon organization ID
      * @param regionId The Neon region ID. Azure regions are currently not supported.
      * @param vpcEndpointId The VPC endpoint ID
-     * @param label Human-readable name for the VPC endpoint assignment, used to
-     *   identify it within the organization.
+     * @param label Human-readable name for the VPC endpoint assignment, used to identify it within
+     *   the organization.
      */
-    fun assignOrganizationVpcEndpoint(clientConfig: ClientConfig, orgId: String, regionId: String, vpcEndpointId: String, label: String, options: RequestOptions? = null): Unit {
-        return assignOrganizationVpcEndpointWithRawResponse(clientConfig, orgId, regionId, vpcEndpointId, label, options).data
+    fun assignOrganizationVpcEndpoint(
+        clientConfig: ClientConfig,
+        orgId: String,
+        regionId: String,
+        vpcEndpointId: String,
+        label: String,
+        options: RequestOptions? = null,
+    ): Unit {
+        return assignOrganizationVpcEndpointWithRawResponse(
+                clientConfig,
+                orgId,
+                regionId,
+                vpcEndpointId,
+                label,
+                options,
+            )
+            .data
     }
-
-
-    /** [assignOrganizationVpcEndpoint], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun assignOrganizationVpcEndpointWithRawResponse(clientConfig: ClientConfig, orgId: String, regionId: String, vpcEndpointId: String, label: String, options: RequestOptions? = null): SdkResponse<Unit> {
-        Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
-
-        return SdkClient.request<Unit>(SdkClient.RequestSpec("POST", "/organizations/${SdkClient.encodePathSegment(orgId)}/vpc/region/${SdkClient.encodePathSegment(regionId)}/vpc_endpoints/${SdkClient.encodePathSegment(vpcEndpointId)}", config = clientConfig, body = SdkClient.bodyMap("label" to (label)), operationId = "assignOrganizationVpcEndpoint", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
-    }
-
-
-
-
-
 
     /**
-     * Deletes the VPC endpoint from the specified Neon organization. If you delete a VPC endpoint from a Neon organization, that VPC endpoint cannot be added back to the Neon organization.
+     * [assignOrganizationVpcEndpoint], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun assignOrganizationVpcEndpointWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        regionId: String,
+        vpcEndpointId: String,
+        label: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<Unit> {
+        Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
+
+        return SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "POST",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/vpc/region/${SdkClient.encodePathSegment(regionId)}/vpc_endpoints/${SdkClient.encodePathSegment(vpcEndpointId)}",
+                config = clientConfig,
+                body = SdkClient.bodyMap("label" to (label)),
+                operationId = "assignOrganizationVpcEndpoint",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
+    }
+
+    /**
+     * Deletes the VPC endpoint from the specified Neon organization. If you delete a VPC endpoint
+     * from a Neon organization, that VPC endpoint cannot be added back to the Neon organization.
      *
      * @param orgId The Neon organization ID
      * @param regionId The Neon region ID. Azure regions are currently not supported.
      * @param vpcEndpointId The VPC endpoint ID
      */
-    fun deleteOrganizationVpcEndpoint(clientConfig: ClientConfig, orgId: String, regionId: String, vpcEndpointId: String, options: RequestOptions? = null): Unit {
-        return deleteOrganizationVpcEndpointWithRawResponse(clientConfig, orgId, regionId, vpcEndpointId, options).data
+    fun deleteOrganizationVpcEndpoint(
+        clientConfig: ClientConfig,
+        orgId: String,
+        regionId: String,
+        vpcEndpointId: String,
+        options: RequestOptions? = null,
+    ): Unit {
+        return deleteOrganizationVpcEndpointWithRawResponse(
+                clientConfig,
+                orgId,
+                regionId,
+                vpcEndpointId,
+                options,
+            )
+            .data
     }
 
-
-    /** [deleteOrganizationVpcEndpoint], returning the [SdkResponse] envelope: status code, headers, request ID and latency. */
-    fun deleteOrganizationVpcEndpointWithRawResponse(clientConfig: ClientConfig, orgId: String, regionId: String, vpcEndpointId: String, options: RequestOptions? = null): SdkResponse<Unit> {
+    /**
+     * [deleteOrganizationVpcEndpoint], returning the [SdkResponse] envelope: status code, headers,
+     * request ID and latency.
+     */
+    fun deleteOrganizationVpcEndpointWithRawResponse(
+        clientConfig: ClientConfig,
+        orgId: String,
+        regionId: String,
+        vpcEndpointId: String,
+        options: RequestOptions? = null,
+    ): SdkResponse<Unit> {
         Validation.validatePattern("org_id", orgId, "^[a-z0-9-]{1,60}$")
 
-        return SdkClient.request<Unit>(SdkClient.RequestSpec("DELETE", "/organizations/${SdkClient.encodePathSegment(orgId)}/vpc/region/${SdkClient.encodePathSegment(regionId)}/vpc_endpoints/${SdkClient.encodePathSegment(vpcEndpointId)}", config = clientConfig, operationId = "deleteOrganizationVpcEndpoint", decoder = SdkClient.ResponseDecoder.EMPTY, options = options, errors = mapOf("default" to GeneralError::class.java)))
+        return SdkClient.request<Unit>(
+            SdkClient.RequestSpec(
+                "DELETE",
+                "/organizations/${SdkClient.encodePathSegment(orgId)}/vpc/region/${SdkClient.encodePathSegment(regionId)}/vpc_endpoints/${SdkClient.encodePathSegment(vpcEndpointId)}",
+                config = clientConfig,
+                operationId = "deleteOrganizationVpcEndpoint",
+                decoder = SdkClient.ResponseDecoder.EMPTY,
+                options = options,
+                errors = mapOf("default" to GeneralError::class.java),
+            )
+        )
     }
-
-
-
-
-
-
-
 }

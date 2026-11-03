@@ -6,21 +6,22 @@ package dev.octri.showcase.neon.models
 import dev.octri.showcase.neon.SdkResource
 
 /**
- * Cursor-based pagination. The `cursor` value reflects the endpoint's sort field (for example, an ID or timestamp), so pass it back unchanged.
+ * Cursor-based pagination. The `cursor` value reflects the endpoint's sort field (for example, an
+ * ID or timestamp), so pass it back unchanged.
  */
 data class Pagination(
     /**
-     * Cursor marking the last item in this response. Pass it unchanged as the `cursor` query parameter to fetch the next page.
+     * Cursor marking the last item in this response. Pass it unchanged as the `cursor` query
+     * parameter to fetch the next page.
      */
     val cursor: String
 ) : SdkResource()
 
-/**
- * Typed representation of the `PaginationResponse` API schema.
- */
+/** Typed representation of the `PaginationResponse` API schema. */
 data class PaginationResponse(
     /**
-     * Cursor-based pagination. The `cursor` value reflects the endpoint's sort field (for example, an ID or timestamp), so pass it back unchanged.
+     * Cursor-based pagination. The `cursor` value reflects the endpoint's sort field (for example,
+     * an ID or timestamp), so pass it back unchanged.
      */
     val pagination: Pagination? = null
 ) : SdkResource()

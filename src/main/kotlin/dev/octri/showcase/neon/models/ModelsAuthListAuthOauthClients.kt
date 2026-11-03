@@ -5,12 +5,8 @@ package dev.octri.showcase.neon.models
 
 import dev.octri.showcase.neon.SdkResource
 
-/**
- * Typed representation of the `ListNeonAuthOAuthClientsResponse` API schema.
- */
+/** Typed representation of the `ListNeonAuthOAuthClientsResponse` API schema. */
 data class ListNeonAuthOAuthClientsResponse(
-    /**
-     * OAuth clients registered for the branch.
-     */
+    /** OAuth clients registered for the branch. */
     val clients: List<NeonAuthOAuthClient>
 ) : SdkResource()

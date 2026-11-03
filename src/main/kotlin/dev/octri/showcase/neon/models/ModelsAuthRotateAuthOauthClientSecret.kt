@@ -5,16 +5,10 @@ package dev.octri.showcase.neon.models
 
 import dev.octri.showcase.neon.SdkResource
 
-/**
- * Typed representation of the `NeonAuthOAuthClientSecret` API schema.
- */
+/** Typed representation of the `NeonAuthOAuthClientSecret` API schema. */
 data class NeonAuthOAuthClientSecret(
-    /**
-     * The OAuth client ID.
-     */
+    /** The OAuth client ID. */
     @com.fasterxml.jackson.annotation.JsonProperty("client_id") val clientId: String,
-    /**
-     * The new client secret. Shown only once.
-     */
-    @com.fasterxml.jackson.annotation.JsonProperty("client_secret") val clientSecret: String
+    /** The new client secret. Shown only once. */
+    @com.fasterxml.jackson.annotation.JsonProperty("client_secret") val clientSecret: String,
 ) : SdkResource()

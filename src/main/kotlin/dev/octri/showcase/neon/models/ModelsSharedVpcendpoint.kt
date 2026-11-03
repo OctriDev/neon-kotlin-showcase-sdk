@@ -5,26 +5,19 @@ package dev.octri.showcase.neon.models
 
 import dev.octri.showcase.neon.SdkResource
 
-/**
- * Typed representation of the `VPCEndpoint` API schema.
- */
+/** Typed representation of the `VPCEndpoint` API schema. */
 data class VPCEndpoint(
-    /**
-     * Cloud provider identifier for the VPC endpoint.
-     */
+    /** Cloud provider identifier for the VPC endpoint. */
     @com.fasterxml.jackson.annotation.JsonProperty("vpc_endpoint_id") val vpcEndpointId: String,
-    /**
-     * A descriptive label for the VPC endpoint
-     */
-    val label: String
+    /** A descriptive label for the VPC endpoint */
+    val label: String,
 ) : SdkResource()
 
-/**
- * Typed representation of the `VPCEndpointAssignment` API schema.
- */
+/** Typed representation of the `VPCEndpointAssignment` API schema. */
 data class VPCEndpointAssignment(
     /**
-     * Human-readable name for the VPC endpoint assignment, used to identify it within the organization.
+     * Human-readable name for the VPC endpoint assignment, used to identify it within the
+     * organization.
      */
     val label: String
 ) : SdkResource()
